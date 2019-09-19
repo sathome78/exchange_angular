@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input, HostListener } from '@angular/core';
 import { Animations } from 'app/shared/animations';
-import { GAFreeCoinsModel } from '../models/GAFreeCoins.model';
+import { GAFreeCoinsReqModel } from '../models/GAFreeCoins.model';
 
 @Component({
   selector: 'app-freecoins-popup',
@@ -11,12 +11,11 @@ import { GAFreeCoinsModel } from '../models/GAFreeCoins.model';
 export class FreecoinsPopupComponent implements OnInit {
 
   @Output() closeFreeCoinsPopup = new EventEmitter<boolean>();
-  @Input() showPopup;
-  public stepTwoName: string;
-  public step = 1;
-  public formData: GAFreeCoinsModel;
+  @Output() refreshCoins = new EventEmitter<null>();
+  @Input() showPopup: boolean;
 
-  showStepThree = false;
+  public step = 1;
+  public formData: GAFreeCoinsReqModel;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -31,35 +30,19 @@ export class FreecoinsPopupComponent implements OnInit {
 
   }
 
-  setStep(step: number) {
-    this.step = step;
-  }
-
   onCloseFreeCoinsPopup() {
+    this.refreshCoins.emit();
     this.showPopup = false;
     setTimeout(() => {
       this.closeFreeCoinsPopup.emit(true);
     }, 1000);
   }
 
-  chooseRefil(name: string) {
-    this.step = 2;
-    this.stepTwoName = name;
-  }
-
-  changeSteps() {
-    this.showStepThree = true;
-  }
-
-  hideStep() {
-    this.showStepThree = false;
-  }
-
   goNextStep(step) {
     this.step = step;
   }
 
-  submitStep1(data: GAFreeCoinsModel) {
+  submitStep1(data: GAFreeCoinsReqModel) {
     this.formData = data;
     this.goNextStep(2);
   }

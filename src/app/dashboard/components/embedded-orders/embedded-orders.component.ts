@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators';
-
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { select, Store } from '@ngrx/store';
 import {
@@ -14,9 +13,9 @@ import {
   getUserInfo
 } from 'app/core/reducers/index';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import { UserService } from 'app/shared/services/user.service';
-import { LoadHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
+import { LoadHistoryOrdersAction, SetHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
 import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { SetOpenOrdersAction } from 'app/orders/store/actions/orders.actions';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -35,7 +34,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public openOrders$: Observable<any>;
   public openOrdersCount$: Observable<number>;
   public loading$: Observable<boolean>;
-  private openOrdersSub$: Subscription;
 
   constructor(
     private store: Store<State>,
@@ -62,6 +60,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.activeCurrencyPair = pair;
+        this.resetOrders();
         this.toOpenOrders();
         this.toHistory();
       });
@@ -70,7 +69,6 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.unsubscribeOpenOrders();
   }
 
   public get isVipUser() {
@@ -78,6 +76,21 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
       return this.userInfo.userRole === 'VIP_USER';
     }
     return false;
+  }
+
+  resetOrders(): void {
+    this.store.dispatch(
+      new SetOpenOrdersAction({
+        openOrders: [],
+        count: 0,
+      })
+    );
+    this.store.dispatch(
+      new SetHistoryOrdersAction({
+        historyOrders: [],
+        count: 0,
+      })
+    );
   }
 
   /**
@@ -92,23 +105,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   }
 
   toOpenOrders(): void {
-    this.unsubscribeOpenOrders();
-    this.openOrdersSub$ = this.dashboardService.openOrdersSubscription(this.activeCurrencyPair.name)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        debugger
-
-        // return new dashboardActions.SetOpenOrdersAction({
-        //   openOrders: orders.items,
-        //   count: orders.count,
-        // });
-      });
-  }
-
-  unsubscribeOpenOrders() {
-    if (this.openOrdersSub$) {
-      this.openOrdersSub$.unsubscribe();
-    }
+    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name);
   }
 
   toHistory(): void {

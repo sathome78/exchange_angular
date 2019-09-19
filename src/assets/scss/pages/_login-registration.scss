@@ -166,7 +166,7 @@
   }
   &__link-mob {
     position: absolute;
-    bottom: 0;
+    bottom: 68px;
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
@@ -178,6 +178,8 @@
     color: #fff;
     background-color: $darker-blue;
     font-size: 14px;
+    left: 0;
+    right: 0;
     span{
       margin-right: 3px;
     }
@@ -301,7 +303,7 @@
       max-width: none;
     }
     &__btn {
-      margin-top: 37px;
+      margin-top: 22px;
     }
     &__links-wrap {
       margin-top: 24px;

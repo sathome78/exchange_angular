@@ -34,10 +34,11 @@ import { Order } from '../../../model/order.model';
 import { TradingService } from '../../../dashboard/services/trading.service';
 import { BreakpointService } from '../../../shared/services/breakpoint.service';
 import { SimpleCurrencyPair } from '../../../model/simple-currency-pair';
-import { LoadOpenOrdersAction } from '../../actions/dashboard.actions';
 import { messages } from '../../constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { PriceInputComponent } from 'app/shared/components/price-input/price-input.component';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trading',
@@ -76,6 +77,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public ordersBookBuyOrders = [];
   public notifySuccess = false;
   public notifyFail = false;
+  public notifyFailRestricted = false;
   public message = '';
   public errorMessages = [];
   public order;
@@ -132,6 +134,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     private userService: UserService,
     private utilsService: UtilsService,
     private cdr: ChangeDetectorRef,
+    private router: Router,
+    private dashboardService: DashboardWebSocketService,
     public translateService: TranslateService
   ) {
     super();
@@ -773,7 +777,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private createOrderSuccess() {
-    this.store.dispatch(new LoadOpenOrdersAction(this.currentPair.id));
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
@@ -786,6 +789,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   private createOrderFail() {
+    if (this.notifyFailRestricted) {
+      return;
+    }
     this.notifyFail = true;
     this.loading = false;
     this.cdr.detectChanges();
@@ -796,6 +802,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }, 5000);
   }
 
+  private createOrderRestrictedFail() {
+    this.notifyFailRestricted = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+  }
+
   private checkErrorCode(err) {
     this.errorMessages = [];
     if (err.status === 406) {
@@ -803,6 +815,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         const errors = err.error.validationResults.errors;
         const errorParams = err.error.validationResults.errorParams;
         this.defineMessage(errors, errorParams);
+      }
+    } else if (err.status === 451) {
+      if (
+        err.error.errorCode === 'ORDER_CREATION_RESTRICTED' ||
+        err.error.errorCode === 'NEED_VERIFICATION_EXCEPTION'
+      ) {
+        this.createOrderRestrictedFail();
       }
     } else if (err.error.cause === 'OpenApiException') {
       this.errorMessages.push(err.error.detail);
@@ -865,7 +884,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     Object.keys(errors).forEach(key => {
       const path = errors[key].split('.');
       let message = messages[path[0]][path[1]];
-      if (errorParams[key].length) {
+      if (errorParams[key] && errorParams[key].length) {
         errorParams[key].forEach((err, index) => {
           message = message.replace(`{${index}}`, err);
         });
@@ -935,5 +954,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       }
       return null;
     };
+  }
+
+  redirectToVerification() {
+    this.router.navigate(['settings/verification']);
   }
 }

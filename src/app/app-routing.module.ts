@@ -12,7 +12,6 @@ import { ShowPageGuard } from './shared/guards/showPage.guard';
 import { NewsComponent } from './news/news.component';
 import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
-import { FreecoinsComponent } from './freecoins/freecoins.component';
 import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
@@ -24,8 +23,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'news', component: NewsComponent },
   { path: 'fiat', component: FiatComponent },
-  { path: 'freecoins', component: FreecoinsComponent },
   { path: '', component: MainPageComponent },
+  { path: 'free-coins', loadChildren: './freecoins/freecoins.module#FreecoinsModule' },
   {
     path: 'final-registration/token',
     component: FinalRegistrationComponent,

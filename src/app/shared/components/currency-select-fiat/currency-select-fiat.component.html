@@ -7,10 +7,12 @@
     <div class="icon-wr">
       <img
         [src]="activeCurrency.name | getIconUrl:true"
+        onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
         class="select__list-item-icon select__list-item-icon--mobile"
       >
       <img
         [src]="activeCurrency.name | getIconUrl"
+        onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
         class="select__list-item-icon select__list-item-icon--destop"
       >
     </div>
@@ -32,6 +34,7 @@
       <div class="icon-wr">
         <img
           [src]="currency.name | getIconUrl"
+          onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
           class="select__list-item-icon"
         >
       </div>

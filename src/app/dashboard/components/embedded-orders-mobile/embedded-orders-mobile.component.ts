@@ -13,11 +13,11 @@ import {
 import { Subject, Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import {
-  LoadOpenOrdersAction,
   LoadHistoryOrdersAction,
   SetOpenOrdersAction
 } from 'app/dashboard/actions/dashboard.actions';
 import { SetHistoryOrdersAction } from 'app/orders/store/actions/orders.actions';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
 
 @Component({
   selector: 'app-embedded-orders-mobile',
@@ -34,7 +34,10 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public userInfo: ParsedToken;
 
-  constructor(private store: Store<State>) {
+  constructor(
+    private store: Store<State>,
+    private dashboardService: DashboardWebSocketService
+  ) {
     this.store
       .pipe(select(getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -93,7 +96,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   }
 
   toOpenOrders(): void {
-    this.store.dispatch(new LoadOpenOrdersAction(this.activeCurrencyPair.id));
+    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name);
   }
 
   toHistory(): void {

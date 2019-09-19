@@ -163,15 +163,15 @@ export class UserService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
-  sendToEmailConfirmation(email: string) {
-    const data = { email };
+  sendToEmailConfirmation(email: string, isUsa: boolean) {
+    const data = { email, isUsa };
     return this.http
       .post<TokenHolder>(this.getUrl('users/register'), data, { observe: 'response' })
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
   sendToEmailForRecovery(email: string) {
-    const data = { email };
+    const data = { email, isUsa: false };
     return this.http
       .post<TokenHolder>(this.getUrl('users/password/recovery/reset'), data, { observe: 'response' })
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));

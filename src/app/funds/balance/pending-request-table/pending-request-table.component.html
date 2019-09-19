@@ -33,6 +33,7 @@
             <div class="orders__pair-icon">
               <img
                 [src]="item.currency | getIconUrl:true"
+                onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
               >
             </div>
             <span>{{item.currency}}</span>

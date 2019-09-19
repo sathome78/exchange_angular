@@ -288,6 +288,14 @@
         &.fb{
           margin-left: .3rem;
         }
+        &.coinspace{
+          width: 18px;
+          height: 18px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
       }
       svg{
         height: 100%;

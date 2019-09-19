@@ -12,9 +12,10 @@
       [formGroup]="form"
       (ngSubmit)="onSubmit()"
     >
-      <div class="input-block">
+      <div class="input-block wrap-input popup__wrap-input">
         <input
           class="wrap-input__input"
+          [ngClass]="{'wrap-input__input--error ng-invalid' : isError}"
           type="text"
           name="code"
           formControlName="code"
@@ -22,9 +23,11 @@
         >
         <label
           class="wrap-input__label"
+          [ngClass]="{'wrap-input__label--error' : isError}"
           for="code"
         >{{'Code' | translate}}</label>
-        <ng-container *ngIf="formPin.invalid && !formPin.untouched && !statusMessage">
+        <ng-container *ngIf="formPin.invalid && !formPin.untouched &&
+          !statusMessage">
           <div class="input-hint-wrapper">
             <span
               class="wrap-input__message"
@@ -45,7 +48,7 @@
       <button
         class="btn btn--center"
         type="submit"
-        [disabled]="form.invalid"
+        [disabled]="form.invalid || loading"
       >
         {{'Confirm' | translate}}
       </button>

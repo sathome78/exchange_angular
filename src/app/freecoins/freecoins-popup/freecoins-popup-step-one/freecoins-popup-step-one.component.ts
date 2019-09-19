@@ -8,27 +8,26 @@ import { CurrencyChoose } from 'app/model/currency-choose.model';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { BalanceItem } from 'app/funds/models/balance-item.model';
 import { FreecoinsService } from 'app/freecoins/freecoins.service';
-import { GAFreeCoinsModel } from 'app/freecoins/models/GAFreeCoins.model';
+import { GAFreeCoinsReqModel, GAFreeCoinsSettingsModel } from 'app/freecoins/models/GAFreeCoins.model';
 
 @Component({
   selector: 'app-freecoins-popup-step-one',
   templateUrl: './freecoins-popup-step-one.component.html',
   styleUrls: ['./freecoins-popup-step-one.component.scss'],
-  providers: [FreecoinsService],
 })
 export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
-  @Output() submitForm = new EventEmitter<GAFreeCoinsModel>();
+  @Output() submitForm = new EventEmitter<GAFreeCoinsReqModel>();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
   public currencies: CurrencyChoose[] = [];
   public activeCurrency: CurrencyChoose = null;
   public activeBalance = 0;
-  public minAmount = 0.00000001;
-  public minPrize = 0.00000001;
+  public _minAmount = 0.00000001;
+  public _minPrize = 0.00000001;
   public minPeriod = 1;
+  public maxPeriod = 10080;
+  public coinsSettings: {[key: string]: GAFreeCoinsSettingsModel};
   public isSubmited = false;
-  public inputAmount = null;
-
 
   constructor(
     private store: Store<State>,
@@ -38,6 +37,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this.getFreeCoinsSettings();
     this.store
       .pipe(select(getCryptoCurrenciesForChoose))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -48,11 +48,27 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
           this.getDataByCurrency(this.activeCurrency);
         }
       });
+
+    this.formAmount.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        if (this.formPrize.value) {
+          this.formPrize.updateValueAndValidity();
+        }
+      });
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  getFreeCoinsSettings() {
+    this.freecoinsService.getFreeCoinsSettings()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(settings => {
+        this.coinsSettings = settings;
+      });
   }
 
   initForm() {
@@ -63,7 +79,11 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
         this.maxAmountCheck.bind(this),
       ]),
       isOneTime: new FormControl(null),
-      period: new FormControl('', [Validators.required, this.minPeriodCheck.bind(this)]),
+      period: new FormControl('', [
+        Validators.required,
+        this.minPeriodCheck.bind(this),
+        this.maxPeriodCheck.bind(this),
+      ]),
       prize: new FormControl('', [
         Validators.required,
         this.minPrizeCheck.bind(this),
@@ -79,6 +99,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
 
   getDataByCurrency(activeCurrency) {
     const type = this.utilsService.isFiat(activeCurrency.name) ? 'FIAT' : 'CRYPTO';
+    this.form.reset();
     this.freecoinsService
       .getBalanceByName(activeCurrency.id, type)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -88,26 +109,26 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
   }
 
   balanceClick() {
-    if (this.activeBalance > this.minAmount) {
+    if (this.activeBalance > +this.minAmount) {
       this.formAmount.setValue(this.utilsService.currencyFormat(this.activeBalance));
-      this.inputAmount = this.activeBalance;
       this.formAmount.markAsTouched();
     }
   }
 
   onSubmit() {
-    const data = new GAFreeCoinsModel(
-      this.activeCurrency.name,
-      this.formAmount.value,
-      this.formOneTime.value,
-      this.formPeriod.value,
-      this.formPrize.value
-    );
-    this.submitForm.emit(data);
-  }
-
-  onInputAmount(e) {
-    this.inputAmount = e.target.value;
+    this.form.markAsTouched();
+    this.form.updateValueAndValidity();
+    if (this.form.valid) {
+      const data = new GAFreeCoinsReqModel(
+        this.activeCurrency.name,
+        this.formAmount.value,
+        this.formPrize.value,
+        this.formOneTime.value,
+        this.formPeriod.value,
+        null
+      );
+      this.submitForm.emit(data);
+    }
   }
 
   onCheckeOneTime(e) {
@@ -116,7 +137,11 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
       this.formPeriod.reset();
       this.formPeriod.disable();
     } else {
-      this.formPeriod.setValidators([Validators.required, this.minPeriodCheck.bind(this)]);
+      this.formPeriod.setValidators([
+        Validators.required,
+        this.minPeriodCheck.bind(this),
+        this.maxPeriodCheck.bind(this)
+      ]);
       this.formPeriod.enable();
     }
   }
@@ -137,7 +162,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
 
   // validators
   private minAmountCheck(control: FormControl) {
-    if (this.minAmount > (+control.value ? +control.value : 0)) {
+    if (+this.minAmount > (+control.value ? +control.value : 0)) {
       return { minAmount: true };
     }
     return null;
@@ -154,6 +179,12 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
     }
     return null;
   }
+  private maxPeriodCheck(control: FormControl) {
+    if (+this.maxPeriod < (+control.value ? +control.value : 0)) {
+      return { maxPeriod: true };
+    }
+    return null;
+  }
   private minPrizeCheck(control: FormControl) {
     if (+this.minPrize > (+control.value ? +control.value : 0)) {
       return { minPrize: true };
@@ -161,7 +192,7 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
     return null;
   }
   private maxPrizeCheck(control: FormControl) {
-    if ((this.inputAmount || 0) < (+control.value ? +control.value : 0)) {
+    if (this.maxPrize < (+control.value ? +control.value : 0)) {
       return { maxPrize: true };
     }
     return null;
@@ -171,6 +202,29 @@ export class FreecoinsPopupStepOneComponent implements OnInit, OnDestroy {
   get totalQtyOfPrizes(): number {
     if (this.formAmount.value && this.formPrize.value) {
       return Math.floor(this.formAmount.value / this.formPrize.value);
+    }
+    return 0;
+  }
+
+  get minAmount() {
+    if (this.activeCurrency && this.coinsSettings) {
+      const params = this.coinsSettings[this.activeCurrency.name];
+      return params ? +params.min_amount || this._minAmount : this._minAmount;
+    }
+    return this._minAmount;
+  }
+
+  get minPrize() {
+    if (this.activeCurrency && this.coinsSettings) {
+      const params = this.coinsSettings[this.activeCurrency.name];
+      return params ? +params.min_partial_amount || this._minPrize : this._minPrize;
+    }
+    return this._minPrize;
+  }
+
+  get maxPrize() {
+    if (this.form) {
+      return this.formAmount.value;
     }
     return 0;
   }

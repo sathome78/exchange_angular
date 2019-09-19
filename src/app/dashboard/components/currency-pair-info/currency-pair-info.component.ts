@@ -2,22 +2,18 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  HostListener,
-  Renderer2,
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/internal/operators';
 import { select, Store } from '@ngrx/store';
-import { CurrencyPair } from 'app/model/currency-pair.model';
 import { UserBalance } from 'app/model/user-balance.model';
 import {
   State,
   getActiveCurrencyPair,
   getUserBalance,
   getCurrencyPairInfo,
-  getCurrencyPairArray,
   getSimpleCurrencyPairsSelector
 } from 'app/core/reducers/index';
 import { DashboardWebSocketService } from '../../dashboard-websocket.service';
@@ -136,9 +132,12 @@ export class CurrencyPairInfoComponent implements OnInit, OnDestroy {
 
   flagForArrow(s: string) {
     if (s === 'up') {
-      return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue >= 0 : false;
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.percentChange >= 0 : false;
     }
-    return this.currentCurrencyInfo ? this.currentCurrencyInfo.changedValue < 0 : false;
+    if (s === 'down') {
+      return this.currentCurrencyInfo ? this.currentCurrencyInfo.percentChange < 0 : false;
+    }
+    return false;
   }
 
   onChangeCurrPair(val: string): void {

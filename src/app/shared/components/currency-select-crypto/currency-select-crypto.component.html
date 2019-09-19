@@ -6,10 +6,13 @@
     class="select__value select__value--active"
     (click)="currencyDropdownToggle()"
   >
-    <img
-      [src]="activeCurrency.name | getIconUrl"
-      class="select__list-item-icon"
-    >
+    <div class="icon-wr">
+      <img
+        [src]="activeCurrency.name | getIconUrl"
+        onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+        class="select__list-item-icon"
+      >
+    </div>
     {{activeCurrency.name}}
     <div class="select__triangle"></div>
   </div>
@@ -54,10 +57,13 @@
               *ngFor="let currency of filteredList | groupCoin:letter; trackBy: trackByCurrencies"
               (click)="onSelectCurrency(currency)"
             >
-              <img
-                [src]="currency.name | getIconUrl"
-                class="select__list-item-icon"
-              >
+              <div class="icon-wr">
+                <img
+                  [src]="currency.name | getIconUrl"
+                  onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                  class="select__list-item-icon"
+                >
+              </div>
               <span>{{currency.name}}</span>
             </div>
           </div>

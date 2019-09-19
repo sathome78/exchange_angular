@@ -6,3 +6,80 @@
 		display: table;
 	}
 }
+
+.red {
+  color: #EB5757;
+}
+
+.green {
+  color: #01B43E;
+}
+
+.tooltip-example [tooltip] {
+  display: inline-block;
+  margin: 50px 20px;
+  width: 180px;
+  height: 50px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  line-height: 50px;
+  text-align: center;
+}
+.ng-tooltip {
+  position: absolute;
+  max-width: 153px;
+  font-size: 13px;
+  line-height: 1.27;
+  text-align: center;
+  color: #237BEF;
+  padding: 8px 12px;
+  background: #ffffff;
+  border-radius: 4px;
+  z-index: 1000;
+  opacity: 0;
+}
+.ng-tooltip:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+}
+.ng-tooltip-top:after {
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: #ffffff transparent transparent transparent;
+}
+.ng-tooltip-bottom:after {
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: transparent transparent #ffffff transparent;
+}
+.ng-tooltip-left:after {
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-color: transparent transparent transparent #ffffff;
+}
+.ng-tooltip-right:after {
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-color: transparent #ffffff transparent transparent;
+}
+.ng-tooltip-show {
+  opacity: 1;
+}
+re-captcha{
+  margin: 0 auto;
+}
+
+.m-d-none{
+@media(max-width: 640px){
+  display: none;
+}
+}

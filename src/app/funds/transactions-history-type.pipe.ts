@@ -17,6 +17,8 @@ export class ShowTransactionsTypePipe implements PipeTransform {
         return 'Transfer';
       case 'IEO':
         return 'IEO';
+      case 'FREE_COINS_TRANSFER':
+        return 'Free coins';
       default:
         return sourceType;
     }

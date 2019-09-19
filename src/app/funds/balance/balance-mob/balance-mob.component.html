@@ -50,7 +50,7 @@
       </button>
       <!-- FUG BLOCK -->
       <button
-        *ngIf="utils.showContentProd"
+        *ngIf="utils.isDeveloper"
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
         (click)="onSelectTab.emit(Tab.QUBERA)"
@@ -171,7 +171,10 @@
             <td class="table__cell table__cell--tal">
               <div class="balance__currency">
                 <div class="balance__currency-icon">
-                  <img [src]="item.currencyName | getIconUrl:true">
+                  <img
+                    [src]="item.currencyName | getIconUrl:true"
+                    onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+                  >
                 </div>
                 <div>
                   <span>{{item.currencyName}}</span>
