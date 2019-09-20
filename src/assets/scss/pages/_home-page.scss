@@ -735,7 +735,10 @@
       }
       .fav {
         width: 56px;
-      }
+        .is-fav svg {
+          fill: #FFB74C;
+        }
+       }
       .pair {
         width: 120px;
       }
