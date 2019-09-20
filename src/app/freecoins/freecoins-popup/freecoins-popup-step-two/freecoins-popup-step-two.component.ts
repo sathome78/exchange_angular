@@ -22,6 +22,7 @@ export class FreecoinsPopupStepTwoComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public statusMessage = '';
   public isError = false;
+  public loading = false;
 
   constructor(
     private store: Store<State>,
@@ -35,7 +36,6 @@ export class FreecoinsPopupStepTwoComponent implements OnInit, OnDestroy {
       .pipe(select(getGAStatus))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((GA: any) => {
-        // console.log(GA);
         this.googleAuthenticator = GA;
         if (this.googleAuthenticator) {
           this.twoFaTitle = this.translateService.instant('Use Google Authenticator to generate pincode');
@@ -67,14 +67,16 @@ export class FreecoinsPopupStepTwoComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.form.valid) {
+      this.loading = true;
       this.formData.pin = this.formPin.value;
       this.freecoinsService.giveAwayCurrency(this.formData)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
           this.nextStep.emit(3);
+          this.loading = false;
         }, error => {
           this.setStatusMessage(error);
-
+          this.loading = false;
         });
     }
   }
