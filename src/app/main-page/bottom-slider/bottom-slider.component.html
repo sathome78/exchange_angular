@@ -4,18 +4,26 @@
     class="carousel"
     #slickModal2="slick-carousel"
     (afterChange)="afterChange($event)"
-    [config]="slideConfig">
+    [config]="slideConfig"
+  >
     <div
       ngxSlickItem
-      class="slider-item">
+      class="slider-item"
+    >
       <div class="bg-wr">
-        <img src="assets/img/b-slider1.jpg" alt="">
+        <img
+          src="assets/img/b-slider1.jpg"
+          alt=""
+        >
       </div>
       <div class="slide-txt">
         <div class="top-part">
           <div class="coin-part">
             <div class="logo">
-              <img src="assets/img/eth-logo.svg" alt="">
+              <img
+                src="assets/img/eth-logo.svg"
+                alt=""
+              >
             </div>
             <div class="additional-info">
               <p>0.123 BTC<span>Volume: 121.089 BTC</span></p>
@@ -31,22 +39,32 @@
         </div>
       </div>
       <div class="slide-link">
-        <a class="btn balance__title-btn" href="#">
+        <a
+          class="btn balance__title-btn"
+          href="#"
+        >
           By ETH Now
         </a>
       </div>
     </div>
     <div
       ngxSlickItem
-      class="slider-item">
+      class="slider-item"
+    >
       <div class="bg-wr">
-        <img src="assets/img/b-slider2.jpg" alt="">
+        <img
+          src="assets/img/b-slider2.jpg"
+          alt=""
+        >
       </div>
       <div class="slide-txt">
         <div class="top-part">
           <div class="coin-part">
             <div class="logo">
-              <img src="assets/img/btc-logo.svg" alt="">
+              <img
+                src="assets/img/btc-logo.svg"
+                alt=""
+              >
             </div>
             <div class="additional-info">
               <p>0.123 BTC<span>Volume: 121.089 BTC</span></p>
@@ -64,22 +82,32 @@
 
       </div>
       <div class="slide-link">
-        <a class="btn balance__title-btn" href="#">
+        <a
+          class="btn balance__title-btn"
+          href="#"
+        >
           By BTC Now
         </a>
       </div>
     </div>
     <div
       ngxSlickItem
-      class="slider-item">
+      class="slider-item"
+    >
       <div class="bg-wr">
-        <img src="assets/img/fs-sl1.jpg" alt="">
+        <img
+          src="assets/img/fs-sl1.jpg"
+          alt=""
+        >
       </div>
       <div class="slide-txt">
         <div class="top-part">
           <div class="coin-part">
             <div class="logo">
-              <img src="assets/img/btc-logo.svg" alt="">
+              <img
+                src="assets/img/btc-logo.svg"
+                alt=""
+              >
             </div>
             <div class="additional-info">
               <p>0.123 BTC<span>Volume: 121.089 BTC</span></p>
@@ -97,7 +125,10 @@
 
       </div>
       <div class="slide-link">
-        <a class="btn balance__title-btn" href="#">
+        <a
+          class="btn balance__title-btn"
+          href="#"
+        >
           By BTC Now
         </a>
       </div>
@@ -107,20 +138,32 @@
     <div
       class="dots-item"
       [ngClass]="{'active': currSlide == '0'}"
-      (click)="slickModal2.slickGoTo(0)">
-      <img src="assets/img/prev1.jpg" alt="">
+      (click)="slickModal2.slickGoTo(0)"
+    >
+      <img
+        src="assets/img/prev1.jpg"
+        alt=""
+      >
     </div>
     <div
       class="dots-item"
       [ngClass]="{'active': currSlide == '1'}"
-      (click)="slickModal2.slickGoTo(1)">
-      <img src="assets/img/prev2.jpg" alt="">
+      (click)="slickModal2.slickGoTo(1)"
+    >
+      <img
+        src="assets/img/prev2.jpg"
+        alt=""
+      >
     </div>
     <div
       class="dots-item"
       [ngClass]="{'active': currSlide == '2'}"
-      (click)="slickModal2.slickGoTo(2)">
-      <img src="assets/img/prev3.jpg" alt="">
+      (click)="slickModal2.slickGoTo(2)"
+    >
+      <img
+        src="assets/img/prev3.jpg"
+        alt=""
+      >
     </div>
 
   </div>

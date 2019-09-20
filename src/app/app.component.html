@@ -3,44 +3,11 @@
   [ngClass]="{'dark-theme': isCurrentThemeDark()}"
 >
 
-  <article
-    class="banner-wr"
-    [ngClass]="{'main-page': isMainPage}"
-    id="banner-wr"
+  <app-banner
     *ngIf="!technicalWorks"
-  >
-    <style>
-      .banner-content {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        height: 36px;
-        display: flex;
-        justify-content: center;
-      }
+    [isMainPage]="isMainPage"
+  ></app-banner>
 
-      .banner-content img {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-
-        margin: 0 auto;
-        min-width: 100%;
-        display: block;
-      }
-
-    </style>
-    <a
-      class="banner-content"
-      routerLink="/ieo/2"
-    >
-      <img
-        src="assets/img/dom-banner.gif"
-        alt=""
-      >
-    </a>
-  </article>
-  <!-- *ngIf="technicalWorks" -->
   <div
     class="tech-banner"
     *ngIf="technicalWorks"
