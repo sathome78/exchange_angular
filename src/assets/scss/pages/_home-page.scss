@@ -413,8 +413,8 @@
   .run-line-inner {
     display: flex;
     padding: 37px 0;
-    
-    
+
+
     @media(max-width: 992px){
       padding: 13px 0;
     }
@@ -459,13 +459,15 @@
       @media(max-width: 992px){
         margin-bottom: 6px;
       }
-      span {
+      .up {
         font-weight: normal;
         font-size: 14px;
         line-height: 1.15;
-
         color: #58aa46;
-        
+      }
+      .down {
+        @extend .up;
+        color: #58aa46;
       }
     }
     .course {
@@ -485,7 +487,7 @@
       width: 50%;
       display: flex;
 
-      span {
+      .up {
         position: relative;
         width: 100%;
         display: block;
@@ -505,6 +507,12 @@
           margin-left: auto;
           margin-top: auto;
           margin-bottom: auto;
+        }
+      }
+      .down {
+        @extend .up;
+        &::after {
+          background-image: url(assets/img/arr-down-red.svg);
         }
       }
     }
@@ -727,7 +735,10 @@
       }
       .fav {
         width: 56px;
-      }
+        .is-fav svg {
+          fill: #FFB74C;
+        }
+       }
       .pair {
         width: 120px;
       }

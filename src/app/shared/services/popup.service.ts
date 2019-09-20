@@ -15,7 +15,7 @@ export class PopupService {
   private onRecoveryPasswordListener = new Subject<boolean>();
   private onMobileLoginPopupListener = new Subject<boolean>();
   private onQuberaBankPopupListener = new BehaviorSubject<string>('');
-  private onMobileRegistrationPopupListener = new Subject<boolean>();
+  private onMobileRegistrationPopupListener = new Subject<any>();
   private onAlreadyRegisteredPopupListener = new Subject<boolean>();
   private onInfoPopupListener = new ReplaySubject<PopupData>();
   private onAlreadyRestoredPasswordPopupListener = new Subject<boolean>();
@@ -48,7 +48,7 @@ export class PopupService {
 
   showKYCPopup(step: number, url: string = '') {
     this.kycStep = step;
-    this.onOpenKYCPopupListener.next({ step: step, url: url });
+    this.onOpenKYCPopupListener.next({ step, url });
   }
 
   toggleNewsSubscribePopup(state: boolean) {
@@ -79,8 +79,8 @@ export class PopupService {
     this.onRecoveryPasswordListener.next(state);
   }
 
-  showMobileRegistrationPopup(state: boolean) {
-    this.onMobileRegistrationPopupListener.next(state);
+  showMobileRegistrationPopup(state: boolean, email: string = '') {
+    this.onMobileRegistrationPopupListener.next({ state, email });
   }
 
   showTFAPopup(provider: string) {
@@ -174,7 +174,7 @@ export class PopupService {
     return this.onSessionTimeSavedPopupListener;
   }
 
-  public getRegistrationMobilePopupListener(): Subject<boolean> {
+  public getRegistrationMobilePopupListener(): Subject<any> {
     return this.onMobileRegistrationPopupListener;
   }
 
@@ -193,7 +193,7 @@ export class PopupService {
   public moveNextStep() {
     const nextStep = this.currentStep + 1;
     if (nextStep <= this.stepsMap.size) {
-      this.stepListener.next(++this.currentStep);
+      this.stepListener.next(this.currentStep += 1);
       this.logger.debug(this, 'Moved to next step: ' + nextStep);
     } else {
       this.logger.info(this, 'Next step is beyond the available steps: ' + nextStep);

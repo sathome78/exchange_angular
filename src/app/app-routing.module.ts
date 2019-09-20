@@ -23,7 +23,6 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'news', component: NewsComponent },
   { path: 'fiat', component: FiatComponent },
-  { path: '', component: MainPageComponent, canActivate: [ShowPageGuard] },
   { path: 'free-coins', loadChildren: './freecoins/freecoins.module#FreecoinsModule' },
   {
     path: 'final-registration/token',
@@ -71,7 +70,7 @@ const routes: Routes = [
   },
   { path: 'ieo', loadChildren: 'app/ieo/ieo.module#IEOModule' },
 
-  // { path: '', pathMatch: 'full', redirectTo: '/dashboard' },
+  { path: '', pathMatch: 'full', component: MainPageComponent },
   { path: '**', redirectTo: '/dashboard' },
 ];
 

@@ -4,12 +4,17 @@
     class="carousel"
     #slickModal="slick-carousel"
     [config]="slideConfig"
-    (afterChange)="afterChange($event)">
+    (afterChange)="afterChange($event)"
+  >
     <div
       ngxSlickItem
-      class="slider-item">
+      class="slider-item"
+    >
       <div class="bg-wr">
-        <img src="assets/img/fs-sl1.jpg" alt="">
+        <img
+          src="assets/img/fs-sl1.jpg"
+          alt=""
+        >
       </div>
       <div class="slide-txt">
         <div class="txt-inner">
@@ -20,9 +25,13 @@
     </div>
     <div
       ngxSlickItem
-      class="slider-item">
+      class="slider-item"
+    >
       <div class="bg-wr">
-        <img src="assets/img/fs-sl1.jpg" alt="">
+        <img
+          src="assets/img/fs-sl1.jpg"
+          alt=""
+        >
       </div>
       <div class="slide-txt">
         <div class="txt-inner">
@@ -33,9 +42,13 @@
     </div>
     <div
       ngxSlickItem
-      class="slider-item">
+      class="slider-item"
+    >
       <div class="bg-wr">
-        <img src="assets/img/fs-sl1.jpg" alt="">
+        <img
+          src="assets/img/fs-sl1.jpg"
+          alt=""
+        >
       </div>
       <div class="slide-txt">
         <div class="txt-inner">
@@ -50,11 +63,18 @@
   <div class="register-form">
     <form action="#">
       <div class="wrap-input popup__wrap-input">
-        <input required class="wrap-input__input"
-          placeholder="Enter email">
+        <input
+          required
+          class="wrap-input__input"
+          placeholder="Enter email"
+          name="email"
+          [(ngModel)]="email"
+        >
       </div>
       <button
-        class="btn balance__title-btn">
+        class="btn balance__title-btn"
+        (click)="openRegistration()"
+      >
         {{'Start Registration' | translate}}
       </button>
     </form>
@@ -63,20 +83,32 @@
     <div
       class="dots-item"
       [ngClass]="{'active': currSlide == '0'}"
-      (click)="slickModal.slickGoTo(0)">
-      <img src="assets/img/prev1.jpg" alt="">
+      (click)="slickModal.slickGoTo(0)"
+    >
+      <img
+        src="assets/img/prev1.jpg"
+        alt=""
+      >
     </div>
     <div
       class="dots-item"
       [ngClass]="{'active': currSlide == '1'}"
-      (click)="slickModal.slickGoTo(1)">
-      <img src="assets/img/prev2.jpg" alt="">
+      (click)="slickModal.slickGoTo(1)"
+    >
+      <img
+        src="assets/img/prev2.jpg"
+        alt=""
+      >
     </div>
     <div
       class="dots-item"
       [ngClass]="{'active': currSlide == '2'}"
-      (click)="slickModal.slickGoTo(2)">
-      <img src="assets/img/prev3.jpg" alt="">
+      (click)="slickModal.slickGoTo(2)"
+    >
+      <img
+        src="assets/img/prev3.jpg"
+        alt=""
+      >
     </div>
 
   </div>
