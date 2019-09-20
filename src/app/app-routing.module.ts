@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'news', component: NewsComponent },
   { path: 'fiat', component: FiatComponent },
-  { path: '', component: MainPageComponent },
+  { path: '', component: MainPageComponent, canActivate: [ShowPageGuard] },
   { path: 'free-coins', loadChildren: './freecoins/freecoins.module#FreecoinsModule' },
   {
     path: 'final-registration/token',
