@@ -49,6 +49,15 @@ import { NewsService } from './shared/services/news.service';
 import { MomentModule } from 'ngx-moment';
 import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import { FsSliderComponent } from './main-page/fs-slider/fs-slider.component';
+import { MarketsHomeComponent } from './main-page/markets-home/markets-home.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { RunLineComponent } from './main-page/run-line/run-line.component';
+import { BottomSliderComponent } from './main-page/bottom-slider/bottom-slider.component';
+import { InfoGraficsComponent } from './main-page/info-grafics/info-grafics.component';
+import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.component';
+import { BottomFormComponent } from './main-page/bottom-form/bottom-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -84,6 +93,14 @@ const stompConfig: InjectableRxStompConfig = {
     NewsComponent,
     FiatComponent,
     AdvisorComponent,
+    MainPageComponent,
+    FsSliderComponent,
+    MarketsHomeComponent,
+    RunLineComponent,
+    BottomSliderComponent,
+    InfoGraficsComponent,
+    GraphicLinksComponent,
+    BottomFormComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),
@@ -116,6 +133,7 @@ const stompConfig: InjectableRxStompConfig = {
     ToastrModule.forRoot(),
     ToastContainerModule,
     PopupsModule,
+    SlickCarouselModule,
   ],
   providers: [
     AuthGuard,

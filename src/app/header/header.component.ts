@@ -27,6 +27,7 @@ import * as fromCore from '../core/reducers';
 import * as coreActions from '../core/actions/core.actions';
 import { BreakpointService } from 'app/shared/services/breakpoint.service';
 import { IEOItem } from 'app/model/ieo.model';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @Component({
   selector: 'app-header',
@@ -70,6 +71,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private store: Store<fromCore.State>,
     private cdr: ChangeDetectorRef,
     public breakpointService: BreakpointService,
+    public utilsService: UtilsService,
     public translate: TranslateService
   ) {
     this.userInfo$ = this.store.pipe(select(fromCore.getUserInfo));
@@ -253,5 +255,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   get isAdvisor(): boolean {
     return window.location.href.indexOf('advisor') >= 0;
+  }
+  get isMainPage(): boolean {
+    return this.utilsService.isMainPage;
   }
 }

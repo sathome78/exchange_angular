@@ -5,6 +5,7 @@
 
   <article
     class="banner-wr"
+    [ngClass]="{'main-page': isMainPage}"
     id="banner-wr"
     *ngIf="!technicalWorks"
   >
