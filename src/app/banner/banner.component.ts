@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-banner',
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BannerComponent implements OnInit {
   public slides = [];
-  public technicalWorks = false;
+  @Input() public isMainPage: boolean;
 
   public slideConfig = {
     slidesToShow: 1,
