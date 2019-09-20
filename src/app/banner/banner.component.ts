@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BannerComponent implements OnInit {
   public slides = [];
-  public technicalWorks = false;
 
   public slideConfig = {
     slidesToShow: 1,
