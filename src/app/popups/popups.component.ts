@@ -14,11 +14,19 @@ export class PopupsComponent implements OnInit {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** notification messages array */
   notificationMessages: NotificationMessage[];
+  registrationState = false;
+  registrationEmail = '';
 
   constructor(public popupService: PopupService, private notificationService: NotificationsService) {}
 
   ngOnInit() {
     this.subscribeForNotifications();
+    this.popupService.getRegistrationMobilePopupListener()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.registrationState = res.state;
+        this.registrationEmail = res.email;
+      });
   }
 
   /**

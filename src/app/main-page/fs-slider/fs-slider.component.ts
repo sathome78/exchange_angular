@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PopupService } from 'app/shared/services/popup.service';
 
 @Component({
   selector: 'app-fs-slider',
@@ -14,15 +15,25 @@ export class FsSliderComponent implements OnInit {
     autoplay: true,
     autoplaySpeed: 5000,
     arrows: true,
-    appendArrows: document.getElementsByClassName('arrows-container')
+    appendArrows: document.getElementsByClassName('arrows-container'),
     // dots: false,
   };
-  constructor() { }
+  public email: string;
+  constructor(private popupService: PopupService) { }
 
   ngOnInit() {
   }
+
   afterChange(e) {
-    let currSlideNumber =  document.querySelector(".fs-slider-container .slick-current.slick-active").getAttribute('data-slick-index');
+    const currSlideNumber = document
+      .querySelector('.fs-slider-container .slick-current.slick-active')
+      .getAttribute('data-slick-index');
     this.currSlide = currSlideNumber;
+  }
+
+  openRegistration() {
+    if (this.email) {
+      this.popupService.showMobileRegistrationPopup(true, this.email);
+    }
   }
 }
