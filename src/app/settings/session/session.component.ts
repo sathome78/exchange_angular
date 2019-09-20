@@ -15,6 +15,7 @@ import * as settingsActions from '../store/actions/settings.actions';
   styleUrls: ['./session.component.css'],
 })
 export class SessionComponent implements OnInit, OnDestroy {
+  public isHistoryOpen = false;
   value = 0;
   oldValue = 0;
   MIN_VALUE = 5;
@@ -204,5 +205,23 @@ export class SessionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+  openAdditionalHistory(e) {
+    let clickTarget = e.target;
+    
+    if(!(e.target.classList.contains("table__cell"))){
+      clickTarget = e.target.closest(".table__cell");
+    }
+
+    if(clickTarget.querySelector('.additional-mobile').classList.contains('active')){
+      clickTarget.querySelector('.additional-mobile').classList.remove('active')
+      
+    }
+    else{
+      document.querySelectorAll('.additional-mobile').forEach(function(item){
+        item.classList.remove('active')
+      })
+      clickTarget.querySelector('.additional-mobile').classList.add('active')
+    }
   }
 }

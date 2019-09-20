@@ -12,6 +12,7 @@ import { ShowPageGuard } from './shared/guards/showPage.guard';
 import { NewsComponent } from './news/news.component';
 import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
   // permit all
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'news', component: NewsComponent },
   { path: 'fiat', component: FiatComponent },
+  { path: '', component: MainPageComponent, canActivate: [ShowPageGuard] },
   { path: 'free-coins', loadChildren: './freecoins/freecoins.module#FreecoinsModule' },
   {
     path: 'final-registration/token',
@@ -69,7 +71,7 @@ const routes: Routes = [
   },
   { path: 'ieo', loadChildren: 'app/ieo/ieo.module#IEOModule' },
 
-  { path: '', pathMatch: 'full', redirectTo: '/dashboard' },
+  // { path: '', pathMatch: 'full', redirectTo: '/dashboard' },
   { path: '**', redirectTo: '/dashboard' },
 ];
 

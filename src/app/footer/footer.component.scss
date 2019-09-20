@@ -1,6 +1,9 @@
 
 .footer{
   background-color: #0F1032;
+  &.main-page{
+    background: #1F1E30;
+  }
 
   .footer-inner{
 
@@ -17,7 +20,7 @@
   .top-part{
     display: flex;
     justify-content: space-between;
-    padding:1rem 2.7rem 2.3rem;
+    padding:2rem 2.7rem 2.3rem;
     border-bottom: 1px solid #252543;
     max-width: 1490px;
     margin: auto;
