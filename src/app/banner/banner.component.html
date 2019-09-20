@@ -1,0 +1,40 @@
+<ngx-slick-carousel
+  class="banner-wr carousel"
+  [ngClass]="{'main-page': isMainPage}"
+  id="banner-wr"
+  *ngIf="!technicalWorks"
+  #slickModal3="slick-carousel"
+  [config]="slideConfig"
+>
+  <a
+    ngxSlickItem
+    class="banner-content"
+    routerLink="http://bit.ly/2NnYbhA"
+  >
+    <img
+      src="assets/img/1.banner.gif"
+      alt=""
+    >
+  </a>
+  <a
+    ngxSlickItem
+    class="banner-content"
+    routerLink="http://bit.ly/2V3rSFD"
+  >
+    <img
+      src="assets/img/2.banner.gif"
+      alt=""
+    >
+  </a>
+  <a
+    ngxSlickItem
+    class="banner-content"
+    routerLink="http://bit.ly/2V1Jr96"
+  >
+    <img
+      src="assets/img/3-banner.gif"
+      alt=""
+    >
+  </a>
+
+</ngx-slick-carousel>
