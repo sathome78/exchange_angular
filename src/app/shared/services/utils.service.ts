@@ -12,8 +12,6 @@ import { Location } from '@angular/common';
 
 const FUG = 'FUG';
 
-const FUG = 'FUG';
-
 @Injectable()
 export class UtilsService {
   private fiatCurrencies: string[] = ['USD', 'EUR', 'CNY', 'IDR', 'NGN', 'TRY', 'UAH', 'VND', 'AED', 'RUB'];
