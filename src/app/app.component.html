@@ -3,7 +3,10 @@
   [ngClass]="{'dark-theme': isCurrentThemeDark()}"
 >
 
-  <app-banner *ngIf="!technicalWorks"></app-banner>
+  <app-banner
+    *ngIf="!technicalWorks"
+    [isMainPage]="isMainPage"
+  ></app-banner>
 
   <div
     class="tech-banner"
