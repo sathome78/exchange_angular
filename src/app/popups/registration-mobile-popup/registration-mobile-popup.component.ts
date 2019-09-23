@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, OnDestroy, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/internal/operators';
@@ -6,11 +6,10 @@ import { debounceTime, takeUntil } from 'rxjs/internal/operators';
 import { PopupService } from '../../shared/services/popup.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/user.service';
-import { keys } from '../../shared/constants';
+import { keys, AUTH_MESSAGES } from '../../shared/constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { AUTH_MESSAGES } from '../../shared/constants';
 import { GtagService } from '../../shared/services/gtag.service';
 
 @Component({
@@ -28,6 +27,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   @ViewChild('devCaptchaTemplate') devCaptchaTemplate: TemplateRef<any>;
   @ViewChild('emailConfirmLinkTemplate') emailConfirmLinkTemplate: TemplateRef<any>;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
+  @Input() public email = '';
 
   public emailForm: FormGroup;
   public passwordForm: FormGroup;
@@ -40,7 +40,6 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public loading = false;
   public previousEmail = '';
 
-  public email;
   public firstName;
   public afterCaptchaMessage;
 
@@ -125,14 +124,14 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl('', {
+      email: new FormControl(this.email, {
         validators: [
           Validators.required,
           this.utilsService.emailValidator(),
           this.utilsService.specialCharacterValidator(),
         ],
       }),
-      isUsa: new FormControl(true),
+      isUsa: new FormControl(null, { validators: Validators.required }),
       terms: new FormControl(null, { validators: Validators.required }),
     });
     this.passwordForm = new FormGroup({
@@ -142,6 +141,11 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.nameForm = new FormGroup({
       username: new FormControl('', { validators: Validators.required }),
     });
+
+    if (this.email) {
+      this.formEmailGetter.updateValueAndValidity();
+      this.checkEmailOfServer();
+    }
 
     this.formEmailGetter
       .valueChanges.pipe(debounceTime(1500))

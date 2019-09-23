@@ -13,6 +13,8 @@ export class CurrencyPair {
     public market: string,
     public volume: number,
     public lastOrderRate24hr: number,
+    public high24hr: number,
+    public low24hr: number,
     public topMarket: boolean
   ) {}
 }

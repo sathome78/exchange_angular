@@ -1,0 +1,30 @@
+<div class="bottom-form-home">
+  <div class="bottom-form-wr">
+    <div class="left-part">
+      <div class="txt-wr">
+        <h2>{{'Start trading cryptocurrency today' | translate}}.</h2>
+        <p>{{'Create your account and start in a minute' | translate}}.</p>
+      </div>
+
+    </div>
+    <div class="right-part">
+      <form action="#">
+        <div class="wrap-input popup__wrap-input">
+          <input
+            required
+            class="wrap-input__input"
+            placeholder="Enter email"
+            name="email"
+            [(ngModel)]="email"
+          >
+        </div>
+        <button
+          class="btn balance__title-btn"
+          (click)="openRegistration()"
+        >
+          {{'Start Registration' | translate}}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

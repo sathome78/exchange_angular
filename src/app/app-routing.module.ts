@@ -14,6 +14,7 @@ import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
 import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 import { UnsubscribeGuard } from './shared/guards/unsubscribe.guard';
+import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
   // permit all
@@ -72,7 +73,7 @@ const routes: Routes = [
   },
   { path: 'ieo', loadChildren: 'app/ieo/ieo.module#IEOModule' },
 
-  { path: '', pathMatch: 'full', redirectTo: '/dashboard' },
+  { path: '', pathMatch: 'full', component: MainPageComponent },
   { path: '**', redirectTo: '/dashboard' },
 ];
 

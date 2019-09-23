@@ -1,0 +1,153 @@
+<div class="markets-table-container">
+  <div class="markets-table">
+    <div class="search-block">
+      <label for="search"></label>
+      <input
+        type="text"
+        name="search"
+        placeholder="Search Coin Name"
+        id="search"
+        [ngModel]="searchInput"
+        (input)="onSearch($event.target.value)"
+        autocomplete="off"
+      >
+    </div>
+    <div class="btn-block">
+      <button
+        *ngIf="isAuthenticated"
+        class="favorites"
+        [ngClass]="{'active': currencyDisplayMode === 'FAVORITES'}"
+        (click)="selectedTab('FAVORITES')"
+      >
+        <div class="f-icon">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6.61505 0.899358C6.79901 0.529741 7.32633 0.529741 7.51029
+              0.899358L9.31099 4.51731C9.38386 4.66372 9.52373 4.76524 9.68552
+              4.78915L13.6874 5.38054C14.0964 5.44098 14.2595 5.94346 13.9639
+              6.23258L11.0757 9.05812C10.9586 9.17269 10.905 9.33735 10.9323
+              9.49888L11.6054 13.4804C11.6743 13.8877 11.2475 14.1981 10.8812
+              14.0071L7.29384 12.1365C7.14898 12.061 6.97636 12.061 6.83149
+              12.1365L3.24409 14.0071C2.8778 14.1981 2.45105 13.8877 2.51991
+              13.4804L3.19302 9.49888C3.22033 9.33735 3.16678 9.17269 3.04967
+              9.05812L0.161412 6.23258C-0.134127 5.94346 0.0289679 5.44098
+              0.437968 5.38054L4.43982 4.78915C4.60161 4.76524 4.74147 4.66372
+              4.81434 4.51731L6.61505 0.899358Z"
+              fill="#5A6A79"
+            />
+          </svg>
+        </div>
+        <span>{{'Favorites' | translate}}</span>
+      </button>
+      <button
+        class="home-markets-tab"
+        [ngClass]="{'active': currencyDisplayMode === 'ALL'}"
+        (click)="selectedTab('ALL')"
+      >
+        <span>{{'All' | translate}}</span>
+      </button>
+      <button
+        class="home-markets-tab"
+        [ngClass]="{'active': currencyDisplayMode === 'BTC'}"
+        (click)="selectedTab('BTC')"
+      >
+        <span>{{'BTC Markets' | translate}}</span>
+      </button>
+      <button
+        class="home-markets-tab"
+        [ngClass]="{'active': currencyDisplayMode === 'ETH'}"
+        (click)="selectedTab('ETH')"
+      >
+        <span>{{'ETH Markets' | translate}}</span>
+      </button>
+      <button
+        class="home-markets-tab"
+        [ngClass]="{'active': currencyDisplayMode === 'USD'}"
+        (click)="selectedTab('USD')"
+      >
+        <span>{{'USD Markets' | translate}}</span>
+      </button>
+      <button
+        class="home-markets-tab"
+        [ngClass]="{'active': currencyDisplayMode === 'USDT'}"
+        (click)="selectedTab('USDT')"
+      >
+        <span>{{'USDT Markets' | translate}}</span>
+      </button>
+      <button
+        class="home-markets-tab"
+        [ngClass]="{'active': currencyDisplayMode === 'LOC'}"
+        (click)="selectedTab('LOC')"
+      >
+        <span>{{'LOC Markets' | translate}}</span>
+      </button>
+    </div>
+    <table
+      class="table"
+      id="markets-container"
+    >
+      <tr class="thead">
+        <td
+          class="thead-item fav"
+          *ngIf="isAuthenticated"
+        ><span></span></td>
+        <td class="thead-item pair">{{'Pair' | translate}}</td>
+        <td class="thead-item change">{{'Change' | translate}}</td>
+        <td class="thead-item last-pr">{{'Last Price' | translate}}</td>
+        <td class="thead-item hight">{{'24h Hight' | translate}}</td>
+        <td class="thead-item low">{{'24h Low' | translate}}</td>
+        <td class="thead-item volume">{{'Volume' | translate}}</td>
+      </tr>
+      <tr
+        class="trow"
+        *ngFor="let pair of formatedPairs; trackBy: trackByPairs"
+        [attr.data-marketItem]="pair.currencyPairId"
+      >
+        <td
+          class="table-item fav"
+          [attr.data-favorite]="pair.currencyPairId"
+          *ngIf="isAuthenticated"
+        >
+          <span [ngClass]="{'is-fav': getIsFavorite(pair.currencyPairId)}">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.61505 0.899358C6.79901 0.529741 7.32633 0.529741
+                  7.51029 0.899358L9.31099 4.51731C9.38386 4.66372 9.52373
+                  4.76524 9.68552 4.78915L13.6874 5.38054C14.0964 5.44098
+                  14.2595 5.94346 13.9639 6.23258L11.0757 9.05812C10.9586
+                  9.17269 10.905 9.33735 10.9323 9.49888L11.6054 13.4804C11.6743
+                  13.8877 11.2475 14.1981 10.8812 14.0071L7.29384
+                  12.1365C7.14898 12.061 6.97636 12.061 6.83149 12.1365L3.24409
+                  14.0071C2.8778 14.1981 2.45105 13.8877 2.51991 13.4804L3.19302
+                  9.49888C3.22033 9.33735 3.16678 9.17269 3.04967
+                  9.05812L0.161412 6.23258C-0.134127 5.94346 0.0289679 5.44098
+                  0.437968 5.38054L4.43982 4.78915C4.60161 4.76524 4.74147
+                  4.66372 4.81434 4.51731L6.61505 0.899358Z"
+                fill="#5A6A79"
+              />
+            </svg>
+          </span>
+        </td>
+        <td class="table-item pair"><span>{{pair.currencyPairName}}</span></td>
+        <td class="table-item change"><span>{{(pair.percentChange || '0') | positivePipe | currencyFormat: 'USD'}}%</span></td>
+        <td class="table-item last-pr"><span>{{pair.lastOrderRate | currencyFormat}}</span></td>
+        <td class="table-item hight"><span>{{pair.high24hr | currencyFormat}}</span></td>
+        <td class="table-item low"><span>{{pair.low24hr | currencyFormat}}</span></td>
+        <td class="table-item volume">{{+pair.currencyVolume | currencyFormat}}</td>
+      </tr>
+
+    </table>
+  </div>
+</div>
