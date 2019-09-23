@@ -248,6 +248,17 @@ export class UserService {
       `${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`
     );
   }
+
+  public unsubscribeMail(token, id, subscribe): Observable<boolean> {
+    let url = '';
+    if (token) {
+      url = `${this.HOST}/api/public/v2/mailing-subscription?token=${token}&subscribe=${subscribe}`;
+    }
+    if (id) {
+      url = `${this.HOST}/api/public/v2/mailing-subscription?public_id=${id}&subscribe=${subscribe}`;
+    }
+    return this.http.post<any>(url, null);
+  }
 }
 
 export interface IpAddress {
