@@ -91,6 +91,51 @@
             name="amount"
             formControlName="amount"
           >
+            <div *ngIf="form.get('amount').errors != null">
+              <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message--show"
+                  *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
+                  [ngClass]="{'wrap-input__message':
+                form.controls['amount'].errors['isMinThenMinWithdraw'] &&
+                (form.controls['amount'].touched || isSubmited)}"
+                >
+                  {{
+                'Minimum sum for withdrawal' | translate
+                }} {{
+                minWithdrawSum | currencyFormat: currName
+                }} {{
+                currName
+                }}
+                </span>
+                <span
+                  class="wrap-input__message wrap-input__message--show"
+                  *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance']
+                && (form.controls['amount'].touched || isSubmited)"
+                >
+                  {{
+                'Your available balance:' | translate
+                }} {{
+                activeBalance | currencyFormat: currName
+                }} {{
+                currName
+                }}
+                </span>
+                <span
+                  class="wrap-input__message wrap-input__message--show"
+                  *ngIf="form.controls['amount'].errors['isMaxThenDailyLimit'] &&
+                (form.controls['amount'].touched || isSubmited)"
+                >
+                  {{
+                'Your 24h limit to withdrawal:' | translate
+                }} {{
+                dailyLimit | currencyFormat: currName
+                }} {{
+                currName
+                }}
+                </span>
+              </div>
+            </div>
           </app-price-input>
 
           <span class="bottom-tooltip wrap-input__message--show">
@@ -104,51 +149,7 @@
           </span>
 
           <!--Input error section starts-->
-          <div *ngIf="form.get('amount').errors != null">
-            <div class="input-hint-wrapper">
-              <span
-                class="wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMinThenMinWithdraw']"
-                [ngClass]="{'wrap-input__message':
-                form.controls['amount'].errors['isMinThenMinWithdraw'] &&
-                (form.controls['amount'].touched || isSubmited)}"
-              >
-                {{
-                'Minimum sum for withdrawal' | translate
-                }} {{
-                minWithdrawSum | currencyFormat: currName
-                }} {{
-                currName
-                }}
-              </span>
-              <span
-                class="wrap-input__message wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMaxThenActiveBalance']
-                && (form.controls['amount'].touched || isSubmited)"
-              >
-                {{
-                'Your available balance:' | translate
-                }} {{
-                activeBalance | currencyFormat: currName
-                }} {{
-                currName
-                }}
-              </span>
-              <span
-                class="wrap-input__message wrap-input__message--show"
-                *ngIf="form.controls['amount'].errors['isMaxThenDailyLimit'] &&
-                (form.controls['amount'].touched || isSubmited)"
-              >
-                {{
-                'Your 24h limit to withdrawal:' | translate
-                }} {{
-                dailyLimit | currencyFormat: currName
-                }} {{
-                currName
-                }}
-              </span>
-            </div>
-          </div>
+
           <!--Input error section ends-->
         </div>
       </div>
