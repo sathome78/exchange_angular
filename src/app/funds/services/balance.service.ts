@@ -198,18 +198,19 @@ export class BalanceService {
   }
 
   checkEmail(email: string) {
+    const encodedEmail = encodeURIComponent(email);
     const httpOptions: any = {
-      params: new HttpParams().set('email', email),
+      params: new HttpParams().set('email', encodedEmail),
       observe: 'response',
     };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/check_email`;
     return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
-  getMinSumInnerTranfer(currency_id: string, typ: string) {
+  getMinSumInnerTranfer(currency_id: string, type: string) {
     let httpOptions = new HttpParams();
     httpOptions = httpOptions.append('currency_id', currency_id);
-    httpOptions = httpOptions.append('type', typ);
+    httpOptions = httpOptions.append('type', type);
 
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/get_minimal_sum`;
     return this.http

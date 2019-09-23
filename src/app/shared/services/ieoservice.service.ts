@@ -19,7 +19,8 @@ export class IEOServiceService {
   constructor(private http: HttpClient, private stompService: RxStompService, private authService: AuthService) {}
 
   public checkKYC(id): Observable<KycIEOModel> {
-    return this.http.get<ResponseModelIEO<KycIEOModel>>(`${this.apiUrl}/api/private/v2/ieo/check/${id}`).pipe(map(res => res.data));
+    return this.http.get<ResponseModelIEO<KycIEOModel>>(`${this.apiUrl}/api/private/v2/ieo/check/${id}`)
+      .pipe(map(res => res.data));
   }
 
   public setPolicy(): Observable<ResponseModelIEO<boolean>> {
@@ -47,22 +48,24 @@ export class IEOServiceService {
   }
 
   public getIEO(id): any {
-    return this.stompService.watch(`/app/ieo/ieo_details/${id}`).pipe(map((message: Message) => JSON.parse(message.body)));
+    return this.stompService.watch(`/app/ieo/ieo_details/${id}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   ieoEmailSubscription(email: string) {
-    const data = { email: email };
+    const data = { email };
     return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/email`, data);
   }
 
   ieoTelegramRedirect(email: string) {
-    const data = { email: email };
+    const data = { email };
     return this.http.post(`${this.apiUrl}/api/public/v2/ieo/subscribe/telegram`, data);
   }
 
   ieoCheckSubscribe(email: string) {
+    const encodedEmail = encodeURIComponent(email);
     const httpOptions = {
-      params: new HttpParams().set('email', email),
+      params: new HttpParams().set('email', encodedEmail),
     };
     return this.http.get(`${this.apiUrl}/api/public/v2/ieo/subscribe`, httpOptions);
   }
