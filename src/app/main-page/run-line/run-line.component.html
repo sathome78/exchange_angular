@@ -12,21 +12,23 @@
         <a
           class="run-line-lnk"
           href="#"
-        ></a>
-        <div class="pair">
-          <span>{{pair.currencyPairName}}</span>
-        </div>
-        <div class="change">
-          <span [ngClass]="{'txt-green' : isChangePositive(pair),'txt-red' : !isChangePositive(pair)}">
-            {{pair.percentChange | currencyFormat: 'USD'}}%
-          </span>
-        </div>
-        <div class="course">
-          <span>{{pair.lastOrderRate | currencyFormat}}</span>
-        </div>
-        <div class="direction">
-          <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
-        </div>
+          [routerLink]="['/markets/', pair.currencyPairName.replace('/', '-')]"
+        >
+          <div class="pair">
+            <span>{{pair.currencyPairName}}</span>
+          </div>
+          <div class="change">
+            <span [ngClass]="{'txt-green' : isChangePositive(pair),'txt-red' : !isChangePositive(pair)}">
+              {{pair.percentChange | currencyFormat: 'USD'}}%
+            </span>
+          </div>
+          <div class="course">
+            <span>{{pair.lastOrderRate | currencyFormat}}</span>
+          </div>
+          <div class="direction">
+            <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
+          </div>
+        </a>
       </div>
 
 
