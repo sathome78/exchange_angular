@@ -6,8 +6,8 @@ import { CurrencyPair } from 'app/model';
 import { Subject } from 'rxjs';
 
 function runInit() {
-  const runItemArray = document.querySelectorAll('.run-line-item');
-  const lineLength = runItemArray.length * document.querySelector('.run-line-item').clientWidth;
+  const runItemArray = document.querySelectorAll('.run-line-inner');
+  const lineLength = runItemArray.length * document.querySelector('.run-line-inner').clientWidth;
   runItemArray.forEach(item => {
 
     const changePosition = parseFloat(item.getAttribute('data-position')) - 0.7;

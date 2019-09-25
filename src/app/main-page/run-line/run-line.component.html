@@ -3,32 +3,66 @@
   *ngIf="currencyPairs.length"
 >
   <div class="run-line-wr">
-    <div class="carousel run-line-inner">
+    <div
+      class="carousel run-line-inner"
+      data-position="0"
+    >
       <div
         *ngFor="let pair of currencyPairs; trackBy: trackByPairs"
         class="slide run-line-item"
-        data-position="0"
       >
         <a
           class="run-line-lnk"
           href="#"
           [routerLink]="['/markets/', pair.currencyPairName.replace('/', '-')]"
-        >
-          <div class="pair">
-            <span>{{pair.currencyPairName}}</span>
-          </div>
-          <div class="change">
-            <span [ngClass]="{'txt-green' : isChangePositive(pair),'txt-red' : !isChangePositive(pair)}">
-              {{pair.percentChange | currencyFormat: 'USD'}}%
-            </span>
-          </div>
-          <div class="course">
-            <span>{{pair.lastOrderRate | currencyFormat}}</span>
-          </div>
-          <div class="direction">
-            <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
-          </div>
-        </a>
+        ></a>
+        <div class="pair">
+          <span>{{pair.currencyPairName}}</span>
+        </div>
+        <div class="change">
+          <span [ngClass]="{'txt-green' : isChangePositive(pair),'txt-red' : !isChangePositive(pair)}">
+            {{pair.percentChange | currencyFormat: 'USD'}}%
+          </span>
+        </div>
+        <div class="course">
+          <span>{{pair.lastOrderRate | currencyFormat}}</span>
+        </div>
+        <div class="direction">
+          <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
+        </div>
+
+      </div>
+
+
+    </div>
+    <div
+      class="carousel run-line-inner"
+      data-position="0"
+    >
+      <div
+        *ngFor="let pair of currencyPairs; trackBy: trackByPairs"
+        class="slide run-line-item"
+      >
+        <a
+          class="run-line-lnk"
+          href="#"
+          [routerLink]="['/markets/', pair.currencyPairName.replace('/', '-')]"
+        ></a>
+        <div class="pair">
+          <span>{{pair.currencyPairName}}</span>
+        </div>
+        <div class="change">
+          <span [ngClass]="{'txt-green' : isChangePositive(pair),'txt-red' : !isChangePositive(pair)}">
+            {{pair.percentChange | currencyFormat: 'USD'}}%
+          </span>
+        </div>
+        <div class="course">
+          <span>{{pair.lastOrderRate | currencyFormat}}</span>
+        </div>
+        <div class="direction">
+          <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
+        </div>
+
       </div>
 
 
