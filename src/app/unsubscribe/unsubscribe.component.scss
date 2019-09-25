@@ -1,0 +1,73 @@
+.unsubscribe-block {
+  display: flex;
+  max-width: 1464px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 34px;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 90px;
+
+  .logo {
+    width: 100%;
+    max-width: 200px;
+
+    a {
+      display: block;
+
+      svg {
+        margin-bottom: 20px;
+        width: 100%;
+
+        path {}
+      }
+    }
+  }
+
+  .text-part {
+    h2 {
+      font-size: 24px;
+      line-height: 28px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 15px;
+      @media (min-width: 1200px) {
+        font-size: 36px;
+        line-height: 42px;
+
+      }
+    }
+
+    p {
+      margin-bottom: 34px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.15;
+      color: #AAB1C4;
+      text-decoration: none;
+      text-align: center;
+    }
+  }
+
+  .button-wr {
+    max-width: 290px;
+    width: 100%;
+
+    .btn {
+      margin: auto;
+    }
+  }
+
+  .button-description {
+
+    p {
+        margin-bottom: 23px;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 1.15;
+        color: #AAB1C4;
+        text-decoration: none;
+        text-align: center;
+    }
+  }
+}

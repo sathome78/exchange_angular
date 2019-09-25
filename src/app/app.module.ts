@@ -49,6 +49,7 @@ import { NewsService } from './shared/services/news.service';
 import { MomentModule } from 'ngx-moment';
 import { FiatComponent } from './fiat/fiat.component';
 import { AdvisorComponent } from './advisor/advisor.component';
+import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { FsSliderComponent } from './main-page/fs-slider/fs-slider.component';
 import { MarketsHomeComponent } from './main-page/markets-home/markets-home.component';
@@ -94,6 +95,7 @@ const stompConfig: InjectableRxStompConfig = {
     NewsComponent,
     FiatComponent,
     AdvisorComponent,
+    UnsubscribeComponent,
     MainPageComponent,
     FsSliderComponent,
     MarketsHomeComponent,

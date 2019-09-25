@@ -29,7 +29,7 @@
 }
 
 
-.wrap-input__input--error,.ng-invalid.ng-touched{
+.wrap-input__input--error:focus,.ng-invalid.ng-touched:focus{
 	&~div .input-hint-wrapper{
 		opacity: 1;
 		pointer-events:auto;
@@ -39,8 +39,53 @@
 		}
 	}
 }
+.wrap-input--error .wrap-input__input:focus,.ng-invalid.ng-touched:focus{
+	&~div .input-hint-wrapper, &~.input-hint-wrapper{
+		opacity: 1;
+		pointer-events:auto;
 
-.wrap-input--error{
+		span{
+			color: #EB5757;
+		}
+	}
+}
+.wrap-input--error .wrap-input__input:focus,.ng-invalid.ng-touched:focus{
+	&+.wrap-input__label{
+		
+			color: #EB5757!important;
+	}
+}
+
+.dark-theme .modal .side-popups .wrap-input--error .wrap-input__input:focus,.ng-invalid.ng-touched:focus{
+	&~.wrap-input__label{
+		
+			color: #EB5757!important;
+	}
+}
+
+
+.dark-theme .modal .wrap-input--error .wrap-input__input:focus,.dark-theme .modal .ng-invalid.ng-touched:focus{
+	&~.wrap-input__label{
+		
+		color: #EB5757!important;
+}
+}
+
+.dark-theme .modal .wrap-input--error .wrap-input__input:focus,.dark-theme .modal .ng-invalid.ng-touched{
+	&~.wrap-input__label{
+		
+		color: #EB5757!important;
+}
+}
+
+
+.dark-theme .wrap-input--error .wrap-input__input:focus,.dark-theme .ng-invalid.ng-touched{
+	&~.wrap-input__label{
+		
+		color: #EB5757!important;
+}
+}
+.wrap-input--error:focus{
 	.input-hint-wrapper{
 		opacity: 1;
 		pointer-events:auto;
@@ -64,4 +109,13 @@
   		color: #EB5757;
   	}
   }
+}
+
+
+.dark-theme .modal .wrap-input__input.ng-invalid.ng-touched:focus, .dark-theme .modal .wrap-input__input.ng-invalid.ng-touched{
+	border-color: #EB5757;
+}
+
+.dark-theme .wrap-input__input.ng-invalid.ng-touched:focus, .dark-theme .wrap-input__input.ng-invalid.ng-touched{
+	border-color: #EB5757;
 }

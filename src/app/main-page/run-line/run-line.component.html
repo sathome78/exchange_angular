@@ -10,11 +10,14 @@
       <div
         *ngFor="let pair of currencyPairs; trackBy: trackByPairs"
         class="slide run-line-item"
+        data-position="0"
       >
         <a
           class="run-line-lnk"
           href="#"
-        ></a>
+          [routerLink]="['/markets/', pair.currencyPairName.replace('/', '-')]"
+        >
+        </a>
         <div class="pair">
           <span>{{pair.currencyPairName}}</span>
         </div>
@@ -29,6 +32,7 @@
         <div class="direction">
           <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
         </div>
+
       </div>
 
 
@@ -40,11 +44,14 @@
       <div
         *ngFor="let pair of currencyPairs; trackBy: trackByPairs"
         class="slide run-line-item"
+        data-position="0"
       >
         <a
           class="run-line-lnk"
           href="#"
-        ></a>
+          [routerLink]="['/markets/', pair.currencyPairName.replace('/', '-')]"
+        >
+        </a>
         <div class="pair">
           <span>{{pair.currencyPairName}}</span>
         </div>
@@ -59,6 +66,7 @@
         <div class="direction">
           <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
         </div>
+
       </div>
 
 
