@@ -908,6 +908,7 @@
 
     .trow {
       border-bottom: 1px solid #e5ebf1;
+      cursor: pointer;
 
       .table-item {
         font-weight: normal;
@@ -924,6 +925,10 @@
 
       .fav {
         padding-left: 33px;
+
+        .is-fav svg path {
+          fill: #FFB74C;
+        }
       }
 
       .pair {}
@@ -931,11 +936,16 @@
       .change {
         text-align: right;
 
-        span {
+        .up {
           color: #00b83f;
           padding: 4px 10px;
           background: #e8f6f3;
           border-radius: 4px;
+        }
+        .down {
+          @extend .up;
+          color: #EB5757;
+          background: rgba(235, 87, 87, .1);
         }
       }
 

@@ -50,6 +50,7 @@ export class MarketsHomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((userFavorites: number[]) => {
         this.userFavorites = userFavorites;
+        this.filterByMarket(this.currencyDisplayMode, this.searchInput);
       });
 
     this.store
@@ -69,8 +70,8 @@ export class MarketsHomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (currencyPairs: MapModel<CurrencyPair>) => {
-          this.currencyPairsCache = Object.values(currencyPairs);
-          this.sortByVolume();
+          this.currencyPairsCache = Object.values(currencyPairs).sort((a, b) => +b.currencyVolume - +a.currencyVolume);
+          this.filterTopMarket();
           this.filterByMarket(this.currencyDisplayMode, this.searchInput);
           // console.log(currencyPairs);
         },
@@ -106,10 +107,9 @@ export class MarketsHomeComponent implements OnInit, OnDestroy {
     this.filterByMarket(this.currencyDisplayMode, value);
   }
 
-  sortByVolume() {
+  filterTopMarket() {
     this.currencyPairsTop = this.currencyPairsCache
-      .filter(pair => !!pair.topMarket)
-      .sort((a, b) => +b.currencyVolume - +a.currencyVolume);
+      .filter(pair => !!pair.topMarket);
   }
 
   filterByMarket(market: string, searchInput: string) {
@@ -127,7 +127,7 @@ export class MarketsHomeComponent implements OnInit, OnDestroy {
       return this.currencyPairsTop;
     }
     if (market === 'FAVORITES') {
-      return this.currencyPairsTop.filter(pair => this.userFavorites.indexOf(pair.currencyPairId) >= 0);
+      return this.currencyPairsCache.filter(pair => this.userFavorites.indexOf(pair.currencyPairId) >= 0);
     }
     if (market === 'LOC') {
       return this.currencyPairsTop.filter(
@@ -176,16 +176,16 @@ export class MarketsHomeComponent implements OnInit, OnDestroy {
   }
 
   onSelectCurrencyPair(pair: CurrencyPair): void {
-    const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
-    this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
-    this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
-    this.userService.getUserBalance(newActivePair);
     if (this.isMobile) {
+      const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
+      this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
+      this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
+      this.userService.getUserBalance(newActivePair);
       this.router.navigate(['/dashboard'], {
         queryParams: { widget: 'trading' },
       });
-    } else if (this.route.snapshot.paramMap.get('currency-pair')) {
-      this.router.navigate([`/market/${pair.currencyPairName.replace('/', '-')}`]);
+    } else {
+      this.router.navigate([`/markets/${pair.currencyPairName.replace('/', '-')}`]);
     }
     this.marketSearch = false;
   }
