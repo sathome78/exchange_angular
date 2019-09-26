@@ -299,6 +299,7 @@
 </div>
 <div class="trade-buttons-wr">
   <button
+    id="analytics-trading-buy"
     [disabled]="loading"
     class="btn btn--active widget__trading-btn widget__trading-btn--buy"
     (click)="onSubmit(BUY)"
@@ -306,6 +307,7 @@
     {{'Buy' | translate}} {{arrPairName[0]}}
   </button>
   <button
+    id="analytics-trading-sell"
     [disabled]="loading"
     class="btn btn--active widget__trading-btn widget__trading-btn--sell"
     (click)="onSubmit(SELL)"
