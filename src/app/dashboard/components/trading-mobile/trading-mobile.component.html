@@ -422,7 +422,7 @@
 >
   <div
     class="trading-notification__close"
-    (click)="notifyFailRestricted = false"
+    (click)="closeNotifyFailRestricted()"
   >
     <svg
       width="8"
@@ -457,11 +457,13 @@
       </svg>
     </div>
     <div class="trading-notification__text">
-      <div> {{'You are not allowed to trade this pair. You should proceed KYC!' | translate}}</div>
+      <p>{{notifyFailRestrictedBody}}</p>
       <button
+        *ngIf="notifyFailShowKycBtn"
         class="btn btn--empty-blue btn--small btn-margin"
         (click)="redirectToVerification()"
-      ><span class="menu__link-text">{{'Proceed KYC' | translate}}</span>
+      >
+        <span class="menu__link-text">{{'Proceed KYC' | translate}}</span>
       </button>
     </div>
   </div>
