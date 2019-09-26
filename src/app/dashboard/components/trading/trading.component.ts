@@ -815,7 +815,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private createOrderNeedKycFail() {
     this.notifyFailRestricted = true;
     this.notifyFailRestrictedBody =
-      this.translateService.instant('Sorry, you are not allowed to trade now. You need proceed KYC!');
+      this.translateService.instant('Sorry, you must pass verification to trade this pair!');
     this.notifyFailShowKycBtn = true;
     this.loading = false;
     this.cdr.detectChanges();
