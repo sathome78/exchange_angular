@@ -124,7 +124,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.emailForm = new FormGroup({
-      email: new FormControl(this.email, {
+      email: new FormControl('', {
         validators: [
           Validators.required,
           this.utilsService.emailValidator(),
@@ -142,7 +142,9 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
       username: new FormControl('', { validators: Validators.required }),
     });
 
-    if (this.email) {
+    if (this.email.trim()) {
+      this.formEmailGetter.setValue(this.email.trim());
+      this.formEmailGetter.markAsTouched();
       this.formEmailGetter.updateValueAndValidity();
       this.checkEmailOfServer();
     }
