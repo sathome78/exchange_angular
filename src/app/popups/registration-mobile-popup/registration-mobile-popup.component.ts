@@ -87,7 +87,9 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
 
   closeMe() {
     this.popupService.closeRegistrationPopup();
-    this.location.replaceState('dashboard');
+    if (this.location.path() === '/registration') {
+      this.location.replaceState('dashboard');
+    }
   }
 
   resolvedCaptcha(event) {
