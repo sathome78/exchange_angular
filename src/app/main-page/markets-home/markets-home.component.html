@@ -91,6 +91,7 @@
     <table
       class="table"
       id="markets-container"
+      [ngClass]="{'no-auth' : !isAuthenticated}"
     >
       <tr class="thead">
         <td
