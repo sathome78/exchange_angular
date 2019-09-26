@@ -146,7 +146,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   checkGoogleLoginEnabled(email: string): void {
     this.userService
-      .getUserGoogleLoginEnabled(email)
+      .getCheckTo2FAEnabled(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         result => {

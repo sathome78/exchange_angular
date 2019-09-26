@@ -37,7 +37,7 @@ export class SettingsEffects {
     .pipe(withLatestFrom(this.store$.pipe(select(fromCore.getUserInfo))))
     .pipe(
       switchMap(([action, userInfo]: [settingsActions.LoadGAStatusAction, ParsedToken]) => {
-        return this.userService.getUserGoogleLoginEnabled(userInfo.username).pipe(
+        return this.userService.getCheckTo2FAEnabled(userInfo.username).pipe(
           map(status => new settingsActions.SetGAStatusAction(status)),
           catchError(error => of(new settingsActions.FailLoadGAStatusAction(error)))
         );
@@ -63,12 +63,14 @@ export class SettingsEffects {
    * Load api keys
    */
   @Effect()
-  loadApiKeys$: Observable<Action> = this.actions$.pipe(ofType<settingsActions.LoadApiKeysAction>(settingsActions.LOAD_API_KEYS)).pipe(
-    switchMap(() => {
-      return this.apiKeysService.getApiKeys().pipe(
-        map((res: ApiKeyItem[]) => new settingsActions.SetApiKeysAction(res)),
-        catchError(error => of(new settingsActions.FailLoadApiKeysAction(error)))
-      );
-    })
-  );
+  loadApiKeys$: Observable<Action> = this.actions$
+    .pipe(ofType<settingsActions.LoadApiKeysAction>(settingsActions.LOAD_API_KEYS))
+    .pipe(
+      switchMap(() => {
+        return this.apiKeysService.getApiKeys().pipe(
+          map((res: ApiKeyItem[]) => new settingsActions.SetApiKeysAction(res)),
+          catchError(error => of(new settingsActions.FailLoadApiKeysAction(error)))
+        );
+      })
+    );
 }
