@@ -39,7 +39,7 @@
               9.05812L0.161412 6.23258C-0.134127 5.94346 0.0289679 5.44098
               0.437968 5.38054L4.43982 4.78915C4.60161 4.76524 4.74147 4.66372
               4.81434 4.51731L6.61505 0.899358Z"
-              fill="#5A6A79"
+              fill="#FFB74C"
             />
           </svg>
         </div>
@@ -91,6 +91,7 @@
     <table
       class="table"
       id="markets-container"
+      (click)="onClickMarketItem($event)"
       [ngClass]="{'no-auth' : !isAuthenticated}"
     >
       <tr class="thead">
@@ -142,7 +143,11 @@
           </span>
         </td>
         <td class="table-item pair"><span>{{pair.currencyPairName}}</span></td>
-        <td class="table-item change"><span>{{(pair.percentChange || '0') | positivePipe | currencyFormat: 'USD'}}%</span></td>
+        <td class="table-item change">
+          <span [ngClass]="{'down' : +pair.percentChange < 0, 'up' : +pair.percentChange >= 0}">
+            {{(pair.percentChange || '0') | positivePipe | currencyFormat: 'USD'}}%
+          </span>
+        </td>
         <td class="table-item last-pr"><span>{{pair.lastOrderRate | currencyFormat}}</span></td>
         <td class="table-item hight"><span>{{pair.high24hr | currencyFormat}}</span></td>
         <td class="table-item low"><span>{{pair.low24hr | currencyFormat}}</span></td>
