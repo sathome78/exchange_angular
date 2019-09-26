@@ -147,6 +147,7 @@
           </div>
         </div>
         <button
+          id="analytics-login"
           class="btn popup__btn"
           (click)="onSubmit()"
           [disabled]="!loginForm.valid || loading"
@@ -248,6 +249,7 @@
 
         </div>
         <button
+          id="analytics-2FA"
           class="btn popup__btn"
           (click)="afterResolvedCaptcha()"
           [disabled]="!pinForm.valid || loading"

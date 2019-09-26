@@ -7,18 +7,25 @@
       {{'How would you like to refill the balance?' | translate}}
     </p>
   </h3>
-  <button class="btn btn--center btn--empty-blue"
-  (click)="onChooseRefill(CRYPTO_DEPOSIT)">
-  {{'Crypto deposit' | translate}}
-</button>
+  <button
+    id="analytics-refill-crypto"
+    class="btn btn--center btn--empty-blue"
+    (click)="onChooseRefill(CRYPTO_DEPOSIT)"
+  >
+    {{'Crypto deposit' | translate}}
+  </button>
 
-<button class="btn btn--center btn--empty-blue"
-(click)="onChooseRefill(FIAT_DEPOSIT)">
-{{'Fiat deposit' | translate}}
-</button>
+  <button
+    class="btn btn--center btn--empty-blue"
+    (click)="onChooseRefill(FIAT_DEPOSIT)"
+  >
+    {{'Fiat deposit' | translate}}
+  </button>
 
-<button class="btn btn--center btn--empty-blue"
-(click)="onChooseRefill(INNER_TRANSFER)">
-{{'Get inner transfer' | translate}}
-</button>
+  <button
+    class="btn btn--center btn--empty-blue"
+    (click)="onChooseRefill(INNER_TRANSFER)"
+  >
+    {{'Get inner transfer' | translate}}
+  </button>
 </div>
