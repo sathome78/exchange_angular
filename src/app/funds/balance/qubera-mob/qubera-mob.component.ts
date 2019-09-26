@@ -3,6 +3,7 @@ import { ADRIAN_NEXT_KYC_STATUS } from 'app/shared/constants';
 import { EUR } from '../balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-qubera-mob',
@@ -44,7 +45,7 @@ export class QuberaMobComponent implements OnInit {
   @Output() public goToQuberaDetails: EventEmitter<any> = new EventEmitter();
   public KYC_STATUS = ADRIAN_NEXT_KYC_STATUS;
 
-  constructor(public utilsService: UtilsService) {
+  constructor(public utilsService: UtilsService, public router: Router) {
     this.setScrollStyles();
   }
 
@@ -60,6 +61,10 @@ export class QuberaMobComponent implements OnInit {
 
   onShowMobDetails(currencyCode): void {
     this.goToQuberaDetails.emit({ currencyCode });
+  }
+
+  public onGoToPendingReq(): void {
+    this.router.navigate(['/funds/pending-requests']);
   }
 
   trackByFn(index, item) {

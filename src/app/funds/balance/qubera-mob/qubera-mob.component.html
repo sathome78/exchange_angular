@@ -145,7 +145,11 @@
   </div>
   <div class="pending-wr">
     <div class="bg-btn"></div>
-    <button class="tabs__item">
+    <button
+      class="tabs__item"
+      (click)="onGoToPendingReq()"
+      [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
+    >
       <span class="indicate">{{countOfPendingRequests}}</span>
       {{'Pending requests' | translate}}
       <span class="arrow">
