@@ -55,7 +55,7 @@ export class GtagService {
     if (!this.isSetUserId) {
       this.isSetUserId = true;
       this.gtag('set', { user_id: id });
-      this.gtag('config', 'GTM-TPR6SBC');
+      this.gtag('config', 'UA-75711135-1');
       // console.log('Set user id gtag');
     }
   }
@@ -64,14 +64,14 @@ export class GtagService {
     if (this.isSetUserId) {
       this.isSetUserId = false;
       this.gtag('set', { user_id: '' });
-      this.gtag('config', 'GTM-TPR6SBC');
+      this.gtag('config', 'UA-75711135-1');
       // console.log('Remove user id gtag');
     }
   }
 
   initGtag() {
     this.gtag('js', new Date());
-    this.gtag('config', 'GTM-TPR6SBC');
+    this.gtag('config', 'UA-75711135-1');
     // console.log('Init gtag');
   }
 
