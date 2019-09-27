@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.popupService.getShowTFAPopupListener().subscribe(isOpen => this.isTfaPopupOpen);
 
     // uncomment when the translation is ready
+    this.gtagService.initGtag();
     const langCandidate = localStorage.getItem('language');
     this.store.dispatch(new coreAction.ChangeLanguageAction(!!langCandidate ? langCandidate : 'en'));
     this.store
@@ -94,7 +95,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.gtagService.initGtag();
+
 
     this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());
