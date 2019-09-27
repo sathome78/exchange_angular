@@ -276,7 +276,7 @@
     }
 
     .bg-wr {
-      padding-top: 44%;
+      padding-top: 40.5%;
       position: relative;
       overflow: hidden;
       height: 100%;
@@ -481,13 +481,19 @@
     overflow: hidden;
     position: relative;
     top: -48px;
-    display: flex;
+    // display: flex;
     background-color: #222133;
+    .slick-track{
+      display: flex;
+      overflow: hidden;
+    }
   }
 
+
   .run-line-inner {
-    display: flex;
+    // display: flex;
     padding: 37px 0;
+    
 
 
     @media(max-width: 992px) {
@@ -505,16 +511,16 @@
 
   .run-line-item {
     position: relative;
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
     padding: 6px 23px;
     border-right: 1px solid #363f4d;
     width: calc(100% / 6);
-    min-width: 190px;
+    // width: 190px;
     will-change: transform;
 
     @media(min-width: 993px) {
-      min-width: 233px;
+      // min-width: 233px;
     }
 
     .pair {
