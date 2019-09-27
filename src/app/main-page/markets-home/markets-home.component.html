@@ -12,7 +12,10 @@
         autocomplete="off"
       >
     </div>
-    <div class="btn-block">
+    <div
+      class="btn-block"
+      [ngClass]="{'no-auth' : !isAuthenticated}"
+    >
       <button
         *ngIf="isAuthenticated"
         class="favorites"

@@ -78,8 +78,11 @@
       }
 
       .btn {
-        margin: auto;
+        
         max-width: 290px;
+        @media(max-width: 992px) {
+          margin: auto;
+        }
       }
     }
 
@@ -752,7 +755,9 @@
     border-bottom: 1px solid #e5ebf1;
     display: flex;
     align-items: center;
-
+    &.no-auth{
+      padding-left: 10px;
+    }
     .favorites {
       display: flex;
       align-items: center;
@@ -848,10 +853,11 @@
     }
 
     &.no-auth {
+      // .btn-block
         .trow, .thead {
           .pair {
             width: 176px;
-            padding-left: 22px;
+            padding-left: 33px;
           }
       }
     }
