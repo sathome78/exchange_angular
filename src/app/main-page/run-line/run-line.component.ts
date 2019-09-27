@@ -5,21 +5,21 @@ import { takeUntil } from 'rxjs/operators';
 import { CurrencyPair } from 'app/model';
 import { Subject } from 'rxjs';
 
-function runInit() {
-  const runItemArray = document.querySelectorAll('.run-line-inner');
-  const lineLength = runItemArray.length * document.querySelector('.run-line-inner').clientWidth;
-  runItemArray.forEach(item => {
+// function runInit() {
+//   const runItemArray = document.querySelectorAll('.run-line-inner');
+//   const lineLength = runItemArray.length * document.querySelector('.run-line-inner').clientWidth;
+//   runItemArray.forEach(item => {
 
-    const changePosition = parseFloat(item.getAttribute('data-position')) - 0.7;
-    item.setAttribute('data-position', `${changePosition}`);
-    item.setAttribute('style', `transform:translateX(${changePosition}px)`);
-    if (item.getBoundingClientRect().left + item.clientWidth < 0) {
-      item.setAttribute('data-position', `${changePosition + lineLength}`);
-      item.setAttribute('style', `transform:translateX(${changePosition + lineLength}px)`);
-    }
-  });
-  window.requestAnimationFrame(runInit);
-}
+//     const changePosition = parseFloat(item.getAttribute('data-position')) - 0.7;
+//     item.setAttribute('data-position', `${changePosition}`);
+//     item.setAttribute('style', `transform:translateX(${changePosition}px)`);
+//     if (item.getBoundingClientRect().left + item.clientWidth < 0) {
+//       item.setAttribute('data-position', `${changePosition + lineLength}`);
+//       item.setAttribute('style', `transform:translateX(${changePosition + lineLength}px)`);
+//     }
+//   });
+//   window.requestAnimationFrame(runInit);
+// }
 
 @Component({
   selector: 'app-run-line',
@@ -30,6 +30,62 @@ export class RunLineComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairsCache: CurrencyPair[] = [];
   public currencyPairs: CurrencyPair[] = [];
+
+  public slideConfig = {
+    autoplay: true,
+    slidesToShow: 8,
+    autoplaySpeed: 1,
+    cssEase: 'linear',
+    speed: 10000,
+    arrows: false,
+    dots: false,
+    infinite: true,
+    responsive: [
+      {
+        breakpoint: 1680,
+        settings: {
+          slidesToShow: 7,
+        }
+      },
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 6,
+        }
+      },
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 5,
+        }
+      },
+      {
+        breakpoint: 880,
+        settings: {
+          slidesToShow: 4,
+        }
+      },
+      {
+        breakpoint: 670,
+        settings: {
+          slidesToShow: 3,
+        }
+      },
+      {
+        breakpoint: 520,
+        settings: {
+          slidesToShow: 2,
+        }
+      },
+      // {
+      //   breakpoint: 361,
+      //   settings: {
+      //     slidesToShow: 1,
+      //   }
+      // }
+    ]
+    
+  };
 
   constructor(private store: Store<State>) { }
 
@@ -42,7 +98,7 @@ export class RunLineComponent implements OnInit, OnDestroy {
           this.currencyPairsCache = Object.values(currencyPairs);
           this.filterTopMarket();
           if (this.currencyPairs.length) {
-            window.requestAnimationFrame(runInit);
+            // window.requestAnimationFrame(runInit);
           }
         },
         err => {
