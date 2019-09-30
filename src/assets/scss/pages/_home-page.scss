@@ -717,8 +717,9 @@
     padding: 30px 10px 21px;
     margin: 0 auto;
 
-    @media (max-width: 780px) {
+    @media (max-width: 1060px) {
       margin: 0 0 0 23px;
+      max-width: 345px;
     }
 
     input {
