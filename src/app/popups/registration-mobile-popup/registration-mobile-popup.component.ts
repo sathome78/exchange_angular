@@ -163,8 +163,12 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     this.pendingCheckEmail = true;
     this.emailServerError = 'start';
     this.formEmailGetter.markAsTouched();
-    if (this.formEmailGetter.valid && this.formEmailGetter.value !== this.previousEmail) {
-      this.previousEmail = this.formEmailGetter.value;
+    if (
+      this.formEmailGetter.valid &&
+      this.formEmailGetter.value.trim() !== this.previousEmail &&
+      this.formEmailGetter.value.trim() !== ''
+    ) {
+      this.previousEmail = this.formEmailGetter.value.trim();
       this.userService
         .checkIfEmailExists(this.formEmailGetter.value)
         .pipe(takeUntil(this.ngUnsubscribe))
