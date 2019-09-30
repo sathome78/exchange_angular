@@ -43,8 +43,12 @@ export class UserService {
     });
   }
 
-  checkIfEmailExists(email: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.HOST}/api/public/v2/if_email_exists?email=${email.replace('+', '%2B')}`);
+  checkIfEmailExists(email: string): Observable<any> {
+    const encodedEmail = encodeURIComponent(email);
+    const httpOptions: any = {
+      params: new HttpParams().set('email', encodedEmail),
+    };
+    return this.http.get<any>(`${this.HOST}/api/public/v2/if_email_exists`, httpOptions);
   }
 
   emailValidator(recovery?: boolean): AsyncValidatorFn {
@@ -198,9 +202,10 @@ export class UserService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
-  public getUserGoogleLoginEnabled(email: string): Observable<boolean> {
+  public getCheckTo2FAEnabled(email: string): Observable<boolean> {
+    const encodedEmail = encodeURIComponent(email);
     return this.http.get<boolean>(
-      `${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`
+      `${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${encodedEmail}`
     );
   }
 
@@ -243,10 +248,16 @@ export class UserService {
       })
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
-  public getCheckTo2FAEnabled(email: string): Observable<boolean> {
-    return this.http.get<boolean>(
-      `${this.HOST}/api/public/v2/is_google_2fa_enabled?email=${email.replace('+', '%2B')}`
-    );
+
+  public unsubscribeMail(token, id, subscribe): Observable<boolean> {
+    let url = '';
+    if (token) {
+      url = `${this.HOST}/api/public/v2/mailing-subscription?token=${token}&subscribe=${subscribe}`;
+    }
+    if (id) {
+      url = `${this.HOST}/api/public/v2/mailing-subscription?public_id=${id}&subscribe=${subscribe}`;
+    }
+    return this.http.post<any>(url, null);
   }
 }
 

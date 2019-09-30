@@ -54,6 +54,7 @@
         </td> -->
       <td class="table__cell">
         <button
+          [id]="item.currencyName === 'BTC' ? 'analytics-deposit-btc': item.currencyName === 'ETH' ? 'analytics-deposit-eth': ''"
           class="btn btn--center btn--empty-blue btn--small btn--hidden"
           (click)="cryptoDepositOut.emit(item)"
         >{{'Deposit' | translate}}</button>
@@ -72,6 +73,7 @@
       </td>
       <td class="table__cell">
         <button
+          [id]="item.currencyName === 'BTC' ? 'analytics-withdrawal-btc': item.currencyName === 'ETH' ? 'analytics-withdrawal-eth': ''"
           class="btn btn--center btn--empty-blue btn--small btn--hidden"
           (click)="cryptoWithdrawOut.emit(item)"
         >{{'Withdraw' | translate}}</button>

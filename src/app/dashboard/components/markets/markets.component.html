@@ -336,14 +336,14 @@
     <div class="tabs widget__tabs markets-type-tabs">
       <button
         class="tabs__item  tabs__item--active"
-        [ngClass]="{'tabs__item--active': isTopMarket,'tab-no-active': !isTopMarket}"
+        [ngClass]="{'tabs__item--active': isTopMarket && currencyDisplayMode !== 'FAVORITES','tab-no-active': !isTopMarket}"
         (click)="toggleIsTopMarket(true)"
       >
         {{'Top Market' | translate}}
       </button>
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': !isTopMarket,'tab-no-active': isTopMarket}"
+        [ngClass]="{'tabs__item--active': !isTopMarket && currencyDisplayMode !== 'FAVORITES','tab-no-active': isTopMarket}"
         (click)="toggleIsTopMarket(false)"
       >
         {{'Junior Market' | translate}}

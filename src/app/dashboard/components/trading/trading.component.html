@@ -202,6 +202,7 @@
           </label>
         </div>
         <button
+          id="analytics-trading-buy"
           class="btn btn--active widget__trading-btn widget__trading-btn--buy"
           (click)="onSubmit(BUY)"
           [disabled]="loading"
@@ -349,6 +350,7 @@
           </label>
         </div>
         <button
+          id="analytics-trading-sell"
           class="btn btn--active widget__trading-btn widget__trading-btn--sell"
           (click)="onSubmit(SELL)"
           [disabled]="loading"
@@ -488,7 +490,7 @@
   >
     <div
       class="trading-notification__close"
-      (click)="notifyFailRestricted = false"
+      (click)="closeNotifyFailRestricted()"
     >
       <svg
         width="8"
@@ -523,11 +525,13 @@
         </svg>
       </div>
       <div class="trading-notification__text">
-        <p>{{'You are not allowed to trade this pair. You should proceed KYC!' | translate}}</p>
+        <p>{{notifyFailRestrictedBody}}</p>
         <button
+          *ngIf="notifyFailShowKycBtn"
           class="btn btn--empty-blue btn--small btn-margin"
           (click)="redirectToVerification()"
-        ><span class="menu__link-text">{{'Proceed KYC' | translate}}</span>
+        >
+          <span class="menu__link-text">{{'Proceed KYC' | translate}}</span>
         </button>
       </div>
     </div>

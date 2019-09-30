@@ -146,7 +146,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
 
   checkGoogleLoginEnabled(email: string): void {
     this.userService
-      .getUserGoogleLoginEnabled(email)
+      .getCheckTo2FAEnabled(email)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         result => {
@@ -246,7 +246,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         err => {
-          console.log(err, 'sendToServerError');
+          // console.error(err, 'sendToServerError');
           const status = err['status'];
           this.setTemplate('logInTemplate');
           this.setStatusMessage(err);

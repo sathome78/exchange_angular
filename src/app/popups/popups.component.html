@@ -1,4 +1,3 @@
-
 <div *ngIf="popupService.getNewsSubscribePopupListener() | async">
   <app-news-subscribe-popup></app-news-subscribe-popup>
 </div>
@@ -17,8 +16,8 @@
   <app-qubera-popups></app-qubera-popups>
 </div>
 
-<div *ngIf="popupService.getRegistrationMobilePopupListener() | async">
-  <app-registration-mobile-popup></app-registration-mobile-popup>
+<div *ngIf="registrationState">
+  <app-registration-mobile-popup [email]="registrationEmail"></app-registration-mobile-popup>
 </div>
 
 <div *ngIf="popupService.getRecoveryPasswordListener() | async">
@@ -50,14 +49,12 @@
 </div>
 
 <div *ngIf="popupService.getDemoTradingPopupListener() | async">
-  <app-demo-trading-popup
-    [message]="popupService.demoPopupMessage">
+  <app-demo-trading-popup [message]="popupService.demoPopupMessage">
   </app-demo-trading-popup>
 </div>
 
 <div *ngIf="!!(popupService.getInfoPopupListener() | async)">
-  <app-popup-info
-    [popupData]="popupService.getInfoPopupListener() | async">
+  <app-popup-info [popupData]="popupService.getInfoPopupListener() | async">
   </app-popup-info>
 </div>
 
@@ -65,29 +62,29 @@
   <app-kyc-popup
     [showPopup]="!!(popupService.getKYCPopupListener() | async)?.step"
     [step]="(popupService.getKYCPopupListener() | async)?.step || 1"
-    [iframeUrl]="(popupService.getKYCPopupListener() | async)?.url || ''">
+    [iframeUrl]="(popupService.getKYCPopupListener() | async)?.url || ''"
+  >
   </app-kyc-popup>
 </div>
 
 <div *ngIf="!!(popupService.getIdentityPopupListener() | async)">
-  <app-identity-popup
-    [showPopup]="!!(popupService.getIdentityPopupListener() | async)"
-  ></app-identity-popup>
+  <app-identity-popup [showPopup]="!!(popupService.getIdentityPopupListener() | async)"></app-identity-popup>
 </div>
 
 <div *ngIf="!!(popupService.getTFAPopupListener() | async)">
-  <app-two-factor-popup
-    [showPopup]="!!(popupService.getTFAPopupListener() | async)">
+  <app-two-factor-popup [showPopup]="!!(popupService.getTFAPopupListener() | async)">
   </app-two-factor-popup>
 </div>
 
 <app-notification
   *ngFor="let notification of notificationMessages; let i = index; trackBy: trackByIndex"
   [notification]="notification"
-  (notificationClosed)="onNotificationMessageClose(i)">
+  (notificationClosed)="onNotificationMessageClose(i)"
+>
 </app-notification>
 
 <app-thank-you-popup
   *ngIf="!!(popupService.getThankYouPopupListener() | async)?.isOpen"
-  [popupData]="popupService.getThankYouPopupListener() | async">
+  [popupData]="popupService.getThankYouPopupListener() | async"
+>
 </app-thank-you-popup>

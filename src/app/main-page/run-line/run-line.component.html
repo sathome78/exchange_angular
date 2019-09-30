@@ -1,143 +1,42 @@
-<div class="run-line">
+<div
+  class="run-line"
+  *ngIf="currencyPairs.length"
+>
   <div class="run-line-wr">
-    <div
-      class="carousel run-line-inner">
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
+    <ngx-slick-carousel
+      class="carousel run-line-inner"
+      #slickModal2="slick-carousel"
+      [config]="slideConfig"
+    >
+      <div
+        *ngFor="let pair of currencyPairs; trackBy: trackByPairs"
+        class="slide run-line-item"
+        ngxSlickItem
+      >
+        <a
+          class="run-line-lnk"
+          href="#"
+          [routerLink]="['/markets/', pair.currencyPairName.replace('/', '-')]"
+        ></a>
         <div class="pair">
-          <span>BTC/USDC</span>
+          <span>{{pair.currencyPairName}}</span>
         </div>
         <div class="change">
-          <span>+18.33%</span>
+          <span [ngClass]="{'txt-green' : isChangePositive(pair),'txt-red' : !isChangePositive(pair)}">
+            {{pair.percentChange | currencyFormat: 'USD'}}%
+          </span>
         </div>
         <div class="course">
-          <span>114.32</span>
+          <span>{{pair.lastOrderRate | currencyFormat}}</span>
         </div>
         <div class="direction">
-          <span></span>
+          <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>
         </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>ETH/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>CRON/BTC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>USD/BTC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>ABBC/USD</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>ACU/ETH</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>BCX/BTC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>DGTX/BTC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
-      </div>
-      <div class="slide run-line-item" data-position="0">
-        <a class="run-line-lnk" href="#"></a>
-        <div class="pair">
-          <span>ZEC/USDC</span>
-        </div>
-        <div class="change">
-          <span>+18.33%</span>
-        </div>
-        <div class="course">
-          <span>114.32</span>
-        </div>
-        <div class="direction">
-          <span></span>
-        </div>
+
       </div>
 
-    </div>
+
+    </ngx-slick-carousel>
+
   </div>
 </div>

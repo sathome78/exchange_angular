@@ -241,11 +241,10 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
    */
   choosePair(market: string, searchValue: string = ''): CurrencyPair[] {
     if (market === 'FAVORITES') {
-      return this.currencyPairs.filter(
+      return this.currencyPairsCache.filter(
         pair =>
-          this.userFavorites.indexOf(
-            pair.currencyPairId) >= 0 && pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase()
-          )
+          this.userFavorites.indexOf(pair.currencyPairId) >= 0 &&
+            pair.currencyPairName.toUpperCase().startsWith(searchValue.toUpperCase())
       );
     }
     if (market === 'LOC') {

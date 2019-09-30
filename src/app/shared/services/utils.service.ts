@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 import { Store, select } from '@ngrx/store';
 import { State, getUserInfo } from 'app/core/reducers';
 import { getQuberaBalancesSelector, getQuberaKycStatusSelector } from 'app/funds/store/reducers/funds.reducer';
-import { withLatestFrom, takeUntil } from 'rxjs/operators';
+import { withLatestFrom } from 'rxjs/operators';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 import { Location } from '@angular/common';
 
