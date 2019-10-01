@@ -173,20 +173,24 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         err.error.title === 'GOOGLE_AUTHORIZATION_FAILED'
       ) {
         this.inPineCodeMode = true;
-        this.isError = true;
         this.setTemplate('pinCodeTemplate');
-        if (this.pincodeAttempts === 3) {
-          if (this.isGA) {
-            this.twoFaAuthModeMessage = this.translateService.instant(
-              'Code is wrong! Please, check you code in Google Authenticator application.'
-            );
+        if (this.pincodeAttempts > 0) {
+          this.isError = true;
+          if (this.pincodeAttempts === 3) {
+            if (this.isGA) {
+              this.twoFaAuthModeMessage = this.translateService.instant(
+                'Code is wrong! Please, check you code in Google Authenticator application.'
+              );
+            } else {
+              this.twoFaAuthModeMessage = this.translateService.instant(
+                'Code is wrong! New code was sent to your email.'
+              );
+            }
           } else {
-            this.twoFaAuthModeMessage = this.translateService.instant(
-              'Code is wrong! New code was sent to your email.'
-            );
+            this.twoFaAuthModeMessage = this.translateService.instant('Code is wrong!');
           }
         } else {
-          this.twoFaAuthModeMessage = this.translateService.instant('Code is wrong!');
+          this.statusMessage = this.translateService.instant('Pin code is required!');
         }
         this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
         this.pinFormCode.setValue('');
