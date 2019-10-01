@@ -27,7 +27,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
   public isPasswordVisible = false;
-  public twoFaAuthModeMessage = 'Please enter two-factor authentication code that was sent to your email';
+  public twoFaAuthModeMessage = '';
   public pincodeAttempts = 0;
   public isError = false;
   public statusMessage = '';
@@ -173,27 +173,30 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         err.error.title === 'GOOGLE_AUTHORIZATION_FAILED'
       ) {
         this.inPineCodeMode = true;
+        this.isError = true;
         this.setTemplate('pinCodeTemplate');
-        this.pinForm.reset();
-        if (this.pincodeAttempts > 0) {
-          this.isError = true;
-          this.twoFaAuthModeMessage =
-            this.pincodeAttempts === 3
-              ? this.isGA
-                ? this.translateService.instant(
-                    'Code is wrong! Please, check you code in Google Authenticator application.'
-                  )
-                : this.translateService.instant('Code is wrong! New code was sent to your email.')
-              : this.translateService.instant('Code is wrong!');
-          this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
-          this.pinForm.get('pin').patchValue('');
+        if (this.pincodeAttempts === 3) {
+          if (this.isGA) {
+            this.twoFaAuthModeMessage = this.translateService.instant(
+              'Code is wrong! Please, check you code in Google Authenticator application.'
+            );
+          } else {
+            this.twoFaAuthModeMessage = this.translateService.instant(
+              'Code is wrong! New code was sent to your email.'
+            );
+          }
         } else {
-          this.statusMessage = this.translateService.instant('Pin code is required!');
+          this.twoFaAuthModeMessage = this.translateService.instant('Code is wrong!');
         }
+        this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
+        this.pinFormCode.setValue('');
+        this.pinFormCode.setErrors({ pinError: true });
       } else {
+        this.setTemplate('logInTemplate');
         this.statusMessage = !AUTH_MESSAGES[err.error.title] ? '' : AUTH_MESSAGES[err.error.title];
       }
     } else {
+      this.setTemplate('logInTemplate');
       this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
     }
   }
@@ -213,7 +216,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       this.email = this.loginForm.get('email').value.trim();
       this.password = this.loginForm.get('password').value;
       if (this.inPineCodeMode) {
-        this.pin = this.pinForm.get('pin').value;
+        this.pin = this.pinFormCode.value;
         this.pincodeAttempts += 1;
       }
       if (this.inPineCodeMode && !this.pin) {
@@ -247,8 +250,8 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         },
         err => {
           // console.error(err, 'sendToServerError');
-          const status = err['status'];
-          this.setTemplate('logInTemplate');
+          // const status = err['status'];
+          // this.setTemplate('logInTemplate');
           this.setStatusMessage(err);
           this.loading = false;
         }
@@ -269,4 +272,15 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   sendAgain() {}
+
+  get pinFormCode() {
+    return this.pinForm.controls['pin'];
+  }
+
+  get loginFormPassword() {
+    return this.loginForm.controls['password'];
+  }
+  get loginFormEmail() {
+    return this.loginForm.controls['email'];
+  }
 }
