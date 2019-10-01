@@ -32,6 +32,11 @@ export class AuthCandidate {
     return this;
   }
 
+  public withPinTries(tries: number): AuthCandidate {
+    this.tries = tries;
+    return this;
+  }
+
   public build(): AuthCandidate {
     return this;
   }
