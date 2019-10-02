@@ -22,3 +22,16 @@
     padding: 32px;
   }
 }
+
+
+::ng-deep app-price-input{
+position: relative;
+
+}
+
+.daily-avaliable, .avaliable{
+  position: static;
+  text-align: left;
+  width: auto;
+  margin-bottom: 7px;
+}
