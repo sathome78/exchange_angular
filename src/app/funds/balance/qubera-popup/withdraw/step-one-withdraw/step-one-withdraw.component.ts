@@ -105,10 +105,8 @@ export class StepOneWithdrawComponent implements OnInit {
 
   ngOnInit() {
     this.initMainForm();
-
     this.initSepaForm();
     this.getCountryCode();
-    this.stores.dispatch(new settingsActions.LoadGAStatusAction());
 
     this.store
       .pipe(select(getFiatCurrenciesForChoose))

@@ -19,6 +19,8 @@ export interface State {
   loading: boolean;
   isAuthenticated: boolean;
   userInfo: ParsedToken;
+  is2FaEnabled: boolean;
+  is2FaStatusLoading: boolean;
   ieoList: IEOItem[];
 }
 
@@ -35,6 +37,8 @@ export const INIT_STATE: State = {
   loading: false,
   isAuthenticated: false,
   userInfo: null,
+  is2FaEnabled: null,
+  is2FaStatusLoading: false,
   ieoList: [],
 };
 
@@ -98,6 +102,12 @@ export function reducer(state: State = INIT_STATE, action: coreActions.Actions) 
         }
       });
       return { ...state, ieoList: cacheIeoList };
+    case coreActions.LOAD_2FA_STATUS_EMAIL:
+      return { ...state, is2FaStatusLoading: true };
+    case coreActions.SET_2FA_STATUS_EMAIL:
+      return { ...state, is2FaEnabled: action.payload, is2FaStatusLoading: false };
+    case coreActions.FAIL_LOAD_2FA_STATUS_EMAIL:
+      return { ...state, is2FaStatusLoading: false };
 
     default:
       return state;
@@ -145,3 +155,6 @@ export const getIsAuthenticatedSelector = (state: State): boolean => state.isAut
 /** Selector return is Authenticated */
 export const getUserInfoSelector = (state: State): ParsedToken => state.userInfo;
 export const getIEOListSelector = (state: State): IEOItem[] => state.ieoList;
+/** Selector 2fa enabled*/
+export const get2faEnabled = (state: State): boolean => state.is2FaEnabled;
+export const get2faStatusLoading = (state: State): boolean => state.is2FaStatusLoading;

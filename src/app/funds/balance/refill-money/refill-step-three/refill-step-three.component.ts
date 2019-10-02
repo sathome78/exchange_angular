@@ -38,9 +38,9 @@ export class RefillStepThreeComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.store
-      .pipe(select(fromCore.getGAStatus))
+      .pipe(select(fromCore.getIs2faEnabled))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((GA: any) => {
+      .subscribe((GA: boolean) => {
         // console.log(GA);
         this.googleAuthenticator = GA;
         if (this.googleAuthenticator) {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
-import { State, getGAStatus } from 'app/core/reducers';
+import { State, getIs2faEnabled } from 'app/core/reducers';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -33,9 +33,9 @@ export class FreecoinsPopupStepTwoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initForm();
     this.store
-      .pipe(select(getGAStatus))
+      .pipe(select(getIs2faEnabled))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((GA: any) => {
+      .subscribe((GA: boolean) => {
         this.googleAuthenticator = GA;
         if (this.googleAuthenticator) {
           this.twoFaTitle = this.translateService.instant('Use Google Authenticator to generate pincode');

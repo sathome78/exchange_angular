@@ -32,9 +32,9 @@ export class StepTwoWithdrawComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.store
-      .pipe(select(fromCore.getGAStatus))
+      .pipe(select(fromCore.getIs2faEnabled))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((GA: any) => {
+      .subscribe((GA: boolean) => {
         this.googleAuthenticator = GA;
       });
   }

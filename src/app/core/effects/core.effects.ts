@@ -10,6 +10,7 @@ import { State } from '../reducers/index';
 import { CoreService } from '../services/core.service';
 import { of } from 'rxjs';
 import { SettingsService } from '../../settings/settings.service';
+import { UserService } from 'app/shared/services/user.service';
 
 @Injectable()
 export class CoreEffects {
@@ -28,6 +29,7 @@ export class CoreEffects {
   constructor(
     private actions$: Actions,
     private coreService: CoreService,
+    private userService: UserService,
     private store: Store<State>,
     private settingsService: SettingsService
   ) {}
@@ -132,4 +134,17 @@ export class CoreEffects {
         );
       })
     );
+
+  @Effect()
+  load2faStatus$: Observable<Action> = this.actions$
+    .pipe(ofType<coreActions.Load2faStatusAction>(coreActions.LOAD_2FA_STATUS_EMAIL))
+    .pipe(
+      switchMap(action => {
+        return this.userService.getCheckTo2FAEnabled(action.payload).pipe(
+          map((status: boolean) => new coreActions.Set2faStatusAction(status)),
+          catchError(error => of(new coreActions.FailLoad2faStatusAction(error)))
+        );
+      })
+    );
+
 }
