@@ -135,6 +135,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   closeMe() {
     this.popupService.closeMobileLoginPopup();
     this.location.replaceState('dashboard');
+    this.store.dispatch(new coreActions.Set2faStatusAction(null));
   }
 
   openRegistration() {
