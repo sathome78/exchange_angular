@@ -258,4 +258,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     return this.cryptoInfoByName && this.cryptoInfoByName.merchantCurrencyData.length;
   }
 
+  get isDisabledForm() {
+    return this.formAmount.invalid || this.formAddress.invalid || !this.selectCurrency ;
+  }
+
 }
