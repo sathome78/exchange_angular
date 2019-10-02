@@ -3,9 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GoogleAuthenticatorService } from '../google-authenticator.service';
 import { PopupService } from '../../../../shared/services/popup.service';
 import { AuthService } from 'app/shared/services/auth.service';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromCore from '../../../../core/reducers';
-import * as settingsActions from '../../../../settings/store/actions/settings.actions';
+import * as coreActions from '../../../../core/actions/core.actions';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AUTH_MESSAGES } from '../../../../shared/constants';
@@ -18,8 +18,9 @@ import { AUTH_MESSAGES } from '../../../../shared/constants';
 export class GoogleDisableComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   statusMessage = '';
+  userEmail = null;
   form: FormGroup;
-  loading: boolean = false;
+  loading = false;
 
   constructor(
     private popupService: PopupService,
@@ -33,7 +34,13 @@ export class GoogleDisableComponent implements OnInit, OnDestroy {
       password: new FormControl('', { validators: [Validators.required] }),
       pincode: new FormControl('', { validators: [Validators.required] }),
     });
-    // this.sendMePincode();
+    this.store.pipe(select(fromCore.getUserInfo))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((userInfo: ParsedToken) => {
+        if (userInfo) {
+          this.userEmail = userInfo.username;
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -41,14 +48,6 @@ export class GoogleDisableComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  // sendMePincode() {
-  //   this.googleService.sendMePincode().subscribe(res => {
-  //       // console.log(res);
-  //     },
-  //     error1 => {
-  //       console.log(error1);
-  //     });
-  // }
 
   disableGoogleAuth() {
     if (this.form.valid) {
@@ -61,7 +60,9 @@ export class GoogleDisableComponent implements OnInit, OnDestroy {
         .subscribe(
           res => {
             // console.log(res);
-            this.store.dispatch(new settingsActions.LoadGAStatusAction());
+            if (this.userEmail) {
+              this.store.dispatch(new coreActions.Load2faStatusAction(this.userEmail));
+            }
             this.popupService.closeTFAPopup();
             this.loading = false;
           },

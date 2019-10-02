@@ -9,7 +9,7 @@ import { LoggingService } from '../../shared/services/logging.service';
 import { keys, AUTH_MESSAGES } from '../../shared/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from 'app/shared/services/utils.service';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
@@ -32,8 +32,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   public isError = false;
   public statusMessage = '';
   public inPineCodeMode;
-  public isGA = false;
-  public isGACheck = false;
+  public is2faEnabled$: Observable<boolean>;
   public currencyPair: SimpleCurrencyPair;
   public afterCaptchaMessage;
   public loading = false;
@@ -90,6 +89,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       .subscribe((pair: SimpleCurrencyPair) => {
         this.currencyPair = pair;
       });
+    this.is2faEnabled$ = this.store
+      .pipe(select(fromCore.getIs2faEnabled))
+      .pipe(takeUntil(this.ngUnsubscribe));
   }
 
   ngOnDestroy(): void {
@@ -144,28 +146,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  checkGoogleLoginEnabled(email: string): void {
-    this.userService
-      .getCheckTo2FAEnabled(email)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        result => {
-          this.isGACheck = true;
-          if (result) {
-            this.isGA = true;
-            this.twoFaAuthModeMessage = this.translateService.instant('Use Google Authenticator to generate pincode');
-          }
-        },
-        err => console.error(err)
-      );
-  }
-
-  setStatusMessage(err) {
+  setStatusMessage(err, is2fa) {
     this.showSendAgainBtn = false;
     if (err['status'] === 400) {
-      if (!this.isGACheck) {
-        this.checkGoogleLoginEnabled(this.email);
-      }
       if (
         err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE' ||
         err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE' ||
@@ -173,12 +156,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
         err.error.title === 'GOOGLE_AUTHORIZATION_FAILED'
       ) {
         this.inPineCodeMode = true;
-        this.isError = true;
         this.setTemplate('pinCodeTemplate');
         if (this.pincodeAttempts > 0) {
           this.isError = true;
           if (this.pincodeAttempts === 3) {
-            if (this.isGA) {
+            if (is2fa) {
               this.twoFaAuthModeMessage = this.translateService.instant(
                 'Code is wrong! Please, check you code in Google Authenticator application.'
               );
@@ -191,7 +173,15 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
             this.twoFaAuthModeMessage = this.translateService.instant('Code is wrong!');
           }
         } else {
-          this.twoFaAuthModeMessage = this.translateService.instant('Code is wrong!');
+          if (is2fa) {
+            this.twoFaAuthModeMessage = this.translateService.instant(
+              'Use Google Authenticator to generate pincode.'
+            );
+          } else {
+            this.twoFaAuthModeMessage = this.translateService.instant(
+              'Please enter two-factor authentication code that was sent to your email.'
+            );
+          }
         }
         this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
         this.pinFormCode.setValue('');
@@ -232,7 +222,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   sendToServer() {
-
+    this.store.dispatch(new coreActions.Load2faStatusAction(this.email));
     this.logger.debug(this, `attempt to authenticate with email: ${this.email} and password: ${this.password}`);
     this.loading = true;
     this.userService
@@ -254,10 +244,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         err => {
-          // console.error(err, 'sendToServerError');
-          // const status = err['status'];
-          // this.setTemplate('logInTemplate');
-          this.setStatusMessage(err);
+          this.is2faEnabled$.subscribe(status => {
+            if (typeof status === 'boolean') {
+              this.setStatusMessage(err, status);
+            }
+          });
           this.loading = false;
         }
       );

@@ -19,8 +19,6 @@ import { APIErrorsService } from './shared/services/apiErrors.service';
 import { APIErrorReport } from './shared/models/apiErrorReport.model';
 import { Notification } from 'app/model/notification.model';
 
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -68,9 +66,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.store.dispatch(new coreAction.LoadVerificationStatusAction());
           this.sendTransactionsAnalytics();
           this.setNameEmailToZenChat(userInfo.username);
-          this.store.dispatch(new settingsActions.LoadGAStatusAction());
+          this.store.dispatch(new coreAction.Load2faStatusAction(userInfo.username));
         } else {
           this.clearNameEmailFromZenChat();
+          this.store.dispatch(new coreAction.Set2faStatusAction(null));
         }
       });
 
@@ -94,8 +93,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.store.dispatch(new coreAction.SetOnLoginAction(parsedToken));
       }
     });
-
-
 
     this.seoService.subscribeToRouter(); // SEO optimization
     this.store.dispatch(new coreAction.LoadCurrencyPairsAction());

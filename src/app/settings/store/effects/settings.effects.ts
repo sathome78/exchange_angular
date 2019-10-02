@@ -29,22 +29,6 @@ export class SettingsEffects {
   ) {}
 
   /**
-   * Load GA status
-   */
-  @Effect()
-  loadGAStatus$: Observable<Action> = this.actions$
-    .pipe(ofType<settingsActions.LoadGAStatusAction>(settingsActions.LOAD_GA_STATUS))
-    .pipe(withLatestFrom(this.store$.pipe(select(fromCore.getUserInfo))))
-    .pipe(
-      switchMap(([action, userInfo]: [settingsActions.LoadGAStatusAction, ParsedToken]) => {
-        return this.userService.getCheckTo2FAEnabled(userInfo.username).pipe(
-          map(status => new settingsActions.SetGAStatusAction(status)),
-          catchError(error => of(new settingsActions.FailLoadGAStatusAction(error)))
-        );
-      })
-    );
-
-  /**
    * Load session time
    */
   @Effect()
