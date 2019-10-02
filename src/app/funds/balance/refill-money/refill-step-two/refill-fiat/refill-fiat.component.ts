@@ -29,6 +29,7 @@ import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
 import { CommissionData } from 'app/funds/models/commission-data.model';
 import { defaultCommissionData } from '../../../../store/reducers/default-values';
 
+
 @Component({
   selector: 'app-refill-fiat',
   templateUrl: './refill-fiat.component.html',

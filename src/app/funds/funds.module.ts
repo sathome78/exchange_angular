@@ -82,6 +82,7 @@ import { StepThreeWithdrawComponent } from './balance/qubera-popup/withdraw/step
 import { QuberaMobDetailsComponent } from './qubera-mob-details/qubera-mob-details.component';
 import { HashToUrlPipe } from './hash-to-url.pipe';
 import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-coin-pay/refill-coin-pay.component';
+import { SyndexInfoComponent } from 'app/syndex-info/syndex-info.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -101,6 +102,7 @@ export function createTranslateLoader(http: HttpClient) {
     EffectsModule.forRoot([CoreEffects, FundsEffects]),
     StoreModule.forFeature('funds', reducer),
     FundsRoutingModule,
+
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -173,6 +175,7 @@ export function createTranslateLoader(http: HttpClient) {
     StepThreeWithdrawComponent,
     QuberaMobDetailsComponent,
     RefillCoinPayComponent,
+    SyndexInfoComponent,
   ],
   providers: [
     BalanceService,
