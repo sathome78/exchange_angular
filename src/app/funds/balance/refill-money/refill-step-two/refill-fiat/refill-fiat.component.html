@@ -3,80 +3,7 @@
   *ngIf="!!activeFiat && !!fiatDataByName"
   class="refil-fiat side-popups"
 >
-  <app-syndex-info></app-syndex-info>
-
-  <h2 class="title refill__title">
-    {{'Refill' | translate}} <span>USD</span>
-  </h2>
-
-
-  <div class="info-block">
-    <div class="left-part">
-      <div class="item-info">
-        <span class="key-info">{{'id:' | translate}}</span>
-        <span class="value-info">981</span>
-      </div>
-      <div class="item-info">
-        <span class="key-info">{{'Amount:' | translate}}</span>
-        <span class="value-info">4.44 USD</span>
-      </div>
-      <div class="item-info">
-        <span class="key-info">{{'Current status:' | translate}}</span>
-        <span class="value-info">On moderation</span>
-      </div>
-      <div class="item-info">
-        <span class="key-info">{{'To pay:' | translate}}</span>
-        <span class="value-info">100 UAH Transfer with specific Bank</span>
-      </div>
-      <div class="item-info">
-        <span class="key-info">{{'Payment details:' | translate}}</span>
-        <span class="value-info">Waiting for payment details. Please waite</span>
-      </div>
-      <div class="item-info">
-        <span class="key-info">{{'Created:' | translate}}</span>
-        <span class="value-info">Th 21.09.2019 00:52:56</span>
-      </div>
-    </div>
-  </div>
-  <div class="button-part">
-    <button
-      class="btn balance__title-btn"
-      disabled
-    >Confirm payment</button>
-    <button class="btn balance__title-btn">Cancel</button>
-  </div>
-
-  <div class="discuss-block">
-    <div class="timer">
-      <p>Waiting:<span>89:56</span></p>
-    </div>
-    <button
-      class="btn balance__title-btn"
-      disabled
-    >Open dispute</button>
-
-  </div>
-
-  <div class="disput-detail">
-    <h5>DETAILED STATE OF THE DISPUTE
-    </h5>
-    <p>To upload the proof of payment, please use external resource <a href="#">https://imgbb.com/</a> and send us link where your document has been inserted
-    </p>
-    <form action="#">
-      <textarea
-        name="disput"
-        id="disput"
-      ></textarea>
-      <button
-        class="btn balance__title-btn"
-        disabled
-      >Send</button>
-    </form>
-  </div>
-
-
-  <!-- <app-syndex-info></app-syndex-info> -->
-  <!-- <h2
+  <h2
     class="title refill__title"
     *ngIf="!submitSuccess"
   >
@@ -443,7 +370,7 @@
       </ng-container>
     </div>
 
-</div>   -->
+  </div>
 
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>

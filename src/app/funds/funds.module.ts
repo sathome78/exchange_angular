@@ -83,6 +83,7 @@ import { QuberaMobDetailsComponent } from './qubera-mob-details/qubera-mob-detai
 import { HashToUrlPipe } from './hash-to-url.pipe';
 import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-coin-pay/refill-coin-pay.component';
 import { SyndexInfoComponent } from 'app/syndex-info/syndex-info.component';
+import { SyndexDusputComponent } from 'app/syndex-dusput/syndex-dusput.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -176,6 +177,7 @@ export function createTranslateLoader(http: HttpClient) {
     QuberaMobDetailsComponent,
     RefillCoinPayComponent,
     SyndexInfoComponent,
+    SyndexDusputComponent,
   ],
   providers: [
     BalanceService,

@@ -62,6 +62,7 @@ import { BottomFormComponent } from './main-page/bottom-form/bottom-form.compone
 import { BannerComponent } from './banner/banner.component';
 
 
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
 }
