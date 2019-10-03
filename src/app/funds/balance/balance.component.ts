@@ -79,7 +79,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public currencyForChoose: string = null;
   public currentPage = 1;
   public countPerPage = 15;
-  public loading = false;
+  public filtering = false;
 
   constructor(
     public balanceService: BalanceService,
@@ -227,7 +227,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           currencyName: this.currValue || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
-          excludeZero: this.hideAllZero,
+          excludeZero: this.filtering ? !this.filtering : this.hideAllZero,
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
@@ -238,7 +238,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           currencyName: this.currValue || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
-          excludeZero: this.hideAllZero,
+          excludeZero: this.filtering ? !this.filtering : this.hideAllZero,
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
@@ -446,6 +446,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onSelectPair(currId: string): void {
+    setTimeout(() => {
+      this.filtering = currId !== null;
+    });
     this.currencyForChoose = currId;
     this.currentPage = 1;
     this.loadBalances(this.currTab);
