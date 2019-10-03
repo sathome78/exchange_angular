@@ -163,18 +163,18 @@ export const getIEOList = createSelector(
   getCoreState,
   fromCore.getIEOListSelector
 );
+export const getIs2faEnabled = createSelector(
+  getCoreState,
+  fromCore.get2faEnabled
+);
+export const getIs2faStatusLoading = createSelector(
+  getCoreState,
+  fromCore.get2faStatusLoading
+);
 
 /**
  * Selectors from Settings module
  */
-export const getGAStatus = createSelector(
-  getSettingsState,
-  fromSettings.getGAStatusSelector
-);
-export const getGALoading = createSelector(
-  getSettingsState,
-  fromSettings.getGALoadingSelector
-);
 export const getSessionTime = createSelector(
   getSettingsState,
   fromSettings.getSessionTimeSelector

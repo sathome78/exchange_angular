@@ -205,6 +205,12 @@
   }
 }
 
+.popup-login {
+  .msg-error {
+    color: #d04437 !important;
+  }
+}
+
 .recovery-final {
   .msg-error {
     color: #d04437 !important;
@@ -714,7 +720,7 @@
         border: 1px solid #A0A0A0;
         border-radius: 1px;
       }
-  
+
       &::after{
         content: "";
         width: 14px;

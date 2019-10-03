@@ -3,7 +3,7 @@ import { IEOItem } from 'app/model/ieo.model';
 
 export const SAVE_TO_STORE = '[Core] Saves data to app store';
 export const SAVE_COMPLETE = '[Core] Saving user location data to cookie is complete';
-export const SAVE_TOKEN = "[Core] Saves user's auth token";
+export const SAVE_TOKEN = '[Core] Saves user\'s auth token';
 export const CHANGE_LANGUAGE = '[Core] Change language';
 export const REHYDRATE = '[Core] Rehydrate store';
 
@@ -27,6 +27,10 @@ export const FAIL_LOAD_CURRENCIES_FOR_CHOOSE = '[Core] Fail Load currencies for 
 export const ON_LOGIN = '[Core] On login';
 export const ON_LOGOUT = '[Core] On logout';
 export const SET_IEO_LIST = '[Core] Set IEO list';
+
+export const LOAD_2FA_STATUS_EMAIL = '[Core] Load 2fa status by emai';
+export const FAIL_LOAD_2FA_STATUS_EMAIL = '[Core] Fail load 2fa status by emai';
+export const SET_2FA_STATUS_EMAIL = '[Core] Set 2fa status by emai';
 
 /**
  * Change language | region | currency
@@ -159,6 +163,20 @@ export class SetIEOListAction implements Action {
   constructor(public payload: IEOItem[]) {}
 }
 
+// 2fa status
+export class Load2faStatusAction implements Action {
+  readonly type = LOAD_2FA_STATUS_EMAIL;
+  constructor(public payload: string) {}
+}
+export class Set2faStatusAction implements Action {
+  readonly type = SET_2FA_STATUS_EMAIL;
+  constructor(public payload: boolean) {}
+}
+export class FailLoad2faStatusAction implements Action {
+  readonly type = FAIL_LOAD_2FA_STATUS_EMAIL;
+  constructor(public payload?) {}
+}
+
 /**
  * Exports possible action types
  */
@@ -182,4 +200,7 @@ export type Actions =
   | FailLoadVerificationStatusAction
   | SetOnLoginAction
   | SetOnLogoutAction
+  | Load2faStatusAction
+  | Set2faStatusAction
+  | FailLoad2faStatusAction
   | SetIEOListAction;

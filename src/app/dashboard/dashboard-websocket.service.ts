@@ -1,13 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { map, takeUntil } from 'rxjs/internal/operators';
+import { map, takeUntil, withLatestFrom, subscribeOn, switchMap, mergeMap, filter } from 'rxjs/internal/operators';
 import { Message } from '@stomp/stompjs';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Subject, Subscription } from 'rxjs';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { CurrencyPair } from '../model/currency-pair.model';
-import { State } from '../core/reducers';
 import * as dashboardActions from './actions/dashboard.actions';
+import * as fromCore from '../core/reducers';
 import { UserService } from '../shared/services/user.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -18,14 +18,52 @@ export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairs: CurrencyPair[] = [];
   private openOrdersSub$: Subscription;
+  public sessionIdsubject = new Subject();
   public pairFromDashboard = '';
+  public sessionId = null;
+  public userEmail = null;
 
   constructor(
     private stompService: RxStompService,
     private userService: UserService,
     private utilsService: UtilsService,
-    private store: Store<State>
-  ) {}
+    private store: Store<fromCore.State>
+  ) {
+    this.store
+      .pipe(select(fromCore.getIsAuthenticated))
+      .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
+        if (isAuth && userInfo) {
+          this.userEmail = userInfo.username;
+          this.getSessionId();
+        } else {
+          this.unregister();
+        }
+      });
+
+  }
+
+  private getSessionId() {
+    this.stompService.connected$.subscribe(() => {
+      const socket: any = this.stompService.stompClient.webSocket;
+      const urlarray = socket._transport.url.split('/');
+      const index = urlarray.length - 2;
+      this.sessionId = urlarray[index];
+      this.register();
+      this.sessionIdsubject.next(this.sessionId);
+    });
+  }
+
+  private register() {
+    const message = { email: this.userEmail, sessionId: this.sessionId };
+    this.stompService.publish({ destination: '/app/register', body: JSON.stringify(message) });
+  }
+
+  private unregister() {
+    const message = { email: this.userEmail, sessionId: this.sessionId };
+    this.stompService.publish({ destination: '/app/unregister', body: JSON.stringify(message) });
+  }
 
   marketsSubscription(): any {
     return this.stompService.watch(`/app/statisticsNew`).pipe(map((message: Message) => JSON.parse(message.body)));
@@ -61,14 +99,17 @@ export class DashboardWebSocketService implements OnDestroy {
 
   loadOpenOrdersDashboard(pairName) {
     this.unsubscribeOpenOrders();
-    this.openOrdersSub$ = this.openOrdersSubscription(pairName)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        this.store.dispatch(new dashboardActions.SetOpenOrdersAction({
-          openOrders: data,
-          count: data.length,
-        }));
-      });
+    this.openOrdersSub$ =
+      this.sessionIdsubject
+        .pipe(filter(id => !!id))
+        .pipe(mergeMap(() => this.openOrdersSubscription(pairName)))
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((data: any) => {
+          this.store.dispatch(new dashboardActions.SetOpenOrdersAction({
+            openOrders: data,
+            count: data.length,
+          }));
+        });
   }
 
   unsubscribeOpenOrders() {
@@ -78,6 +119,7 @@ export class DashboardWebSocketService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.unregister();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.unsubscribeOpenOrders();
