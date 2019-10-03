@@ -12,7 +12,7 @@
       <div class="logo-login-mob mobile-container">
         <img
           src="../../assets/img/logo-exrates.svg"
-          alt=""
+          alt="Exrates.me"
         >
       </div>
       <h6 class="popup__title">{{'Log in' | translate}}</h6>
@@ -29,42 +29,36 @@
               required
               (input)="emailInput()"
               formControlName="email"
-              [ngClass]="{'wrap-input__input--error':
-                    !loginForm.get('email').valid
-                     && loginForm.get('email').touched
-                      || statusMessage}"
+              [ngClass]="{
+                'wrap-input__input--error': !loginFormEmail.valid && loginFormEmail.touched || statusMessage
+              }"
             >
             <label
               class="wrap-input__label"
               for=""
-              [ngClass]="{'wrap-input__label--error':
-                    !loginForm.get('email').valid
-                     && loginForm.get('email').touched
-                      || statusMessage}"
+              [ngClass]="{
+                'wrap-input__label--error': !loginFormEmail.valid && loginFormEmail.touched || statusMessage
+              }"
             >
               {{'Email' | translate}}
             </label>
             <div
               class="wrap-input__line"
-              [ngClass]="{'wrap-input__line--error':
-                  !loginForm.get('email').valid
-                   && loginForm.get('email').touched
-                    || statusMessage}"
+              [ngClass]="{
+                'wrap-input__line--error': !loginFormEmail.valid && loginFormEmail.touched || statusMessage
+              }"
             >
             </div>
-            <div *ngIf="loginForm.get('email').touched
-                 && loginForm.get('email').errors != null
-                  || !statusMessage
-                   && loginForm.get('email').errors != null">
+            <div *ngIf="(loginFormEmail.touched || !statusMessage) && loginFormEmail.errors">
               <div class="input-hint-wrapper">
                 <span
                   class="wrap-input__message wrap-input__message--error"
-                  *ngIf="loginForm.get('email').errors['required']"
+                  *ngIf="loginFormEmail.errors['required']"
                 >
                   {{'This field is required.' | translate}}
                 </span>
                 <span
-                  *ngIf="loginForm.get('email').invalid && !loginForm.get('email').errors['required']"
+                  *ngIf="loginFormEmail.invalid && !loginFormEmail.errors['required']"
                   class=" wrap-input__message wrap-input__message--error"
                 >
                   {{'Please, enter valid email address.' | translate}}
@@ -80,27 +74,23 @@
               [type]="getInputType()"
               formControlName="password"
               [ngClass]="{'wrap-input__input--error':
-                    (!loginForm.get('password').valid
-                    && loginForm.get('password').touched
-                    || statusMessage)
-                    && loginForm.get('email').valid}"
+                (!loginFormPassword.valid && loginFormPassword.touched || statusMessage) && loginFormEmail.valid
+              }"
             >
             <label
               class="wrap-input__label"
               for=""
-              [ngClass]="{'wrap-input__label--error':
-                    (!loginForm.get('password').valid
-                    && loginForm.get('password').touched
-                    || statusMessage)
-                    && loginForm.get('email').valid}"
+              [ngClass]="{
+                'wrap-input__label--error': (!loginFormPassword.valid && loginFormPassword.touched || statusMessage)
+                  && loginFormEmail.valid
+              }"
             >{{'Password' | translate}}</label>
             <div
               class="wrap-input__line"
-              [ngClass]="{'wrap-input__line--error':
-                  (!loginForm.get('password').valid
-                  && loginForm.get('password').touched
-                  || statusMessage)
-                  && loginForm.get('email').valid}"
+              [ngClass]="{
+                'wrap-input__line--error': (!loginFormPassword.valid && loginFormPassword.touched || statusMessage)
+                  && loginFormEmail.valid
+              }"
             ></div>
             <span
               class="wrap-input__show-password"
@@ -108,26 +98,24 @@
               [ngClass]="{'wrap-input__show-password--active': isPasswordVisible}"
             >
             </span>
-            <div *ngIf="loginForm.get('password').touched
-                && loginForm.get('password').errors != null
-                && loginForm.get('email').valid">
+            <div *ngIf="loginFormPassword.touched && loginFormPassword.errors && loginFormEmail.valid">
               <div class="input-hint-wrapper">
                 <span
                   class=" wrap-input__message wrap-input__message--error"
-                  *ngIf="loginForm.get('password').errors['required']"
+                  *ngIf="loginFormPassword.errors['required']"
                 >
                   {{'This field is required.' | translate}}
                 </span>
                 <span
                   class="wrap-input__message wrap-input__message--error"
-                  *ngIf="loginForm.get('password').errors['passwordValidation']"
+                  *ngIf="loginFormPassword.errors['passwordValidation']"
                 >
                   {{'Current password invalid.' | translate}}
                 </span>
               </div>
             </div>
 
-            <div *ngIf="statusMessage && loginForm.get('email').valid">
+            <div *ngIf="statusMessage && loginFormEmail.valid">
               <span class="wrap-input__message wrap-input__message--error">
                 {{statusMessage | translate}}
               </span>
@@ -222,22 +210,27 @@
               type="text"
               formControlName="pin"
               inputmode="numeric"
-              [ngClass]="{'wrap-input__input--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+              [ngClass]="{
+                'wrap-input__input--error': (!pinFormCode.valid && pinFormCode.touched)
+              }"
             >
             <label
               class="wrap-input__label"
               for=""
-              [ngClass]="{'wrap-input__label--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+              [ngClass]="{'wrap-input__label--error': !pinFormCode.valid && pinFormCode.touched}"
             >{{'Authentication' | translate}}</label>
             <div
               class="wrap-input__line"
-              [ngClass]="{'wrap-input__line--error': !pinForm.get('pin').valid && pinForm.get('pin').touched}"
+              [ngClass]="{'wrap-input__line--error': !pinFormCode.valid && pinFormCode.touched}"
             ></div>
 
             <div>
-              <div class="input-hint-wrapper">
+              <div
+                class="input-hint-wrapper"
+                *ngIf="(pinFormCode.touched && pinFormCode.errors && !pinFormCode.errors['pinError'])"
+              >
                 <span
-                  *ngIf="(pinForm.get('pin').touched && pinForm.get('pin').errors != null)"
+                  *ngIf="pinFormCode.errors['required']"
                   class=" wrap-input__message wrap-input__message--error"
                 >
                   {{'This field is required.' | translate}}

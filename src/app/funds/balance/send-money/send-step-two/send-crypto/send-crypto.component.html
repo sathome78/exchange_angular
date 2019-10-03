@@ -35,7 +35,7 @@
         <div
           class="wrap-input send__wrap-input"
           *ngIf="isMerchantData"
-          [ngClass]="{'wrap-input--error': formAmount.invalid&& (formAmount.touched || isSubmited)}"
+          [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
         >
 
           <div class="daily-avaliable">{{'24h limit:' | translate}}
@@ -109,11 +109,11 @@
 
           <span class="bottom-tooltip wrap-input__message--show">
             {{
-            'Minimum sum for withdrawal' | translate
+              'Minimum sum for withdrawal' | translate
             }} {{
-            minWithdrawSum  | currencyFormat
+              minWithdrawSum  | currencyFormat
             }} {{
-            currName
+              currName
             }}
           </span>
         </div>
@@ -210,7 +210,7 @@
 
         <button
           class="btn btn--center"
-          [disabled]="form.invalid"
+          [disabled]="isDisabledForm"
           (click)="onSubmitWithdrawal()"
         >{{'Withdraw' | translate}}
           <span class="value">{{calculateData.resultAmount | currencyFormat}}</span>

@@ -81,7 +81,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   }
 
   resolvedCaptcha() {
-    const email = this.emailForm.get('email').value;
+    const email = this.emailForm.get('email').value.trim();
     this.loading = true;
     this.userService
       .checkIfEmailExists(email)

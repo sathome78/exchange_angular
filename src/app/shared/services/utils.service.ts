@@ -157,7 +157,7 @@ export class UtilsService {
   currencyFormat(
     value: number | string,
     currencyName: string = 'BTC',
-    format: 'full' | 'short' = 'short',
+    format: 'full' | 'shortest' | 'short' = 'short' ,
     setNoneForFiat: boolean = false
   ): string {
     if (!value || Number.isNaN(parseFloat(typeof value === 'string' ? value : value.toString()))) {
@@ -177,18 +177,29 @@ export class UtilsService {
       const integerPart = prettyNum(valueParts[0], { thousandsSeparator: ' ' });
       return `${integerPart}.${valuePart}`;
     }
-    return format === 'full'
-      ? prettyNum(value, {
+    if (format === 'full') {
+      return prettyNum(value, {
         thousandsSeparator: ' ',
         precision: this.fraction,
         rounding: 'fixed',
+      });
+    }
+    if (format === 'shortest') {
+      if (+value === 0) {
+        return '';
+      }
+      return prettyNum(value, {
+        thousandsSeparator: ' ',
+        precision: 0,
+        rounding: 'fixed',
+      });
+    }
+    return this.addFractionIfNeed(
+      prettyNum(value, {
+        thousandsSeparator: ' ',
+        precision: this.fraction,
       })
-      : this.addFractionIfNeed(
-          prettyNum(value, {
-            thousandsSeparator: ' ',
-            precision: this.fraction,
-          })
-        );
+    );
   }
 
   private addFractionIfNeed(value: string) {

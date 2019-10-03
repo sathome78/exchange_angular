@@ -136,6 +136,7 @@ export class UserService {
       .withEmail(email)
       .withPassword(encryptedPassword)
       .withPinCode(pin)
+      .withPinTries(tries)
       .build();
     // alert('encoded: ' +  authCandidate.password);
 
@@ -155,8 +156,6 @@ export class UserService {
       params: mParams,
       withCredentials: true,
     };
-
-    authCandidate.tries = tries;
 
     // console.log(JSON.stringify(authCandidate));
     return this.http

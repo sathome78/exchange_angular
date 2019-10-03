@@ -53,7 +53,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     let value = this.utils.deleteSpace(e.target.value);
     value = this.excludeDoubleZero(value);
     if (this.patternInput.test(value)) {
-      this.inputEl.nativeElement.value = this.currencyFormat(e, value);
+      this.inputEl.nativeElement.value = this.onCurrencyFormat(e, value);
     } else {
       if (value.length === 1) {
         this.inputEl.nativeElement.value = value.replace(e.data, '0');
@@ -63,7 +63,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     }
   }
 
-  currencyFormat(e: Event, value: string): string {
+  onCurrencyFormat(e: Event, value: string): string {
     const count = this.utils.isFiat(this.currencyName) ? 2 : 8;
     const digitParts = value.split('.');
     if (digitParts[0] && digitParts[1] && digitParts[1].length > count) {
@@ -94,7 +94,12 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
       return (this._innerValue = value);
     }
     this._innerValue = this.priceFormat(value, this.currencyName);
-    this.propagateChanges(parseFloat(this.utils.deleteSpace(value)));
+    const tempVal = parseFloat(this.utils.deleteSpace(value));
+    if (Number.isNaN(tempVal)) {
+      this.propagateChanges('');
+    } else {
+      this.propagateChanges(tempVal);
+    }
   }
 
   propagateChanges = (...any) => {};
@@ -103,7 +108,7 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
     this.propagateChanges = fn;
   }
 
-  registerOnTouched(fn: () => {}): void {
+  registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 

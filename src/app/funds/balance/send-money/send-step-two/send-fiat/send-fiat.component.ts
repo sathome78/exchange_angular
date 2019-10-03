@@ -145,11 +145,11 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   balanceClick() {
     if (+this.activeBalance > +this.minWithdrawSum) {
-      this.form.controls['amount'].setValue(this.activeBalance.toString());
+      this.formAmount.setValue(this.activeBalance.toString());
       this.calculateCommission(this.activeBalance);
       this.amountValue = this.activeBalance;
-      this.form.controls['amount'].updateValueAndValidity();
-      this.form.controls['amount'].markAsTouched();
+      this.formAmount.updateValueAndValidity();
+      this.formAmount.markAsTouched();
     }
   }
   dailyLimitClick() {
@@ -158,11 +158,11 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       if (+this.activeBalance > +this.dailyLimit) {
         amount = this.dailyLimit;
       }
-      this.form.controls['amount'].setValue(amount.toString());
+      this.formAmount.setValue(amount.toString());
       this.calculateCommission(amount);
       this.amountValue = amount;
-      this.form.controls['amount'].updateValueAndValidity();
-      this.form.controls['amount'].markAsTouched();
+      this.formAmount.updateValueAndValidity();
+      this.formAmount.markAsTouched();
     }
   }
 
@@ -179,7 +179,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   onSubmitWithdrawal() {
     this.isSubmited = true;
-    this.form.get('amount').updateValueAndValidity();
+    this.formAmount.updateValueAndValidity();
     if (this.form.valid && this.selectedMerchant.name) {
       this.isSubmited = false;
       this.isEnterData = false;
@@ -225,11 +225,11 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.fiatInfoByName.minWithdrawSum > parseFloat(this.selectedMerchant.minSum)
         ? this.fiatInfoByName.minWithdrawSum
         : parseFloat(this.selectedMerchant.minSum);
-    this.form.controls['amount'].updateValueAndValidity();
+    this.formAmount.updateValueAndValidity();
   }
 
   calculateCommission(amount) {
-    if (this.form.controls['amount'].valid && this.selectedMerchant.merchantId) {
+    if (this.formAmount.valid && this.selectedMerchant.merchantId) {
       this.balanceService
         .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -249,7 +249,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) {
+    if (event && this.formAmount.valid) {
       this.calculateCommission(this.amountValue);
     }
   }
@@ -264,9 +264,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       this.model.merchant = this.selectedMerchant.merchantId;
       this.model.merchantImage = this.selectedMerchantNested.id;
       this.model.currencyName = this.activeFiat.name || '';
-      this.model.sum = this.form.controls['amount'].value;
+      this.model.sum = this.formAmount.value;
       if (this.selectedMerchant.name !== FUG) {
-        this.model.destination = this.form.controls['address'].value;
+        this.model.destination = this.formAddress.value;
       }
 
       const data = {
@@ -329,6 +329,15 @@ export class SendFiatComponent implements OnInit, OnDestroy {
 
   get currName() {
     return this.activeFiat ? this.activeFiat.name : '';
+  }
+  get formAmount() {
+    return this.form.controls['amount'];
+  }
+  get formAddress() {
+    return this.form.controls['address'];
+  }
+  get isDisabledForm() {
+    return this.formAmount.invalid || this.formAddress.invalid || !this.searchMerchant || !this.activeFiat;
   }
 
   trackByFiatNames(index, item) {

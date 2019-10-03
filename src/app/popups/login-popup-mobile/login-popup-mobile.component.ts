@@ -9,7 +9,7 @@ import { LoggingService } from '../../shared/services/logging.service';
 import { keys, AUTH_MESSAGES } from '../../shared/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { UtilsService } from 'app/shared/services/utils.service';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
@@ -27,13 +27,12 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public recaptchaKey = keys.recaptchaKey;
   public isPasswordVisible = false;
-  public twoFaAuthModeMessage = 'Please enter two-factor authentication code that was sent to your email';
+  public twoFaAuthModeMessage = '';
   public pincodeAttempts = 0;
   public isError = false;
   public statusMessage = '';
   public inPineCodeMode;
-  public isGA = false;
-  public isGACheck = false;
+  public is2faEnabled$: Observable<boolean>;
   public currencyPair: SimpleCurrencyPair;
   public afterCaptchaMessage;
   public loading = false;
@@ -90,6 +89,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       .subscribe((pair: SimpleCurrencyPair) => {
         this.currencyPair = pair;
       });
+    this.is2faEnabled$ = this.store
+      .pipe(select(fromCore.getIs2faEnabled))
+      .pipe(takeUntil(this.ngUnsubscribe));
   }
 
   ngOnDestroy(): void {
@@ -133,6 +135,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   closeMe() {
     this.popupService.closeMobileLoginPopup();
     this.location.replaceState('dashboard');
+    this.store.dispatch(new coreActions.Set2faStatusAction(null));
   }
 
   openRegistration() {
@@ -144,28 +147,9 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  checkGoogleLoginEnabled(email: string): void {
-    this.userService
-      .getCheckTo2FAEnabled(email)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        result => {
-          this.isGACheck = true;
-          if (result) {
-            this.isGA = true;
-            this.twoFaAuthModeMessage = this.translateService.instant('Use Google Authenticator to generate pincode');
-          }
-        },
-        err => console.error(err)
-      );
-  }
-
-  setStatusMessage(err) {
+  setStatusMessage(err, is2fa) {
     this.showSendAgainBtn = false;
     if (err['status'] === 400) {
-      if (!this.isGACheck) {
-        this.checkGoogleLoginEnabled(this.email);
-      }
       if (
         err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE' ||
         err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE' ||
@@ -174,26 +158,41 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       ) {
         this.inPineCodeMode = true;
         this.setTemplate('pinCodeTemplate');
-        this.pinForm.reset();
         if (this.pincodeAttempts > 0) {
           this.isError = true;
-          this.twoFaAuthModeMessage =
-            this.pincodeAttempts === 3
-              ? this.isGA
-                ? this.translateService.instant(
-                    'Code is wrong! Please, check you code in Google Authenticator application.'
-                  )
-                : this.translateService.instant('Code is wrong! New code was sent to your email.')
-              : this.translateService.instant('Code is wrong!');
-          this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
-          this.pinForm.get('pin').patchValue('');
+          if (this.pincodeAttempts === 3) {
+            if (is2fa) {
+              this.twoFaAuthModeMessage = this.translateService.instant(
+                'Code is wrong! Please, check you code in Google Authenticator application.'
+              );
+            } else {
+              this.twoFaAuthModeMessage = this.translateService.instant(
+                'Code is wrong! New code was sent to your email.'
+              );
+            }
+          } else {
+            this.twoFaAuthModeMessage = this.translateService.instant('Code is wrong!');
+          }
         } else {
-          this.statusMessage = this.translateService.instant('Pin code is required!');
+          if (is2fa) {
+            this.twoFaAuthModeMessage = this.translateService.instant(
+              'Use Google Authenticator to generate pincode.'
+            );
+          } else {
+            this.twoFaAuthModeMessage = this.translateService.instant(
+              'Please enter two-factor authentication code that was sent to your email.'
+            );
+          }
         }
+        this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
+        this.pinFormCode.setValue('');
+        this.pinFormCode.setErrors({ pinError: true });
       } else {
+        this.setTemplate('logInTemplate');
         this.statusMessage = !AUTH_MESSAGES[err.error.title] ? '' : AUTH_MESSAGES[err.error.title];
       }
     } else {
+      this.setTemplate('logInTemplate');
       this.statusMessage = AUTH_MESSAGES.OTHER_HTTP_ERROR;
     }
   }
@@ -213,7 +212,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
       this.email = this.loginForm.get('email').value.trim();
       this.password = this.loginForm.get('password').value;
       if (this.inPineCodeMode) {
-        this.pin = this.pinForm.get('pin').value;
+        this.pin = this.pinFormCode.value;
         this.pincodeAttempts += 1;
       }
       if (this.inPineCodeMode && !this.pin) {
@@ -224,7 +223,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   sendToServer() {
-
+    this.store.dispatch(new coreActions.Load2faStatusAction(this.email));
     this.logger.debug(this, `attempt to authenticate with email: ${this.email} and password: ${this.password}`);
     this.loading = true;
     this.userService
@@ -246,10 +245,11 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         err => {
-          // console.error(err, 'sendToServerError');
-          const status = err['status'];
-          this.setTemplate('logInTemplate');
-          this.setStatusMessage(err);
+          this.is2faEnabled$.subscribe(status => {
+            if (typeof status === 'boolean') {
+              this.setStatusMessage(err, status);
+            }
+          });
           this.loading = false;
         }
       );
@@ -269,4 +269,15 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   }
 
   sendAgain() {}
+
+  get pinFormCode() {
+    return this.pinForm.controls['pin'];
+  }
+
+  get loginFormPassword() {
+    return this.loginForm.controls['password'];
+  }
+  get loginFormEmail() {
+    return this.loginForm.controls['email'];
+  }
 }
