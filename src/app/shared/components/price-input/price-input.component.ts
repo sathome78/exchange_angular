@@ -30,7 +30,6 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   @Input() public currencyLabel = '';
   @Input() public forTrading = false;
   @Input() public currencyName = '';
-  @Input() public currencyFormat: 'full' | 'shortest' | 'short' = 'short';
   @ViewChild('inputEl') inputEl: ElementRef;
   @Output() customInput: EventEmitter<any>;
   @Output() customBlur: EventEmitter<boolean>;
@@ -120,15 +119,49 @@ export class PriceInputComponent implements ControlValueAccessor, AfterViewInit 
   onBlur($event) {
     this.onTouched();
     this.writeValue($event.target.value);
+    if ($event.target.value === '') {
+      this.inputEl.nativeElement.value = '0';
+    }
     this.customBlur.emit(true);
   }
 
   priceFormat(value: string, currencyName: string = ''): string | number {
     const num = value;
     if (num) {
-      return this.utils.currencyFormat(num, undefined, this.currencyFormat);
+      if (this.utils.isFiat(currencyName)) {
+        return this.sliceFraction(num, 2);
+      }
+      return this.sliceFraction(num, 8);
     }
     return '';
+  }
+
+  sliceFraction(value: string, count: number): string {
+    const index = value.toString().indexOf('.');
+    if (index >= 0) {
+      const temp = value.toString().substr(0, index + 1 + count);
+      return this.thousandsFormat(temp, true);
+    }
+    return this.thousandsFormat(value);
+  }
+
+  private thousandsFormat(value: string, hasFraction = false): string {
+    if (hasFraction) {
+      const parts = value.split('.');
+      const integer = this.addThousandsSpace(parts[0]);
+      return `${integer}.${parts[1]}`;
+    }
+    return this.addThousandsSpace(value);
+  }
+
+  addThousandsSpace(decimalP: string): string {
+    const decimal = this.utils.deleteSpace(decimalP);
+    let i = decimal.length % 3;
+    const parts = i ? [decimal.substr(0, i)] : [];
+    for (; i < decimal.length; i += 3) {
+      parts.push(decimal.substr(i, 3));
+    }
+    return parts.join(' ');
   }
 
   setBlur() {
