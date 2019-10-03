@@ -38,7 +38,6 @@ import { BreakpointService } from 'app/shared/services/breakpoint.service';
 import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
-import * as moment from 'moment';
 import { GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT } from 'app/shared/constants';
 
 @Component({
