@@ -1,11 +1,12 @@
 .wrap-input {
   position: relative;
+
   /*--- modificators start ---*/
   &--error {
     .wrap-input__input {
       border-color: $red;
 
-      ~ .wrap-input__label {
+      ~.wrap-input__label {
         top: -5px;
         padding: 0 2px;
         color: $red;
@@ -14,11 +15,11 @@
         line-height: 12px;
       }
 
-      ~ .wrap-input__line {
+      ~.wrap-input__line {
         background-color: $red;
       }
 
-      ~ .wrap-input__message {
+      ~.wrap-input__message {
         display: inline-block;
         color: $red;
       }
@@ -65,23 +66,23 @@
     .wrap-input__input {
       border-color: #94C2FF;
 
-      ~ .wrap-input__label {
+      ~.wrap-input__label {
         color: #fff;
       }
 
-      ~ .wrap-input__line {
+      ~.wrap-input__line {
         background-color: $grey;
       }
 
       &:valid {
         border-color: $darker-blue;
 
-        ~ .wrap-input__label {
+        ~.wrap-input__label {
           color: $darker-blue;
           background-color: #fff;
         }
 
-        ~ .wrap-input__line {
+        ~.wrap-input__line {
           background-color: $darker-blue;
         }
       }
@@ -187,6 +188,7 @@
     border-radius: 4px;
     font-size: 14px;
     background-color: transparent;
+
     //&:not([value=""]){
     //  ~ .wrap-input__label {
     //    top: -5px;
@@ -201,7 +203,7 @@
       border-color: $darker-blue;
       outline: none;
 
-      ~ .wrap-input__label {
+      ~.wrap-input__label {
         top: -5px;
         left: 12px;
         padding: 0 2px;
@@ -211,13 +213,13 @@
         line-height: 12px;
       }
 
-      ~ .wrap-input__icon {
+      ~.wrap-input__icon {
         svg {
           fill: $darker-blue;
         }
       }
 
-      ~ .wrap-input__line {
+      ~.wrap-input__line {
         background-color: $darker-blue;
 
         &--error {
@@ -227,7 +229,7 @@
     }
 
     &:valid {
-      ~ .wrap-input__label {
+      ~.wrap-input__label {
         top: -5px;
         left: 12px;
         padding: 0 2px;
@@ -254,7 +256,8 @@
 
     &__input {
       height: 45px;
-      &--small{
+
+      &--small {
         height: 39px;
         border: 1px solid #94C2FF;
       }
@@ -277,88 +280,91 @@
     &--error {
       .wrap-input__input {
         border-color: $red;
-        &:valid{
-          ~ .wrap-input__label {
+
+        &:valid {
+          ~.wrap-input__label {
             color: $red;
           }
         }
-        ~ .wrap-input__label {
+
+        ~.wrap-input__label {
           color: $red;
           background-color: $dark-indigo;
         }
 
-        ~ .wrap-input__line {
+        ~.wrap-input__line {
           background-color: $red;
         }
 
-        ~ .wrap-input__message {
+        ~.wrap-input__message {
           display: inline-block;
         }
 
         &:focus {
 
-         ~ .wrap-input__label {
-           color: $light-blue;
+          ~.wrap-input__label {
+            color: $light-blue;
 
-         }
-       }
-     }
-   }
-
-   &--grey {
-    .wrap-input__input {
-      border-color: #94C2FF;
-
-      ~ .wrap-input__label {
-        color: #fff;
-      }
-
-      ~ .wrap-input__line {
-        background-color: $grey;
-      }
-
-      &:valid {
-        border-color: $light-blue;
-
-        ~ .wrap-input__label {
-          color: $light-blue;
-          background-color: $dark-indigo;
-        }
-
-        ~ .wrap-input__line {
-          background-color: $light-blue;
+          }
         }
       }
-
     }
-  }
 
-  &__icon {
-    svg {
-      fill: $light-blue;
+    &--grey {
+      .wrap-input__input {
+        border-color: #94C2FF;
+
+        ~.wrap-input__label {
+          color: #fff;
+        }
+
+        ~.wrap-input__line {
+          background-color: $grey;
+        }
+
+        &:valid {
+          border-color: $light-blue;
+
+          ~.wrap-input__label {
+            color: $light-blue;
+            background-color: $dark-indigo;
+          }
+
+          ~.wrap-input__line {
+            background-color: $light-blue;
+          }
+        }
+
+      }
     }
-  }
 
-  &__label {
-    color: $light-blue;
-  }
-
-  &__line {
-    background-color: $light-blue;
-  }
-
-  &__show-password {
-    background-image: url("assets/img/eye-line--dark-theme.svg");
-
-    &--active {
-      background-image: url("assets/img/eye--dark-theme.svg");
+    &__icon {
+      svg {
+        fill: $light-blue;
+      }
     }
-  }
 
-  &__input {
-    border-color: $light-blue;
-    background-color: transparent;
-    color: #fff;
+    &__label {
+      color: $light-blue;
+    }
+
+    &__line {
+      background-color: $light-blue;
+    }
+
+    &__show-password {
+      background-image: url("assets/img/eye-line--dark-theme.svg");
+
+      &--active {
+        background-image: url("assets/img/eye--dark-theme.svg");
+      }
+    }
+
+    &__input {
+      border-color: $light-blue;
+      background-color: transparent;
+      color: #fff;
+
       //&:not([value=""]){
       //  ~ .wrap-input__label {
       //    background-color: $dark-indigo;
@@ -367,7 +373,7 @@
       &:focus {
         border-color: $light-blue;
 
-        ~ .wrap-input__label {
+        ~.wrap-input__label {
           color: $light-blue;
           background-color: $dark-indigo;
 
@@ -377,19 +383,19 @@
           }
         }
 
-        ~ .wrap-input__icon {
+        ~.wrap-input__icon {
           svg {
             fill: $light-blue;
           }
         }
 
-        ~ .wrap-input__line {
+        ~.wrap-input__line {
           background-color: $light-blue;
         }
       }
 
       &:valid {
-        ~ .wrap-input__label {
+        ~.wrap-input__label {
           color: $light-blue;
           background-color: $dark-indigo;
 
@@ -400,18 +406,19 @@
       }
     }
 
-    &__icon {
-    }
+    &__icon {}
   }
 }
 
-.agree-terms{
+.agree-terms {
   display: flex;
   color: #A0A0A0;
 }
-.accept-icon{
+
+.accept-icon {
   margin-right: 4px;
-  svg{
+
+  svg {
     display: block;
   }
 }
@@ -426,20 +433,43 @@
 // }
 
 @media (min-width: 1200px) {
-  .dark-theme {
-  }
+  .dark-theme {}
 }
 
 /*--- DARK THEME END---*/
-.trading-wr--mobile{
- padding: 0 10px 0 13px;
- .wrap-input__input{
-  height: 33px;
-  
-}
+.trading-wr--mobile {
+  padding: 0 10px 0 13px;
+
+  .wrap-input__input {
+    height: 33px;
+
+  }
 
 }
 
 input:invalid {
-    box-shadow: none;
+  box-shadow: none;
+}
+
+
+.dark-theme {
+  .modal {
+    .ng-invalid.ng-untouched {
+      .ng-invalid.ng-touched {
+        border-color: #237BEF;
+
+        &~.wrap-input__label {
+          color: #237BEF !important;
+        }
+
+        &:focus {
+          border-color: #237BEF;
+
+          &~div .input-hint-wrapper {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
