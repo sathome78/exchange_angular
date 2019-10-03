@@ -473,3 +473,20 @@ input:invalid {
     }
   }
 }
+
+.dark-theme {
+.widget-trading{ 
+  .wrap-input__input.ng-invalid.ng-touched{
+    border-color: #94C2FF!important;
+    &~.wrap-input__label{
+      color: #94C2FF!important;
+    }
+    &:focus{
+      border-color: #94C2FF!important;
+      &~.wrap-input__label{
+        color: #94C2FF!important;
+      }
+    }
+  }
+}
+}

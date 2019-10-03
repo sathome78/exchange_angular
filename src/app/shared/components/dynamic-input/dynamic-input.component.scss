@@ -49,6 +49,7 @@ ul.select__list {
   }
   .pair-popup__input .wrap-input__label {
     left: 18px;
+    
   }
   ul.select__list {
     top: 37px;
@@ -96,3 +97,21 @@ app-balance  perfect-scrollbar > .ps.ps--active-y > .ps__rail-y{
   padding-right: 30px !important;
   text-overflow: ellipsis !important;
 }
+
+
+.pair-popup__input{
+  .dynamic-input.ng-invalid.ng-touched{
+    border-color: #94C2FF;
+    &~.wrap-input__label{
+      color: #94C2FF!important;
+    }
+    &:focus{
+      border-color: #94C2FF;
+      &~.wrap-input__label{
+        color: #94C2FF!important;
+      }
+    }
+  }
+}
+
+
