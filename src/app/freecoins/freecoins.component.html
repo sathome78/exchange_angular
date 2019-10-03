@@ -32,7 +32,7 @@
       </thead>
       <tbody class="table__body">
         <tr
-          class="table__row balance__table-row"
+          class="table__row balance__table-row no-hover"
           *ngFor="let fc of freecoinsList; trackBy: trackByFn"
         >
           <td class="table__cell">
@@ -86,7 +86,7 @@
                 [disabled]="(fc.id === +freecoinId) && loading"
                 *ngIf="!((freecoinsState[fc.id] | freecoinStatePipe: 'last_received' | disableGetCoin: fc.time_range | async) ||
                   fc.single && (freecoinsState[fc.id] | freecoinStatePipe: 'received'))"
-                class="btn btn--center btn--empty-blue btn--small btn--hidden"
+                class="btn btn--center btn--empty-blue btn--small"
                 (click)="onCheckCaptcha(fc.id)"
               >{{'Receive' | translate}}</button>
               <div
@@ -99,7 +99,7 @@
               >
                 <button
                   disabled
-                  class="btn btn--center btn--empty-blue btn--small btn--hidden"
+                  class="btn btn--center btn--empty-blue btn--small"
                 >{{'Received' | translate}}</button>
               </div>
             </div>
