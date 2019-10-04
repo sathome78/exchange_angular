@@ -31,7 +31,7 @@ export class SettingsService {
   }
 
   updateNickname(nickname: string) {
-    return this.http.put(this.getUrl(this.NICKNAME), { nickname: nickname }, { observe: 'events' });
+    return this.http.put(this.getUrl(this.NICKNAME), { nickname }, { observe: 'events' });
   }
 
   getSessionInterval(): Observable<{ data: number }> {
@@ -63,7 +63,7 @@ export class SettingsService {
   }
 
   private getUrl(end: string) {
-    return this.apiUrl + '/api/private/v2/settings/' + end;
+    return `${this.apiUrl}/api/private/v2/settings/${end}`;
   }
 
   public getCurrentVerificationStatusKYC() {
@@ -91,10 +91,10 @@ export class SettingsService {
 
   public postBankVerification(verify: BankVerification) {
     const token = localStorage.getItem('token');
-    let headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       Authorization: token,
     });
-    let options = { headers: headers };
+    const options = { headers };
     console.log(options);
 
     return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, verify, options);

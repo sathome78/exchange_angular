@@ -67,6 +67,7 @@ import { CurrencySelectFiatComponent } from './components/currency-select-fiat/c
 import { CurrencySelectCryptoComponent } from './components/currency-select-crypto/currency-select-crypto.component';
 import { TimeLeftFreeCoinsPipe } from './pipes/time-left.pipe';
 import { DisableGetFreeCoinsPipe } from './pipes/disable-get-coins.pipe';
+import { UnsubscribeGuard } from './guards/unsubscribe.guard';
 
 @NgModule({
   declarations: [
@@ -200,6 +201,7 @@ import { DisableGetFreeCoinsPipe } from './pipes/disable-get-coins.pipe';
     ConstantsService,
     RoundCurrencyPipe,
     FormatCurrencyPipe,
+    UnsubscribeGuard,
     ShowPageGuard,
     APIErrorsService,
   ],

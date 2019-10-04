@@ -40,28 +40,28 @@
             formControlName="amount"
             autocomplete="off"
           >
+            <div *ngIf="formAmount.errors">
+              <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message wrap-input__message--show"
+                  *ngIf="formAmount.errors['isMinThenMinWithdraw'] && (formAmount.touched || isSubmited)"
+                >
+                  {{'Minimum sum for transfer' | translate}} {{minWithdrawSum}} {{activeCrypto.name}}
+                </span>
+                <span
+                  class="wrap-input__message wrap-input__message--show"
+                  *ngIf="formAmount.errors['isMaxThenActiveBalance'] && (formAmount.touched || isSubmited)"
+                >
+                  {{'Max sum for transfer' | translate}} {{activeBalance}} {{activeCrypto.name}}
+                </span>
+              </div>
+            </div>
           </app-price-input>
           <span class="bottom-tooltip wrap-input__message--show">
             {{'Minimum sum for transfer' | translate}} {{minWithdrawSum}} {{activeCrypto.name}}
           </span>
 
           <!--Input error section starts-->
-          <div *ngIf="formAmount.errors">
-            <div class="input-hint-wrapper">
-              <span
-                class="wrap-input__message wrap-input__message--show"
-                *ngIf="formAmount.errors['isMinThenMinWithdraw'] && (formAmount.touched || isSubmited)"
-              >
-                {{'Minimum sum for transfer' | translate}} {{minWithdrawSum}} {{activeCrypto.name}}
-              </span>
-              <span
-                class="wrap-input__message wrap-input__message--show"
-                *ngIf="formAmount.errors['isMaxThenActiveBalance'] && (formAmount.touched || isSubmited)"
-              >
-                {{'Max sum for transfer' | translate}} {{activeBalance}} {{activeCrypto.name}}
-              </span>
-            </div>
-          </div>
         </div>
 
 

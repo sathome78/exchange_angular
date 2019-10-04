@@ -1,5 +1,7 @@
 .ieo-popup-buy{
-
+	.wrap-input__label {
+		top: 16px;
+	}
 	@media (min-width: 600px){
 		.wrap-input__label {
 			top: 16px;
@@ -31,6 +33,7 @@
 		@media (max-width: 992px){
 			color: #a0a0a0;
 			font-size: 14px;
+			line-height: 36px;
 
 		}
 	}

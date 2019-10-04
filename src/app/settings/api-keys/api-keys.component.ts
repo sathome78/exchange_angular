@@ -36,7 +36,11 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   public countPerPage = 5;
   public currentPage = 1;
 
-  constructor(public apiKeysService: ApiKeysService, private store: Store<fromCore.State>, public breakpointService: BreakpointService) {}
+  constructor(
+    public apiKeysService: ApiKeysService,
+    private store: Store<fromCore.State>,
+    public breakpointService: BreakpointService
+  ) {}
 
   ngOnInit() {
     this.calculateHeightScrollContainer();
@@ -49,9 +53,9 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
 
     this.loading$ = this.store.pipe(select(fromCore.getApiKeyLoading));
     this.store
-      .pipe(select(fromCore.getGAStatus))
+      .pipe(select(fromCore.getIs2faEnabled))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
+      .subscribe((res: boolean) => {
         this.GAEnabled = res;
       });
   }
@@ -169,7 +173,8 @@ export class ApiKeysComponent implements OnInit, OnDestroy {
   existingName(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
-      return !!this.apiKeys.filter(item => item.alias.toLowerCase() === value.toLowerCase()).length ? { existKeyName: true } : null;
+      return !!this.apiKeys
+        .filter(item => item.alias.toLowerCase() === value.toLowerCase()).length ? { existKeyName: true } : null;
     };
   }
 

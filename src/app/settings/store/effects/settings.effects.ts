@@ -29,22 +29,6 @@ export class SettingsEffects {
   ) {}
 
   /**
-   * Load GA status
-   */
-  @Effect()
-  loadGAStatus$: Observable<Action> = this.actions$
-    .pipe(ofType<settingsActions.LoadGAStatusAction>(settingsActions.LOAD_GA_STATUS))
-    .pipe(withLatestFrom(this.store$.pipe(select(fromCore.getUserInfo))))
-    .pipe(
-      switchMap(([action, userInfo]: [settingsActions.LoadGAStatusAction, ParsedToken]) => {
-        return this.userService.getUserGoogleLoginEnabled(userInfo.username).pipe(
-          map(status => new settingsActions.SetGAStatusAction(status)),
-          catchError(error => of(new settingsActions.FailLoadGAStatusAction(error)))
-        );
-      })
-    );
-
-  /**
    * Load session time
    */
   @Effect()
@@ -63,12 +47,14 @@ export class SettingsEffects {
    * Load api keys
    */
   @Effect()
-  loadApiKeys$: Observable<Action> = this.actions$.pipe(ofType<settingsActions.LoadApiKeysAction>(settingsActions.LOAD_API_KEYS)).pipe(
-    switchMap(() => {
-      return this.apiKeysService.getApiKeys().pipe(
-        map((res: ApiKeyItem[]) => new settingsActions.SetApiKeysAction(res)),
-        catchError(error => of(new settingsActions.FailLoadApiKeysAction(error)))
-      );
-    })
-  );
+  loadApiKeys$: Observable<Action> = this.actions$
+    .pipe(ofType<settingsActions.LoadApiKeysAction>(settingsActions.LOAD_API_KEYS))
+    .pipe(
+      switchMap(() => {
+        return this.apiKeysService.getApiKeys().pipe(
+          map((res: ApiKeyItem[]) => new settingsActions.SetApiKeysAction(res)),
+          catchError(error => of(new settingsActions.FailLoadApiKeysAction(error)))
+        );
+      })
+    );
 }

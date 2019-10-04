@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription, Subject, of } from 'rxjs';
+import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
+import { takeUntil } from 'rxjs/operators';
+import { State } from 'app/core/reducers/index';
+import { Store } from '@ngrx/store';
+import * as dashboardActions from 'app/dashboard/actions/dashboard.actions';
 
 @Component({
   selector: 'app-main-page',
@@ -6,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent implements OnInit {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   public slides = [];
   public slideConfig = {
     slidesToShow: 6,
@@ -16,7 +23,41 @@ export class MainPageComponent implements OnInit {
     dots: false,
   };
 
-  constructor() {}
+  public loading = false;
+  private marketsSub$: Subscription;
 
-  ngOnInit() {}
+  constructor(
+    private dashboardWebsocketService: DashboardWebSocketService,
+    private store: Store<State>
+  ) {}
+
+  ngOnInit() {
+    this.subscribeMarkets();
+  }
+
+  subscribeMarkets(): void {
+    this.unsubscribeMarkets();
+    this.loadingStarted();
+    this.marketsSub$ = this.dashboardWebsocketService
+      .marketsSubscription()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(data));
+        this.loadingFinished();
+      });
+  }
+
+  unsubscribeMarkets() {
+    if (this.marketsSub$) {
+      this.marketsSub$.unsubscribe();
+    }
+  }
+
+  private loadingFinished(): void {
+    this.loading = false;
+  }
+  private loadingStarted(): void {
+    this.loading = true;
+  }
+
 }

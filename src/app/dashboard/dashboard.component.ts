@@ -15,6 +15,8 @@ import { CurrencyPair } from 'app/model';
 import * as dashboardActions from './actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Location } from '@angular/common';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -64,7 +66,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataService: DashboardService,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private utilsService: UtilsService,
+    private userService: UserService,
     private popupService: PopupService,
     private store: Store<fromCore.State>
   ) {}
@@ -146,6 +150,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (params && params['currency-pair']) {
         const currencyPair: string = params['currency-pair'];
         this.findAndSetActiveCurrencyPair(currencyPair.replace('-', '/'));
+        this.location.replaceState('dashboard');
       }
     });
   }
@@ -185,6 +190,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
           this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
           this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
+          this.userService.getUserBalance(newActivePair);
         }
       });
   }

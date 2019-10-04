@@ -7,8 +7,7 @@ import { Subject } from 'rxjs';
 import { PopupService } from '../../shared/services/popup.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilsService } from '../../shared/services/utils.service';
-import { keys } from '../../shared/constants';
-import { AUTH_MESSAGES } from '../../shared/constants';
+import { keys, AUTH_MESSAGES } from '../../shared/constants';
 import { GtagService } from '../../shared/services/gtag.service';
 
 @Component({
@@ -53,7 +52,11 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   initForm() {
     this.emailForm = new FormGroup({
       email: new FormControl('', {
-        validators: [Validators.required, this.utilsService.emailValidator(), this.utilsService.specialCharacterValidator()],
+        validators: [
+          Validators.required,
+          this.utilsService.emailValidator(),
+          this.utilsService.specialCharacterValidator(),
+        ],
         // asyncValidators: [this.userService.emailValidator(true)]
       }),
     });
@@ -78,7 +81,7 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
   }
 
   resolvedCaptcha() {
-    const email = this.emailForm.get('email').value;
+    const email = this.emailForm.get('email').value.trim();
     this.loading = true;
     this.userService
       .checkIfEmailExists(email)
@@ -110,7 +113,8 @@ export class RecoveryPassComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error => {
-          this.afterCaptchaMessage = this.translateService.instant('Service is temporary unavailable, please try again later.');
+          this.afterCaptchaMessage =
+            this.translateService.instant('Service is temporary unavailable, please try again later.');
           this.setTemplate('emailConfirmLinkTemplate');
           this.loading = false;
         }

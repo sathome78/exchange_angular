@@ -86,7 +86,7 @@
   &__row {
     display: none;
     position: relative;
-
+    background: transparent;
     &:nth-of-type(odd) {
       background-color: #f4f8fe;
     }
@@ -386,3 +386,13 @@
 
   }
 }
+
+.freecoins-table-container{
+.table__row:hover {
+  background-color: transparent;
+}
+.table__row:nth-of-type(odd):hover {
+  background-color: #191f42;
+}
+}
+

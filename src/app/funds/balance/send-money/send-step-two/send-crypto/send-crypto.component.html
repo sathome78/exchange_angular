@@ -35,7 +35,7 @@
         <div
           class="wrap-input send__wrap-input"
           *ngIf="isMerchantData"
-          [ngClass]="{'wrap-input--error': formAmount.invalid&& (formAmount.touched || isSubmited)}"
+          [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
         >
 
           <div class="daily-avaliable">{{'24h limit:' | translate}}
@@ -63,60 +63,59 @@
             name="amount"
             formControlName="amount"
           >
+            <!--Input error section starts-->
+            <div *ngIf="formAmount.errors">
+              <div class="input-hint-wrapper">
+                <span
+                  class="wrap-input__message wrap-input__message--show"
+                  *ngIf="formAmount.errors['isMinThenMinWithdraw'] &&  (formAmount.touched || isSubmited)"
+                >
+                  {{
+                    'Minimum sum for withdrawal' | translate
+                  }} {{
+                    minWithdrawSum | currencyFormat
+                  }} {{
+                    currName
+                  }}
+                </span>
+                <span
+                  class="wrap-input__message wrap-input__message--show"
+                  *ngIf="formAmount.errors['isMaxThenActiveBalance'] && (formAmount.touched || isSubmited)"
+                >
+                  {{
+                    'Your available balance:' | translate
+                  }} {{
+                    activeBalance | currencyFormat
+                  }} {{
+                    currName
+                  }}
+                </span>
+                <span
+                  class="wrap-input__message wrap-input__message--show"
+                  *ngIf="formAmount.errors['isMaxThenDailyLimit'] && (formAmount.touched || isSubmited)"
+                >
+                  {{
+                    'Your 24h limit to withdrawal:' | translate
+                  }} {{
+                    dailyLimit | currencyFormat
+                  }} {{
+                    currName
+                  }}
+                </span>
+              </div>
+            </div>
+            <!--Input error section ends-->
           </app-price-input>
 
           <span class="bottom-tooltip wrap-input__message--show">
             {{
-            'Minimum sum for withdrawal' | translate
+              'Minimum sum for withdrawal' | translate
             }} {{
-            minWithdrawSum  | currencyFormat
+              minWithdrawSum  | currencyFormat
             }} {{
-            currName
+              currName
             }}
           </span>
-
-          <!--Input error section starts-->
-          <div *ngIf="formAmount.errors != null">
-            <div class="input-hint-wrapper">
-              <span
-                class="wrap-input__message wrap-input__message--show"
-                *ngIf="formAmount.errors['isMinThenMinWithdraw'] &&  (formAmount.touched || isSubmited)"
-              >
-                {{
-                  'Minimum sum for withdrawal' | translate
-                }} {{
-                  minWithdrawSum | currencyFormat
-                }} {{
-                  currName
-                }}
-              </span>
-              <span
-                class="wrap-input__message wrap-input__message--show"
-                *ngIf="formAmount.errors['isMaxThenActiveBalance'] && (formAmount.touched || isSubmited)"
-              >
-                {{
-                  'Your available balance:' | translate
-                }} {{
-                  activeBalance | currencyFormat
-                }} {{
-                  currName
-                }}
-              </span>
-              <span
-                class="wrap-input__message wrap-input__message--show"
-                *ngIf="formAmount.errors['isMaxThenDailyLimit'] && (formAmount.touched || isSubmited)"
-              >
-                {{
-                  'Your 24h limit to withdrawal:' | translate
-                }} {{
-                  dailyLimit | currencyFormat
-                }} {{
-                  currName
-                }}
-              </span>
-            </div>
-          </div>
-          <!--Input error section ends-->
         </div>
       </div>
 
@@ -210,8 +209,9 @@
         </div>
 
         <button
+          [id]="currName === 'BTC' ? 'analytics-modal-withdraw-btc': currName === 'ETH' ? 'analytics-modal-withdraw-eth': ''"
           class="btn btn--center"
-          [disabled]="form.invalid"
+          [disabled]="isDisabledForm"
           (click)="onSubmitWithdrawal()"
         >{{'Withdraw' | translate}}
           <span class="value">{{calculateData.resultAmount | currencyFormat}}</span>

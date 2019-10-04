@@ -158,6 +158,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.activeFiat = currency;
     this.toggleCurrencyDropdown();
     this.getDataByCurrency(currency.name);
+    this.form.updateValueAndValidity();
   }
 
   private getDataByCurrency(currencyName) {
@@ -206,9 +207,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     } else {
       this.formAmout.setValidators([Validators.required, this.minCheck.bind(this)]);
     }
-    this.formAmout.updateValueAndValidity();
     this.togglePaymentSystemDropdown();
     this.setMinRefillSum();
+    this.formAmout.updateValueAndValidity();
   }
 
   initForm() {

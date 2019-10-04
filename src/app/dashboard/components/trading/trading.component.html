@@ -50,6 +50,7 @@
     <div class="row row--jcsb row--aic widget__trading-row">
       <div class="dropdown widget__limit-dropdown">
         <div
+          [id]="'analytics-trading-' + limit.replace('_', '-').toLowerCase()"
           class="dropdown__btn"
           *ngFor="let limit of limitsData"
           [ngClass]="{'selectedButton': dropdownLimitValue === limit}"
@@ -490,7 +491,7 @@
   >
     <div
       class="trading-notification__close"
-      (click)="notifyFailRestricted = false"
+      (click)="closeNotifyFailRestricted()"
     >
       <svg
         width="8"
@@ -525,11 +526,13 @@
         </svg>
       </div>
       <div class="trading-notification__text">
-        <p>{{'You are not allowed to trade this pair. You should proceed KYC!' | translate}}</p>
+        <p>{{notifyFailRestrictedBody}}</p>
         <button
+          *ngIf="notifyFailShowKycBtn"
           class="btn btn--empty-blue btn--small btn-margin"
           (click)="redirectToVerification()"
-        ><span class="menu__link-text">{{'Proceed KYC' | translate}}</span>
+        >
+          <span class="menu__link-text">{{'Proceed KYC' | translate}}</span>
         </button>
       </div>
     </div>

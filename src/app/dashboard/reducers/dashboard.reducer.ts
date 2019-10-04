@@ -80,7 +80,7 @@ export function reducer(state: State = INIT_STATE, action: dashboard.Actions) {
     case dashboard.SET_CURRENCY_PAIRS_FOR_MARKET:
       return {
         ...state,
-        marketsCurrencyPairsMap: createMarketsCurrencyPairsMap(state, action.payload),
+        marketsCurrencyPairsMap: createMarketsCurrencyPairsMap(state, action.payload || []),
       };
     case dashboard.SET_CURRENCY_PAIRS:
       return {

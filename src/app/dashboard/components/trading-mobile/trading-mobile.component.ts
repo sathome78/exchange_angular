@@ -66,6 +66,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
   public notifySuccess = false;
   public notifyFail = false;
   public notifyFailRestricted = false;
+  public notifyFailRestrictedBody = '';
+  public notifyFailShowKycBtn = false;
   public message = '';
   public errorMessages = [];
   public order;
@@ -784,8 +786,25 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
 
   private createOrderRestrictedFail() {
     this.notifyFailRestricted = true;
+    this.notifyFailRestrictedBody =
+      this.translateService.instant('Sorry, you are not allowed to trade this pair!');
+    this.notifyFailShowKycBtn = false;
     this.loading = false;
     this.cdr.detectChanges();
+  }
+  private createOrderNeedKycFail() {
+    this.notifyFailRestricted = true;
+    this.notifyFailRestrictedBody =
+      this.translateService.instant('Sorry, you must pass verification to trade this pair!');
+    this.notifyFailShowKycBtn = true;
+    this.loading = false;
+    this.cdr.detectChanges();
+  }
+
+  closeNotifyFailRestricted() {
+    this.notifyFailRestricted = false;
+    this.notifyFailRestrictedBody = '';
+    this.notifyFailShowKycBtn = false;
   }
 
   private checkErrorCode(err) {
@@ -799,6 +818,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
     } else if (err.status === 451) {
       if (err.error.errorCode === 'ORDER_CREATION_RESTRICTED') {
         this.createOrderRestrictedFail();
+      } else if (err.error.errorCode === 'NEED_VERIFICATION_EXCEPTION') {
+        this.createOrderNeedKycFail();
       }
     } else if (err.error.cause === 'OpenApiException') {
       this.errorMessages.push(err.error.detail);
