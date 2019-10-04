@@ -209,6 +209,7 @@
         </div>
 
         <button
+          [id]="currName === 'BTC' ? 'analytics-modal-withdraw-btc': currName === 'ETH' ? 'analytics-modal-withdraw-eth': ''"
           class="btn btn--center"
           [disabled]="isDisabledForm"
           (click)="onSubmitWithdrawal()"

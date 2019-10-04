@@ -50,6 +50,7 @@
     <div class="row row--jcsb row--aic widget__trading-row">
       <div class="dropdown widget__limit-dropdown">
         <div
+          [id]="'analytics-trading-' + limit.replace('_', '-').toLowerCase()"
           class="dropdown__btn"
           *ngFor="let limit of limitsData"
           [ngClass]="{'selectedButton': dropdownLimitValue === limit}"
