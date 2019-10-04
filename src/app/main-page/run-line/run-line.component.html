@@ -27,7 +27,7 @@
           </span>
         </div>
         <div class="course">
-          <span>{{pair.lastOrderRate | currencyFormat}}</span>
+          <span>{{pair.lastOrderRate | currencyFormat | orderBookCutBigNum: 11}}</span>
         </div>
         <div class="direction">
           <span [ngClass]="{'up' : isChangePositive(pair), 'down' : !isChangePositive(pair)}"></span>

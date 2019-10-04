@@ -8,7 +8,7 @@ export const environment = {
   production: false,
   apiUrl: DEV_HOST,
   showContent: true,
-  captcha: true,
+  captcha: false,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
 };
 

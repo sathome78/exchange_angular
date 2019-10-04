@@ -544,21 +544,21 @@
     }
 
     .course {
-      width: 50%;
+      width: 70%;
 
       span {
         font-weight: 700;
-        font-size: 21px;
+        font-size: 18px;
         line-height: 1.25;
         color: #ffffff;
 
         @media(max-width: 992px) {
-          font-size: 17px;
+          font-size: 14px;
         }
       }
     }
     .direction {
-      width: 50%;
+      width: 30%;
       display: flex;
 
       .up {
@@ -570,7 +570,7 @@
           content: "";
           position: absolute;
           top: 0;
-          right: 20px;
+          right: 14px;
           left: 0;
           bottom: 0;
           background-image: url(assets/img/arr-up-green.svg);
