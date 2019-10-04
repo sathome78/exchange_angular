@@ -126,6 +126,10 @@ export class DynamicInputDashboardComponent implements OnChanges {
     this.arrowKeyLocation = +e.target.dataset['key'];
   }
 
+  onClick(e) {
+    e.target.select();
+  }
+
   closeDropdown(): void {
     this.showDropdown = false;
   }

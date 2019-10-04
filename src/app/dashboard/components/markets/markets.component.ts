@@ -130,9 +130,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .marketsSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
-        const parsedData = JSON.parse(data[0]);
-        // console.log('markets', parsedData);
-        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data));
+        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(data));
         this.loadingFinished();
         this.cdr.detectChanges();
       });

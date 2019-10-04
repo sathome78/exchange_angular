@@ -123,7 +123,10 @@
         {{'Send only' | translate}} <b>{{activeCrypto.name}} </b>
         {{'to this deposit address.'  | translate}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
       </li>
-      <li class="note__list-item note__list-item__warning">
+      <li
+        class="note__list-item note__list-item__warning"
+        *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData[0].additionalFieldName && !!additionalAddress"
+      >
         {{'If the MEMO-text, TAG is not included in your transfer, we cannot credit your account, your funds being lost. Please do not deposit unless you make sure that you can specify a MEMO, TAG.' | translate}}
       </li>
     </ul>

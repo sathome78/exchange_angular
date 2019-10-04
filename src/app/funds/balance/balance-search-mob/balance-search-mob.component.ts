@@ -67,7 +67,8 @@ export class BalanceSearchMobComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   onSearch(value) {
-    this.viewCurrencies = this.defaultCurrencies.filter(f => f.currencyName.toLowerCase().includes(value.toLowerCase()));
+    this.viewCurrencies = this.defaultCurrencies
+      .filter(f => f.currencyName.toLowerCase().includes(value.toLowerCase()));
   }
 
   private getCryptoBalances() {

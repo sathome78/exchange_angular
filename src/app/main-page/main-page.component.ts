@@ -42,8 +42,7 @@ export class MainPageComponent implements OnInit {
       .marketsSubscription()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
-        const parsedData = JSON.parse(data[0]);
-        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(parsedData.data));
+        this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(data));
         this.loadingFinished();
       });
   }
