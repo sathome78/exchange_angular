@@ -335,6 +335,7 @@
   >
     <div class="tabs widget__tabs markets-type-tabs">
       <button
+        id="analytics-markets-top-market"
         class="tabs__item  tabs__item--active"
         [ngClass]="{'tabs__item--active': isTopMarket && currencyDisplayMode !== 'FAVORITES','tab-no-active': !isTopMarket}"
         (click)="toggleIsTopMarket(true)"
@@ -342,6 +343,7 @@
         {{'Top Market' | translate}}
       </button>
       <button
+        id="analytics-markets-junior-market"
         class="tabs__item"
         [ngClass]="{'tabs__item--active': !isTopMarket && currencyDisplayMode !== 'FAVORITES','tab-no-active': isTopMarket}"
         (click)="toggleIsTopMarket(false)"
@@ -484,6 +486,7 @@
     </div>
     <div class="widget__search">
       <input
+        id="analytics-markets-search-currency-pairs"
         class="widget__search-input"
         type="text"
         required=""
