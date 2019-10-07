@@ -205,8 +205,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       this.router.navigate(['/dashboard'], {
         queryParams: { widget: 'trading' },
       });
-    } else if (this.route.snapshot.paramMap.get('currency-pair')) {
-      this.router.navigate(['/']);
     }
     this.marketSearch = false;
   }
