@@ -105,10 +105,7 @@
 
         <div
           class="wrap-input send__wrap-input"
-          [ngClass]="{
-          'wrap-input--error': formPeriod.invalid && (formPeriod.touched ||
-          isSubmited)
-          }"
+          [ngClass]="{'wrap-input--error': formPeriod.invalid && (formPeriod.touched || isSubmited)}"
         >
           <input
             appOnlyNumbers="true"
@@ -126,11 +123,11 @@
 
           <span class="bottom-tooltip wrap-input__message--show">
             {{
-            'Min period is ' | translate
+              'Min period is ' | translate
             }} {{
-            minPeriod
+              minPeriod
             }} {{
-            ' minute' | translate
+              ' minute' | translate
             }}
           </span>
 
@@ -143,11 +140,11 @@
                 isSubmited)"
               >
                 {{
-                'Min period is:' | translate
+                  'Min period is:' | translate
                 }} {{
-                minPeriod
+                  minPeriod
                 }} {{
-                ' minute' | translate
+                  ' minute' | translate
                 }}
               </span>
               <span
@@ -156,11 +153,11 @@
                 isSubmited)"
               >
                 {{
-                'Max period is:' | translate
+                  'Max period is:' | translate
                 }} {{
-                maxPeriod
+                  maxPeriod
                 }} {{
-                ' minute (one week)' | translate
+                  ' minute (one week)' | translate
                 }}
               </span>
             </div>
@@ -170,10 +167,7 @@
         </div>
         <div
           class="wrap-input send__wrap-input"
-          [ngClass]="{
-          'wrap-input--error': formPrize.invalid && (formPrize.touched ||
-          isSubmited)
-          }"
+          [ngClass]="{'wrap-input--error': formPrize.invalid && (formPrize.touched || isSubmited)}"
         >
           <app-price-input
             [placeholder]="activeCurrency.name + ' prize Amount'"
@@ -185,11 +179,11 @@
 
           <span class="bottom-tooltip wrap-input__message--show">
             {{
-            'Min amount is' | translate
+              'Min amount is' | translate
             }} {{
-            minPrize | currencyFormat
+              minPrize | currencyFormat
             }} {{
-            activeCurrency.name
+              activeCurrency.name
             }}
           </span>
 
@@ -198,28 +192,26 @@
             <div class="input-hint-wrapper">
               <span
                 class="wrap-input__message wrap-input__message--show"
-                *ngIf="formPrize.errors['maxPrize'] && (formPrize.touched ||
-                isSubmited)"
+                *ngIf="formPrize.errors['maxPrize'] && (formPrize.touched || isSubmited)"
               >
                 {{
-                'Max amount is:' | translate
+                  'Max amount is:' | translate
                 }} {{
-                maxPrize | currencyFormat
+                  maxPrize | currencyFormat
                 }} {{
-                activeCurrency.name
+                  activeCurrency.name
                 }}
               </span>
               <span
                 class="wrap-input__message wrap-input__message--show"
-                *ngIf="formPrize.errors['minPrize'] && (formPrize.touched ||
-                isSubmited)"
+                *ngIf="formPrize.errors['minPrize'] && (formPrize.touched || isSubmited)"
               >
                 {{
-                'Min amount is:' | translate
+                  'Min amount is:' | translate
                 }} {{
-                minPrize | currencyFormat
+                  minPrize | currencyFormat
                 }} {{
-                activeCurrency.name
+                  activeCurrency.name
                 }}
               </span>
             </div>
@@ -281,16 +273,13 @@
   <div class="note__title">{{'Please note:' | translate}}</div>
   <ul class="note__list">
     <li class="note__list-item">
-      {{'Create your own marketing campaign by giving away free coins' |
-      translate}}.
+      {{'Create your own marketing campaign by giving away free coins' | translate}}.
     </li>
     <li class="note__list-item">
-      {{'To confirm give coins, you will need to enter 2fa code (from letter or
-      google app)' | translate}}.
+      {{'To confirm give coins, you will need to enter 2fa code (from letter or google app)' | translate}}.
     </li>
     <li class="note__list-item">
-      {{'After making a give away, you can see this operation in transaction
-      history page' | translate}}.
+      {{'After making a give away, you can see this operation in transaction history page' | translate}}.
     </li>
   </ul>
 </div>
