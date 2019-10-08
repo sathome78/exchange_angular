@@ -5,14 +5,12 @@ import { AsyncValidatorFn, AbstractControl } from '@angular/forms';
 import { map, catchError } from 'rxjs/internal/operators';
 import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-
 import { environment } from '../../../environments/environment';
 import { AuthService } from './auth.service';
 import { LangService } from './lang.service';
 import { AuthCandidate } from '../../model/auth-candidate.model';
 import { LoggingService } from './logging.service';
 import { TokenHolder } from '../../model/token-holder.model';
-import { State } from '../../dashboard/reducers/dashboard.reducer';
 import { RefreshUserBalanceAction } from '../../dashboard/actions/dashboard.actions';
 import { defaultUserBalance } from '../../dashboard/reducers/default-values';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
