@@ -26,7 +26,8 @@ EXPOSE 80
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 #RUN $(npm bin)/ng build --aot -c $PROFILE
-RUN $(npm bin)/ng build --aot -c $ENVIRONMENT
+#RUN $(npm bin)/ng build --aot -c $ENVIRONMENT
+RUN $(npm bin)/ng serve --aot -c $ENVIRONMENT
 
 ### STAGE 2: Setup ###
 
