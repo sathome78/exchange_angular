@@ -71,6 +71,10 @@ b {
   position: relative;
   min-height: 100%;
   color: #000;
+  @media(max-width: 1199px){
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .dark-theme {
