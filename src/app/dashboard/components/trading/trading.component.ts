@@ -936,12 +936,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       return 0;
     }
 
-    const lastItem = orders.find(el => +el.total >= +balance);
-    if (lastItem) {
-      const rate = lastItem.total / lastItem.sumAmount;
-      return balance / rate;
-    }
-    return +orders[orders.length - 1].sumAmount;
+    const lastItem = orders[orders.length - 1];
+    const rate = lastItem.total / lastItem.sumAmount; // getting the average price
+    return balance / rate;
   }
 
   calcSellMarketOrder(orders, balance = 0) {
