@@ -67,6 +67,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
    */
   cancelOrder(order): void {
     this.loading = true;
+    this.showCancelOrderConfirm = null;
     this.ordersService
       .deleteOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))

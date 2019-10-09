@@ -948,11 +948,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (!orders.length) {
       return 0;
     }
-
-    const lastItem = orders[0];
-    if (+lastItem.sumAmount < +balance) {
-      return +lastItem.sumAmount;
-    }
     return +balance;
   }
 
