@@ -13,9 +13,12 @@ import {
   getUserInfo
 } from 'app/core/reducers/index';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import { LoadHistoryOrdersAction, SetHistoryOrdersAction } from 'app/dashboard/actions/dashboard.actions';
+import {
+  LoadHistoryOrdersAction,
+  SetHistoryOrdersAction,
+  SetOpenOrdersAction
+} from 'app/dashboard/actions/dashboard.actions';
 import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
-import { SetOpenOrdersAction } from 'app/orders/store/actions/orders.actions';
 
 @Component({
   selector: 'app-embedded-orders',
@@ -35,12 +38,8 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   public openOrdersCount$: Observable<number>;
   public loading$: Observable<boolean>;
 
-  constructor(
-    private store: Store<State>,
-    private dashboardService: DashboardWebSocketService
-  ) {
+  constructor(private store: Store<State>, private dashboardService: DashboardWebSocketService) {
     super();
-
   }
 
   ngOnInit() {
@@ -102,7 +101,21 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   }
 
   toOpenOrders(): void {
-    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name, this.userInfo.publicId);
+    this.loadOpenOrdersDashboard(this.activeCurrencyPair.name, this.userInfo.publicId);
+  }
+
+  loadOpenOrdersDashboard(pairName: string, publicId: string) {
+    this.dashboardService
+      .openOrdersSubscription(pairName, publicId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data: any) => {
+        this.store.dispatch(
+          new SetOpenOrdersAction({
+            openOrders: data,
+            count: data.length,
+          })
+        );
+      });
   }
 
   toHistory(): void {

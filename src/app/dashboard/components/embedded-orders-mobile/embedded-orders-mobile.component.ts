@@ -91,7 +91,21 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   }
 
   toOpenOrders(): void {
-    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name, this.userInfo.publicId);
+    this.loadOpenOrdersDashboard(this.activeCurrencyPair.name, this.userInfo.publicId);
+  }
+
+  loadOpenOrdersDashboard(pairName: string, publicId: string) {
+    this.dashboardService
+      .openOrdersSubscription(pairName, publicId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data: any) => {
+        this.store.dispatch(
+          new SetOpenOrdersAction({
+            openOrders: data,
+            count: data.length,
+          })
+        );
+      });
   }
 
   toHistory(): void {
