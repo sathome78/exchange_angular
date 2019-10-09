@@ -152,8 +152,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
         validators: [
           Validators.required,
           this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(40),
         ],
       }),
     });
@@ -161,6 +159,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   subEmailNotification() {
     this.isSubmited = true;
+    this.emailForm.get('email').updateValueAndValidity();
     this.emailForm.get('email').markAsTouched();
     if (this.emailForm.valid) {
       this.ieoService
