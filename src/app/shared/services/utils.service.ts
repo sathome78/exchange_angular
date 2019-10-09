@@ -57,15 +57,15 @@ export class UtilsService {
 
   emailValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const forbidden = new RegExp(this.pattern).test(control.value ? control.value.trim() : '');
-      const excludeCyrilic = new RegExp(this.checkCyrilic).test(control.value ? control.value.trim() : '');
+      const forbidden = new RegExp(this.pattern).test(control.value);
+      const excludeCyrilic = new RegExp(this.checkCyrilic).test(control.value);
       return forbidden && !excludeCyrilic ? null : { emailInvalid: { value: control.value.trim() } };
     };
   }
 
   specialCharacterValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const forbidden = new RegExp(this.forbiddenSymbolsEmailRegex).test(control.value ? control.value.trim() : '');
+      const forbidden = new RegExp(this.forbiddenSymbolsEmailRegex).test(control.value);
       return !forbidden ? null : { specialCharacter: { value: control.value.trim() } };
     };
   }
