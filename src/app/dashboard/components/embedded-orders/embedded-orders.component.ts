@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, Observable, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators';
+import { takeUntil, withLatestFrom } from 'rxjs/internal/operators';
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { select, Store } from '@ngrx/store';
 import {
@@ -40,12 +40,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
     private dashboardService: DashboardWebSocketService
   ) {
     super();
-    this.store
-      .pipe(select(getUserInfo))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((userInfo: ParsedToken) => {
-        this.userInfo = userInfo;
-      });
+
   }
 
   ngOnInit() {
@@ -57,8 +52,10 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
 
     this.store
       .pipe(select(getActiveCurrencyPair))
+      .pipe(withLatestFrom(this.store.select(getUserInfo)))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: SimpleCurrencyPair) => {
+      .subscribe(([pair, userInfo]: [SimpleCurrencyPair, ParsedToken]) => {
+        this.userInfo = userInfo;
         this.activeCurrencyPair = pair;
         this.resetOrders();
         this.toOpenOrders();
@@ -105,7 +102,7 @@ export class EmbeddedOrdersComponent extends AbstractDashboardItems implements O
   }
 
   toOpenOrders(): void {
-    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name);
+    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name, this.userInfo.publicId);
   }
 
   toHistory(): void {
