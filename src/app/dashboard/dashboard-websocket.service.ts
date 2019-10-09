@@ -87,22 +87,22 @@ export class DashboardWebSocketService implements OnDestroy {
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
-  openOrdersSubscription(pairName: string): any {
+  openOrdersSubscription(pairName: string, publicId: string): any {
     const pn = pairName.toLowerCase().replace('/', '_');
     const headers = {
       [EXRATES_REST_TOKEN]: localStorage.getItem(TOKEN),
     };
     return this.stompService
-      .watch(`/user/queue/open_orders/${pn}`, headers)
+      .watch(`/app/orders/open/${pn}/${publicId}`, headers)
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
-  loadOpenOrdersDashboard(pairName) {
+  loadOpenOrdersDashboard(pairName: string, publicId: string) {
     this.unsubscribeOpenOrders();
     this.openOrdersSub$ =
       this.sessionIdsubject
         .pipe(filter(id => !!id))
-        .pipe(mergeMap(() => this.openOrdersSubscription(pairName)))
+        .pipe(mergeMap(() => this.openOrdersSubscription(pairName, publicId)))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((data: any) => {
           this.store.dispatch(new dashboardActions.SetOpenOrdersAction({
