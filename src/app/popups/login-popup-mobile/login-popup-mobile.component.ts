@@ -242,6 +242,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.store.dispatch(new coreActions.SetOnLoginAction(parsedToken));
           this.popupService.closeMobileLoginPopup();
           this.userService.getUserBalance(this.currencyPair);
+          this.redirectTo();
           this.loading = false;
         },
         err => {
@@ -253,6 +254,12 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       );
+  }
+
+  redirectTo() {
+    if (this.utilsService.isMainPage) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   getInputType(): string {
