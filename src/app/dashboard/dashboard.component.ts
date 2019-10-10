@@ -17,15 +17,17 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { Location } from '@angular/common';
 import { UserService } from 'app/shared/services/user.service';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  animations: [Animations.componentTriggerShow, Animations.componentTriggerMove],
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
+  public showContent = false;
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
 
@@ -74,6 +76,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+
+    const that = this;
+    setTimeout(function(){
+      that.showContent = true;
+    },5700)
+
+
+
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
       if (widget) {

@@ -411,7 +411,10 @@
         {{'FAV' | translate}}
       </button>
     </div>
-    <div class="markets__table">
+    <div
+      class="markets__table"
+      [@showOrderBook]="showContent4 ? 'show' : 'hide' "
+    >
       <div class="markets__thead">
         <div
           class="table__cell-head table__cell-head--tac table__cell-head--p4"

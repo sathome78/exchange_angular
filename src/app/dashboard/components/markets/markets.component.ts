@@ -17,11 +17,13 @@ import { Subscription } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UserService } from '../../../shared/services/user.service';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-markets',
   templateUrl: 'markets.component.html',
   styleUrls: ['markets.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
@@ -56,6 +58,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public volumeOrderDirection = 'NONE';
   public selectedCurrencyPair: CurrencyPair;
   public scrollHeight = 0;
+  public showContent4 = false;
 
   @ViewChild('mobileContainer') mobileContainer: ElementRef;
 
@@ -74,6 +77,11 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnInit() {
+
+    setTimeout(() => {
+      this.showContent4 = true;
+      this.cdr.detectChanges();
+    },6000)
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))

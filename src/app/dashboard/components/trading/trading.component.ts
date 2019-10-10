@@ -39,11 +39,13 @@ import { UtilsService } from 'app/shared/services/utils.service';
 import { PriceInputComponent } from 'app/shared/components/price-input/price-input.component';
 import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
 import { Router } from '@angular/router';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-trading',
   templateUrl: 'trading.component.html',
   styleUrls: ['trading.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradingComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
@@ -90,6 +92,7 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   public loading = false;
   private successTimeout;
   private failTimeout;
+  public showContent5 = false;
   @ViewChild('quantitySell') public quantitySell: PriceInputComponent;
   @ViewChild('quantityBuy') public quantityBuy: PriceInputComponent;
 
@@ -144,6 +147,12 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.showContent5 = true;
+      this.cdr.detectChanges();
+    },5900)
+
+
     this.dropdownLimitValue = this.limitsData[0];
     this.initForms();
     this.resetSellModel();

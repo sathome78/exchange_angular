@@ -2,7 +2,8 @@
   class="page-wrap"
   [ngClass]="{'dark-theme': isCurrentThemeDark()}"
 >
-
+  <app-preloader [ngClass]="{'active' : preload}">
+  </app-preloader>
   <app-banner
     *ngIf="!technicalWorks"
     [isMainPage]="isMainPage"
