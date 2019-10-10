@@ -19,7 +19,6 @@ import {
   SetOpenOrdersAction
 } from 'app/dashboard/actions/dashboard.actions';
 import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
-
 @Component({
   selector: 'app-embedded-orders',
   templateUrl: './embedded-orders.component.html',
