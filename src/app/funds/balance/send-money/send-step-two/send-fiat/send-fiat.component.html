@@ -134,16 +134,15 @@
 
           <span class="bottom-tooltip wrap-input__message--show">
             {{
-              'Minimum sum for withdrawal' | translate
+            'Minimum sum for withdrawal' | translate
             }} {{
               minWithdrawSum | currencyFormat: currName
             }} {{
-              currName
+            currName
             }}
           </span>
 
           <!--Input error section starts-->
-
           <!--Input error section ends-->
         </div>
       </div>
@@ -173,7 +172,8 @@
           <!--add select__list-searching--open for looking open state-->
           <div
             class="select__list-searching"
-            [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
+            [ngClass]="{'select__list-searching--open':
+            openPaymentSystemDropdown}"
             *ngIf="openPaymentSystemDropdown"
           >
             <div class="select__search">

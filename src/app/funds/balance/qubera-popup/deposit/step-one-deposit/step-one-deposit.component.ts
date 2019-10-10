@@ -14,7 +14,7 @@ import * as _uniq from 'lodash/uniq';
 import { CurrencyBalanceModel } from 'app/model';
 import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, withLatestFrom } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as _ from 'lodash';
 
