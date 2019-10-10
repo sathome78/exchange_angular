@@ -141,6 +141,8 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(state => {
         this.userBalance = state.userBalance;
+        this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
+        this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
         this.cdr.detectChanges();
       });
 
@@ -926,12 +928,11 @@ export class TradingMobileComponent extends AbstractDashboardItems implements On
       return 0;
     }
 
-    const lastItem = orders.find(el => +el.sumAmount >= +balance);
-    if (lastItem) {
-      const rate = lastItem.total / lastItem.sumAmount;
-      return balance / rate;
+    const lastItem = orders[0];
+    if (+lastItem.sumAmount < +balance) {
+      return +lastItem.sumAmount;
     }
-    return +orders[0].sumAmount;
+    return +balance;
   }
 
   calcMaxBuyMarketOrder(orders): number {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import {
   getActiveCurrencyPair,
@@ -37,14 +37,7 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private dashboardService: DashboardWebSocketService
-  ) {
-    this.store
-      .pipe(select(getUserInfo))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((userInfo: ParsedToken) => {
-        this.userInfo = userInfo;
-      });
-  }
+  ) { }
 
   ngOnInit() {
     this.loading$ = this.store.pipe(select(getOrdersLoading));
@@ -54,8 +47,10 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
 
     this.store
       .pipe(select(getActiveCurrencyPair))
+      .pipe(withLatestFrom(this.store.select(getUserInfo)))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((pair: SimpleCurrencyPair) => {
+      .subscribe(([pair, userInfo]: [SimpleCurrencyPair, ParsedToken]) => {
+        this.userInfo = userInfo;
         this.activeCurrencyPair = pair;
         this.resetOrders();
         this.toOpenOrders();
@@ -96,7 +91,21 @@ export class EmbeddedOrdersMobileComponent implements OnInit, OnDestroy {
   }
 
   toOpenOrders(): void {
-    this.dashboardService.loadOpenOrdersDashboard(this.activeCurrencyPair.name);
+    this.loadOpenOrdersDashboard(this.activeCurrencyPair.name, this.userInfo.publicId);
+  }
+
+  loadOpenOrdersDashboard(pairName: string, publicId: string) {
+    this.dashboardService
+      .openOrdersSubscription(pairName, publicId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data: any) => {
+        this.store.dispatch(
+          new SetOpenOrdersAction({
+            openOrders: data,
+            count: data.length,
+          })
+        );
+      });
   }
 
   toHistory(): void {

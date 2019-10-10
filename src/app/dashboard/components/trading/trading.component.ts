@@ -165,6 +165,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((userBalance: UserBalance) => {
         this.userBalance = userBalance;
         // this.userBalance = {cur2: {balance: 0.1, name: 'BTC'}, cur1: {balance: 0.1, name: 'LTC'}};
+        this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
+        this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
         this.cdr.detectChanges();
       });
 
@@ -934,25 +936,16 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       return 0;
     }
 
-    const lastItem = orders.find(el => +el.total >= +balance);
-    if (lastItem) {
-      const rate = lastItem.total / lastItem.sumAmount;
-      return balance / rate;
-    }
-    return +orders[orders.length - 1].sumAmount;
+    const lastItem = orders[orders.length - 1];
+    const rate = lastItem.total / lastItem.sumAmount; // getting the average price
+    return balance / rate;
   }
 
   calcSellMarketOrder(orders, balance = 0) {
     if (!orders.length) {
       return 0;
     }
-
-    const lastItem = orders.find(el => +el.sumAmount >= +balance);
-    if (lastItem) {
-      const rate = lastItem.total / lastItem.sumAmount;
-      return balance / rate;
-    }
-    return +orders[0].sumAmount;
+    return +balance;
   }
 
   calcMaxBuyMarketOrder(orders): number {

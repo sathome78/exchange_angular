@@ -4,7 +4,7 @@ import { PopupService } from 'app/shared/services/popup.service';
 @Component({
   selector: 'app-fs-slider',
   templateUrl: './fs-slider.component.html',
-  styleUrls: ['./fs-slider.component.scss'],
+  styleUrls: ['./fs-slider.component.scss']
 })
 export class FsSliderComponent implements OnInit {
   public slides = [];

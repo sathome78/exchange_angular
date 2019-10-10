@@ -28,42 +28,7 @@ export class DashboardWebSocketService implements OnDestroy {
     private userService: UserService,
     private utilsService: UtilsService,
     private store: Store<fromCore.State>
-  ) {
-    this.store
-      .pipe(select(fromCore.getIsAuthenticated))
-      .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(([isAuth, userInfo]: [boolean, ParsedToken]) => {
-        if (isAuth && userInfo) {
-          this.userEmail = userInfo.username;
-          this.getSessionId();
-        } else {
-          this.unregister();
-        }
-      });
-
-  }
-
-  private getSessionId() {
-    this.stompService.connected$.subscribe(() => {
-      const socket: any = this.stompService.stompClient.webSocket;
-      const urlarray = socket._transport.url.split('/');
-      const index = urlarray.length - 2;
-      this.sessionId = urlarray[index];
-      this.register();
-      this.sessionIdsubject.next(this.sessionId);
-    });
-  }
-
-  private register() {
-    const message = { email: this.userEmail, sessionId: this.sessionId };
-    this.stompService.publish({ destination: '/app/register', body: JSON.stringify(message) });
-  }
-
-  private unregister() {
-    const message = { email: this.userEmail, sessionId: this.sessionId };
-    this.stompService.publish({ destination: '/app/unregister', body: JSON.stringify(message) });
-  }
+  ) { }
 
   marketsSubscription(): any {
     return this.stompService.watch(`/app/statisticsNew`).pipe(map((message: Message) => JSON.parse(message.body)));
@@ -87,42 +52,19 @@ export class DashboardWebSocketService implements OnDestroy {
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
-  openOrdersSubscription(pairName: string): any {
+  openOrdersSubscription(pairName: string, publicId: string): any {
     const pn = pairName.toLowerCase().replace('/', '_');
     const headers = {
       [EXRATES_REST_TOKEN]: localStorage.getItem(TOKEN),
     };
     return this.stompService
-      .watch(`/user/queue/open_orders/${pn}`, headers)
+      .watch(`/app/orders/open/${pn}/${publicId}`, headers)
       .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
-  loadOpenOrdersDashboard(pairName) {
-    this.unsubscribeOpenOrders();
-    this.openOrdersSub$ =
-      this.sessionIdsubject
-        .pipe(filter(id => !!id))
-        .pipe(mergeMap(() => this.openOrdersSubscription(pairName)))
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((data: any) => {
-          this.store.dispatch(new dashboardActions.SetOpenOrdersAction({
-            openOrders: data,
-            count: data.length,
-          }));
-        });
-  }
-
-  unsubscribeOpenOrders() {
-    if (this.openOrdersSub$) {
-      this.openOrdersSub$.unsubscribe();
-    }
-  }
-
   ngOnDestroy(): void {
-    this.unregister();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.unsubscribeOpenOrders();
   }
 
   /**

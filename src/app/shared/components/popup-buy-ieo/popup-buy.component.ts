@@ -25,6 +25,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
   public pay = 0;
   public loading = true;
   public inputValue = 0;
+  public isSubmited = false;
   private checkCyrilic = /[а-яА-ЯёЁ]/gi;
   public prevValue;
   private ngUnsubscribe$: Subject<void> = new Subject<void>();
@@ -115,6 +116,7 @@ export class PopupBuyComponent implements OnInit, OnChanges {
 
   confirmForm(e) {
     e.preventDefault();
+    this.isSubmited = true;
     if (this.form.invalid) {
       return;
     }

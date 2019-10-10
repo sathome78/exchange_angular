@@ -1,14 +1,14 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-// ng build --configuration=staging
+// ng build --configuration=integration
 
 // test
-import { STAGING_HOST } from '../app/shared/services/http.utils';
+import { INTEGRATION_HOST } from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,
-  apiUrl: STAGING_HOST,
+  apiUrl: INTEGRATION_HOST,
   showContent: true,
   captcha: true,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
