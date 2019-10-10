@@ -118,51 +118,42 @@
                 <div
                   class="wrap-input popup__wrap-input"
                   [ngClass]="{'wrap-input--error': !emailControl.valid
-                    && emailControl.touched
-                    && isSubmited
-                    && emailControl.errors != null}"
+                    && (emailControl.touched || isSubmited)
+                    && emailControl.errors
+                  }"
                 >
                   <input
                     class="wrap-input__input ng-dirty ng-valid ng-touched"
                     formControlName="email"
-                    required=""
+                    required
                     type="text"
                   >
                   <label
                     class="wrap-input__label"
                     for=""
                   >{{'Enter your email' | translate}}</label>
-                  <div class="input-hint-wrapper">
-                    <div *ngIf="!emailControl.valid && emailControl.touched && isSubmited">
+                  <div
+                    class="input-hint-wrapper"
+                    *ngIf="!emailControl.valid && (emailControl.touched || isSubmited) && emailControl.errors"
+                  >
+                    <div>
                       <span
                         class="wrap-input__message"
-                        *ngIf="emailControl.errors['required'] && emailControl.touched"
+                        *ngIf="emailControl.errors['required']"
                       >
                         {{'Email is required' | translate}}
                       </span>
                       <span
                         class="wrap-input__message"
-                        *ngIf="emailControl.errors['emailInvalid']
-                          && emailControl.touched
-                          && !emailControl.errors['required']
-                          && !emailControl.errors['specialCharacter']"
+                        *ngIf="emailControl.errors['emailInvalid']"
                       >
                         {{'Wrong email' | translate}}
                       </span>
                       <span
                         class="wrap-input__message"
-                        *ngIf="emailControl.errors['specialCharacter']
-                          && !emailControl.errors['required']"
+                        *ngIf="emailControl.errors['specialCharacter']"
                       >
                         {{'Email cannot contain special characters except period (.), plus (+), underscore (_) and dash (-)' | translate}}
-                      </span>
-                      <span
-                        class="wrap-input__message"
-                        *ngIf="emailControl.errors['maxlength']
-                          && !emailControl.errors['required']
-                          && !emailControl.errors['emailInvalid']"
-                      >
-                        {{'Email cannot be more than 40 characters long' | translate}}
                       </span>
                     </div>
                   </div>
