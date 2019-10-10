@@ -427,10 +427,7 @@
       font-size: 17px;
       line-height: 55px;
       color: #000;
-      @media (max-width: 580px) {
         font-size: 15px;
-        height: 45px;
-      }
       &:placeholder {
         font-weight: normal;
         font-size: 16px;
@@ -780,39 +777,35 @@
         color: #5a6a79;
       }
     }
-    .home-markets-tab {
-      border: none;
-      background-color: transparent;
-      padding: 12px 25px;
-      cursor: pointer;
-      position: relative;
-      outline: none;
-      top: 2px;
-      &:hover {
-        span {
-          color: #237bef;
-        }
-      }
-      &.active {
-        span {
-          color: #237bef;
-        }
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          right: 25px;
-          left: 25px;
-          height: 2px;
-          background-color: #237bef;
-        }
-      }
+    border: none;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    top: 2px;
+    &:hover {
       span {
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 1.15;
-        color: #5a6a79;
+        color: #237bef;
       }
+    }
+    &.active {
+      span {
+        color: #237bef;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 25px;
+        left: 25px;
+        height: 2px;
+        background-color: #237bef;
+      }
+    }
+    span {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 1.15;
+      color: #5a6a79;
     }
   }
   .table {

@@ -12,7 +12,7 @@ export const CORS_HEADER = 'Access-Control-Allow-Origin';
 
 export const PROD_HOST = 'https://exrates.me';
 export const PRE_PROD_HOST = 'http://preprod.exapp';
-export const STAGING_HOST = 'http://dev1.exapp';
+export const INTEGRATION_HOST = 'http://dev1.exapp';
 export const DEDIK_HOST = 'https://oldex.cronpoint.com';
 export const LOCAL_HOST = 'http://dev1.exapp';
 export const DEV_HOST = 'http://localhost:8080';

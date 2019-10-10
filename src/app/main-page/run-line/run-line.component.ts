@@ -36,6 +36,7 @@ export class RunLineComponent implements OnInit, OnDestroy {
     slidesToShow: 8,
     autoplaySpeed: 1,
     cssEase: 'linear',
+    pauseOnFocus: false,
     speed: 10000,
     arrows: false,
     dots: false,

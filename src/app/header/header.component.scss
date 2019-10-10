@@ -2,7 +2,7 @@
 
 .header {
   &.main-header {
-    background-color: transparent;
+    background-color: #1f1e30;
     .login-menu__icon{
       svg{
         path{
@@ -1066,7 +1066,8 @@
 @media (min-width: 1200px) {
   .header {
     display: block;
-    position: relative;
+    position: sticky;
+    top: 0;
     width: 100%;
     height: 48px;
     background-color: $dark-indigo;
