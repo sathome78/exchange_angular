@@ -53,6 +53,7 @@ import { EmbeddedOrdersMobileComponent } from './components/embedded-orders-mobi
 import { EmbeddedOpenOrdersMobileComponent } from './components/embedded-orders-mobile/embedded-open-orders-mobile/embedded-open-orders-mobile.component';
 import { EmbeddedOrdersHistoryMobileComponent } from './components/embedded-orders-mobile/embedded-orders-history-mobile/embedded-orders-history-mobile.component';
 import { PredictionComponent } from './components/prediction/prediction.component';
+import { PreloaderComponent } from 'app/preloader/preloader.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -80,7 +81,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TradingComponent,
     TradingMobileComponent,
     ToolsComponent,
-
+    PreloaderComponent,
     // PIPES START
     CurrencySortingPipe,
     NicknamePipe,

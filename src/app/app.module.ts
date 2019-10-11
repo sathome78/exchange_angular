@@ -60,7 +60,7 @@ import { InfoGraficsComponent } from './main-page/info-grafics/info-grafics.comp
 import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.component';
 import { BottomFormComponent } from './main-page/bottom-form/bottom-form.component';
 import { BannerComponent } from './banner/banner.component';
-import { PreloaderComponent } from './preloader/preloader.component';
+
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -106,7 +106,7 @@ const stompConfig: InjectableRxStompConfig = {
     GraphicLinksComponent,
     BottomFormComponent,
     BannerComponent,
-    PreloaderComponent,
+    
   ],
   imports: [
     StoreModule.forRoot(reducers),

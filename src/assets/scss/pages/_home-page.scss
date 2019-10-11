@@ -1207,3 +1207,55 @@
     }
   }
 }
+
+
+
+.animate-item{
+  &.fs-slider-container{
+    background-color: #1f1e30;
+  }
+  &.active{
+    .bg-wr{
+    opacity: 1;
+    }
+    .txt-inner{
+      h2{
+        opacity: 1;
+        transform: translateY(0);
+      }
+      p{
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .register-form{
+      form{
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  .bg-wr{
+    opacity: 0;
+    transition: .7s .8s  ease-in;
+  }
+  .txt-inner{
+    h2{
+      opacity: 0;
+      transition: .5s ease-out;
+      transform: translateY(15px);
+    }
+    p{
+      opacity: 0;
+      transition: .5s .2s ease-out;
+      transform: translateY(15px);
+    }
+  }
+  .register-form{
+    form{
+      opacity: 0;
+      transition: .5s .4s ease-out;
+      transform: translateY(15px);
+    }
+  }
+}

@@ -61,6 +61,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public currencyPair: SimpleCurrencyPair = null;
   public isAuthenticated = false;
   public widgetTemplate;
+  public preload = true;
 
   constructor(
     public breakPointService: BreakpointService,
@@ -76,10 +77,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-
-    const that = this;
-    setTimeout(function(){
-      that.showContent = true;
+    
+    setTimeout(() => {
+      this.preload = false;
+    },5500)
+    
+    setTimeout(() => {
+      this.showContent = true;
     },5700)
 
 
