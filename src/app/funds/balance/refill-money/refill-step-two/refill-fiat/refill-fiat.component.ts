@@ -19,7 +19,6 @@ import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
 import { PopupService } from '../../../../../shared/services/popup.service';
 import * as _uniq from 'lodash/uniq';
-import { RefillResponse } from '../../../../../model/refill-response';
 import { RefillData } from '../../../../../shared/interfaces/refill-data-interface';
 import { Router } from '@angular/router';
 import { FUG, EUR } from 'app/funds/balance/balance-constants';
