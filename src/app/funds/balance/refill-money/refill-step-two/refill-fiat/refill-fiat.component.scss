@@ -17,3 +17,21 @@
 		margin: 0 auto;
 	}
 }
+
+.currency-select-wrapper {
+  width: 100%;
+  max-width: 270px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 26px;
+}
+
+.currency-select-wrapper {
+  @media(max-width: 1199px) {
+    width: 100%;
+    max-width: 270px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 50px;
+  }
+}

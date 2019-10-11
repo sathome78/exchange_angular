@@ -31,7 +31,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public minWithdrawSum = 0;
   public merchants;
   public amountValue = 0;
-  public isEnterData = true;
   public activeBalance = 0;
   public isSubmited = false;
   public selectedMerchant;
@@ -46,6 +45,15 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public FUG = FUG;
   public isQuberaBalances = false;
   public isQuberaKYCSuccess = false;
+
+  public viewsList = {
+    LOADING: 'loading',
+    CAPTCHA: 'captcha',
+    MAIN: 'main',
+    DENIED: 'denied',
+  };
+
+  public VIEW = this.viewsList.LOADING;
 
   public model = {
     currency: 0,
@@ -182,7 +190,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.formAmount.updateValueAndValidity();
     if (this.form.valid && this.selectedMerchant.name) {
       this.isSubmited = false;
-      this.isEnterData = false;
+      this.VIEW = this.viewsList.CAPTCHA;
     }
   }
 
@@ -216,6 +224,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         }
         if (this.selectMerchantName === FUG) {
           this.form.removeControl('address');
+        }
+        if (this.activeFiat && this.fiatInfoByName) {
+          this.VIEW = this.viewsList.MAIN;
+        }
+      }, err => {
+        if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
+          this.VIEW = this.viewsList.DENIED;
         }
       });
   }
@@ -291,7 +306,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   goToWithdrawal() {
-    this.isEnterData = true;
+    this.VIEW = this.viewsList.MAIN;
   }
 
   private initForm() {
