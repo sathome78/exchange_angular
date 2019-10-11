@@ -31,6 +31,7 @@
         font-size: 18px;
       }
     }
+
     .slider-item {
       .slide-txt {
         flex-direction: column;
@@ -77,7 +78,7 @@
       }
 
       .btn {
-
+        
         max-width: 290px;
         @media(max-width: 992px) {
           margin: auto;
@@ -121,6 +122,7 @@
         .additional-info {
           display: flex;
           align-items: center;
+
           p {
             font-weight: 500;
             font-size: 24px;
@@ -180,10 +182,12 @@
           }
         }
       }
+
       .bg-wr {
         position: relative;
         overflow: hidden;
         padding-top: 55.5%;
+
         @media (min-height: 801px) {
           padding-top: 49.5%;
         }
@@ -206,6 +210,7 @@
       }
     }
   }
+
   .slick-prev,
   .slick-next {
     position: absolute;
@@ -223,10 +228,12 @@
     opacity: 0.4;
     z-index: 2;
     transition: 0.3s;
+
     &:hover {
       opacity: 1;
     }
   }
+
   .slick-prev:before,
   .slick-next:before {
     display: none;
@@ -249,6 +256,7 @@
       right: 15px;
     }
   }
+
   .arrows-container {
     position: absolute;
     top: 48px;
@@ -295,6 +303,7 @@
         }
       }
     }
+
     .slide-txt {
       position: absolute;
       height: calc(50% + 48px);
@@ -324,6 +333,7 @@
         flex-direction: column;
         max-width: 697px;
         margin-left: 16px;
+
         @media (max-width: 992px) {
           margin-left: 0;
           text-align: center;
@@ -331,6 +341,7 @@
           margin: 0 auto;
         }
       }
+
       h2 {
         margin-top: auto;
         font-weight: 500;
@@ -357,6 +368,7 @@
           letter-spacing: 4px;
         }
       }
+
       p {
         font-weight: 500;
         font-size: 24px;
@@ -373,6 +385,7 @@
       }
     }
   }
+
   .register-form {
     max-width: 1464px;
     margin: 0 auto;
@@ -405,6 +418,7 @@
     max-width: 511px;
     width: 100%;
     margin-left: 16px;
+
     @media (max-width: 992px) {
       margin-left: 0;
       justify-content: center;
@@ -419,6 +433,7 @@
       margin-right: 20px;
       width: 100%;
     }
+
     .wrap-input__input {
       max-width: 290px;
       display: block;
@@ -427,7 +442,12 @@
       font-size: 17px;
       line-height: 55px;
       color: #000;
+
+      @media (max-width: 580px) {
         font-size: 15px;
+        height: 45px;
+      }
+
       &:placeholder {
         font-weight: normal;
         font-size: 16px;
@@ -443,6 +463,7 @@
       margin-left: 0;
       font-size: 17px;
       line-height: 53px;
+
       @media (max-width: 580px) {
         font-size: 15px;
         line-height: 43px;
@@ -472,7 +493,7 @@
   .run-line-inner {
     // display: flex;
     padding: 37px 0;
-
+    
 
 
     @media(max-width: 992px) {
@@ -518,6 +539,7 @@
         color: #7e849a;
       }
     }
+
     .change {
       width: 50%;
       text-align: right;
@@ -554,6 +576,7 @@
         }
       }
     }
+
     .direction {
       width: 30%;
       display: flex;
@@ -600,6 +623,7 @@
   @media (max-width: 992px) {
     padding: 15px 15px 43px;
   }
+
   .markets-block-link {
     display: flex;
     max-width: 1272px;
@@ -618,6 +642,7 @@
       }
     }
   }
+
   .link-item {
     width: 25%;
     display: flex;
@@ -625,10 +650,12 @@
     text-align: center;
     flex-direction: column;
     position: relative;
+
     @media (max-width: 992px) {
       width: 100%;
       margin-bottom: 40px;
     }
+
     .lnk {
       position: absolute;
       top: 0;
@@ -669,6 +696,7 @@
     overflow: auto;
   }
 }
+
 .markets-table {
   max-width: 1160px;
   margin: 0 auto;
@@ -714,11 +742,13 @@
         font-size: 24px;
         line-height: 28px;
         color: #e5ebf1;
+
         @media (max-width: 580px) {
           font-size: 18px;
         }
       }
     }
+
     label {
       display: block;
       width: 16px;
@@ -726,88 +756,9 @@
       background-image: url(assets/img/search-icon.svg);
     }
   }
-  .btn-block {
-    width: 100%;
-    border-bottom: 1px solid #e5ebf1;
-    display: flex;
-    align-items: center;
-    &.no-auth{
-      padding-left: 10px;
-    }
-    .favorites {
-      display: flex;
-      align-items: center;
-      border: none;
-      background-color: transparent;
-      padding: 12px 20px;
-      outline: none;
-      padding-left: 33px;
-      position: relative;
-      top: 1px;
-      &:hover {
-        span {
-          color: #237bef;
-        }
-      }
-      &.active {
-        span {
-          color: #237bef;
-        }
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          right: 20px;
-          left: 60px;
-          height: 2px;
-          background-color: #237bef;
-        }
-      }
-      .f-icon {
-        svg {
-          margin-right: 13px;
-        }
-      }
-      span {
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 1.15;
-        text-align: center;
 
-        color: #5a6a79;
-      }
-    }
-    border: none;
-    cursor: pointer;
-    position: relative;
-    outline: none;
-    top: 2px;
-    &:hover {
-      span {
-        color: #237bef;
-      }
-    }
-    &.active {
-      span {
-        color: #237bef;
-      }
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        right: 25px;
-        left: 25px;
-        height: 2px;
-        background-color: #237bef;
-      }
-    }
-    span {
-      font-weight: normal;
-      font-size: 14px;
-      line-height: 1.15;
-      color: #5a6a79;
-    }
-  }
+
+
   .table {
     @media (max-width: 1200px) {
       display: table;
@@ -883,6 +834,7 @@
         line-height: 1.15;
         color: #000000;
         padding: 16px 10px 17px;
+
         @media (max-width: 580px) {
           font-size: 14px;
           padding: 11px 10px 11px;
@@ -948,25 +900,30 @@
     max-width: 1286px;
     margin: 0 auto;
     padding: 0 34px;
+
     @media (max-width: 992px) {
       padding: 0 15px;
       flex-direction: column;
       align-items: center;
     }
+
     .link-item {
       width: 25%;
       display: flex;
       align-items: center;
       text-align: center;
       flex-direction: column;
+
       @media (max-width: 992px) {
         width: auto;
         max-width: 380px;
         margin-bottom: 40px;
+
         br {
           display: none;
         }
       }
+
       @media (max-width: 430px) {
         br {
           display: block;
@@ -998,19 +955,23 @@
     }
   }
 }
+
 .bottom-form-home {
   background: #1f1e30;
   padding: 112px 0 108px;
   border-bottom: 1px solid #363f4d;
+
   @media (max-width: 992px) {
     padding: 65px 0 58px;
   }
 }
+
 .bottom-form-wr {
   display: flex;
   max-width: 1231px;
   margin: 0 auto;
   padding: 0 34px 0 38px;
+
   @media (max-width: 992px) {
     padding: 0 15px;
     flex-direction: column;
@@ -1024,6 +985,7 @@
       text-align: center;
       margin-bottom: 35px;
     }
+
     .txt-wr {
       h2 {
         font-weight: 500;
@@ -1038,6 +1000,7 @@
 
         color: #ffffff;
       }
+
       p {
         font-weight: 500;
         font-size: 18px;
@@ -1059,6 +1022,7 @@
       margin: 0 auto;
       width: 100%;
     }
+
     form {
       display: flex;
       align-items: flex-start;
@@ -1145,6 +1109,102 @@
     img {
       width: 100%;
       display: block;
+    }
+  }
+}
+.btn-block {
+  width: 100%;
+  border-bottom: 1px solid #e5ebf1;
+  display: flex;
+  align-items: center;
+  &.no-auth{
+    padding-left: 10px;
+  }
+  .favorites {
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    padding: 12px 20px;
+    outline: none;
+    padding-left: 33px;
+    position: relative;
+    top: 1px;
+
+    &:hover {
+      span {
+        color: #237bef;
+      }
+    }
+
+    &.active {
+      span {
+        color: #237bef;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 20px;
+        left: 60px;
+        height: 2px;
+        background-color: #237bef;
+      }
+    }
+
+    .f-icon {
+      svg {
+        margin-right: 13px;
+      }
+    }
+
+    span {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 1.15;
+      text-align: center;
+
+      color: #5a6a79;
+    }
+  }
+
+  .home-markets-tab {
+    border: none;
+    background-color: transparent;
+    padding: 12px 25px;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    top: 2px;
+
+    &:hover {
+      span {
+        color: #237bef;
+      }
+    }
+
+    &.active {
+      span {
+        color: #237bef;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 25px;
+        left: 25px;
+        height: 2px;
+        background-color: #237bef;
+      }
+    }
+
+    span {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 1.15;
+      color: #5a6a79;
     }
   }
 }
