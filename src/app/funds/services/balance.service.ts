@@ -119,15 +119,6 @@ export class BalanceService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
-  getCryptoMerchants(cryptoName) {
-    const httpOptions: any = {
-      params: new HttpParams().set('currency', cryptoName),
-      observe: 'response',
-    };
-    const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
-    return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
-  }
-
   getCommissionToWithdraw(amount: string, currency: string, merchant: string) {
     let httpOptions = new HttpParams();
     httpOptions = httpOptions.append('amount', amount);

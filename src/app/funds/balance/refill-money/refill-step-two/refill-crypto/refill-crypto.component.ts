@@ -37,6 +37,14 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
   public cryptoGenerateAddress = '';
   public loading = false;
 
+  public viewsList = {
+    LOADING: 'loading',
+    MAIN: 'main',
+    DENIED: 'denied',
+  };
+
+  public VIEW = this.viewsList.LOADING;
+
   constructor(
     private store: Store<State>,
     public balanceService: BalanceService,
@@ -83,12 +91,18 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         res => {
           this.cryptoDataByName = res;
           this.identifyCrypto();
+          this.VIEW = this.viewsList.MAIN;
         },
         error => {
-          this.isGenerateNewAddress = false;
-          this.cryptoDataByName = null;
-          const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
-          this.setError(msg);
+          if (error.error && error.error.tittle === 'USER_OPERATION_DENIED') {
+            this.VIEW = this.viewsList.DENIED;
+          } else {
+            this.isGenerateNewAddress = false;
+            this.cryptoDataByName = null;
+            const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
+            this.setError(msg);
+            this.VIEW = this.viewsList.MAIN;
+          }
         }
       );
   }
