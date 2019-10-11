@@ -1261,6 +1261,10 @@
       &__search {
         border: none;
         background-color: transparent;
+        position: relative;
+        width: calc(100% - 31px);
+        left: 17px;
+        bottom: -2px;
       }
       &__search-input {
         background: rgba(255, 255, 255, 0.1);
