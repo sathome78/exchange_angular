@@ -1,9 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-
-import { map, takeUntil, withLatestFrom, subscribeOn, switchMap, mergeMap, filter } from 'rxjs/internal/operators';
+import { map } from 'rxjs/internal/operators';
 import { Message } from '@stomp/stompjs';
-import { Store, select } from '@ngrx/store';
-import { Subject, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { CurrencyPair } from '../model/currency-pair.model';
 import * as dashboardActions from './actions/dashboard.actions';
@@ -17,7 +16,6 @@ import { TOKEN, EXRATES_REST_TOKEN } from 'app/shared/services/http.utils';
 export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairs: CurrencyPair[] = [];
-  private openOrdersSub$: Subscription;
   public sessionIdsubject = new Subject();
   public pairFromDashboard = '';
   public sessionId = null;
@@ -31,7 +29,9 @@ export class DashboardWebSocketService implements OnDestroy {
   ) { }
 
   marketsSubscription(): any {
-    return this.stompService.watch(`/app/statisticsNew`).pipe(map((message: Message) => JSON.parse(message.body)));
+    return this.stompService
+      .watch(`/app/statisticsNew`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
   }
 
   pairInfoSubscription(pairName: string): any {
