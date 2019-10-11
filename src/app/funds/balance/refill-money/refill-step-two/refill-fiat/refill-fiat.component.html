@@ -3,16 +3,10 @@
   *ngIf="VIEW === viewsList.MAIN"
   class="refil-fiat side-popups"
 >
-  <h2
-    class="title refill__title"
-    *ngIf="!submitSuccess"
-  >
+  <h2 class="title refill__title">
     {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
   </h2>
-  <form
-    [formGroup]="form"
-    *ngIf="!submitSuccess"
-  >
+  <form [formGroup]="form">
     <div class="refill__inputs-wrap">
       <!-- TODO add styles to select--error -->
       <div class="currency-select-wrapper">
@@ -137,9 +131,13 @@
 
     </div>
   </form>
-  <ng-container *ngIf="!submitSuccess && !isQIWI">
-    <div class="send__line"></div>
 
+  <div
+    class="send__line"
+    *ngIf="!isQIWI"
+  ></div>
+
+  <ng-container *ngIf="!isRefillClosed && !isQIWI">
     <ng-container>
       <div class="send__info">
         <div class="send__info-row">
@@ -165,24 +163,31 @@
           <div class="send__info-value">{{calculateData.resultAmount}} {{activeFiat.name}}</div>
         </div>
       </div>
-
       <button
         id="analytics-modal-refill"
         class="btn btn--center"
-        *ngIf="!submitSuccess && selectedMerchant"
+        *ngIf="VIEW === viewsList.MAIN && !isQIWI"
         (click)="submitRefill()"
         [disabled]="!form.valid || !selectedMerchant.name || loading"
       >
         {{'Refill' | translate}}
       </button>
     </ng-container>
-
-    <div class="send__line"></div>
   </ng-container>
+
+  <ng-container *ngIf="isRefillClosed">
+    <div>{{'Sorry, refill is closed for now' | translate}}.</div>
+  </ng-container>
+
+
+  <div
+    class="send__line"
+    *ngIf="!isQIWI"
+  ></div>
 
   <button
     class="btn btn--center"
-    *ngIf="!submitSuccess && selectedMerchant && isQIWI"
+    *ngIf="!isRefillClosed && isQIWI"
     (click)="submitRefill()"
     [disabled]="!form.valid || !selectedMerchant.name || loading"
   >
@@ -192,7 +197,7 @@
   <!-- показывать после успешного создания заявки-->
   <div
     class="refill__fiat-successful"
-    *ngIf="submitSuccess"
+    *ngIf="VIEW === viewsList.SUCCESS"
   >
     <div
       [ngSwitch]="selectMerchantName"

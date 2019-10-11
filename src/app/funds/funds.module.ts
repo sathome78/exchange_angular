@@ -82,6 +82,7 @@ import { StepThreeWithdrawComponent } from './balance/qubera-popup/withdraw/step
 import { QuberaMobDetailsComponent } from './qubera-mob-details/qubera-mob-details.component';
 import { HashToUrlPipe } from './hash-to-url.pipe';
 import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-coin-pay/refill-coin-pay.component';
+import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -173,6 +174,7 @@ export function createTranslateLoader(http: HttpClient) {
     StepThreeWithdrawComponent,
     QuberaMobDetailsComponent,
     RefillCoinPayComponent,
+    NeedKycMsgComponent,
   ],
   providers: [
     BalanceService,

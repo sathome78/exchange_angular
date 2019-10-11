@@ -45,7 +45,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   @ViewChild('redirectionLink') redirectionLink: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
-  public submitSuccess = false;
   public isSubmited = false;
   public fiatNames: CurrencyBalanceModel[] = [];
   public defaultFiatNames: CurrencyBalanceModel[] = [];
@@ -70,6 +69,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   public viewsList = {
     LOADING: 'loading',
+    SUCCESS: 'success',
     MAIN: 'main',
     DENIED: 'denied',
   };
@@ -189,10 +189,10 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           this.setMinRefillSum();
           this.calculateCommission(this.formAmout.value);
         }
-        this.VIEW = this.viewsList.MAIN;
+        this.setView(this.viewsList.MAIN);
       }, err => {
         if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
-          this.VIEW = this.viewsList.DENIED;
+          this.setView(this.viewsList.DENIED);
         }
       });
   }
@@ -267,7 +267,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         additionalFieldName: this.selectedMerchant.additionalFieldName,
       };
       if (this.selectedMerchant.address) {
-        this.submitSuccess = true;
+        this.setView(this.viewsList.SUCCESS);
         this.loading = false;
         return;
       }
@@ -290,7 +290,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         (res: any) => {
           if (this.isQIWI) {
             this.qiwiResData = { ...this.qiwiResData, memo: res.params.address };
-            this.submitSuccess = true;
+            this.setView(this.viewsList.SUCCESS);
             this.loading = false;
             return;
           }
@@ -301,7 +301,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
               this.redirectionLink.nativeElement.click();
             }, 1000);
           }
-          this.submitSuccess = true;
+          this.setView(this.viewsList.SUCCESS);
           this.loading = false;
         },
         err => {
@@ -424,10 +424,19 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   get isQIWI(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
   }
+  get isRefillClosed(): boolean {
+    return !this.merchants.length;
+  }
+  get requiredKyc(): boolean {
+    return this.selectedMerchant.needVerification;
+  }
   get isCoinPay(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'CoinPay(Privat24)';
   }
   get formAmout() {
     return this.form.controls['amount'];
+  }
+  private setView(v) {
+    this.VIEW = v;
   }
 }
