@@ -191,6 +191,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
           this.setView(this.viewsList.DENIED);
         }
+        this.VIEW = this.viewsList.MAIN;
       });
   }
 
