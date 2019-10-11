@@ -55,6 +55,7 @@ export class IEOTableComponent implements OnInit {
   public showSorry = false;
   public showSuccessIEO = false;
   public _firstLoadedStatus;
+  public loadingBuy = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private router: Router, private ieoService: IEOServiceService) {}
@@ -117,6 +118,7 @@ export class IEOTableComponent implements OnInit {
   }
 
   public confirmBuyIEO(amount) {
+    this.loadingBuy = true;
     this.ieoService
       .buyTokens({
         currencyName: this.selectedIEO.currencyName,
@@ -131,6 +133,9 @@ export class IEOTableComponent implements OnInit {
         } else {
           this.openSuccessIEO();
         }
+        this.loadingBuy = false;
+      }, err => {
+        this.loadingBuy = false;
       });
   }
 
