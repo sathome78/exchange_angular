@@ -210,42 +210,27 @@
                 <h3>{{item.currencyDescription}} - BTC Session</h3>
               </div>
               <div
-                class="img-e-tao"
-                *ngSwitchCase="'DOM'"
+                class="progress-block"
+                *ngIf="item.status === 'RUNNING'"
               >
-                <img
-                  [src]="'assets/img/ieo/dom-blue.png'"
-                  alt=""
-                >
+                <div class="currency-info">
+                  <div class="currency-buyed">
+                    <span class="buyed-value">{{boughtAmount(item) | currencyFormat}}</span>
+                    <span class="currency-name">{{item.currencyName}}</span>
+                  </div>
+                  <div class="percentage">
+                    <span>{{boughtAmountPer(item)}}%</span>
+                  </div>
+                </div>
+                <div class="currency-bar">
+                  <div
+                    class="currency-bar-progress"
+                    [style.width.%]="boughtAmountPer(item)"
+                  >
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="info-coin-part">
-              <div class="top-info">
-                <div class="title-wr">
-                  <h3>{{item.currencyDescription}} - BTC Session</h3>
-                </div>
-                <div
-                  class="progress-block"
-                  *ngIf="item.status === 'RUNNING'"
-                >
-                  <div class="currency-info">
-                    <div class="currency-buyed">
-                      <span class="buyed-value">{{boughtAmount(item) | currencyFormat}}</span>
-                      <span class="currency-name">{{item.currencyName}}</span>
-                    </div>
-                    <div class="percentage">
-                      <span>{{boughtAmountPer(item)}}%</span>
-                    </div>
-                  </div>
-                  <div class="currency-bar">
-                    <div
-                      class="currency-bar-progress"
-                      [style.width.%]="boughtAmountPer(item)"
-                    >
-                    </div>
-                  </div>
-                </div>
-              </div>
 
 
             <div class="coin-info">
@@ -256,57 +241,65 @@
                 <div class="info-value">
                   <span>{{item.amount * item.rate | currencyFormat}} BTC</span>
                 </div>
+              </div>
 
-                <div
-                  class="coin-info-item"
-                  *ngIf="item.status === 'RUNNING' || item.status === 'PENDING'"
-                >
-                  <div class="name-info">
-                    <span>{{'Start Time' | translate}}</span>
-                  </div>
-                  <div class="info-value">
-                    <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
-                  </div>
+              <div
+                class="coin-info-item"
+                *ngIf="item.status === 'RUNNING' || item.status === 'PENDING'"
+              >
+                <div class="name-info">
+                  <span>{{'Start Time' | translate}}</span>
                 </div>
-
-                <div
-                  class="coin-info-item"
-                  *ngIf="item.status === 'TERMINATED' || item.status === 'SUCCEEDED' || item.status === 'FAILED'"
-                >
-                  <div class="name-info">
-                    <span>{{'End Time' | translate}}</span>
-                  </div>
-                  <div class="info-value">
-                    <span>{{(item.soldOutAt || item.endDate) | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
-                  </div>
+                <div class="info-value">
+                  <span>{{item.startDate | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
                 </div>
               </div>
-              <div class="description-wr">
-                <p>{{item.description | cutAndAddEllipsis}}</p>
-              </div>
-              <div class="button-part">
-                <div
-                  class="button-wr"
-                  *ngIf="item.status === 'RUNNING'"
-                >
-                  <button
-                    class="standart-btn"
-                    (click)="buyIeo(item)"
-                  >
-                    <span>Buy {{item.currencyDescription}}</span>
-                  </button>
+
+              <div
+                class="coin-info-item"
+                *ngIf="item.status === 'TERMINATED' || item.status === 'SUCCEEDED' || item.status === 'FAILED'"
+              >
+                <div class="name-info">
+                  <span>{{'End Time' | translate}}</span>
                 </div>
-                <div class="button-wr">
-                  <button
-                    class="standart-btn reverse"
-                    (click)="readMore(item.id)"
-                  ><span>{{'Read More' | translate}}</span></button>
+                <div class="info-value">
+                  <span>{{(item.soldOutAt || item.endDate) | dateFromISO8601 | amFromUtc | amLocal | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
                 </div>
               </div>
             </div>
+            <div class="description-wr">
+              <p>{{item.description | cutAndAddEllipsis}}</p>
+            </div>
+            <div class="button-part">
+              <div
+                class="button-wr"
+                *ngIf="item.status === 'RUNNING'"
+              >
+                <button
+                  class="standart-btn"
+                  (click)="buyIeo(item)"
+                >
+                  <span>Buy {{item.currencyDescription}}</span>
+                </button>
+              </div>
+              <div class="button-wr">
+                <button
+                  class="standart-btn reverse"
+                  (click)="readMore(item.id)"
+                ><span>{{'Read More' | translate}}</span></button>
+              </div>
+            </div>
           </div>
-        </ng-container>
+        </div>
+      </ng-container>
 
+    </div>
+
+  </div>
+  <div class="how-work">
+    <div class="how-work-wr">
+      <div class="title-wr">
+        <h3>{{'How does it work?' | translate}}</h3>
       </div>
       <div class="how-work-item-wr">
         <div class="how-work-item">
@@ -339,43 +332,22 @@
             </p>
           </div>
         </div>
-        <div class="how-work-item-wr">
-          <div class="how-work-item">
-            <div class="pic-wr">
-              <img
-                src="assets/img/ieo/how-work1.svg"
-                alt=""
-              >
-            </div>
-            <div class="h-w-title">
-              <h4>{{'Verify account' | translate}}</h4>
-            </div>
-            <div class="h-w-description">
-              <p>{{'Only verified accounts can participate in IEO. Verification is needed only once.' | translate}}</p>
-            </div>
+        <div class="how-work-item">
+          <div class="pic-wr">
+            <img
+              src="assets/img/ieo/how-work3.svg"
+              alt=""
+            >
           </div>
-          <div class="how-work-item">
-            <div class="pic-wr">
-              <img
-                src="assets/img/ieo/how-work2.svg"
-                alt=""
-              >
-            </div>
-            <div class="h-w-title">
-              <h4>{{'Buy coins during IEO' | translate}}</h4>
-            </div>
-            <div class="h-w-description">
-              <p>
-                {{'IEO starts in a specific time ' | translate}}<br>{{'and ends right after all coins are sold.' | translate}}
-              </p>
-            </div>
+          <div class="h-w-title">
+            <h4>{{'Hold or trade' | translate}}</h4>
           </div>
           <div class="h-w-description">
             <p>{{'IEO tokens will appear in your account right after the event is successfully concluded.' | translate}}
             </p>
           </div>
-
         </div>
+
       </div>
     </div>
   </div>
@@ -396,7 +368,11 @@
             <span>{{'Please, be aware of all involved risks.' | translate}}</span>
           </li>
 
-          </ul>
+        </ul>
+      </div>
+      <div class="adittional-block">
+        <div class="a-title">
+          <h5>{{'Additional information' | translate}}</h5>
         </div>
         <div class="a-block-item">
           <a>{{'An Initial Exchange Offering (IEO) is a token sale supervised by a cryptocurrency exchange. IEOs are available exclusively to the exchange’s users, although some IEOs may take place in several exchanges. Just like ICOs, IEOs allow investors to get new cryptocurrencies (or tokens) while raising funds for promising crypto projects.' | translate}}</a>
@@ -410,6 +386,7 @@
       </div>
     </div>
   </div>
+</div>
 
 
 <app-popup-buy
@@ -427,22 +404,22 @@
 >
 </app-popup-success>
 
-  <app-popup-policy
-    *ngIf="showPolicy"
-    (close)="togglePolicy()"
-    (agree)="agreeWithPolicy()"
-  ></app-popup-policy>
+<app-popup-policy
+  *ngIf="showPolicy"
+  (close)="togglePolicy()"
+  (agree)="agreeWithPolicy()"
+></app-popup-policy>
 
-  <app-popup-failed
-    *ngIf="showNoReqs"
-    (close)="toggleNoReqs(false)"
-    [IEOData]="buyIEOData"
-  ></app-popup-failed>
+<app-popup-failed
+  *ngIf="showNoReqs"
+  (close)="toggleNoReqs(false)"
+  [IEOData]="buyIEOData"
+></app-popup-failed>
 
-  <app-popup-wait-ieo *ngIf="showWait"></app-popup-wait-ieo>
+<app-popup-wait-ieo *ngIf="showWait"></app-popup-wait-ieo>
 
-  <app-popup-sorry-ieo
-    *ngIf="showSorry"
-    (close)="toggleSorry(false)"
-  >
-  </app-popup-sorry-ieo>
+<app-popup-sorry-ieo
+  *ngIf="showSorry"
+  (close)="toggleSorry(false)"
+>
+</app-popup-sorry-ieo>
