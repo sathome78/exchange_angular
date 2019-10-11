@@ -46,37 +46,37 @@ export class RunLineComponent implements OnInit, OnDestroy {
         breakpoint: 1680,
         settings: {
           slidesToShow: 7,
-        },
+        }
       },
       {
         breakpoint: 1440,
         settings: {
           slidesToShow: 6,
-        },
+        }
       },
       {
         breakpoint: 1280,
         settings: {
           slidesToShow: 5,
-        },
+        }
       },
       {
         breakpoint: 880,
         settings: {
           slidesToShow: 4,
-        },
+        }
       },
       {
         breakpoint: 670,
         settings: {
           slidesToShow: 3,
-        },
+        }
       },
       {
         breakpoint: 520,
         settings: {
           slidesToShow: 2,
-        },
+        }
       },
       // {
       //   breakpoint: 361,
@@ -84,7 +84,7 @@ export class RunLineComponent implements OnInit, OnDestroy {
       //     slidesToShow: 1,
       //   }
       // }
-    ],
+    ]
 
   };
 

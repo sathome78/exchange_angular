@@ -187,17 +187,28 @@
     class="ieo-list"
     *ngIf="ieoList.length"
   >
-    <div
-      class="ieo-list"
-      *ngIf="ieoList.length"
-    >
-      <div class="ieo-list-wr">
-        <ng-container *ngFor="let item of ieoList; trackBy: trackByIeo">
-          <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
+    <div class="ieo-list-wr">
+      <ng-container *ngFor="let item of ieoList; trackBy: trackByIeo">
+        <div class="ieo-list-item {{item.status  | showStageStatus:true | lowercase}}">
+          <div
+            class="img-part"
+            [ngSwitch]="item.currencyName"
+          >
             <div
-              class="img-part"
-              [ngSwitch]="item.currencyName"
+              class="img-e-tao"
+              *ngSwitchCase="'DOM'"
             >
+              <img
+                [src]="'assets/img/ieo/dom-blue.png'"
+                alt=""
+              >
+            </div>
+          </div>
+          <div class="info-coin-part">
+            <div class="top-info">
+              <div class="title-wr">
+                <h3>{{item.currencyDescription}} - BTC Session</h3>
+              </div>
               <div
                 class="img-e-tao"
                 *ngSwitchCase="'DOM'"
@@ -237,14 +248,13 @@
               </div>
 
 
-              <div class="coin-info">
-                <div class="coin-info-item">
-                  <div class="name-info">
-                    <span>{{'IEO Goal' | translate}}</span>
-                  </div>
-                  <div class="info-value">
-                    <span>{{item.amount * item.rate | currencyFormat}} BTC</span>
-                  </div>
+            <div class="coin-info">
+              <div class="coin-info-item">
+                <div class="name-info">
+                  <span>{{'IEO Goal' | translate}}</span>
+                </div>
+                <div class="info-value">
+                  <span>{{item.amount * item.rate | currencyFormat}} BTC</span>
                 </div>
 
                 <div
@@ -298,12 +308,36 @@
         </ng-container>
 
       </div>
-
-    </div>
-    <div class="how-work">
-      <div class="how-work-wr">
-        <div class="title-wr">
-          <h3>{{'How does it work?' | translate}}</h3>
+      <div class="how-work-item-wr">
+        <div class="how-work-item">
+          <div class="pic-wr">
+            <img
+              src="assets/img/ieo/how-work1.svg"
+              alt=""
+            >
+          </div>
+          <div class="h-w-title">
+            <h4>{{'Verify account' | translate}}</h4>
+          </div>
+          <div class="h-w-description">
+            <p>{{'Only verified accounts can participate in IEO. Verification is needed only once.' | translate}}</p>
+          </div>
+        </div>
+        <div class="how-work-item">
+          <div class="pic-wr">
+            <img
+              src="assets/img/ieo/how-work2.svg"
+              alt=""
+            >
+          </div>
+          <div class="h-w-title">
+            <h4>{{'Buy coins during IEO' | translate}}</h4>
+          </div>
+          <div class="h-w-description">
+            <p>
+              {{'IEO starts in a specific time ' | translate}}<br>{{'and ends right after all coins are sold.' | translate}}
+            </p>
+          </div>
         </div>
         <div class="how-work-item-wr">
           <div class="how-work-item">
@@ -336,77 +370,62 @@
               </p>
             </div>
           </div>
-          <div class="how-work-item">
-            <div class="pic-wr">
-              <img
-                src="assets/img/ieo/how-work3.svg"
-                alt=""
-              >
-            </div>
-            <div class="h-w-title">
-              <h4>{{'Hold or trade' | translate}}</h4>
-            </div>
-            <div class="h-w-description">
-              <p>{{'IEO tokens will appear in your account right after the event is successfully concluded.' | translate}}
-              </p>
-            </div>
+          <div class="h-w-description">
+            <p>{{'IEO tokens will appear in your account right after the event is successfully concluded.' | translate}}
+            </p>
           </div>
 
         </div>
       </div>
     </div>
-    <div class="aditional-info-block">
-      <div class="a-i-b-wr">
-        <div class="security-block">
-          <div class="s-title">
-            <h5>{{'Security' | translate}}</h5>
-          </div>
-          <ul class="s-list">
-            <li class="s-item">
-              <span>{{'After successful IEO coin will be listed on Exchange.' | translate}}</span>
-            </li>
-            <li class="s-item">
-              <span>{{'After unsuccessful IEO, all funds will be returned  to all participants automatically.' | translate}}</span>
-            </li>
-            <li class="s-item">
-              <span>{{'Please, be aware of all involved risks.' | translate}}</span>
-            </li>
+  </div>
+  <div class="aditional-info-block">
+    <div class="a-i-b-wr">
+      <div class="security-block">
+        <div class="s-title">
+          <h5>{{'Security' | translate}}</h5>
+        </div>
+        <ul class="s-list">
+          <li class="s-item">
+            <span>{{'After successful IEO coin will be listed on Exchange.' | translate}}</span>
+          </li>
+          <li class="s-item">
+            <span>{{'After unsuccessful IEO, all funds will be returned  to all participants automatically.' | translate}}</span>
+          </li>
+          <li class="s-item">
+            <span>{{'Please, be aware of all involved risks.' | translate}}</span>
+          </li>
 
           </ul>
         </div>
-        <div class="adittional-block">
-          <div class="a-title">
-            <h5>{{'Additional information' | translate}}</h5>
-          </div>
-          <div class="a-block-item">
-            <a>{{'An Initial Exchange Offering (IEO) is a token sale supervised by a cryptocurrency exchange. IEOs are available exclusively to the exchange’s users, although some IEOs may take place in several exchanges. Just like ICOs, IEOs allow investors to get new cryptocurrencies (or tokens) while raising funds for promising crypto projects.' | translate}}</a>
-          </div>
+        <div class="a-block-item">
+          <a>{{'An Initial Exchange Offering (IEO) is a token sale supervised by a cryptocurrency exchange. IEOs are available exclusively to the exchange’s users, although some IEOs may take place in several exchanges. Just like ICOs, IEOs allow investors to get new cryptocurrencies (or tokens) while raising funds for promising crypto projects.' | translate}}</a>
+        </div>
 
-        </div>
-        <div class="warning-block">
-          <p>
-            {{'Awareness: Please remember that cryptocurrencies are high-risk investments!!! We are doing all our best to filter projects but all rest responsibilities are at your side.' | translate}}
-          </p>
-        </div>
+      </div>
+      <div class="warning-block">
+        <p>
+          {{'Awareness: Please remember that cryptocurrencies are high-risk investments!!! We are doing all our best to filter projects but all rest responsibilities are at your side.' | translate}}
+        </p>
       </div>
     </div>
   </div>
 
 
-  <app-popup-buy
-    [IEOData]="buyIEOData"
-    *ngIf="showBuyIEO"
-    (close)="closeBuyIEO()"
-    (confirm)="confirmBuyIEO($event)"
-  >
-  </app-popup-buy>
+<app-popup-buy
+  [IEOData]="buyIEOData"
+  *ngIf="showBuyIEO"
+  (close)="closeBuyIEO()"
+  (confirm)="confirmBuyIEO($event)"
+>
+</app-popup-buy>
 
-  <app-popup-success
-    *ngIf="showSuccessIEO"
-    [IEOName]="buyIEOData.currencyDescription"
-    (close)="closeSuccessIEO()"
-  >
-  </app-popup-success>
+<app-popup-success
+  *ngIf="showSuccessIEO"
+  [IEOName]="buyIEOData.currencyDescription"
+  (close)="closeSuccessIEO()"
+>
+</app-popup-success>
 
   <app-popup-policy
     *ngIf="showPolicy"
