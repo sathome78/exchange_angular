@@ -482,6 +482,11 @@
     position: relative;
     top: -48px;
     // display: flex;
+    min-height: 77px;
+    @media(min-width: 1200px){
+      min-height: 140px;
+    }
+    
     background-color: #222133;
     .slick-track{
       display: flex;
@@ -1214,7 +1219,14 @@
   &.fs-slider-container{
     background-color: #1f1e30;
   }
+  .run-line-item{
+    opacity: 0;
+    transition: .5s ease-in;
+  }
   &.active{
+    .run-line-item{
+      opacity: 1;
+    }
     .bg-wr{
     opacity: 1;
     }

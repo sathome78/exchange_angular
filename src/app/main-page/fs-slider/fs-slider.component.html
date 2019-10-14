@@ -1,4 +1,7 @@
-<div class="fs-slider-container animate-item">
+<div
+  class="fs-slider-container animate-item"
+  [ngClass]="{'active' : activeBlock}"
+>
   <div class="arrows-container"></div>
   <ngx-slick-carousel
     class="carousel"
