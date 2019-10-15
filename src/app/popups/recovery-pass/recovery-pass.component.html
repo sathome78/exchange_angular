@@ -1,6 +1,9 @@
 <div class="overlay recovery-pass">
   <div class="popup popup-registration">
-    <div class="popup__close" (click)="closeMe()"></div>
+    <div
+      class="popup__close"
+      (click)="closeMe()"
+    ></div>
 
 
     <ng-template [ngTemplateOutlet]="currentTemplate">
@@ -9,45 +12,82 @@
 
     <ng-template #emailInputTemplate>
       <h6 class="popup__title popup_title--dm">{{'Forgot password?' | translate}}</h6>
-      <form class="popup__form" id="fgt-pass" [formGroup]="emailForm">
-        <div class="wrap-input popup__wrap-input" [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched,
-            'server-error': !!serverError}">
-          <input required class="wrap-input__input" formControlName="email" (input)="serverError = ''" [ngClass]="{'input--error': !emailForm.get('email').valid &&
-           emailForm.get('email').touched || !!serverError}">
-          <label class="wrap-input__label" for="">{{'Email' | translate}}</label>
+      <form
+        class="popup__form"
+        id="fgt-pass"
+        [formGroup]="emailForm"
+      >
+        <div
+          class="wrap-input popup__wrap-input"
+          [ngClass]="{'wrap-input--error': !emailForm.valid && emailForm.get('email').touched,
+            'server-error': !!serverError}"
+        >
+          <input
+            required
+            class="wrap-input__input"
+            formControlName="email"
+            (input)="serverError = ''"
+            [ngClass]="{'input--error': !emailForm.get('email').valid &&
+           emailForm.get('email').touched || !!serverError}"
+          >
+          <label
+            class="wrap-input__label"
+            for=""
+          >{{'Email' | translate}}</label>
           <div class="wrap-input__line"></div>
           <!--Input error section starts-->
           <div *ngIf="emailForm.get('email').invalid && emailForm.get('email').errors">
             <div class="input-hint-wrapper">
-              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['required'] &&
-                   emailForm.get('email').touched">
+              <span
+                class="wrap-input__message"
+                *ngIf="emailForm.get('email').errors['required'] &&
+                   emailForm.get('email').touched"
+              >
                 {{'Email is required' | translate}}
               </span>
-              <span class="wrap-input__message" *ngIf="emailForm.get('email').errors['emailInvalid'] ||
-                 emailForm.get('email').errors['specialCharacter']">
+              <span
+                class="wrap-input__message"
+                *ngIf="emailForm.get('email').errors['emailInvalid'] ||
+                 emailForm.get('email').errors['specialCharacter']"
+              >
                 {{'Please, enter valid email address' | translate}}
               </span>
             </div>
           </div>
           <!--Input error section ends-->
-          <div class="input-hint-wrapper server-error-hint" *ngIf="!!serverError">
+          <div
+            class="input-hint-wrapper server-error-hint"
+            *ngIf="!!serverError"
+          >
             <span class="wrap-input__message">{{AUTH_MESSAGES[serverError] | translate}}</span>
           </div>
         </div>
 
-        <button class="btn popup__btn"
+        <button
+          class="btn popup__btn"
           [disabled]="(emailForm.get('email').invalid && emailForm.get('email').errors || !!serverError) || loading"
           [ngClass]="{'bg-none': !emailForm.valid, 'popup__btn--active': emailForm.valid && !serverError}"
-          (click)="emailSubmit()">
+          (click)="emailSubmit()"
+        >
           {{'Reset password' | translate}}
         </button>
       </form>
       <div class="popup__links-wrap popup__links-wrap--left">
-        <a class="popup__link" (click)="backToLogin()">
+        <a
+          class="popup__link"
+          (click)="backToLogin()"
+        >
           <span class="popup__arr-left">
-            <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="9"
+              height="7"
+              viewBox="0 0 9 7"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
-                d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z" />
+                d="M3.82596 0.119541C3.60017 -0.0567689 3.25769 -0.0355965 3.06102 0.166823L0.137687 3.17624L0.133319 3.18071C-0.0387293 3.35787 -0.0421708 3.61517 0.110923 3.7948C0.119367 3.80467 0.128289 3.81436 0.137687 3.82376L3.06102 6.83318C3.25769 7.0356 3.60017 7.05677 3.82596 6.88046C4.05175 6.70415 4.07536 6.3971 3.87872 6.19459L1.73329 3.98602H8.45783C8.75727 3.98602 9 3.76841 9 3.49991C9 3.23141 8.75727 3.0138 8.45783 3.0138H1.73348L3.87872 0.805412C4.07536 0.602898 4.05175 0.295851 3.82596 0.119541Z"
+              />
             </svg>
           </span>{{'Back to log in' | translate}}</a>
       </div>
@@ -55,23 +95,35 @@
 
     <ng-template #captchaTemplate>
       <h6 class="popup__title">{{'Reset password' | translate}}</h6>
-      <re-captcha (resolved)="resolvedCaptcha($event)" [siteKey]="recaptchaKey"></re-captcha>
+      <re-captcha
+        (resolved)="resolvedCaptcha($event)"
+        [siteKey]="recaptchaKey"
+      ></re-captcha>
       <div class="popup__links-wrap">
-        <a class="popup__link" (click)="setTemplate('emailInputTemplate')">{{'Go to registration form' | translate}}</a>
+        <a
+          class="popup__link"
+          (click)="setTemplate('emailInputTemplate')"
+        >{{'Go to registration form' | translate}}</a>
       </div>
     </ng-template>
 
     <ng-template #devCaptchaTemplate>
       <h6 class="popup__title popup_title--dm">{{'Reset password' | translate}}</h6>
       <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
-      <button class="btn popup__btn popup__btn--active" (click)="resolvedCaptcha($event)">Resolve</button>
+      <button
+        class="btn popup__btn popup__btn--active"
+        (click)="resolvedCaptcha($event)"
+      >Resolve</button>
     </ng-template>
 
     <ng-template #emailConfirmLinkTemplate>
-      <h6 class="popup__title">{{'Confirm the email' | translate}}</h6>
-      <h4 class="popup__subtitle" [innerHtml]="afterCaptchaMessage"></h4>
+      <h6 class="popup__title rec-conf-email">{{'Confirm the email' | translate}}</h6>
+      <h4
+        class="popup__subtitle rec-conf-email"
+        [innerHtml]="afterCaptchaMessage"
+      ></h4>
       <hr style="width: 70%;">
-      <div class="popup__links-wrap">
+      <div class="popup__links-wrap rec-conf-email-link">
         <p class="popup__link">
           <span>{{"If you haven't received the email, do the following:" | translate}}</span>
           <br>
