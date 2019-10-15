@@ -122,7 +122,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
 
   balanceClick() {
     if (this.activeBalance && this.activeBalance > 0) {
-      this.formAmount.setValue(this.activeBalance.toString());
+      this.formAmount.setValue(this.utilsService.currencyFormat(this.activeBalance));
       this.calculateCommission(this.activeBalance);
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
@@ -134,7 +134,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       if (+this.activeBalance > +this.dailyLimit) {
         amount = this.dailyLimit;
       }
-      this.formAmount.setValue(amount.toString());
+      this.formAmount.setValue(this.utilsService.currencyFormat(amount));
       this.calculateCommission(amount);
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
