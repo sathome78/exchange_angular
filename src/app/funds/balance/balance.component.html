@@ -216,8 +216,8 @@
         </button>
 
         <!-- FUG BLOCK -->
+        <!-- *ngIf="utilsService.isDeveloper" -->
         <button
-          *ngIf="utilsService.isDeveloper"
           class="tabs__item funding-tabs"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"

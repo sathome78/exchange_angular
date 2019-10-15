@@ -242,9 +242,10 @@ export class UtilsService {
   }
 
   filterMerchants(merch) {
-    if (!this.isDeveloper) {
-      return merch.name !== FUG;
-    }
+    // FUG BLOCK
+    // if (!this.isDeveloper) {
+    //   return merch.name !== FUG;
+    // }
     if (this.isQuberaReady) {
       return true;
     }
