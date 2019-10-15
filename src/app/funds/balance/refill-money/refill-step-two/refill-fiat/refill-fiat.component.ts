@@ -70,6 +70,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public viewsList = {
     LOADING: 'loading',
     SUCCESS: 'success',
+    NEED_KYC: 'need_kyc',
     MAIN: 'main',
     DENIED: 'denied',
   };
