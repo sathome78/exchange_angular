@@ -131,7 +131,6 @@ export class BalanceService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
-
   sendTransferCode(code: string) {
     const data = { CODE: code };
     const url = `${this.apiUrl}/api/private/v2/balances/transfer/accept`;
