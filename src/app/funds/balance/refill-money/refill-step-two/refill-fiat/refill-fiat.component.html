@@ -108,7 +108,6 @@
           formControlName="amount"
           name="amount"
           class="fiat-amount"
-          (customBlur)="amountBlur()"
         >
           <div
             class="input-hint-wrapper"
@@ -139,30 +138,12 @@
 
   <ng-container *ngIf="!isRefillClosed && !isQIWI">
     <ng-container>
-      <div class="send__info">
-        <div class="send__info-row">
-          <div class="send__info-title">{{'You want to refill:' | translate}}</div>
-          <div class="send__info-value">
-            {{calculateData.amount | currencyFormat: 'USD'}} {{activeFiat.name}}
-          </div>
-        </div>
-        <div class="send__info-row">
-          <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}}
-            {{activeFiat.name}}
-          </div>
-        </div>
-        <div class="send__info-row">
-          <div class="send__info-title">{{'Total comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}}
-            {{activeFiat.name}}
-          </div>
-        </div>
-        <div class="send__info-row">
-          <div class="send__info-title">{{'Total with comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.resultAmount}} {{activeFiat.name}}</div>
-        </div>
-      </div>
+      <app-commission
+        type="refill"
+        [merchant]="selectedMerchant"
+        [currencyName]="activeFiat ? activeFiat.name : ''"
+        [baseAmount]="formAmout.value"
+      ></app-commission>
       <button
         id="analytics-modal-refill"
         class="btn btn--center"
@@ -170,7 +151,8 @@
         (click)="submitRefill()"
         [disabled]="!form.valid || !selectedMerchant.name || loading"
       >
-        {{'Refill' | translate}}
+        {{'Refill' | translate}} {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat}}
+        {{activeFiat.name}}
       </button>
     </ng-container>
   </ng-container>

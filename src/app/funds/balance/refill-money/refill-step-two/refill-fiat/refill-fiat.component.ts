@@ -25,8 +25,6 @@ import { FUG, EUR } from 'app/funds/balance/balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { QiwiRefill } from 'app/model/qiwi-rifill-response.model';
 import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
-import { CommissionData } from 'app/funds/models/commission-data.model';
-import { defaultCommissionData } from '../../../../store/reducers/default-values';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -62,7 +60,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public redirectionUrl;
   public selectMerchantName;
   public loading = false;
-  public calculateData: CommissionData = defaultCommissionData;
   public qiwiResData: QiwiRefill;
   public isShowCopyAddress = false;
   public isShowCopyMemoId = false;
@@ -188,7 +185,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.formAmout.updateValueAndValidity();
         if (this.selectedMerchant) {
           this.setMinRefillSum();
-          this.calculateCommission(this.formAmout.value);
         }
         this.setView(this.viewsList.MAIN);
       }, err => {
@@ -214,7 +210,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
-    this.calculateCommission(this.formAmout.value);
     if (this.isQIWI) {
       this.formAmout.setValidators([]);
     } else {
@@ -323,12 +318,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     }
   }
 
-  amountBlur() {
-    if (this.formAmout.valid) {
-      this.calculateCommission(this.formAmout.value);
-    }
-  }
-
   searchMerchant(e) {
     this.searchTemplate = e.target.value;
     // FUG BLOCK
@@ -399,26 +388,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.isShowCopyMemoId = true;
         setTimeout(() => (this.isShowCopyMemoId = false), 1000);
         break;
-    }
-  }
-
-  calculateCommission(amount) {
-    if (this.formAmout.valid && this.selectedMerchant.merchantId) {
-      this.balanceService
-        .getCommissionToDeposit(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(
-            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
-          );
-          this.calculateData.commission_rates_sum =
-            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
-        });
-    } else {
-      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
-      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
-      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
     }
   }
 

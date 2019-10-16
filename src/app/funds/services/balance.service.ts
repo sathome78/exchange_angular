@@ -131,17 +131,6 @@ export class BalanceService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
-  getCommissionToDeposit(amount: string, currency: string, merchant: string) {
-    let httpOptions = new HttpParams();
-    httpOptions = httpOptions.append('amount', amount);
-    httpOptions = httpOptions.append('currency', currency);
-    httpOptions = httpOptions.append('merchant', merchant);
-
-    const url = `${this.apiUrl}/api/private/v2/balances/refill/commission`;
-    return this.http
-      .get(url, { params: httpOptions, observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
-  }
 
   sendTransferCode(code: string) {
     const data = { CODE: code };
