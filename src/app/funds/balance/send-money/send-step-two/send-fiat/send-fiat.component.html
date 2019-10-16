@@ -47,7 +47,6 @@
               [placeholder]="(currName) + ' Amount'"
               [currencyName]="activeFiat.name"
               (customInput)="amountInput($event)"
-              (customBlur)="amountBlur($event)"
               name="amount"
               formControlName="amount"
             >
@@ -240,40 +239,20 @@
       <ng-container *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length">
         <div class="send__line"></div>
         <ng-container *ngIf="fiatInfoByName.leftRequestSum > 0">
-          <div class="send__info">
-            <div class="send__info-row">
-              <div class="send__info-title">{{'You want to withdraw:' | translate}}</div>
-              <div class="send__info-value">
-                {{calculateData.amount | currencyFormat: currName}} {{currName}}
-              </div>
-            </div>
-            <div class="send__info-row">
-              <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-              <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}} {{currName}}
-              </div>
-            </div>
-            <div class="send__info-row">
-              <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
-              <div class="send__info-value">{{calculateData.merchantCommissionRate}} = {{calculateData.merchantCommissionAmount}} {{currName}}
-              </div>
-            </div>
-            <div class="send__info-row">
-              <div class="send__info-title">{{'Total comission:' | translate}}</div>
-              <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}} {{currName}}
-              </div>
-            </div>
-            <div class="send__info-row">
-              <div class="send__info-title">{{'Total with comission:' | translate}}</div>
-              <div class="send__info-value">{{calculateData.resultAmount}} {{currName}}</div>
-            </div>
-          </div>
+          <app-commission
+            type="withdraw"
+            [merchant]="selectedMerchant"
+            [currencyName]="activeFiat ? activeFiat.name : ''"
+            [baseAmount]="formAmount.value"
+          ></app-commission>
+
           <button
             class="btn btn--center "
             [disabled]="isDisabledForm"
             (click)="onSubmitWithdrawal()"
           >
             {{'Withdraw' | translate}}
-            <span class="value">{{calculateData.resultAmount}}</span>
+            <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw')}}</span>
             <span> {{currName}}</span>
           </button>
         </ng-container>

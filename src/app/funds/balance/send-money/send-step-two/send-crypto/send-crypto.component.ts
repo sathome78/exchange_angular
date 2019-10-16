@@ -1,5 +1,5 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 import * as _uniq from 'lodash/uniq';
 import { Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,8 +9,6 @@ import { keys } from '../../../../../shared/constants';
 import { select, Store } from '@ngrx/store';
 import { getCryptoCurrenciesForChoose, getUserInfo, State } from 'app/core/reducers';
 import { SEND_CRYPTO } from '../../send-money-constants';
-import { CommissionData } from '../../../../models/commission-data.model';
-import { defaultCommissionData } from '../../../../store/reducers/default-values';
 import { PopupService } from 'app/shared/services/popup.service';
 import { BalanceItem } from '../../../../models/balance-item.model';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -35,7 +33,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeCrypto;
   public dailyLimit;
   public form: FormGroup;
-  public calculateData: CommissionData = defaultCommissionData;
   public loadingBalance = false;
   public userInfo: ParsedToken;
 
@@ -132,7 +129,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   balanceClick() {
     if (this.activeBalance && this.activeBalance > 0) {
       this.formAmount.setValue(this.utilsService.currencyFormat(this.activeBalance));
-      this.calculateCommission(this.activeBalance);
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
     }
@@ -144,46 +140,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
         amount = this.dailyLimit;
       }
       this.formAmount.setValue(this.utilsService.currencyFormat(amount));
-      this.calculateCommission(amount);
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
-    }
-  }
-
-  amountBlur() {
-    if (this.formAmount.valid) {
-      this.calculateCommission(this.formAmount.value);
-    }
-  }
-
-  calculateCommission(amount) {
-    if (this.activeCrypto && amount !== 0) {
-      this.loadingBalance = true;
-      this.balanceService
-        .getCommissionToWithdraw(amount, this.activeCrypto.id, this.cryptoInfoByName.merchantCurrencyData[0].merchantId)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(
-          res => {
-            this.calculateData = res as CommissionData;
-            const compCommission = parseFloat(
-              this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
-            );
-            this.calculateData.commission_rates_sum =
-              +this.cryptoInfoByName.merchantCurrencyData[0].outputCommission +
-              (Number.isNaN(compCommission) ? compCommission : 0);
-            this.loadingBalance = false;
-          },
-          err => {
-            this.loadingBalance = false;
-            console.error(err);
-          }
-        );
-    } else {
-      try {
-        this.calculateData.merchantCommissionRate = `(${
-          this.cryptoInfoByName.merchantCurrencyData[0].outputCommission
-        }%, but not less than ${this.cryptoInfoByName.merchantCurrencyData[0].fixedMinCommission} USD)`;
-      } catch (e) {}
     }
   }
 
@@ -191,7 +149,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.form.reset();
     this.activeCrypto = currency;
     this.getCryptoInfoByName(currency.name);
-    this.calculateCommission(0);
   }
 
   private initFormWithMemo() {
@@ -218,7 +175,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   private getCryptoInfoByName(name: string) {
-    this.calculateData = defaultCommissionData;
     this.balanceService
       .getCurrencyData(name)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -233,7 +189,6 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
             this.cryptoInfoByName.minWithdrawSum > parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum)
               ? this.cryptoInfoByName.minWithdrawSum
               : parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum);
-          this.calculateCommission(0);
         }
         if (this.activeCrypto && this.cryptoInfoByName) {
           this.VIEW = this.viewsList.MAIN;

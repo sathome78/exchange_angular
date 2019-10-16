@@ -1,18 +1,12 @@
 <div
   style="display: block;"
-  *ngIf="VIEW === viewsList.MAIN"
+  *ngIf="VIEW === viewsList.MAIN || VIEW === viewsList.NEED_KYC"
   class="refil-fiat side-popups"
 >
-  <h2
-    class="title refill__title"
-    *ngIf="!submitSuccess"
-  >
+  <h2 class="title refill__title">
     {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
   </h2>
-  <form
-    [formGroup]="form"
-    *ngIf="!submitSuccess"
-  >
+  <form [formGroup]="form">
     <div class="refill__inputs-wrap">
       <!-- TODO add styles to select--error -->
       <div class="currency-select-wrapper">
@@ -114,7 +108,6 @@
           formControlName="amount"
           name="amount"
           class="fiat-amount"
-          (customBlur)="amountBlur()"
         >
           <div
             class="input-hint-wrapper"
@@ -137,52 +130,46 @@
 
     </div>
   </form>
-  <ng-container *ngIf="!submitSuccess && !isQIWI">
-    <div class="send__line"></div>
 
+  <div
+    class="send__line"
+    *ngIf="!isQIWI"
+  ></div>
+
+  <ng-container *ngIf="!isRefillClosed && !isQIWI">
     <ng-container>
-      <div class="send__info">
-        <div class="send__info-row">
-          <div class="send__info-title">{{'You want to refill:' | translate}}</div>
-          <div class="send__info-value">
-            {{calculateData.amount | currencyFormat: 'USD'}} {{activeFiat.name}}
-          </div>
-        </div>
-        <div class="send__info-row">
-          <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.companyCommissionRate}} = {{calculateData.companyCommissionAmount}}
-            {{activeFiat.name}}
-          </div>
-        </div>
-        <div class="send__info-row">
-          <div class="send__info-title">{{'Total comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount}}
-            {{activeFiat.name}}
-          </div>
-        </div>
-        <div class="send__info-row">
-          <div class="send__info-title">{{'Total with comission:' | translate}}</div>
-          <div class="send__info-value">{{calculateData.resultAmount}} {{activeFiat.name}}</div>
-        </div>
-      </div>
-
+      <app-commission
+        type="refill"
+        [merchant]="selectedMerchant"
+        [currencyName]="activeFiat ? activeFiat.name : ''"
+        [baseAmount]="formAmout.value"
+      ></app-commission>
       <button
         id="analytics-modal-refill"
         class="btn btn--center"
-        *ngIf="!submitSuccess && selectedMerchant"
+        *ngIf="VIEW === viewsList.MAIN && !isQIWI"
         (click)="submitRefill()"
         [disabled]="!form.valid || !selectedMerchant.name || loading"
       >
-        {{'Refill' | translate}}
+        {{'Refill' | translate}} {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat}}
+        {{activeFiat.name}}
       </button>
     </ng-container>
-
-    <div class="send__line"></div>
   </ng-container>
+
+  <ng-container *ngIf="isRefillClosed">
+    <div>{{'Sorry, refill is closed for now' | translate}}.</div>
+  </ng-container>
+
+
+  <div
+    class="send__line"
+    *ngIf="!isQIWI"
+  ></div>
 
   <button
     class="btn btn--center"
-    *ngIf="!submitSuccess && selectedMerchant && isQIWI"
+    *ngIf="!isRefillClosed && isQIWI"
     (click)="submitRefill()"
     [disabled]="!form.valid || !selectedMerchant.name || loading"
   >
@@ -192,7 +179,7 @@
   <!-- показывать после успешного создания заявки-->
   <div
     class="refill__fiat-successful"
-    *ngIf="submitSuccess"
+    *ngIf="VIEW === viewsList.SUCCESS"
   >
     <div
       [ngSwitch]="selectMerchantName"
@@ -337,6 +324,11 @@
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
+      <li
+        class="note__list-item"
+        *ngIf="isQIWI"
+      >{{'Refill commission for qiwi is' | translate}} {{selectedMerchant.inputCommission}}%
+      </li>
       <li class="note__list-item">
         <b>{{'Please note that a fee is charged for depositing fiat. Size of the commission you can see here:' | translate}}</b>
         <a

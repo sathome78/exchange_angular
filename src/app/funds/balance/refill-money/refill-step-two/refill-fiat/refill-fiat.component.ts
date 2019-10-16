@@ -25,8 +25,6 @@ import { FUG, EUR } from 'app/funds/balance/balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { QiwiRefill } from 'app/model/qiwi-rifill-response.model';
 import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
-import { CommissionData } from 'app/funds/models/commission-data.model';
-import { defaultCommissionData } from '../../../../store/reducers/default-values';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -45,7 +43,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   @ViewChild('redirectionLink') redirectionLink: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
-  public submitSuccess = false;
   public isSubmited = false;
   public fiatNames: CurrencyBalanceModel[] = [];
   public defaultFiatNames: CurrencyBalanceModel[] = [];
@@ -63,13 +60,14 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public redirectionUrl;
   public selectMerchantName;
   public loading = false;
-  public calculateData: CommissionData = defaultCommissionData;
   public qiwiResData: QiwiRefill;
   public isShowCopyAddress = false;
   public isShowCopyMemoId = false;
 
   public viewsList = {
     LOADING: 'loading',
+    SUCCESS: 'success',
+    NEED_KYC: 'need_kyc',
     MAIN: 'main',
     DENIED: 'denied',
   };
@@ -187,12 +185,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.formAmout.updateValueAndValidity();
         if (this.selectedMerchant) {
           this.setMinRefillSum();
-          this.calculateCommission(this.formAmout.value);
         }
-        this.VIEW = this.viewsList.MAIN;
+        this.setView(this.viewsList.MAIN);
       }, err => {
         if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
-          this.VIEW = this.viewsList.DENIED;
+          this.setView(this.viewsList.DENIED);
         }
       });
   }
@@ -213,7 +210,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
-    this.calculateCommission(this.formAmout.value);
     if (this.isQIWI) {
       this.formAmout.setValidators([]);
     } else {
@@ -267,7 +263,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         additionalFieldName: this.selectedMerchant.additionalFieldName,
       };
       if (this.selectedMerchant.address) {
-        this.submitSuccess = true;
+        this.setView(this.viewsList.SUCCESS);
         this.loading = false;
         return;
       }
@@ -290,7 +286,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         (res: any) => {
           if (this.isQIWI) {
             this.qiwiResData = { ...this.qiwiResData, memo: res.params.address };
-            this.submitSuccess = true;
+            this.setView(this.viewsList.SUCCESS);
             this.loading = false;
             return;
           }
@@ -301,7 +297,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
               this.redirectionLink.nativeElement.click();
             }, 1000);
           }
-          this.submitSuccess = true;
+          this.setView(this.viewsList.SUCCESS);
           this.loading = false;
         },
         err => {
@@ -319,12 +315,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       if (this.form.valid && this.selectedMerchant.name) {
         this.refillMerchant();
       }
-    }
-  }
-
-  amountBlur() {
-    if (this.formAmout.valid) {
-      this.calculateCommission(this.formAmout.value);
     }
   }
 
@@ -401,33 +391,22 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateCommission(amount) {
-    if (this.formAmout.valid && this.selectedMerchant.merchantId) {
-      this.balanceService
-        .getCommissionToDeposit(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(
-            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
-          );
-          this.calculateData.commission_rates_sum =
-            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
-        });
-    } else {
-      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
-      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
-      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
-    }
-  }
-
   get isQIWI(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
+  }
+  get isRefillClosed(): boolean {
+    return !this.merchants.length;
+  }
+  get requiredKyc(): boolean {
+    return this.selectedMerchant.needVerification;
   }
   get isCoinPay(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'CoinPay(Privat24)';
   }
   get formAmout() {
     return this.form.controls['amount'];
+  }
+  private setView(v) {
+    this.VIEW = v;
   }
 }
