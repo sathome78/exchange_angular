@@ -19,8 +19,6 @@ import { Subject } from 'rxjs';
 import * as _ from 'lodash';
 
 import { BalanceService } from 'app/funds/services/balance.service';
-import { CommissionData } from 'app/funds/models/commission-data.model';
-import { defaultCommissionData } from 'app/funds/store/reducers/default-values';
 import { FUG } from 'app/funds/balance/balance-constants';
 import fileSaver from 'file-saver';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -51,8 +49,6 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   public searchTemplate = '';
   public activeFiat;
   public alphabet;
-  public calculateData: CommissionData = defaultCommissionData;
-  public form: FormGroup;
   public bankInfo;
 
   @ViewChild('content') content: ElementRef;
@@ -77,7 +73,6 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
   constructor(private store: Store<State>, public balanceService: BalanceService, private utilsService: UtilsService) {}
 
   ngOnInit() {
-    this.initForm();
     // FUG BLOCK
     this.merchants =
       this.quberaBank &&
@@ -90,7 +85,7 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
       .subscribe(currencies => {
         this.defaultFiatNames = currencies;
         // this.fiatNames = this.defaultFiatNames;
-        this.fiatNames.push(this.defaultFiatNames[2]);
+        this.fiatNames = this.defaultFiatNames.filter(el => el.name === 'EUR');
         this.setActiveFiat();
         if (this.activeFiat) {
           this.getDataByCurrency(this.activeFiat.name);
@@ -116,7 +111,6 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.selectedMerchantNested = merchantImage;
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
-    this.form.get('amount').updateValueAndValidity();
     this.togglePaymentSystemDropdown();
     this.setMinRefillSum();
   }
@@ -128,25 +122,17 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
     this.openCurrencyDropdown = false;
   }
 
-  initForm() {
-    this.form = new FormGroup({
-      amount: new FormControl(''),
-    });
-  }
-
   private getDataByCurrency(currencyName) {
     this.balanceService
       .getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        // this.fiatDataByName = res;
         this.fiatArrayData = res;
         this.fiatDataByName = this.fiatArrayData.merchantCurrencyData.filter(item => item.name === FUG);
         this.merchants = this.fiatDataByName;
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
-        this.form.get('amount').updateValueAndValidity();
         if (this.selectedMerchant) {
           this.setMinRefillSum();
         }
@@ -167,50 +153,6 @@ export class StepOneDepositComponent implements OnInit, OnDestroy {
         !!merchant.listMerchantImage.filter(f2 => f2.image_name.toUpperCase().match(e.target.value.toUpperCase()))
           .length
     );
-  }
-
-  amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) {
-      this.calculateCommission(this.amountValue);
-    }
-  }
-
-  amountInput(event) {
-    this.amountValue = event.target.value;
-  }
-
-  isMaxThenActiveBalance(): { [key: string]: any } | null {
-    if (+this.activeBalance < +this.amountValue) {
-      return { isMaxThenActiveBalance: true };
-    }
-    return null;
-  }
-
-  isMinThenMinWithdraw(): { [key: string]: any } | null {
-    if (+this.minWithdrawSum > +this.amountValue) {
-      return { isMinThenMinWithdraw: true };
-    }
-    return null;
-  }
-
-  calculateCommission(amount) {
-    if (this.form.controls['amount'].valid && this.selectedMerchant.merchantId) {
-      this.balanceService
-        .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(
-            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
-          );
-          this.calculateData.commission_rates_sum =
-            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
-        });
-    } else {
-      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
-      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
-      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
-    }
   }
 
   toggleCurrencyDropdown() {
