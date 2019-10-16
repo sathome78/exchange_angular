@@ -51,7 +51,6 @@ export class StepOneWithdrawComponent implements OnInit {
   public activeFiat;
   public alphabet;
   public isSubmited = false;
-
   public minWithdrawSum = 0;
   public activeBalance = 0;
   public amountValue = 0;
@@ -86,7 +85,6 @@ export class StepOneWithdrawComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
-    private stores: Store<fromCore.State>,
     private settingsService: SettingsService,
     private utilsService: UtilsService,
     public balanceService: BalanceService
@@ -113,16 +111,12 @@ export class StepOneWithdrawComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
         this.defaultFiatNames = currencies;
-        // this.fiatNames = this.defaultFiatNames;
-        this.fiatNames.push(this.defaultFiatNames[2]);
+        this.fiatNames = this.defaultFiatNames.filter(el => el.name === 'EUR');
         this.setActiveFiat();
         if (this.activeFiat) {
           this.getDataByCurrency(this.activeFiat.name);
         }
-        this.prepareAlphabet();
       });
-    // this.activeBalance = this.quberaBalances.availableBalance.amount;
-
   }
 
   setActiveFiat() {
@@ -147,7 +141,6 @@ export class StepOneWithdrawComponent implements OnInit {
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         this.form.get('amount').updateValueAndValidity();
         if (this.selectedMerchant) {
-          this.setMinRefillSum();
           this.setMinWithdrawSum();
         }
       });
@@ -170,26 +163,6 @@ export class StepOneWithdrawComponent implements OnInit {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
     this.openBankSystemDropdown = false;
     this.openCountryDropdown = false;
-    this.prepareAlphabet();
-  }
-
-  prepareAlphabet() {
-    const temp = [];
-    this.fiatNames.forEach(currency => {
-      const letter = currency.name.toUpperCase()[0];
-      temp.push(letter);
-    });
-    const unique = (value, index, self) => {
-      return self.indexOf(value) === index;
-    };
-    this.alphabet = _uniq(temp.filter(unique).sort());
-  }
-
-  private setMinRefillSum() {
-    this.minRefillSum =
-      this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
-        ? this.fiatDataByName.minRefillSum
-        : parseFloat(this.selectedMerchant.minSum);
   }
 
   private setMinWithdrawSum() {
@@ -227,34 +200,7 @@ export class StepOneWithdrawComponent implements OnInit {
   balanceClick(bal) {
     if (bal > this.minWithdrawSum) {
       this.form.controls['amount'].setValue(bal.toString());
-      this.calculateCommission(bal);
       this.amountValue = bal;
-    }
-  }
-
-  calculateCommission(amount) {
-    if (this.form.controls['amount'].valid && this.selectedMerchant.merchantId) {
-      this.balanceService
-        .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(
-            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
-          );
-          this.calculateData.commission_rates_sum =
-            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
-        });
-    } else {
-      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
-      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
-      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
-    }
-  }
-
-  amountBlur(event) {
-    if (event && this.form.controls['amount'].valid) {
-      this.calculateCommission(this.amountValue);
     }
   }
 
@@ -390,7 +336,6 @@ export class StepOneWithdrawComponent implements OnInit {
   get currentSEPANarrative(): any {
     return this.formSepa.get('narrative');
   }
-
   get currentSEPAIban(): any {
     return this.formSepa.get('iban');
   }
@@ -405,26 +350,21 @@ export class StepOneWithdrawComponent implements OnInit {
   get currentSWIFTACompanyName(): any {
     return this.formSwift.get('companyName');
   }
-
   get currentSWIFTAccountNumbere(): any {
     return this.formSwift.get('accountNumber');
   }
-
   get currentSWIFTNumber(): any {
     return this.formSwift.get('swift');
   }
   get currentSWIFTNarrative(): any {
     return this.formSwift.get('narrative');
   }
-
   get currentSWIFTAddress(): any {
     return this.formSwift.get('address');
   }
-
   get currentSWIFTCity(): any {
     return this.formSwift.get('city');
   }
-
   trackByFiatNames(index, item) {
     return item.id;
   }
