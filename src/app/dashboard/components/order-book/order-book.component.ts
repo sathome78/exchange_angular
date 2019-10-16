@@ -25,14 +25,17 @@ import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.ser
 import { OrderBookItem } from 'app/model';
 import { Subscription } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-order-book',
   templateUrl: 'order-book.component.html',
   styleUrls: ['order-book.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+  public showContentOrderBook = false;
   @ViewChild('mainContent') public orderBookContainer: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
@@ -67,6 +70,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private resizeTimeout;
 
+  
+
   /** stores data for drawing a border for a chart */
   public withForChartLineElements: {
     sell: string[];
@@ -88,6 +93,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
+    if(document.documentElement.clientWidth >1199){
+      setTimeout(() => {
+        this.showContentOrderBook = true;
+        this.cdr.detectChanges();
+      },5600)
+    }
+    if(document.documentElement.clientWidth < 1199){
+      this.showContentOrderBook = true;
+      this.cdr.detectChanges();
+    }
     this.calculateMaxNumberLength();
 
     this.withForChartLineElements = {

@@ -39,11 +39,13 @@ import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT } from 'app/shared/constants';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-graph',
   templateUrl: 'graph.component.html',
   styleUrls: ['graph.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
@@ -70,6 +72,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public pair: SimpleCurrencyPair;
   public chartReady = false;
 
+  public showContent3 = false;
+
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '30'; // 3
   // BEWARE: no trailing slash is expected in feed URL
@@ -90,6 +94,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private widgetOptions: ChartingLibraryWidgetOptions;
 
+  @Input() public showContent = false;
+
   constructor(
     private store: Store<State>,
     private router: Router,
@@ -107,6 +113,17 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
+    if(document.documentElement.clientWidth >1199){
+      setTimeout(()=>{
+      this.showContent3 = true;
+      this.cdr.detectChanges();
+    },5800)
+    }
+    if(document.documentElement.clientWidth < 1199){
+      this.showContent3 = true;
+      this.cdr.detectChanges();
+    }
+
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))

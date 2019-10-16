@@ -1261,6 +1261,10 @@
       &__search {
         border: none;
         background-color: transparent;
+        position: relative;
+        width: calc(100% - 31px);
+        left: 17px;
+        bottom: -2px;
       }
       &__search-input {
         background: rgba(255, 255, 255, 0.1);
@@ -1476,4 +1480,11 @@ app-embedded-orders-mobile{
   width: 100%;
   align-items: center;
   // background-color: #23243F;
+}
+
+
+.widget__graph{
+  @media(max-width: 1199px){
+    transform: none!important;
+  }
 }

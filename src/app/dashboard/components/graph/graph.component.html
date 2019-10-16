@@ -165,7 +165,10 @@
   >
     <app-currency-pair-info-mobile></app-currency-pair-info-mobile>
   </div>
-  <div class="widget__graph">
+  <div
+    class="widget__graph"
+    [@showOrderBook]="showContent3 ? 'show' : 'hide' "
+  >
 
     <div
       class="amcharts-stock_chart_div"
