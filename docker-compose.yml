@@ -1,19 +1,7 @@
-version: "3"
+version: '3.0'
 services:
-  web:
-    # replace username/repo:tag with your name and image details
-    image: roadtomoon/exrates_angular:latest
-    deploy:
-      replicas: 2
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: 500M
-      restart_policy:
-        condition: on-failure
+  exrates-client:
+    container_name: exrates-client
+    build: ./local
     ports:
-    - "80:80"
-    networks:
-    - webnet
-networks:
-  webnet
+      - '4200:80'
