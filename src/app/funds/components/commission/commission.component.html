@@ -1,0 +1,42 @@
+<div class="send__info">
+  <div class="send__info-row">
+    <div
+      class="send__info-title"
+      *ngIf="type === 'withdraw'"
+    >
+      {{'You want to withdraw:' | translate}}
+    </div>
+    <div
+      class="send__info-title"
+      *ngIf="type === 'refill'"
+    >
+      {{'You want to refill:' | translate}}
+    </div>
+    <div class="send__info-value">
+      {{baseAmount | currencyFormat}} {{currencyName}}
+    </div>
+  </div>
+  <div class="send__info-row">
+    <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
+    <div class="send__info-value">
+      ({{'0'}})% = {{'0' | currencyFormat}} {{currencyName}}
+    </div>
+  </div>
+  <div class="send__info-row">
+    <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
+    <div class="send__info-value">
+      ({{merchantCommission}}%<span *ngIf="+fixedMerchantCommission"> , but not less than {{fixedMerchantCommission}} {{currencyName}}</span>) =
+      {{merchantCommissionValue | currencyFormat}} {{currencyName}}
+    </div>
+  </div>
+  <div class="send__info-row">
+    <div class="send__info-title">{{'Total comission:' | translate}}</div>
+    <div class="send__info-value">
+      {{merchantCommissionValue | currencyFormat}} {{currencyName}}
+    </div>
+  </div>
+  <div class="send__info-row">
+    <div class="send__info-title">{{'Total with comission:' | translate}}</div>
+    <div class="send__info-value">{{totalValue | currencyFormat}} {{currencyName}}</div>
+  </div>
+</div>

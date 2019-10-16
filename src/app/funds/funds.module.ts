@@ -82,7 +82,7 @@ import { QuberaMobDetailsComponent } from './qubera-mob-details/qubera-mob-detai
 import { HashToUrlPipe } from './hash-to-url.pipe';
 import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-coin-pay/refill-coin-pay.component';
 import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.component';
-//import { CommissionComponent } from './components/commission/commission.component';
+import { CommissionComponent } from './components/commission/commission.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -174,7 +174,7 @@ export function createTranslateLoader(http: HttpClient) {
     QuberaMobDetailsComponent,
     RefillCoinPayComponent,
     NeedKycMsgComponent,
-    //CommissionComponent,
+    CommissionComponent,
   ],
   providers: [
     BalanceService,
