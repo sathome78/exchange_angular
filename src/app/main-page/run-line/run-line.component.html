@@ -1,12 +1,14 @@
-<div
-  class="run-line"
-  *ngIf="currencyPairs.length"
->
-  <div class="run-line-wr">
+<div class="run-line">
+  <div
+    class="run-line-wr animate-item"
+    [ngClass]="{'active' : activeBlock}"
+  >
+
     <ngx-slick-carousel
       class="carousel run-line-inner"
       #slickModal2="slick-carousel"
       [config]="slideConfig"
+      *ngIf="currencyPairs.length"
     >
       <div
         *ngFor="let pair of currencyPairs; trackBy: trackByPairs"

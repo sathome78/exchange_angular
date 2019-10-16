@@ -1,3 +1,6 @@
+<app-preloader [ngClass]="{'active' : preload}">
+</app-preloader>
+
 <div
   class="container container--dashboard"
   *ngIf="breakPoint === 'desktop'"
@@ -31,6 +34,7 @@
             class="gridster-item"
             (start)="DragStart($event)"
             (end)="DragEnd($event)"
+            [@showAnimation]="showContent ? 'show' : 'hide' "
           >
             <ng-template
               [ngTemplateOutlet]="widgetTemplate[widget.type]"
@@ -68,6 +72,7 @@
   <app-graph
     (changeItemSize)="changeItemSize($event)"
     (removeItem)="removeItem(index)"
+    [showContent]="showContent"
   >
   </app-graph>
   <div

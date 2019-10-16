@@ -11,11 +11,13 @@ import { Subscription } from 'rxjs';
 import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.service';
 import { SetAllTradesAction } from 'app/dashboard/actions/dashboard.actions';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-trade-history',
   templateUrl: 'trade-history.component.html',
   styleUrls: ['trade-history.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeHistoryComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
@@ -35,6 +37,7 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   secondCurrency;
   firstCurrency;
   public loading: boolean;
+  public showContent1 = false;
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -49,6 +52,22 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   }
 
   ngOnInit() {
+    
+   
+
+
+
+
+    if(document.documentElement.clientWidth >1199){
+      setTimeout(() => {
+        this.showContent1 = true;
+        this.cdr.detectChanges();
+      },6100)
+    }
+    if(document.documentElement.clientWidth < 1199){
+      this.showContent1 = true;
+      this.cdr.detectChanges();
+    }
     this.itemName = 'trade-history';
 
     this.store

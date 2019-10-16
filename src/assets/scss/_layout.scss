@@ -167,3 +167,57 @@ app-settings, app-dashboard {
 #launcher{
       bottom: 4px!important;
 }
+
+
+ngx-gridster-item.gridster-item[data-position="0"]{
+  transition-delay: 1s!important;
+}
+
+
+
+app-preloader{
+  &.active{
+    .preload-container {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .preload-container {
+  width: 100%;
+  position: fixed;
+  min-height: 100vh;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #1f1e30;
+  z-index: 999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+transform: translateY(-101%);
+// opacity: .85;
+
+transition: .6s ease-out;
+    // will-change: transform;
+  .content-part {
+    .logo{
+        width: 220px;
+        margin-bottom: 20px;
+        svg{
+            width: 100%;
+            height: auto;
+        }
+    }
+    app-loader{
+        font-size: 20px;
+    }
+    p{
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+    }
+  }
+}
+}
+
