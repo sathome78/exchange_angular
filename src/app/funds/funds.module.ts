@@ -54,7 +54,6 @@ import { ShowPendingSystemPipe } from './pending-system.pipe';
 import { ShowTransactionsStatusPipe } from './transactions-history-status.pipe';
 import { ShowTransactionsTypePipe } from './transactions-history-type.pipe';
 import { QuberaTableComponent } from './balance/qubera-table/qubera-table.component';
-import { RefillFiatQuberaComponent } from './balance/refill-money/refill-step-two/refill-fiat-qubera/refill-fiat-qubera.component';
 import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
 import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
 import { IEOTableComponent } from './balance/ieotable/ieotable.component';
@@ -83,6 +82,7 @@ import { QuberaMobDetailsComponent } from './qubera-mob-details/qubera-mob-detai
 import { HashToUrlPipe } from './hash-to-url.pipe';
 import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-coin-pay/refill-coin-pay.component';
 import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.component';
+//import { CommissionComponent } from './components/commission/commission.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -148,7 +148,6 @@ export function createTranslateLoader(http: HttpClient) {
     ShowTransactionsTypePipe,
     HashToUrlPipe,
     QuberaTableComponent,
-    RefillFiatQuberaComponent,
     SendFiatQuberaComponent,
     TransferQuberaComponent,
     IEOTableComponent,
@@ -175,6 +174,7 @@ export function createTranslateLoader(http: HttpClient) {
     QuberaMobDetailsComponent,
     RefillCoinPayComponent,
     NeedKycMsgComponent,
+    //CommissionComponent,
   ],
   providers: [
     BalanceService,
