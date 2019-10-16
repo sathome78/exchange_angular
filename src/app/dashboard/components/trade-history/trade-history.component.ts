@@ -53,12 +53,21 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
 
   ngOnInit() {
     
-    setTimeout(() => {
+   
+
+
+
+
+    if(document.documentElement.clientWidth >1199){
+      setTimeout(() => {
+        this.showContent1 = true;
+        this.cdr.detectChanges();
+      },6100)
+    }
+    if(document.documentElement.clientWidth < 1199){
       this.showContent1 = true;
       this.cdr.detectChanges();
-    },6100)
-
-
+    }
     this.itemName = 'trade-history';
 
     this.store

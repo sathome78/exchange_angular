@@ -113,10 +113,16 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
-    setTimeout(()=>{
+    if(document.documentElement.clientWidth >1199){
+      setTimeout(()=>{
       this.showContent3 = true;
       this.cdr.detectChanges();
     },5800)
+    }
+    if(document.documentElement.clientWidth < 1199){
+      this.showContent3 = true;
+      this.cdr.detectChanges();
+    }
 
     this.store
       .pipe(select(getActiveCurrencyPair))

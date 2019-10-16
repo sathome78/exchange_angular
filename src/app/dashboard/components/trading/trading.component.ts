@@ -147,11 +147,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   }
 
   ngOnInit() {
-    setTimeout(() => {
+    
+
+
+
+    if(document.documentElement.clientWidth >1199){
+      setTimeout(() => {
+        this.showContent5 = true;
+        this.cdr.detectChanges();
+      },5900)
+    }
+    if(document.documentElement.clientWidth < 1199){
       this.showContent5 = true;
       this.cdr.detectChanges();
-    },5900)
-
+    }
 
     this.dropdownLimitValue = this.limitsData[0];
     this.initForms();

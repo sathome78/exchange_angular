@@ -78,10 +78,19 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   ngOnInit() {
 
-    setTimeout(() => {
+    
+
+
+    if(document.documentElement.clientWidth >1199){
+      setTimeout(() => {
+        this.showContent4 = true;
+        this.cdr.detectChanges();
+      },6000)
+    }
+    if(document.documentElement.clientWidth < 1199){
       this.showContent4 = true;
       this.cdr.detectChanges();
-    },6000)
+    }
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))

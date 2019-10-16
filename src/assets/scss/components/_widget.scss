@@ -1481,3 +1481,10 @@ app-embedded-orders-mobile{
   align-items: center;
   // background-color: #23243F;
 }
+
+
+.widget__graph{
+  @media(max-width: 1199px){
+    transform: none!important;
+  }
+}
