@@ -17,22 +17,25 @@
     </div>
   </div>
   <div class="send__info-row">
-    <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-    <div class="send__info-value">
-      ({{'0'}})% = {{'0' | currencyFormat}} {{currencyName}}
-    </div>
-  </div>
-  <div class="send__info-row">
-    <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
-    <div class="send__info-value">
-      ({{merchantCommission}}%<span *ngIf="+fixedMerchantCommission"> , but not less than {{fixedMerchantCommission}} {{currencyName}}</span>) =
+    <div class="send__info-title">{{'Commission:' | translate}}</div>
+    <div
+      class="send__info-value"
+      *ngIf="+merchantCommission > 0 && +fixedMerchantCommission > 0"
+    >
+      ({{merchantCommission}}%, but not less than {{fixedMerchantCommission}} {{currencyName}}) =
       {{merchantCommissionValue | currencyFormat}} {{currencyName}}
     </div>
-  </div>
-  <div class="send__info-row">
-    <div class="send__info-title">{{'Total comission:' | translate}}</div>
-    <div class="send__info-value">
-      {{merchantCommissionValue | currencyFormat}} {{currencyName}}
+    <div
+      class="send__info-value"
+      *ngIf="+merchantCommission > 0 && +fixedMerchantCommission === 0"
+    >
+      ({{merchantCommission}}%) = {{merchantCommissionValue | currencyFormat}} {{currencyName}}
+    </div>
+    <div
+      class="send__info-value"
+      *ngIf="+fixedMerchantCommission > 0 && +merchantCommission === 0"
+    >
+      {{fixedMerchantCommission | currencyFormat}} {{currencyName}}
     </div>
   </div>
   <div class="send__info-row">

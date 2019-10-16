@@ -324,6 +324,11 @@
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">
+      <li
+        class="note__list-item"
+        *ngIf="isQIWI"
+      >{{'Refill commission for qiwi is' | translate}} {{selectedMerchant.inputCommission}}%
+      </li>
       <li class="note__list-item">
         <b>{{'Please note that a fee is charged for depositing fiat. Size of the commission you can see here:' | translate}}</b>
         <a

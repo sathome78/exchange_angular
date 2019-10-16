@@ -119,17 +119,17 @@ export class BalanceService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
-  getCommissionToWithdraw(amount: string, currency: string, merchant: string) {
-    let httpOptions = new HttpParams();
-    httpOptions = httpOptions.append('amount', amount);
-    httpOptions = httpOptions.append('currency', currency);
-    httpOptions = httpOptions.append('merchant', merchant);
+  // getCommissionToWithdraw(amount: string, currency: string, merchant: string) {
+  //   let httpOptions = new HttpParams();
+  //   httpOptions = httpOptions.append('amount', amount);
+  //   httpOptions = httpOptions.append('currency', currency);
+  //   httpOptions = httpOptions.append('merchant', merchant);
 
-    const url = `${this.apiUrl}/api/private/v2/balances/withdraw/commission`;
-    return this.http
-      .get(url, { params: httpOptions, observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
-  }
+  //   const url = `${this.apiUrl}/api/private/v2/balances/withdraw/commission`;
+  //   return this.http
+  //     .get(url, { params: httpOptions, observe: 'response' })
+  //     .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+  // }
 
   sendTransferCode(code: string) {
     const data = { CODE: code };
