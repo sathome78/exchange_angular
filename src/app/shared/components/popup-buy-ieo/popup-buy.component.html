@@ -34,7 +34,7 @@
         </div>
         <div
           class="wrap-input"
-          [ngClass]="{'wrap-input--error': !form.valid && form.dirty}"
+          [ngClass]="{'wrap-input--error': !form.valid && (amountInput.touched || isSubmited)}"
         >
           <input
             class="wrap-input__input"
@@ -66,7 +66,7 @@
 
 
           <!-- Input error section starts -->
-          <ng-container *ngIf="amountInput.errors && amountInput.dirty">
+          <ng-container *ngIf="amountInput.errors && (amountInput.touched || isSubmited)">
             <div class="input-hint-wrapper">
               <span
                 class="wrap-input__message wrap-input__message--show"
@@ -100,6 +100,7 @@
         <p>{{'Pay:' | translate}} {{pay | currencyFormat}} BTC</p>
       </div>
       <button
+        type="submit"
         class="btn btn--active btn--center btn-ieo"
         [disabled]="form.invalid || loading"
       >{{'Confirm' | translate}}</button>

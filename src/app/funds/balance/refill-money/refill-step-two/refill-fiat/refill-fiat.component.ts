@@ -19,7 +19,6 @@ import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
 import { PopupService } from '../../../../../shared/services/popup.service';
 import * as _uniq from 'lodash/uniq';
-import { RefillResponse } from '../../../../../model/refill-response';
 import { RefillData } from '../../../../../shared/interfaces/refill-data-interface';
 import { Router } from '@angular/router';
 import { FUG, EUR } from 'app/funds/balance/balance-constants';
@@ -68,6 +67,14 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public qiwiResData: QiwiRefill;
   public isShowCopyAddress = false;
   public isShowCopyMemoId = false;
+
+  public viewsList = {
+    LOADING: 'loading',
+    MAIN: 'main',
+    DENIED: 'denied',
+  };
+
+  public VIEW = this.viewsList.LOADING;
 
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
@@ -181,6 +188,11 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         if (this.selectedMerchant) {
           this.setMinRefillSum();
           this.calculateCommission(this.formAmout.value);
+        }
+        this.VIEW = this.viewsList.MAIN;
+      }, err => {
+        if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
+          this.VIEW = this.viewsList.DENIED;
         }
       });
   }

@@ -50,6 +50,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   };
+  public loadingBuy = false;
 
   constructor(
     private store: Store<fromCore.State>,
@@ -152,8 +153,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
         validators: [
           Validators.required,
           this.utilsService.emailValidator(),
-          this.utilsService.specialCharacterValidator(),
-          Validators.maxLength(40),
         ],
       }),
     });
@@ -161,6 +160,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   subEmailNotification() {
     this.isSubmited = true;
+    this.emailForm.get('email').updateValueAndValidity();
     this.emailForm.get('email').markAsTouched();
     if (this.emailForm.valid) {
       this.ieoService
@@ -201,6 +201,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   public confirmBuyIEO(amount) {
+    this.loadingBuy = true;
     this.ieoService
       .buyTokens({
         currencyName: this.buyIEOData.currencyName,
@@ -215,6 +216,9 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
         } else {
           this.openSuccessIEO();
         }
+        this.loadingBuy = false;
+      }, err => {
+        this.loadingBuy = false;
       });
   }
 

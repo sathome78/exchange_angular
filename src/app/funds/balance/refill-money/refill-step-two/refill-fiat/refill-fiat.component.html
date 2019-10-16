@@ -1,6 +1,6 @@
 <div
   style="display: block;"
-  *ngIf="!!activeFiat && !!fiatDataByName"
+  *ngIf="VIEW === viewsList.MAIN"
   class="refil-fiat side-popups"
 >
   <h2
@@ -15,51 +15,12 @@
   >
     <div class="refill__inputs-wrap">
       <!-- TODO add styles to select--error -->
-
-      <div class="select refill__select">
-        <div
-          class="select__value select__value--active"
-          (click)="toggleCurrencyDropdown()"
-          [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}"
-        >
-          <div class="icon-wr">
-            <img
-              [src]="activeFiat.name | getIconUrl:true"
-              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
-              class="select__list-item-icon select__list-item-icon--mobile"
-            >
-            <img
-              [src]="activeFiat.name | getIconUrl"
-              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
-              class="select__list-item-icon select__list-item-icon--destop"
-            >
-          </div>
-          {{activeFiat.name}}
-        </div>
-        <div class="select__label">{{'Currency' | translate}}</div>
-        <div class="select__line"></div>
-        <div class="select__triangle"></div>
-        <ul
-          class="select__list"
-          [ngClass]="{'select__list--open': openCurrencyDropdown}"
-          *ngIf="openCurrencyDropdown"
-        >
-          <li
-            class="select__list-item"
-            *ngFor="let currency of fiatNames"
-            (click)="selectCurrency(currency)"
-          >
-            <div class="icon-wr">
-              <img
-                [src]="currency.name | getIconUrl"
-                onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
-                class="select__list-item-icon"
-              >
-            </div>
-
-            {{currency.name}}
-          </li>
-        </ul>
+      <div class="currency-select-wrapper">
+        <app-currency-select-fiat
+          [activeCurrency]="activeFiat"
+          [currencies]="fiatNames"
+          (selectCurrency)="selectCurrency($event)"
+        ></app-currency-select-fiat>
       </div>
 
       <div
@@ -419,9 +380,19 @@
   </div>
 </div>
 
-<div
-  class="loading-container"
-  *ngIf="!activeFiat || !fiatDataByName"
->
-  <app-loader></app-loader>
-</div>
+<ng-container *ngIf="VIEW === viewsList.LOADING">
+  <div class="loading-container">
+    <app-loader></app-loader>
+  </div>
+</ng-container>
+
+
+<ng-container *ngIf="VIEW === viewsList.DENIED">
+  <div class="side-popups send-cripto-s2">
+    <h2 class="title refill__title">
+      {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
+    </h2>
+    <div>{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
+    <div>{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
+  </div>
+</ng-container>

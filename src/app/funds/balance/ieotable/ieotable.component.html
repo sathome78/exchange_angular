@@ -115,6 +115,7 @@
 
 <app-popup-buy
   [IEOData]="selectedIEO"
+  [loading]="loadingBuy"
   *ngIf="showBuyIEO"
   (close)="closeBuyIEO()"
   (confirm)="confirmBuyIEO($event)"

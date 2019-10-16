@@ -93,11 +93,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
-
-    
-
-
-
     if(document.documentElement.clientWidth >1199){
       setTimeout(() => {
         this.showContentOrderBook = true;

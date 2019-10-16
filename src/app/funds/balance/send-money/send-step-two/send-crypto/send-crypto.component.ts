@@ -29,7 +29,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public activeBalance = 0;
   public minWithdrawSum = 0;
   public isSubmited = false;
-  public isEnterData = true;
+
   public isMemo;
   public memoName = '';
   public activeCrypto;
@@ -38,6 +38,15 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public calculateData: CommissionData = defaultCommissionData;
   public loadingBalance = false;
   public userInfo: ParsedToken;
+
+  public viewsList = {
+    LOADING: 'loading',
+    CAPTCHA: 'captcha',
+    MAIN: 'main',
+    DENIED: 'denied',
+  };
+
+  public VIEW = this.viewsList.LOADING;
 
   public model = {
     currency: 0,
@@ -86,7 +95,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     this.formAmount.updateValueAndValidity();
     this.isSubmited = true;
     if (this.form.valid) {
-      this.isEnterData = false;
+      this.VIEW = this.viewsList.CAPTCHA;
     }
   }
 
@@ -117,12 +126,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   }
 
   goToWithdrawal() {
-    this.isEnterData = true;
+    this.VIEW = this.viewsList.MAIN;
   }
 
   balanceClick() {
     if (this.activeBalance && this.activeBalance > 0) {
-      this.formAmount.setValue(this.activeBalance.toString());
+      this.formAmount.setValue(this.utilsService.currencyFormat(this.activeBalance));
       this.calculateCommission(this.activeBalance);
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
@@ -134,7 +143,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       if (+this.activeBalance > +this.dailyLimit) {
         amount = this.dailyLimit;
       }
-      this.formAmount.setValue(amount.toString());
+      this.formAmount.setValue(this.utilsService.currencyFormat(amount));
       this.calculateCommission(amount);
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
@@ -211,7 +220,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   private getCryptoInfoByName(name: string) {
     this.calculateData = defaultCommissionData;
     this.balanceService
-      .getCryptoMerchants(name)
+      .getCurrencyData(name)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoInfoByName = res;
@@ -225,6 +234,13 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
               ? this.cryptoInfoByName.minWithdrawSum
               : parseFloat(this.cryptoInfoByName.merchantCurrencyData[0].minSum);
           this.calculateCommission(0);
+        }
+        if (this.activeCrypto && this.cryptoInfoByName) {
+          this.VIEW = this.viewsList.MAIN;
+        }
+      }, err => {
+        if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
+          this.VIEW = this.viewsList.DENIED;
         }
       });
   }
