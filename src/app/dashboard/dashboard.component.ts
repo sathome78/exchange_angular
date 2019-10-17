@@ -27,6 +27,7 @@ import { Animations } from 'app/shared/animations';
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private waitPairsSub: Subject<void> = new Subject<void>();
   public showContent = false;
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
@@ -77,16 +78,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    
+
     setTimeout(() => {
       this.preload = false;
-    },5500)
-    
+    }, 5500);
+
     setTimeout(() => {
       this.showContent = true;
-    },5700)
-
-
+    }, 5700);
 
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
@@ -194,17 +193,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   findAndSetActiveCurrencyPair(pairName: string) {
     this.store
-      .pipe(select(fromCore.getMarketCurrencyPairsMap))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
-        const pair = Object.values(currencyPairs).filter(
-          item => item.currencyPairName.toLowerCase() === pairName.toLowerCase()
-        )[0];
-        if (pair) {
-          const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
-          this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
-          this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
-          this.userService.getUserBalance(newActivePair);
+      .pipe(select(fromCore.getSimpleCurrencyPairsSelector))
+      .pipe(takeUntil(this.waitPairsSub))
+      .subscribe((currencyPairs: SimpleCurrencyPair[]) => {
+        if (currencyPairs.length) {
+          this.waitPairsSub.next();
+          this.waitPairsSub.complete();
+          const pair = currencyPairs.find(el => el.name === pairName);
+          if (pair) {
+            this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+            this.utilsService.saveActiveCurrencyPairToSS(pair);
+            this.userService.getUserBalance(pair);
+          }
         }
       });
   }
