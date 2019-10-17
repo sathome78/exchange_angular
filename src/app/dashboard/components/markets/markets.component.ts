@@ -70,7 +70,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private utilsService: UtilsService,
     public breakpointService: BreakpointService,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private route: ActivatedRoute,
     private router: Router
   ) {
     super();
@@ -78,16 +77,13 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   ngOnInit() {
 
-    
-
-
-    if(document.documentElement.clientWidth >1199){
+    if (document.documentElement.clientWidth > 1199) {
       setTimeout(() => {
         this.showContent4 = true;
         this.cdr.detectChanges();
-      },6000)
+      }, 6000);
     }
-    if(document.documentElement.clientWidth < 1199){
+    if (document.documentElement.clientWidth < 1199) {
       this.showContent4 = true;
       this.cdr.detectChanges();
     }
