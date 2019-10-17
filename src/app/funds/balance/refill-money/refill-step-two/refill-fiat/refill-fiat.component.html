@@ -1,180 +1,183 @@
 <div
   style="display: block;"
-  *ngIf="VIEW === viewsList.MAIN || VIEW === viewsList.NEED_KYC"
+  *ngIf="VIEW !== viewsList.LOADING && VIEW !== viewsList.DENIED"
   class="refil-fiat side-popups"
 >
-  <h2 class="title refill__title">
-    {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
-  </h2>
-  <form [formGroup]="form">
-    <div class="refill__inputs-wrap">
-      <!-- TODO add styles to select--error -->
-      <div class="currency-select-wrapper">
-        <app-currency-select-fiat
-          [activeCurrency]="activeFiat"
-          [currencies]="fiatNames"
-          (selectCurrency)="selectCurrency($event)"
-        ></app-currency-select-fiat>
-      </div>
-
-      <div
-        class="select refill__select"
-        *ngIf="selectedMerchant"
-      >
-        <div
-          class="select__value select__value--active"
-          (click)="togglePaymentSystemDropdown()"
-        >
-          <div class="icon-wr">
-            <img
-              [src]="selectMerchantName | getIconUrl"
-              onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
-              class="select__list-item-icon"
-            >
-          </div>
-          {{selectMerchantName}}
+  <ng-container *ngIf="VIEW === viewsList.MAIN || VIEW === viewsList.NEED_KYC">
+    <h2 class="title refill__title">
+      {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
+    </h2>
+    <form [formGroup]="form">
+      <div class="refill__inputs-wrap">
+        <!-- TODO add styles to select--error -->
+        <div class="currency-select-wrapper">
+          <app-currency-select-fiat
+            [activeCurrency]="activeFiat"
+            [currencies]="fiatNames"
+            (selectCurrency)="selectCurrency($event)"
+          ></app-currency-select-fiat>
         </div>
-        <div class="select__label">{{'Payment system' | translate}}</div>
-        <div class="select__line"></div>
-        <div class="select__triangle"></div>
+
         <div
-          class="select__list-searching"
-          [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
-          *ngIf="openPaymentSystemDropdown"
-        >
-          <div class="select__search">
-            <input
-              class="select__search-input"
-              type="text"
-              placeholder="Search"
-              (input)="searchMerchant($event)"
-            >
-            <div class="select__search-icon">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1
-                  4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293
-                  13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0
-                  8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293
-                  15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207
-                  17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188
-                  17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465
-                  17.8535L13.293 13.999Z"
-                />
-              </svg>
-            </div>
-          </div>
-          <ul class="select__list select__list--open">
-            <ng-template
-              ngFor
-              let-merchant
-              [ngForOf]="merchants"
-            >
-              <li
-                class="select__list-item"
-                *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
-                (click)="selectMerchant(merchant, nested)"
-              >
-                <div class="icon-wr">
-                  <img
-                    [src]="nested.image_name | getIconUrl"
-                    onerror="this.src='assets/img/currency-icons/no_icon.svg'"
-                    class="select__list-item-icon"
-                  >
-                </div>
-
-                {{nested.image_name}}
-              </li>
-            </ng-template>
-          </ul>
-        </div>
-      </div>
-
-      <div
-        class="wrap-input refill__wrap-input"
-        *ngIf="selectedMerchant && !isQIWI"
-        [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
-      >
-        <app-price-input
-          [placeholder]="'Amount'"
-          formControlName="amount"
-          name="amount"
-          class="fiat-amount"
+          class="select refill__select"
+          *ngIf="selectedMerchant"
         >
           <div
-            class="input-hint-wrapper"
-            *ngIf="!form.valid"
+            class="select__value select__value--active"
+            (click)="togglePaymentSystemDropdown()"
           >
-            <span class="wrap-input__message">
-              {{'Should be at least' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
+            <div class="icon-wr">
+              <img
+                [src]="selectMerchantName | getIconUrl"
+                onerror="this.src= 'assets/img/currency-icons/no_icon.svg'"
+                class="select__list-item-icon"
+              >
+            </div>
+            {{selectMerchantName}}
+          </div>
+          <div class="select__label">{{'Payment system' | translate}}</div>
+          <div class="select__line"></div>
+          <div class="select__triangle"></div>
+          <div
+            class="select__list-searching"
+            [ngClass]="{'select__list-searching--open': openPaymentSystemDropdown}"
+            *ngIf="openPaymentSystemDropdown"
+          >
+            <div class="select__search">
+              <input
+                class="select__search-input"
+                type="text"
+                placeholder="Search"
+                (input)="searchMerchant($event)"
+              >
+              <div class="select__search-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1
+                    4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293
+                    13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0
+                    8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293
+                    15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207
+                    17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188
+                    17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465
+                    17.8535L13.293 13.999Z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <ul class="select__list select__list--open">
+              <ng-template
+                ngFor
+                let-merchant
+                [ngForOf]="merchants"
+              >
+                <li
+                  class="select__list-item"
+                  *ngFor="let nested of merchant.listMerchantImage | merchantImageFilter: searchTemplate"
+                  (click)="selectMerchant(merchant, nested)"
+                >
+                  <div class="icon-wr">
+                    <img
+                      [src]="nested.image_name | getIconUrl"
+                      onerror="this.src='assets/img/currency-icons/no_icon.svg'"
+                      class="select__list-item-icon"
+                    >
+                  </div>
+
+                  {{nested.image_name}}
+                </li>
+              </ng-template>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="wrap-input refill__wrap-input"
+          *ngIf="selectedMerchant && !isQIWI"
+          [ngClass]="{'wrap-input--error': !form.valid && isSubmited}"
+        >
+          <app-price-input
+            [placeholder]="'Amount'"
+            formControlName="amount"
+            name="amount"
+            class="fiat-amount"
+          >
+            <div
+              class="input-hint-wrapper"
+              *ngIf="!form.valid"
+            >
+              <span class="wrap-input__message">
+                {{'Should be at least' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
+              </span>
+            </div>
+          </app-price-input>
+
+          <div class="wrap-input__message--show">
+            <span>
+              {{'Min. sum for deposit' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
+              {{activeFiat ? activeFiat.name : ''}}
             </span>
           </div>
-        </app-price-input>
-
-        <div class="wrap-input__message--show">
-          <span>
-            {{'Min. sum for deposit' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
-            {{activeFiat ? activeFiat.name : ''}}
-          </span>
         </div>
+
+
       </div>
+    </form>
 
+    <div
+      class="send__line"
+      *ngIf="!isQIWI"
+    ></div>
 
-    </div>
-  </form>
-
-  <div
-    class="send__line"
-    *ngIf="!isQIWI"
-  ></div>
-
-  <ng-container *ngIf="!isRefillClosed && !isQIWI">
-    <ng-container>
-      <app-commission
-        type="refill"
-        [merchant]="selectedMerchant"
-        [currencyName]="activeFiat ? activeFiat.name : ''"
-        [baseAmount]="formAmout.value"
-      ></app-commission>
-      <button
-        id="analytics-modal-refill"
-        class="btn btn--center"
-        *ngIf="VIEW === viewsList.MAIN && !isQIWI"
-        (click)="submitRefill()"
-        [disabled]="!form.valid || !selectedMerchant.name || loading"
-      >
-        {{'Refill' | translate}} {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat}}
-        {{activeFiat.name}}
-      </button>
+    <ng-container *ngIf="!isRefillClosed && !isQIWI">
+      <ng-container>
+        <app-commission
+          type="refill"
+          [merchant]="selectedMerchant"
+          [currencyName]="activeFiat ? activeFiat.name : ''"
+          [baseAmount]="formAmout.value"
+        ></app-commission>
+        <button
+          id="analytics-modal-refill"
+          class="btn btn--center"
+          *ngIf="VIEW === viewsList.MAIN && !isQIWI"
+          (click)="submitRefill()"
+          [disabled]="!form.valid || !selectedMerchant.name || loading"
+        >
+          {{'Refill' | translate}} {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat}}
+          {{activeFiat.name}}
+        </button>
+      </ng-container>
     </ng-container>
+
+    <ng-container *ngIf="isRefillClosed">
+      <div>{{'Sorry, refill is closed for now' | translate}}.</div>
+    </ng-container>
+
+
+    <div
+      class="send__line"
+      *ngIf="!isQIWI"
+    ></div>
+
+    <button
+      class="btn btn--center"
+      *ngIf="!isRefillClosed && isQIWI"
+      (click)="submitRefill()"
+      [disabled]="!form.valid || !selectedMerchant.name || loading"
+    >
+      {{'Refill' | translate}}
+    </button>
+
   </ng-container>
-
-  <ng-container *ngIf="isRefillClosed">
-    <div>{{'Sorry, refill is closed for now' | translate}}.</div>
-  </ng-container>
-
-
-  <div
-    class="send__line"
-    *ngIf="!isQIWI"
-  ></div>
-
-  <button
-    class="btn btn--center"
-    *ngIf="!isRefillClosed && isQIWI"
-    (click)="submitRefill()"
-    [disabled]="!form.valid || !selectedMerchant.name || loading"
-  >
-    {{'Refill' | translate}}
-  </button>
 
   <!-- показывать после успешного создания заявки-->
   <div
@@ -188,6 +191,15 @@
       <ng-container *ngSwitchCase="'QIWI'">
         <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
         <div class="refill__crypto-refill-info">
+          <div> Use direct link</div>
+          <a
+            class="btn btn--center"
+            [href]="'#'"
+          >
+            {{'QIWI' | translate}}
+          </a>
+
+          <div>or use this addess and memo</div>
           <div class="refill__qr-code">
             <qr-code
               [value]="qiwiResData.address"
@@ -236,6 +248,7 @@
               >{{'Copied' | translate}}</button>
             </div>
           </div>
+
         </div>
       </ng-container>
 
