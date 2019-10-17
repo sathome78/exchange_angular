@@ -95,6 +95,8 @@ b {
     padding: 0 0 60px;
   }
   @media (min-width: 1200px) {
+    
+    min-height: calc(100vh - 381px);
     padding: 0;
   }
 }
