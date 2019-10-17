@@ -174,9 +174,9 @@ export class CurrencyPairInfoMobileComponent implements OnInit, OnDestroy {
     this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
     this.utils.saveActiveCurrencyPairToSS(pair);
     this.userService.getUserBalance(pair);
-    if (this.route.snapshot.paramMap.get('currency-pair')) {
-      this.router.navigate(['/']);
-    }
+    // if (this.route.snapshot.paramMap.get('currency-pair')) {
+    //   this.router.navigate(['/']);
+    // }
   }
 
   isFiat(currNum) {
