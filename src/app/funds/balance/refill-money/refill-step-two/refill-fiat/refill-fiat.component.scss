@@ -37,6 +37,16 @@
 }
 
 .refill__crypto-refill-info{
+	.qiwi-lnk-description{
+		margin-bottom: 30px;
+		text-align: center;
+		font-size: 16px;
+		color: #191A39;
+		font-weight: 400;
+		@media(max-width: 1199px){
+			color: #DEDEFB;
+		}
+	}
 a{
 	font-weight: 600;
 }
