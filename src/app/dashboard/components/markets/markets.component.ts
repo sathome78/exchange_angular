@@ -80,19 +80,25 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     if (document.documentElement.clientWidth > 1199) {
       setTimeout(() => {
         this.showContent4 = true;
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       }, 6000);
     }
     if (document.documentElement.clientWidth < 1199) {
       this.showContent4 = true;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     }
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.currentCurrencyPair = pair;
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -101,7 +107,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((userFavorites: number[]) => {
         this.userFavorites = userFavorites;
         this.filterByMarket(this.currencyDisplayMode, this.searchInput);
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -124,11 +132,15 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
           this.currencyPairsCache = Object.values(currencyPairs);
           this.filterTopMarket();
           this.filterByMarket(this.currencyDisplayMode, this.searchInput);
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         },
         err => {
           console.error(err);
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         }
       );
 
@@ -145,7 +157,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(data => {
         this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(data));
         this.loadingFinished();
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -168,7 +182,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.isMobile = true;
         setTimeout(() => {
           this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 144;
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         }, 300);
       } else {
         this.isMobile = false;
