@@ -261,8 +261,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         address: this.selectedMerchant.mainAddress,
         memo: this.selectedMerchant.address,
         additionalFieldName: this.selectedMerchant.additionalFieldName,
+        paymentLink: this.selectedMerchant.paymentLink,
       };
-      if (this.selectedMerchant.address) {
+      if (this.selectedMerchant.address && this.selectedMerchant.paymentLink) {
         this.setView(this.viewsList.SUCCESS);
         this.loading = false;
         return;
@@ -278,6 +279,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       merchantImage: this.selectedMerchantNested.id,
       sum: +this.amount || (this.isQIWI ? 0 : null),
     };
+    if (this.isQIWI) {
+      data.generateNewAddress = true;
+    }
     this.loading = true;
     this.balanceService
       .refill(data)
@@ -285,7 +289,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: any) => {
           if (this.isQIWI) {
-            this.qiwiResData = { ...this.qiwiResData, memo: res.params.address };
+            this.qiwiResData = { ...this.qiwiResData, memo: res.params.address, paymentLink: res.params.paymentLink };
             this.setView(this.viewsList.SUCCESS);
             this.loading = false;
             return;

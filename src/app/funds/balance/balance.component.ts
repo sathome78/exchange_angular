@@ -19,7 +19,7 @@ import {
 import { CurrencyChoose } from '../../model/currency-choose.model';
 import * as fromCore from '../../core/reducers';
 import { DashboardWebSocketService } from '../../dashboard/dashboard-websocket.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { BreakpointService } from 'app/shared/services/breakpoint.service';
 import { KYC_STATUS, PENDING } from '../../shared/constants';
 import { environment } from 'environments/environment';
@@ -139,6 +139,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     }
 
     this.currTab = this.setCurrTab(this.route.snapshot.queryParamMap.get('tab'));
+    this.hideAllZero = this.setHideZero(this.route.snapshot.queryParamMap.get('hz'));
 
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.store.dispatch(new coreAction.LoadCryptoCurrenciesForChoose());
@@ -193,11 +194,14 @@ export class BalanceComponent implements OnInit, OnDestroy {
         return this.Tab.FIAT;
       case 'pr':
         return this.Tab.PR;
-      case 'qubera':
+      case 'fw':
         return this.Tab.QUBERA;
       default:
         return this.Tab.CRYPTO;
     }
+  }
+  private setHideZero(val: string): boolean {
+    return val === 'true';
   }
 
   public get isMobile(): boolean {
@@ -206,10 +210,22 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onSelectTab(tab: string): void {
     this.currTab = tab;
+    this.changingQueryParams('tab', tab);
     this.currentPage = 1;
     this.currValue = '';
     this.currencyForChoose = null;
     this.loadBalances(this.currTab);
+  }
+
+  public changingQueryParams(key: 'tab' | 'hz', value: string) {
+    const queryParams: Params = { [key]: value.toLocaleLowerCase() };
+    this.router.navigate(
+      [],
+      {
+        queryParams,
+        relativeTo: this.route,
+        queryParamsHandling: 'merge',
+      });
   }
 
   public onPageChanged({ currentPage, countPerPage }): void {
@@ -304,6 +320,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public onToggleAllZero(): void {
     this.currentPage = 1;
     this.loadBalances(this.currTab);
+    this.changingQueryParams('hz', this.hideAllZero.toString());
   }
   public onToggleAllZeroMobile(hideAllZero: boolean): void {
     this.currentPage = 1;

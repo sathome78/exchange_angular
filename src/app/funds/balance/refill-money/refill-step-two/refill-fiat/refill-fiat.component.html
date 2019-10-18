@@ -191,15 +191,19 @@
       <ng-container *ngSwitchCase="'QIWI'">
         <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
         <div class="refill__crypto-refill-info">
-          <p class="qiwi-lnk-description">Use direct link
-            <a
-              class="standart-link"
-              [href]="'#'"
-            >
-              {{'QIWI' | translate}}
-            </a>
-            or use this addess and memo
-          </p>
+          <ng-container *ngIf="qiwiResData.paymentLink">
+            <p class="qiwi-lnk-description">Use direct link
+              <a
+                class="standart-link"
+                [href]="qiwiResData.paymentLink"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+              >
+                {{'QIWI' | translate}}
+              </a>
+              or use this addess and memo
+            </p>
+          </ng-container>
           <div class="refill__qr-code">
             <qr-code
               [value]="qiwiResData.address"
