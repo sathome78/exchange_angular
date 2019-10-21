@@ -45,7 +45,7 @@
             </div>
             <app-price-input
               [placeholder]="(currName) + ' Amount'"
-              [currencyName]="activeFiat.name"
+              [currencyName]="currName || 'USD'"
               (customInput)="amountInput($event)"
               name="amount"
               formControlName="amount"
@@ -242,7 +242,7 @@
           <app-commission
             type="withdraw"
             [merchant]="selectedMerchant"
-            [currencyName]="activeFiat ? activeFiat.name : ''"
+            [currencyName]="activeFiat ? activeFiat.name : 'USD'"
             [baseAmount]="formAmount.value"
           ></app-commission>
 
@@ -252,7 +252,7 @@
             (click)="onSubmitWithdrawal()"
           >
             {{'Withdraw' | translate}}
-            <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw')}}</span>
+            <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw') | currencyFormat: currName}}</span>
             <span> {{currName}}</span>
           </button>
         </ng-container>
