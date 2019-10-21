@@ -28,6 +28,12 @@ export class DashboardWebSocketService implements OnDestroy {
     private store: Store<fromCore.State>
   ) { }
 
+  chartSubscription(pairName: string, resolution: string): any {
+    return this.stompService
+      .watch(`/app/chart/${resolution}/${pairName}`)
+      .pipe(map((message: Message) => JSON.parse(message.body)));
+  }
+
   marketsSubscription(): any {
     return this.stompService
       .watch(`/app/statisticsNew`)

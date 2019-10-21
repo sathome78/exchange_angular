@@ -1,45 +1,45 @@
 import {
-  Component,
-  OnInit,
   AfterContentInit,
-  OnDestroy,
-  Input,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   HostListener,
-  ChangeDetectionStrategy
+  Input,
+  OnDestroy,
+  OnInit
 } from '@angular/core';
-import { takeUntil } from 'rxjs/internal/operators';
-import { Subject } from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/internal/operators';
+import {Subject} from 'rxjs/Subject';
 
-import { LangService } from 'app/shared/services/lang.service';
-import { AbstractDashboardItems } from '../../abstract-dashboard-items';
-import { DashboardService } from '../../dashboard.service';
+import {LangService} from 'app/shared/services/lang.service';
+import {AbstractDashboardItems} from '../../abstract-dashboard-items';
+import {DashboardService} from '../../dashboard.service';
+import {
+  ChartingLibraryWidgetOptions,
+  IChartingLibraryWidget,
+  LanguageCode,
+  Timezone,
+  widget
+} from 'assets/js/charting_library/charting_library.min';
+import {environment} from 'environments/environment';
+import {select, Store} from '@ngrx/store';
+import {getActiveCurrencyPair, getIsAuthenticated, getLanguage, State} from 'app/core/reducers/index';
+import {CurrencyPair} from '../../../model/currency-pair.model';
+import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
+import {DashboardWebSocketService} from '../../dashboard-websocket.service';
+import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
+import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
+import {Router} from '@angular/router';
+import {Currency} from 'app/model/currency.model';
+import {BreakpointService} from 'app/shared/services/breakpoint.service';
+import {Observable, Subscription} from 'rxjs';
+import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
+import {UtilsService} from 'app/shared/services/utils.service';
+import {GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT} from 'app/shared/constants';
+import {Animations} from 'app/shared/animations';
+import {ChartService} from './services/chart.service';
 
 declare const TradingView: any;
-
-import {
-  widget,
-  IChartingLibraryWidget,
-  ChartingLibraryWidgetOptions,
-  LanguageCode,
-  Timezone
-} from 'assets/js/charting_library/charting_library.min';
-import { environment } from 'environments/environment';
-import { select, Store } from '@ngrx/store';
-import { getActiveCurrencyPair, State, getIsAuthenticated, getLanguage } from 'app/core/reducers/index';
-import { CurrencyPair } from '../../../model/currency-pair.model';
-import { getCurrencyPairArray, getCurrencyPairInfo } from '../../../core/reducers';
-import { DashboardWebSocketService } from '../../dashboard-websocket.service';
-import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
-import { SelectedOrderBookOrderAction } from '../../actions/dashboard.actions';
-import { Router } from '@angular/router';
-import { Currency } from 'app/model/currency.model';
-import { BreakpointService } from 'app/shared/services/breakpoint.service';
-import { Observable } from 'rxjs';
-import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
-import { UtilsService } from 'app/shared/services/utils.service';
-import { GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT } from 'app/shared/constants';
-import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-graph',
@@ -64,7 +64,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   /** available currencies */
   public currencies: Currency[];
   public isFiat = false;
-  public marketsArray = [{ name: 'USD' }, { name: 'ETH' }, { name: 'BTC' }];
+  public marketsArray = [{name: 'USD'}, {name: 'ETH'}, {name: 'BTC'}];
   public allCurrencyPairs;
   public currentCurrencyInfo;
   private lang;
@@ -92,6 +92,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public timeZoneName: string;
   private language: any;
 
+  private lastCandleSub$: Subscription;
+
   private widgetOptions: ChartingLibraryWidgetOptions;
 
   @Input() public showContent = false;
@@ -102,6 +104,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     private langService: LangService,
     private utils: UtilsService,
     private dashboardService: DashboardService,
+    private chartService: ChartService,
     private dashboardWebsocketService: DashboardWebSocketService,
     public breakpointService: BreakpointService,
     private cdr: ChangeDetectorRef
@@ -113,13 +116,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
-    if(document.documentElement.clientWidth >1199){
-      setTimeout(()=>{
-      this.showContent3 = true;
-      this.cdr.detectChanges();
-    },5800)
+    if (document.documentElement.clientWidth > 1199) {
+      setTimeout(() => {
+        this.showContent3 = true;
+        this.cdr.detectChanges();
+      }, 5800);
     }
-    if(document.documentElement.clientWidth < 1199){
+    if (document.documentElement.clientWidth < 1199) {
       this.showContent3 = true;
       this.cdr.detectChanges();
     }
@@ -133,7 +136,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (this.currencyPairName) {
           this.formattingCurrentPairName(pair.name as string);
           try {
-            this._tvWidget.setSymbol(pair.name, '30', () => {}); // 5
+            this._tvWidget.setSymbol(pair.name, '30', () => {
+            }); // 5
           } catch (e) {
             // console.log(e);
           }
@@ -171,19 +175,103 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }
       });
 
+    const supportedResolutions = ['5', '15', '30', '60', '360', 'D'];
+
+    const config = {
+      supported_resolutions: supportedResolutions,
+    };
+
     this.widgetOptions = {
       symbol: this.currencyPairName,
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, this._getDataInterval),
+      datafeed: {
+        onReady: callback => {
+          console.log('onReady running -->');
+
+          setTimeout(() => callback(config), 0);
+        },
+        searchSymbols: (userInput, exchange, symbolType, onResult) => {
+          console.log('searchSymbols running -->');
+        },
+        resolveSymbol: (symbolName, onResolve) => {
+          console.log('resolveSymbol running -->');
+
+          setTimeout(() => {
+            onResolve({
+              name: symbolName,
+              full_name: symbolName,
+              base_name: [symbolName],
+              ticker: symbolName,
+              description: symbolName,
+              type: 'bitcoin',
+              session: '24x7',
+              exchange: 'EXRATES',
+              listed_exchange: 'EXRATES',
+              timezone: this.setTimeZoneToWidget(),
+              pricescale: this.getIsFiat(symbolName) ? 100 : 100_000_000,
+              minmov: 1,
+              fractional: false,
+              has_intraday: true,
+              supported_resolutions: supportedResolutions,
+              has_seconds: false,
+              has_daily: true,
+              has_weekly_and_monthly: false,
+              has_empty_bars: true,
+              force_session_rebuild: false,
+              has_no_volume: false,
+              volume_precision: 2,
+              data_status: 'streaming',
+            });
+          }, 0);
+        },
+        getBars: (symbolInfo, resolution, rangeStartDate, rangeEndDate, onResult) => {
+          console.log('getBars running -->');
+
+          this.chartService.getHistory(
+            symbolInfo.name,
+            resolution,
+            rangeStartDate,
+            rangeEndDate)
+            .subscribe((data: any) => {
+              if (data.length) {
+                onResult(data, {noData: false});
+              } else {
+                onResult(data, {noData: true});
+              }
+            }, (error: any) => {
+              console.log(error);
+            });
+        },
+        getServerTime: callback => {
+          console.log('getServerTime running -->');
+        },
+        subscribeBars: (symbolInfo, resolution, onTick) => {
+          const pairName = symbolInfo.name.toLowerCase().replace(/\//i, '_');
+
+          this.unsubscribeLastCandleData();
+
+          this.lastCandleSub$ = this.dashboardWebsocketService
+            .chartSubscription(pairName, resolution)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(data => {
+              onTick(data);
+            }).catch((error: any) => {
+              console.error(error);
+            });
+        },
+        unsubscribeBars: listenerGuid => {
+          this.unsubscribeLastCandleData();
+        },
+      },
       interval: this._interval,
       container_id: this._containerId,
       timezone: this.setTimeZoneToWidget(),
       time_frames: [
-        { text: '1D', resolution: 'D' },
-        { text: '6h', resolution: '360' },
-        { text: '1h', resolution: '60' },
-        { text: '30m', resolution: '30' },
-        { text: '15m', resolution: '15' },
-        { text: '5m', resolution: '5' },
+        {text: '1D', resolution: 'D'},
+        {text: '6h', resolution: '360'},
+        {text: '1h', resolution: '60'},
+        {text: '30m', resolution: '30'},
+        {text: '15m', resolution: '15'},
+        {text: '5m', resolution: '5'},
       ],
       library_path: this._libraryPath,
       locale: this.setLang(),
@@ -269,7 +357,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     }
   }
 
-  ngAfterContentInit() {}
+  ngAfterContentInit() {
+  }
 
   formattingCurrentPairName(currentPair: string): void {
     /** search slash position */
@@ -293,7 +382,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     this.dashboardService.selectedOrderTrading$.next(item);
     this.router.navigate(['/dashboard'], {
-      queryParams: { widget: widgetName },
+      queryParams: {widget: widgetName},
     });
     this.dashboardService.activeMobileWidget.next(widgetName);
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
@@ -325,7 +414,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.currencies = [];
     for (let i = 0; i < temp.length; i += 1) {
       const name = temp[i].currencyPairName.split('/')[0];
-      this.currencies.push({ name });
+      this.currencies.push({name});
     }
     this.marketDropdown = false;
     this.showCurrencySearch = !this.showCurrencySearch;
@@ -406,5 +495,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private setLang(): LanguageCode {
     const indexCandidate = LANG_SUPPORT.indexOf(this.lang);
     return indexCandidate !== -1 ? <LanguageCode>LANG_SUPPORT[indexCandidate] : <LanguageCode>'en';
+  }
+
+  unsubscribeLastCandleData() {
+    if (this.lastCandleSub$) {
+      this.lastCandleSub$.unsubscribe();
+    }
   }
 }
