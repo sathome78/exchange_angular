@@ -107,6 +107,7 @@
           <app-price-input
             [placeholder]="'Amount'"
             formControlName="amount"
+            [currencyName]="activeFiat ? activeFiat.name : 'USD'"
             name="amount"
             class="fiat-amount"
           >
@@ -152,7 +153,7 @@
           (click)="submitRefill()"
           [disabled]="!form.valid || !selectedMerchant.name || loading"
         >
-          {{'Refill' | translate}} {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat}}
+          {{'Refill' | translate}} {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat: 'USD'}}
           {{activeFiat.name}}
         </button>
       </ng-container>
