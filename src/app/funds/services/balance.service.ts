@@ -53,7 +53,7 @@ export class BalanceService {
       currencyName: currencyName || '',
       offset: offset + '',
       limit: limit + '',
-      excludeZero: (!!excludeZero).toString(),
+      excludeZero: currencyName ? 'false' : (!!excludeZero).toString(),
     };
     return this.http.get<ResponseModel<BalanceItem[]>>(`${this.apiUrl}/api/private/v2/balances`, { params });
   }
