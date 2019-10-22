@@ -34,7 +34,6 @@ export class GetIconUrl implements PipeTransform {
       case 'DIM.EUR':
       case 'DIM.USD':
       case 'HNI':
-      case 'HOT':
       case 'MET':
       case 'PLTC':
       case 'PPY':
