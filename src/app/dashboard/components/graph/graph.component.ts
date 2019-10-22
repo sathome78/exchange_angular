@@ -72,8 +72,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public pair: SimpleCurrencyPair;
   public chartReady = false;
 
-  public showContent3 = false;
-
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '30'; // 3
   // BEWARE: no trailing slash is expected in feed URL
@@ -94,8 +92,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private widgetOptions: ChartingLibraryWidgetOptions;
 
-  @Input() public showContent = false;
-
   constructor(
     private store: Store<State>,
     private router: Router,
@@ -113,17 +109,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
-    if(document.documentElement.clientWidth >1199){
-      setTimeout(()=>{
-      this.showContent3 = true;
-      this.cdr.detectChanges();
-    },5800)
-    }
-    if(document.documentElement.clientWidth < 1199){
-      this.showContent3 = true;
-      this.cdr.detectChanges();
-    }
-
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -262,8 +247,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    // debugger
-    if (this._tvWidget !== null && this.chartReady) {
+    debugger
+    const container = document.querySelector(`#${this._containerId} iframe`);
+    if (!!this._tvWidget && this.chartReady && container) {
       this._tvWidget.remove();
       this._tvWidget = null;
     }
