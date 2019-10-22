@@ -37,6 +37,9 @@ import { UtilsService } from 'app/shared/services/utils.service';
 })
 export class BalanceComponent implements OnInit, OnDestroy {
   /** */
+
+  public startAnimation = false;
+
   public Tab = BALANCE_TABS;
 
   public balanceItems: BalanceItem[] = [];
@@ -132,6 +135,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    setTimeout(()=>{
+      this.startAnimation = true;
+    },1000)
+
     this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
     this.store.dispatch(new fundsAction.LoadQuberaKycStatusAction());
     if (this.isMobile) {

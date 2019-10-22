@@ -22,6 +22,9 @@ import * as moment from 'moment';
   styleUrls: ['./transaction-history.component.scss'],
 })
 export class TransactionHistoryComponent implements OnInit, OnDestroy {
+
+  public startAnimation = false;
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public transactionsItems$: Observable<TransactionHistoryItem[]>;
   public transactionsItems: TransactionHistoryItem[] = [];
@@ -80,6 +83,13 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    setTimeout(()=>{
+      this.startAnimation = true;
+    },1000)
+
+
+
     // this.initDate();
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
     this.loadLastTransactions();
