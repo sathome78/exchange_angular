@@ -247,7 +247,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    debugger
     const container = document.querySelector(`#${this._containerId} iframe`);
     if (!!this._tvWidget && this.chartReady && container) {
       this._tvWidget.remove();

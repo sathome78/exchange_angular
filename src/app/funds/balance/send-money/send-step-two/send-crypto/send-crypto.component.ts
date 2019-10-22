@@ -194,7 +194,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
           this.VIEW = this.viewsList.MAIN;
         }
       }, err => {
-        if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
+        if (err.error && err.error.title === 'USER_OPERATION_DENIED') {
           this.VIEW = this.viewsList.DENIED;
         }
         if (this.activeCrypto && this.cryptoInfoByName) {
