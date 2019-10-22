@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-need-kyc-msg',
@@ -8,9 +9,23 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class NeedKycMsgComponent implements OnInit {
 
-  constructor() { }
+  @Input() public type: 'refill' | 'withdraw';
+  @Input() public kyc: 'none' | 'shuftipro' | 'ariadnext' | 'shuftipro_and_ariadnext';
+  @Input() public currencyName = '';
+
+  constructor(public router: Router) { }
 
   ngOnInit() {
+  }
+
+  get typeOperation() {
+    return this.type[0].toUpperCase() + this.type.slice(1);
+  }
+
+  goToKYC() {
+    if (this.kyc === 'shuftipro') {
+      this.router.navigate(['/settings/verification']);
+    }
   }
 
 }

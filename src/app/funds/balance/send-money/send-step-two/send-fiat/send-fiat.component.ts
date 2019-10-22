@@ -219,7 +219,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.VIEW = this.viewsList.MAIN;
         }
       }, err => {
-        if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
+        if (err.error && err.error.title === 'USER_OPERATION_DENIED') {
           this.VIEW = this.viewsList.DENIED;
         }
       });
@@ -317,6 +317,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
   get isDisabledForm() {
     return this.formAmount.invalid || this.formAddress.invalid || !this.searchMerchant || !this.activeFiat;
+  }
+  get isNeedKyc(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.needKycWithdraw;
   }
 
   trackByFiatNames(index, item) {

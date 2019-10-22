@@ -83,6 +83,7 @@ import { HashToUrlPipe } from './hash-to-url.pipe';
 import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/refill-fiat/refill-coin-pay/refill-coin-pay.component';
 import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.component';
 import { CommissionComponent } from './components/commission/commission.component';
+import { SendLinesComponent } from './components/send-lines/send-lines.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -175,6 +176,7 @@ export function createTranslateLoader(http: HttpClient) {
     RefillCoinPayComponent,
     NeedKycMsgComponent,
     CommissionComponent,
+    SendLinesComponent,
   ],
   providers: [
     BalanceService,

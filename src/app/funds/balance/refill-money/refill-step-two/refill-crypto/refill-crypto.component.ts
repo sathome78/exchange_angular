@@ -94,7 +94,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
           this.VIEW = this.viewsList.MAIN;
         },
         error => {
-          if (error.error && error.error.tittle === 'USER_OPERATION_DENIED') {
+          if (error.error && error.error.title === 'USER_OPERATION_DENIED') {
             this.VIEW = this.viewsList.DENIED;
           } else {
             this.isGenerateNewAddress = false;
@@ -243,4 +243,13 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     }
   }
 
+  get isRefillClosed() {
+    return !this.isGenerateNewAddress && this.cryptoDataByName && !this.cryptoDataByName.merchantCurrencyData.length;
+  }
+  get isNeedKyc(): boolean {
+    return this.currentMerchant && this.currentMerchant.needKycRefill;
+  }
+  get currName() {
+    return this.activeCrypto && this.activeCrypto.name;
+  }
 }

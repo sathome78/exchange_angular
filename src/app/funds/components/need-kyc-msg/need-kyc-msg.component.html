@@ -1,1 +1,7 @@
-<div>{{'You need proceed KYC to continue'}}</div>
+<ng-container>
+  <div>{{'To continue ' | translate}} {{typeOperation}} {{currencyName}} {{'you must procced KYC' | translate}}</div>
+  <button
+    class="btn btn--center"
+    (click)="goToKYC()"
+  >{{'Procced KYC'}}</button>
+</ng-container>
