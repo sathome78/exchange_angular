@@ -1,75 +1,72 @@
-<perfect-scrollbar style="max-height: 425px;">
-  <table class="table widget__table">
-    <thead>
-      <tr>
-        <th class="table__cell-head table__cell-head--tal">{{'Order id' | translate}}</th>
-        <th class="table__cell-head table__cell-head--tal">
-          <svg
-            class="table__cell-head-arr"
-            width="6"
-            height="8"
-            viewBox="0 0 6 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z"
-            />
-          </svg>
-          {{'Created' | translate}}
-        </th>
-        <!--<th class="table__cell-head table__cell-head&#45;&#45;tal">Order</th>-->
-        <th class="table__cell-head table__cell-head--tal">{{'Type' | translate}}</th>
-        <th class="table__cell-head table__cell-head--tal">{{'Limit Price' | translate}}</th>
-        <th class="table__cell-head table__cell-head--tal">{{'Stop Price' | translate}}</th>
-        <th class="table__cell-head table__cell-head--tal">{{'Amount' | translate}}</th>
-        <th class="table__cell-head table__cell-head--tal">{{'Fee' | translate}}</th>
-        <th class="table__cell-head table__cell-head--tal">{{'Total' | translate}}</th>
-        <th
-          class="table__cell-head table__cell-head--tal"
-          style="width: 74px;"
-        ></th>
-        <!-- <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th> -->
-      </tr>
-    </thead>
-    <tbody class="table__body table__body--none-shadow">
+<div class="table widget__table open-orders">
+  <div>
+    <div class="tr">
+      <div class="table__cell-head table__cell-head--tal table__cell1">{{'Order id' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell2">
+        <svg
+          class="table__cell-head-arr"
+          width="6"
+          height="8"
+          viewBox="0 0 6 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.86338 3.74894C6.06488 3.99981 6.04068 4.38035 5.80935 4.59887L3.37001 7.84701L3.36491 7.85187C3.16243 8.04303 2.86838 8.04686 2.66309 7.87675C2.6518 7.86737 2.64073 7.85746 2.62999 7.84701L0.190654 4.59887C-0.0406818 4.38035 -0.0648789 3.99981 0.136618 3.74894C0.338115 3.49806 0.689025 3.47182 0.92047 3.69031L2.44455 6.07412L2.44455 0.602408C2.44455 0.269701 2.69325 0 3.00011 0C3.30697 0 3.55566 0.269701 3.55566 0.602408L3.55566 6.07391L5.07953 3.69031C5.31097 3.47182 5.66188 3.49806 5.86338 3.74894Z"
+          />
+        </svg>
+        {{'Created' | translate}}
+      </div>
+      <div class="table__cell-head table__cell-head--tal table__cell3">{{'Type' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell4">{{'Limit Price' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell5">{{'Stop Price' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell6">{{'Amount' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell7">{{'Fee' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell8">{{'Total' | translate}}</div>
+      <div
+        class="table__cell-head table__cell-head--tal table__cell9"
+        style="width: 74px;"
+      ></div>
+    </div>
+  </div>
+  <perfect-scrollbar style="max-height: 357px;">
+    <div class="table__body table__body--none-shadow">
 
-      <tr
+      <div
         class="table__row"
         *ngFor="let item of openOrders; trackBy: trackByFn"
       >
-        <td class="table__cell">
+        <div class="table__cell table__cell1">
           <span>{{item.id}}</span>
-        </td>
-        <td class="table__cell">
+        </div>
+        <div class="table__cell table__cell2">
           <div class="table__date-time">
             <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
             <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
           </div>
-        </td>
-        <td class="table__cell">
+        </div>
+        <div class="table__cell table__cell3">
           <span
             [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }">{{item.operationType | replaceChar: '_': ' '}}
             <span></span></span>
-          <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
-        </td>
-        <td class="table__cell">
+        </div>
+        <div class="table__cell table__cell4">
           <span>{{(item.exExchangeRate || item.limitRate)  | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
-        </td>
-        <td class="table__cell">
+        </div>
+        <div class="table__cell table__cell5">
           <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:arrPairName[1]}}
             {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>
-        </td>
-        <td class="table__cell">
+        </div>
+        <div class="table__cell table__cell6">
           <span>{{item.amountBase | currencyFormat:arrPairName[0]}} {{arrPairName[0]}}</span>
-        </td>
-        <td class="table__cell txt-grey">
+        </div>
+        <div class="table__cell txt-grey table__cell7">
           <span>{{item.commissionFixedAmount | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
-        </td>
-        <td class="table__cell">
+        </div>
+        <div class="table__cell table__cell8">
           <span>{{item.amountWithCommission | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
-        </td>
-        <td class="table__cell">
+        </div>
+        <div class="table__cell table__cell9">
           <button
             class="btn btn--small btn--empty-red btn--hidden"
             style="width: 100%; max-width: 58px;"
@@ -93,33 +90,8 @@
             </div>
             <div class="revoke-request__triangle"></div>
           </div>
-        </td>
-        <!-- <td class="table__cell">
-        <button class="btn btn--small btn--empty-blue table__row-btn"
-                style="width: 100%; max-width: 58px;"
-                (click)="showEditOrderPopup(item)"
-        >Edit</button>
-      </td> -->
-      </tr>
-
-
-    </tbody>
-  </table>
-</perfect-scrollbar>
-<!-- <ng-content></ng-content> -->
-<!-- <div
-  class="row"
-  style="margin: 0 16px;"
-  *ngIf="openOrders && openOrders.length > 7"
->
-  <ul
-    class="paginator"
-    style="margin-left: auto;"
-  >
-    <pagination-controls
-      (pageChange)="changePage($event)"
-      [previousLabel]="''"
-      [nextLabel]="''"
-    ></pagination-controls>
-  </ul>
-</div> -->
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
+</div>
