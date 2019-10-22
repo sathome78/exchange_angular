@@ -318,6 +318,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   get isDisabledForm() {
     return this.formAmount.invalid || this.formAddress.invalid || !this.searchMerchant || !this.activeFiat;
   }
+  get isNeedKyc(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.needKycWithdraw;
+  }
 
   trackByFiatNames(index, item) {
     return item.id;

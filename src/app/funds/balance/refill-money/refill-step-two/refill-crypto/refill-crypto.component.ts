@@ -243,4 +243,13 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     }
   }
 
+  get isRefillClosed() {
+    return !this.isGenerateNewAddress && this.cryptoDataByName && !this.cryptoDataByName.merchantCurrencyData.length;
+  }
+  get isNeedKyc(): boolean {
+    return this.currentMerchant && this.currentMerchant.needKycRefill;
+  }
+  get currName() {
+    return this.activeCrypto && this.activeCrypto.name;
+  }
 }

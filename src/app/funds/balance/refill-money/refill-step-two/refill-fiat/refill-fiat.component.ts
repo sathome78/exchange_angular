@@ -67,7 +67,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public viewsList = {
     LOADING: 'loading',
     SUCCESS: 'success',
-    NEED_KYC: 'need_kyc',
     MAIN: 'main',
     DENIED: 'denied',
   };
@@ -403,14 +402,17 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   get isRefillClosed(): boolean {
     return !this.merchants.length;
   }
-  get requiredKyc(): boolean {
-    return this.selectedMerchant.needVerification;
+  get isNeedKyc(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.needKycRefill;
   }
   get isCoinPay(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'CoinPay(Privat24)';
   }
   get formAmout() {
     return this.form.controls['amount'];
+  }
+  get currName() {
+    return this.activeFiat && this.activeFiat.name;
   }
   private setView(v) {
     this.VIEW = v;

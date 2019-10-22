@@ -163,37 +163,44 @@
         </div>
       </form>
 
-      <ng-container *ngIf="isMerchantData">
-        <div class="send__line"></div>
+      <ng-container *ngIf="isMerchantData && !isNeedKyc">
+        <app-send-lines>
+          <ng-container *ngIf="cryptoInfoByName.leftRequestSum > 0">
+            <app-commission
+              type="withdraw"
+              [merchant]="cryptoInfoByName.merchantCurrencyData[0]"
+              [currencyName]="activeCrypto ? activeCrypto.name : ''"
+              [baseAmount]="formAmount.value"
+            ></app-commission>
 
-        <ng-container *ngIf="cryptoInfoByName.leftRequestSum > 0">
-          <app-commission
-            type="withdraw"
-            [merchant]="cryptoInfoByName.merchantCurrencyData[0]"
-            [currencyName]="activeCrypto ? activeCrypto.name : ''"
-            [baseAmount]="formAmount.value"
-          ></app-commission>
+            <button
+              [id]="currName === 'BTC' ? 'analytics-modal-withdraw-btc': currName === 'ETH' ? 'analytics-modal-withdraw-eth': ''"
+              class="btn btn--center"
+              [disabled]="isDisabledForm"
+              (click)="onSubmitWithdrawal()"
+            >{{'Withdraw' | translate}}
+              <span class="value">
+                {{utilsService.calcValueWithoutCommision(cryptoInfoByName.merchantCurrencyData[0], formAmount.value, 'withdraw') | currencyFormat}}
+              </span>
+              <span> {{currName}}</span>
+            </button>
 
-          <button
-            [id]="currName === 'BTC' ? 'analytics-modal-withdraw-btc': currName === 'ETH' ? 'analytics-modal-withdraw-eth': ''"
-            class="btn btn--center"
-            [disabled]="isDisabledForm"
-            (click)="onSubmitWithdrawal()"
-          >{{'Withdraw' | translate}}
-            <span class="value">
-              {{utilsService.calcValueWithoutCommision(cryptoInfoByName.merchantCurrencyData[0], formAmount.value, 'withdraw') | currencyFormat}}
-            </span>
-            <span> {{currName}}</span>
-          </button>
-
-        </ng-container>
-        <ng-container *ngIf="cryptoInfoByName.leftRequestSum == 0">
-          <div class="withdraw-limit-error">
-            {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
-          </div>
-        </ng-container>
-
-        <div class="send__line"></div>
+          </ng-container>
+          <ng-container *ngIf="cryptoInfoByName.leftRequestSum == 0">
+            <div class="withdraw-limit-error">
+              {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
+            </div>
+          </ng-container>
+        </app-send-lines>
+      </ng-container>
+      <ng-container *ngIf="isNeedKyc">
+        <app-send-lines>
+          <app-need-kyc-msg
+            [type]="'withdraw'"
+            [kyc]="merchant.verificationType"
+            [currencyName]="currName"
+          ></app-need-kyc-msg>
+        </app-send-lines>
       </ng-container>
 
       <div class="note modal__note">

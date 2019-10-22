@@ -3,9 +3,9 @@
   class="refil-fiat side-popups"
   *ngIf="VIEW !== viewsList.LOADING && VIEW !== viewsList.DENIED"
 >
-  <ng-container *ngIf="VIEW === viewsList.MAIN || VIEW === viewsList.NEED_KYC">
+  <ng-container *ngIf="VIEW === viewsList.MAIN">
     <h2 class="title refill__title">
-      {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
+      {{'Fiat Deposit' | translate}} <span>{{currName}}</span>
     </h2>
     <form [formGroup]="form">
       <div class="refill__inputs-wrap">
@@ -107,7 +107,7 @@
           <app-price-input
             [placeholder]="'Amount'"
             formControlName="amount"
-            [currencyName]="activeFiat ? activeFiat.name : 'USD'"
+            [currencyName]="currName || 'USD'"
             name="amount"
             class="fiat-amount"
           >
@@ -124,7 +124,7 @@
           <div class="wrap-input__message--show">
             <span>
               {{'Min. sum for deposit' | translate}} {{minRefillSum | currencyFormat: 'USD'}}
-              {{activeFiat ? activeFiat.name : ''}}
+              {{currName}}
             </span>
           </div>
         </div>
@@ -133,45 +133,49 @@
       </div>
     </form>
 
-    <div
-      class="send__line"
-      *ngIf="!isQIWI"
-    ></div>
-
-    <ng-container *ngIf="!isRefillClosed && !isQIWI">
-      <ng-container>
-        <app-commission
-          type="refill"
-          [merchant]="selectedMerchant"
-          [currencyName]="activeFiat ? activeFiat.name : ''"
-          [baseAmount]="formAmout.value"
-        ></app-commission>
-        <button
-          id="analytics-modal-refill"
-          class="btn btn--center"
-          *ngIf="VIEW === viewsList.MAIN && !isQIWI"
-          (click)="submitRefill()"
-          [disabled]="!form.valid || !selectedMerchant.name || loading"
-        >
-          {{'Refill' | translate}} {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat: 'USD'}}
-          {{activeFiat.name}}
-        </button>
-      </ng-container>
+    <ng-container *ngIf="!isRefillClosed && !isQIWI && !isNeedKyc">
+      <app-send-lines>
+        <ng-container>
+          <app-commission
+            type="refill"
+            [merchant]="selectedMerchant"
+            [currencyName]="currName || ''"
+            [baseAmount]="formAmout.value"
+          ></app-commission>
+          <button
+            id="analytics-modal-refill"
+            class="btn btn--center"
+            *ngIf="VIEW === viewsList.MAIN && !isQIWI"
+            (click)="submitRefill()"
+            [disabled]="!form.valid || !selectedMerchant.name || loading"
+          >
+            {{'Refill' | translate}}
+            {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat: 'USD'}}
+            {{currName}}
+          </button>
+        </ng-container>
+      </app-send-lines>
     </ng-container>
 
     <ng-container *ngIf="isRefillClosed">
-      <div>{{'Sorry, refill is closed for now' | translate}}.</div>
+      <app-send-lines>
+        <div>{{'Sorry, refill is closed for now' | translate}}.</div>
+      </app-send-lines>
     </ng-container>
 
-
-    <div
-      class="send__line"
-      *ngIf="!isQIWI"
-    ></div>
+    <ng-container *ngIf="isNeedKyc">
+      <app-send-lines>
+        <app-need-kyc-msg
+          [type]="'refill'"
+          [kyc]="selectedMerchant.verificationType"
+          [currencyName]="currName"
+        ></app-need-kyc-msg>
+      </app-send-lines>
+    </ng-container>
 
     <button
       class="btn btn--center"
-      *ngIf="!isRefillClosed && isQIWI"
+      *ngIf="!isRefillClosed && !isNeedKyc && isQIWI"
       (click)="submitRefill()"
       [disabled]="!form.valid || !selectedMerchant.name || loading"
     >
@@ -190,7 +194,7 @@
       [class]="'refill-' + selectMerchantName"
     >
       <ng-container *ngSwitchCase="'QIWI'">
-        <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span></h2>
+        <h2 class="title refill__title">{{'Fiat Deposit' | translate}} <span>{{currName}}</span></h2>
         <div class="refill__crypto-refill-info">
           <ng-container *ngIf="qiwiResData.paymentLink">
             <p class="qiwi-lnk-description">Use direct link
@@ -217,7 +221,7 @@
               class="refill__crypto-address"
               *ngIf="qiwiResData.address"
             >
-              <h6 class="refill__crypto-title"><span>{{activeFiat?.name}}</span>
+              <h6 class="refill__crypto-title"><span>{{currName}}</span>
                 {{'address' | translate}}</h6>
               <div class="refill__crypto-hash">{{qiwiResData.address}}</div>
               <button
@@ -400,7 +404,7 @@
 <ng-container *ngIf="VIEW === viewsList.DENIED">
   <div class="side-popups send-cripto-s2">
     <h2 class="title refill__title">
-      {{'Fiat Deposit' | translate}} <span>{{activeFiat.name}}</span>
+      {{'Fiat Deposit' | translate}} <span>{{currName}}</span>
     </h2>
     <div>{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
     <div>{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
