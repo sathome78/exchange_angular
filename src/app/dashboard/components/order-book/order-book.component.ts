@@ -70,8 +70,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
 
   private resizeTimeout;
 
-  
-
   /** stores data for drawing a border for a chart */
   public withForChartLineElements: {
     sell: string[];
@@ -93,15 +91,19 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
-    if(document.documentElement.clientWidth >1199){
+    if (document.documentElement.clientWidth > 1199) {
       setTimeout(() => {
         this.showContentOrderBook = true;
-        this.cdr.detectChanges();
-      },5600)
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }, 5600);
     }
-    if(document.documentElement.clientWidth < 1199){
+    if (document.documentElement.clientWidth < 1199) {
       this.showContentOrderBook = true;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     }
     this.calculateMaxNumberLength();
 
@@ -114,7 +116,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPairInfo) => {
         this.currencyPairInfo = pair;
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -126,7 +130,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         if (pair.id !== 0) {
           this.subscribeOrderBook(pair.name, this.precisionOut);
         }
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -153,12 +159,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     const innerWidth = window.innerWidth;
     if (innerWidth > 1480) {
       this.maxCountCharacter = 19;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     } else {
       this.windowWidthForCalculate.map(item => {
         if (innerWidth > item[0] && innerWidth < item[1]) {
           this.maxCountCharacter = item[2];
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         }
       });
     }
@@ -175,7 +185,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.setLastTotals(data);
         this.initData(data);
         this.loadingFinished();
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -362,6 +374,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.sortBuyData();
     this.sortSellData();
     this.setWidthForChartBorder();
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
   }
 }
