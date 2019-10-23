@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { State } from 'app/core/reducers/index';
 import { TradingService } from 'app/dashboard/services/trading.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-embedded-open-orders',
@@ -29,7 +30,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
   public loading = false;
 
   constructor(
-    private store: Store<State>,
+    private userService: UserService,
     private ordersService: EmbeddedOrdersService,
     public tradingService: TradingService
   ) {}
@@ -74,6 +75,8 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
       .subscribe(
         res => {
           this.loading = false;
+          const pair = new SimpleCurrencyPair(order.currencyPairId, order.currencyPairName);
+          this.userService.getUserBalance(pair);
         },
         err => {
           this.loading = false;
