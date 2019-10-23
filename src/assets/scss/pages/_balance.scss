@@ -1074,3 +1074,16 @@ padding-top: 30px;
 margin-bottom: 25px;
 color: #EB5757;
 }
+
+
+.closed-opation{
+  text-align: center;
+  color: #DEDEFB;
+  font-size: 16px;
+  @media(min-width: 1201px){
+color: #191A39;
+  }
+  a{
+    color: #237BEF;
+  }
+}
