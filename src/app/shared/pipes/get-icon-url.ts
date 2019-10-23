@@ -19,14 +19,11 @@ export class GetIconUrl implements PipeTransform {
       case 'ENGT':
       case 'QUICK':
       case 'TRS':
-      case 'VNT':
       case 'LiqPay':
       case 'Invoice':
       case 'Interkassa':
       case 'Mir Payment':
       case 'Alfaclick Payment':
-      case 'VRBS':
-      case 'RBC':
       case 'uDOOOO':
         name = 'no_icon';
         break;
