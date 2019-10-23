@@ -916,3 +916,12 @@
   color:#EB5757 !important;
 
 }
+
+
+
+.dark-theme .modal .steps__title {
+  @media (min-width: 1201px){
+    color: #000;
+  }
+    
+}
