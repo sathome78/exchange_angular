@@ -52,21 +52,19 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   }
 
   ngOnInit() {
-    
-   
-
-
-
-
-    if(document.documentElement.clientWidth >1199){
+    if (document.documentElement.clientWidth > 1199) {
       setTimeout(() => {
         this.showContent1 = true;
-        this.cdr.detectChanges();
-      },6100)
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }, 6100);
     }
-    if(document.documentElement.clientWidth < 1199){
+    if (document.documentElement.clientWidth < 1199) {
       this.showContent1 = true;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     }
     this.itemName = 'trade-history';
 
@@ -92,7 +90,9 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
           timeB = parseInt(b.acceptionTime, 10);
           return timeB - timeA;
         });
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -112,7 +112,9 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       .subscribe(data => {
         this.store.dispatch(new SetAllTradesAction(data));
         this.loadingFinished();
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -160,7 +162,9 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
     this.allTrades = [];
     this.personalTrades = [];
     this.formattingCurrentPairName(pair.name as string);
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
   }
 
   trackByFn(index, item) {
