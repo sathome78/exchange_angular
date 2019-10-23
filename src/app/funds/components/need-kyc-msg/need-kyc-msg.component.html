@@ -1,7 +1,7 @@
 <ng-container>
-  <div>{{'To continue ' | translate}} {{typeOperation}} {{currencyName}} {{'you must procced KYC' | translate}}</div>
+  <div class="kyc-msg-inner">{{'To continue ' | translate}} {{typeOperation}} {{currencyName}} {{'you must procced KYC' | translate}}</div>
   <button
-    class="btn btn--center"
+    class="btn btn--center kyc-btn-inner"
     (click)="goToKYC()"
   >{{'Procced KYC'}}</button>
 </ng-container>
