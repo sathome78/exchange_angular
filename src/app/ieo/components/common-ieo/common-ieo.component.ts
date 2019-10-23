@@ -50,6 +50,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     SUCCEEDED: 'SUCCEEDED',
     FAILED: 'FAILED',
   };
+  public loadingBuy = false;
 
   constructor(
     private store: Store<fromCore.State>,
@@ -200,6 +201,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   public confirmBuyIEO(amount) {
+    this.loadingBuy = true;
     this.ieoService
       .buyTokens({
         currencyName: this.buyIEOData.currencyName,
@@ -214,6 +216,9 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
         } else {
           this.openSuccessIEO();
         }
+        this.loadingBuy = false;
+      }, err => {
+        this.loadingBuy = false;
       });
   }
 

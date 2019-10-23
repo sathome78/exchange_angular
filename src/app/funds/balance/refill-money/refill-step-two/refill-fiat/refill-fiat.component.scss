@@ -17,3 +17,37 @@
 		margin: 0 auto;
 	}
 }
+
+.currency-select-wrapper {
+  width: 100%;
+  max-width: 270px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 26px;
+}
+
+.currency-select-wrapper {
+  @media(max-width: 1199px) {
+    width: 100%;
+    max-width: 270px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 50px;
+  }
+}
+
+.refill__crypto-refill-info{
+	.qiwi-lnk-description{
+		margin-bottom: 30px;
+		text-align: center;
+		font-size: 16px;
+		color: #191A39;
+		font-weight: 400;
+		@media(max-width: 1199px){
+			color: #DEDEFB;
+		}
+	}
+a{
+	font-weight: 600;
+}
+}

@@ -30,7 +30,7 @@ export class RunLineComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairsCache: CurrencyPair[] = [];
   public currencyPairs: CurrencyPair[] = [];
-
+  public activeBlock = false;
   public slideConfig = {
     autoplay: true,
     slidesToShow: 8,
@@ -91,6 +91,9 @@ export class RunLineComponent implements OnInit, OnDestroy {
   constructor(private store: Store<State>) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.activeBlock = true;
+    },2800)
     this.store
       .pipe(select(getMarketCurrencyPairsMap))
       .pipe(takeUntil(this.ngUnsubscribe))

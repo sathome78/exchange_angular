@@ -25,7 +25,7 @@ EXPOSE 80
 ##CMD /etc/init.d/filebeat start
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-#RUN $(npm bin)/ng build --aot -c $PROFILE
+RUN npm rebuild node-sass
 RUN $(npm bin)/ng build --aot -c $ENVIRONMENT
 
 ### STAGE 2: Setup ###

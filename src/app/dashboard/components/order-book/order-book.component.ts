@@ -25,14 +25,17 @@ import { DashboardWebSocketService } from 'app/dashboard/dashboard-websocket.ser
 import { OrderBookItem } from 'app/model';
 import { Subscription } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-order-book',
   templateUrl: 'order-book.component.html',
   styleUrls: ['order-book.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+  public showContentOrderBook = false;
   @ViewChild('mainContent') public orderBookContainer: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
@@ -88,6 +91,20 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
+    if (document.documentElement.clientWidth > 1199) {
+      setTimeout(() => {
+        this.showContentOrderBook = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }, 5600);
+    }
+    if (document.documentElement.clientWidth < 1199) {
+      this.showContentOrderBook = true;
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
+    }
     this.calculateMaxNumberLength();
 
     this.withForChartLineElements = {
@@ -99,7 +116,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPairInfo) => {
         this.currencyPairInfo = pair;
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -111,7 +130,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         if (pair.id !== 0) {
           this.subscribeOrderBook(pair.name, this.precisionOut);
         }
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -138,12 +159,16 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     const innerWidth = window.innerWidth;
     if (innerWidth > 1480) {
       this.maxCountCharacter = 19;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     } else {
       this.windowWidthForCalculate.map(item => {
         if (innerWidth > item[0] && innerWidth < item[1]) {
           this.maxCountCharacter = item[2];
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         }
       });
     }
@@ -160,7 +185,9 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         this.setLastTotals(data);
         this.initData(data);
         this.loadingFinished();
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -347,6 +374,8 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     this.sortBuyData();
     this.sortSellData();
     this.setWidthForChartBorder();
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
   }
 }

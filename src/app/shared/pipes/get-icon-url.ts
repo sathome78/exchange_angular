@@ -13,7 +13,6 @@ export class GetIconUrl implements PipeTransform {
       case 'DOR':
       case 'CMS_X':
       case 'EXR':
-      case 'KOD':
       case 'TAO':
       case 'WaBi':
       case 'ECT':
@@ -21,35 +20,14 @@ export class GetIconUrl implements PipeTransform {
       case 'QUICK':
       case 'TRS':
       case 'VNT':
-      case 'RIME':
-      case 'TCAT':
-      case 'EXO':
-      case 'HT':
       case 'LiqPay':
       case 'Invoice':
       case 'Interkassa':
       case 'Mir Payment':
       case 'Alfaclick Payment':
-      // case 'Qubera':
-      case 'DIM.EUR':
-      case 'DIM.USD':
-      case 'HNI':
-      case 'HOT':
-      case 'MET':
-      case 'PLTC':
-      case 'PPY':
-      case 'QKC':
-      case 'RDN':
-      case 'REN':
       case 'VRBS':
-      case 'BSV':
       case 'RBC':
-      case 'RVC':
-      case 'TTT':
       case 'uDOOOO':
-      case 'VRA':
-
-      case 'ZUBE':
         name = 'no_icon';
         break;
     }

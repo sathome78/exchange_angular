@@ -46,6 +46,7 @@
   <div
     class="widget__content widget__content--pg"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
+    [@showOrderBook]="showContent5 ? 'show' : 'hide' "
   >
     <div class="row row--jcsb row--aic widget__trading-row">
       <div class="dropdown widget__limit-dropdown">
@@ -88,11 +89,11 @@
             ></app-price-input>
           </div>
         </div>
-        <div *ngIf="buyForm.get('quantity').touched && buyForm.get('quantity').errors">
+        <div *ngIf="buyForm.controls['quantity'].touched && buyForm.controls['quantity'].errors">
           <div class="">
             <span
               class="wrap-input__message wrap-input__message--error"
-              *ngIf="buyForm.get('quantity').errors['maxMarketOrder']"
+              *ngIf="buyForm.controls['quantity'].errors['maxMarketOrder']"
             >
               {{'Max. available to buy' | translate}} {{maxBuyMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>
@@ -239,11 +240,11 @@
           </div>
         </div>
 
-        <div *ngIf="sellForm.get('quantity').touched && sellForm.get('quantity').errors">
+        <div *ngIf="sellForm.controls['quantity'].touched && sellForm.controls['quantity'].errors">
           <div class="">
             <span
               class="wrap-input__message wrap-input__message--error"
-              *ngIf="sellForm.get('quantity').errors['maxMarketOrder']"
+              *ngIf="sellForm.controls['quantity'].errors['maxMarketOrder']"
             >
               {{'Max. available to sell' | translate}} {{maxSellMarketOrder | currencyFormat}} {{arrPairName[0]}}
             </span>

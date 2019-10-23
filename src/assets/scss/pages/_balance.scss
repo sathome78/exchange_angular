@@ -342,6 +342,7 @@
   .balance {
     display: block;
     padding-top: 32px;
+    padding-bottom: 40px;
     /*--- modificators start ---*/
     &--mob {
       display: none;
@@ -1033,4 +1034,43 @@
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+
+.refill__qr-code{
+@media(max-width:1199px){
+  margin: 20px auto;
+    text-align: center;
+  }
+}
+
+div.send-instant-s3, div.send-email-s3, div.send-protected-s3{
+  @media(max-width: 1199px){
+  .send__wrap-input .avaliable, .send__wrap-input .daily-avaliable{
+    width: 100%;
+    bottom: 44px;
+  }
+  .send__wrap-input{
+    margin-bottom: 27px;
+  }
+  .currency-select-wrapper{
+
+max-width: 270px;
+}
+}
+}
+
+
+.infomation-txt{
+text-align: center;
+padding: 20px;
+color: #EB5757;
+}
+
+
+.kyc-msg-inner{
+  text-align: center;
+padding-top: 30px;
+margin-bottom: 25px;
+color: #EB5757;
 }

@@ -242,9 +242,10 @@ export class UtilsService {
   }
 
   filterMerchants(merch) {
-    if (!this.isDeveloper) {
-      return merch.name !== FUG;
-    }
+    // FUG BLOCK
+    // if (!this.isDeveloper) {
+    //   return merch.name !== FUG;
+    // }
     if (this.isQuberaReady) {
       return true;
     }
@@ -253,5 +254,22 @@ export class UtilsService {
 
   get isMainPage() {
     return this.location.isCurrentPathEqualTo('/');
+  }
+
+  calcValueWithoutCommision(merchant, baseValue , type) {
+    let val = 0;
+    if (!isNaN(+baseValue)) {
+      val = +baseValue;
+    } else {
+      val = 0;
+    }
+    if (val === 0) {
+      return 0;
+    }
+    const merchantCommission = type === 'refill' ? merchant.inputCommission : merchant.outputCommission;
+    const fixedMerchantCommission = merchant.fixedMinCommission;
+    const countedCommision = val / 100 * merchantCommission;
+    const commission = countedCommision > fixedMerchantCommission ? countedCommision : fixedMerchantCommission;
+    return val - commission;
   }
 }

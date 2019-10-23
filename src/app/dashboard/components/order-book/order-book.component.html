@@ -60,7 +60,12 @@
     #orderBook
     *ngIf="!loading"
   >
-    <div class="order-table">
+    <div
+      class="order-table"
+      [@showOrderBook]="showContentOrderBook ? 'show' : 'hide' "
+    >
+
+
       <div class="head">
         <div class="order table__cell-head table__cell-head--tal table__cell-head--p4 table__cell-head--blue">
           <span>

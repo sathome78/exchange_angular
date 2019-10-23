@@ -150,6 +150,7 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
   setStatusMessage(err, is2fa) {
     this.showSendAgainBtn = false;
     if (err['status'] === 400) {
+
       if (
         err.error.title === 'REQUIRED_EMAIL_AUTHORIZATION_CODE' ||
         err.error.title === 'REQUIRED_GOOGLE_AUTHORIZATION_CODE' ||
@@ -185,6 +186,14 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
           }
         }
         this.pincodeAttempts = this.pincodeAttempts === 3 ? 0 : this.pincodeAttempts;
+        this.pinFormCode.setValue('');
+        this.pinFormCode.setErrors({ pinError: true });
+      } else if (err.error.title === 'EMAIL_AUTHORIZATION_FAILED_AND_RESENT') {
+        this.twoFaAuthModeMessage = 'Pin code is wrong. New pin was sended to your email.';
+        this.pinFormCode.setValue('');
+        this.pinFormCode.setErrors({ pinError: true });
+      } else if (err.error.title === 'EMAIL_AUTHORIZATION_PIN_EXPIRED') {
+        this.twoFaAuthModeMessage = 'This pin is expired. New pin was sended to your email.';
         this.pinFormCode.setValue('');
         this.pinFormCode.setErrors({ pinError: true });
       } else {

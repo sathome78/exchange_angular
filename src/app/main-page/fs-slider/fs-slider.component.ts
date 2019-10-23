@@ -7,6 +7,7 @@ import { PopupService } from 'app/shared/services/popup.service';
   styleUrls: ['./fs-slider.component.scss']
 })
 export class FsSliderComponent implements OnInit {
+  public activeBlock = false;
   public slides = [];
   public currSlide = '0';
   public slideConfig = {
@@ -22,6 +23,9 @@ export class FsSliderComponent implements OnInit {
   constructor(private popupService: PopupService) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.activeBlock = true;
+    }, 2000)
   }
 
   afterChange(e) {

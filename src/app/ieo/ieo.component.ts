@@ -46,6 +46,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   public userBalanceBTC = 0;
   public ieoLoading = true;
   public endTimer: any = null;
+  public loadingBuy = false;
   private _firstLoadedStatus: string = null;
 
   constructor(
@@ -135,6 +136,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   confirmBuy(amount) {
+    this.loadingBuy = true;
     this.ieoService
       .buyTokens({
         currencyName: this.IEOData.currencyName,
@@ -148,6 +150,9 @@ export class IEOComponent implements OnInit, OnDestroy {
         } else {
           this.toggleSuccess(true);
         }
+        this.loadingBuy = false;
+      }, err => {
+        this.loadingBuy = false;
       });
   }
 
