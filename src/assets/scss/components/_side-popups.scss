@@ -32,7 +32,7 @@
     font-size: 12px;
     line-height: 14px;
     text-align: right;
-    @media(max-width: 1199px){
+    @media(max-width: 1200px){
       color:#DEDEFB;
     }
     &.full-width {
@@ -969,7 +969,7 @@
 
   }
 }
-@media(max-width: 1199px){
+@media(max-width: 1200px){
   .send__info{
     .send__info-title {
       padding-right: 8px;
@@ -978,6 +978,7 @@
     }
     .send__info-value{
       line-height: 1.44;
+      color: #DEDEFB;
     }
   }
 }
