@@ -1,8 +1,8 @@
-<table class="table widget__table">
-  <thead>
-    <tr>
-      <th class="table__cell-head table__cell-head--tal">{{'Order id' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tal">
+<div class="table widget__table open-orders">
+  <div>
+    <div class="tr">
+      <div class="table__cell-head table__cell-head--tal table__cell1">{{'Order id' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell2">
         <svg
           class="table__cell-head-arr"
           width="6"
@@ -16,108 +16,82 @@
           />
         </svg>
         {{'Created' | translate}}
-      </th>
-      <!--<th class="table__cell-head table__cell-head&#45;&#45;tal">Order</th>-->
-      <th class="table__cell-head table__cell-head--tal">{{'Type' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tal">{{'Limit Price' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tal">{{'Stop Price' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tal">{{'Amount' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tal">{{'Fee' | translate}}</th>
-      <th class="table__cell-head table__cell-head--tal">{{'Total' | translate}}</th>
-      <th
-        class="table__cell-head table__cell-head--tal"
+      </div>
+      <div class="table__cell-head table__cell-head--tal table__cell3">{{'Type' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell4">{{'Limit Price' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell5">{{'Stop Price' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell6">{{'Amount' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell7">{{'Fee' | translate}}</div>
+      <div class="table__cell-head table__cell-head--tal table__cell8">{{'Total' | translate}}</div>
+      <div
+        class="table__cell-head table__cell-head--tal table__cell9"
         style="width: 74px;"
-      ></th>
-      <!-- <th class="table__cell-head table__cell-head--tal" style="width: 74px;"></th> -->
-    </tr>
-  </thead>
-  <tbody class="table__body table__body--none-shadow">
+      ></div>
+    </div>
+  </div>
+  <perfect-scrollbar style="max-height: 357px;">
+    <div class="table__body table__body--none-shadow">
 
-    <tr
-      class="table__row"
-      *ngFor="let item of openOrders | paginate: { itemsPerPage: countPerPage, currentPage: currentPage }; trackBy: trackByFn"
-    >
-      <td class="table__cell">
-        <span>{{item.id}}</span>
-      </td>
-      <td class="table__cell">
-        <div class="table__date-time">
-          <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
-          <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
+      <div
+        class="table__row"
+        *ngFor="let item of openOrders; trackBy: trackByFn"
+      >
+        <div class="table__cell table__cell1">
+          <span>{{item.id}}</span>
         </div>
-      </td>
-      <td class="table__cell">
-        <span
-          [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }">{{item.operationType | replaceChar: '_': ' '}}
-          <span></span></span>
-        <!--<span class="orders__type-sell">Sell <span>(Limit)</span></span>-->
-      </td>
-      <td class="table__cell">
-        <span>{{(item.exExchangeRate || item.limitRate)  | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
-      </td>
-      <td class="table__cell">
-        <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:arrPairName[1]}}
-          {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>
-      </td>
-      <td class="table__cell">
-        <span>{{item.amountBase | currencyFormat:arrPairName[0]}} {{arrPairName[0]}}</span>
-      </td>
-      <td class="table__cell txt-grey">
-        <span>{{item.commissionFixedAmount | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
-      </td>
-      <td class="table__cell">
-        <span>{{item.amountWithCommission | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
-      </td>
-      <td class="table__cell">
-        <button
-          class="btn btn--small btn--empty-red btn--hidden"
-          style="width: 100%; max-width: 58px;"
-          (click)="onShowCancelOrderConfirm(item.id)"
-        >{{'Cancel' | translate}}</button>
-        <div
-          class="revoke-request"
-          *ngIf="showCancelOrderConfirm === item.id"
-        >
-          <div class="revoke-request__title">{{'Are you sure you want to cancel this order?' | translate}}</div>
-          <div class="revoke-request__button-wrap">
-            <button
-              class="btn btn--small"
-              (click)="cancelOrder(item)"
-              [disabled]="loading"
-            >{{'Yes' | translate}}</button>
-            <button
-              class="btn btn--small"
-              (click)="onShowCancelOrderConfirm(null)"
-            >{{'No' | translate}}</button>
+        <div class="table__cell table__cell2">
+          <div class="table__date-time">
+            <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"DD.MM.YYYY"}}</div>
+            <div>{{item.dateCreation | amFromUtc | amLocal | amDateFormat:"HH:mm:ss"}}</div>
           </div>
-          <div class="revoke-request__triangle"></div>
         </div>
-      </td>
-      <!-- <td class="table__cell">
-      <button class="btn btn--small btn--empty-blue table__row-btn"
-              style="width: 100%; max-width: 58px;"
-              (click)="showEditOrderPopup(item)"
-      >Edit</button>
-    </td> -->
-    </tr>
-
-
-  </tbody>
-</table>
-<ng-content></ng-content>
-<div
-  class="row"
-  style="margin: 0 16px;"
-  *ngIf="openOrders && openOrders.length > 7"
->
-  <ul
-    class="paginator"
-    style="margin-left: auto;"
-  >
-    <pagination-controls
-      (pageChange)="changePage($event)"
-      [previousLabel]="''"
-      [nextLabel]="''"
-    ></pagination-controls>
-  </ul>
+        <div class="table__cell table__cell3">
+          <span
+            [ngClass]="{'orders__type-sell': item.operationTypeEnum === 'SELL', 'orders__type-buy': item.operationTypeEnum === 'BUY' }">{{item.operationType | replaceChar: '_': ' '}}
+            <span></span></span>
+        </div>
+        <div class="table__cell table__cell4">
+          <span>{{(item.exExchangeRate || item.limitRate)  | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
+        </div>
+        <div class="table__cell table__cell5">
+          <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:arrPairName[1]}}
+            {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>
+        </div>
+        <div class="table__cell table__cell6">
+          <span>{{item.amountBase | currencyFormat:arrPairName[0]}} {{arrPairName[0]}}</span>
+        </div>
+        <div class="table__cell txt-grey table__cell7">
+          <span>{{item.commissionFixedAmount | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
+        </div>
+        <div class="table__cell table__cell8">
+          <span>{{item.amountWithCommission | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
+        </div>
+        <div class="table__cell table__cell9">
+          <button
+            class="btn btn--small btn--empty-red btn--hidden"
+            style="width: 100%; max-width: 58px;"
+            (click)="onShowCancelOrderConfirm(item.id)"
+          >{{'Cancel' | translate}}</button>
+          <div
+            class="revoke-request"
+            *ngIf="showCancelOrderConfirm === item.id"
+          >
+            <div class="revoke-request__title">{{'Are you sure you want to cancel this order?' | translate}}</div>
+            <div class="revoke-request__button-wrap">
+              <button
+                class="btn btn--small"
+                (click)="cancelOrder(item)"
+                [disabled]="loading"
+              >{{'Yes' | translate}}</button>
+              <button
+                class="btn btn--small"
+                (click)="onShowCancelOrderConfirm(null)"
+              >{{'No' | translate}}</button>
+            </div>
+            <div class="revoke-request__triangle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
 </div>
