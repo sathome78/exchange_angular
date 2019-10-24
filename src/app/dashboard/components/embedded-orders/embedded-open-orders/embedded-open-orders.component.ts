@@ -25,7 +25,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy {
   public arrPairName = ['', ''];
 
   public currentPage = 1;
-  public showCancelOrderConfirm = null;
+  public showCancelOrder = null;
   public loading = false;
 
   constructor(
@@ -45,7 +45,6 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy {
    */
   cancelOrder(order): void {
     this.loading = true;
-    this.showCancelOrderConfirm = null;
     this.ordersService
       .deleteOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -54,15 +53,17 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy {
           this.loading = false;
           const pair = new SimpleCurrencyPair(order.currencyPairId, order.currencyPairName);
           this.userService.getUserBalance(pair);
+          this.showCancelOrder = null;
         },
         err => {
           this.loading = false;
+          this.showCancelOrder = null;
         }
       );
   }
 
-  onShowCancelOrderConfirm(orderId: string | null): void {
-    this.showCancelOrderConfirm = orderId;
+  onShowCancelOrderConfirm(order): void {
+    this.showCancelOrder = order;
   }
 
   ngOnDestroy() {
