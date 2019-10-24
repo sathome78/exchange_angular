@@ -136,9 +136,7 @@
       }
     }
 
-    &__title {
-      display: block;
-    }
+    
 
     &__counter {
       display: block;
@@ -199,4 +197,19 @@
   .dark-theme .steps__number--valid:after {
     background-image: url("assets/img/step-valid--dark-theme.svg");
 }
+}
+
+
+  .steps__title{
+    @media (min-width:1201px) {
+      
+        display: block;
+     
+  }
+}
+
+.dark-theme .steps__title {
+  @media (min-width:1201px) {
+  color: #94C2FF;
+  }
 }
