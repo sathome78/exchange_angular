@@ -70,28 +70,32 @@
           <button
             class="btn btn--small btn--empty-red btn--hidden"
             style="width: 100%; max-width: 58px;"
-            (click)="onShowCancelOrderConfirm(item.id)"
+            (click)="onShowCancelOrderConfirm(true)"
           >{{'Cancel' | translate}}</button>
-          <div
-            class="revoke-request"
-            *ngIf="showCancelOrderConfirm === item.id"
-          >
-            <div class="revoke-request__title">{{'Are you sure you want to cancel this order?' | translate}}</div>
-            <div class="revoke-request__button-wrap">
-              <button
-                class="btn btn--small"
-                (click)="cancelOrder(item)"
-                [disabled]="loading"
-              >{{'Yes' | translate}}</button>
-              <button
-                class="btn btn--small"
-                (click)="onShowCancelOrderConfirm(null)"
-              >{{'No' | translate}}</button>
-            </div>
-            <div class="revoke-request__triangle"></div>
-          </div>
+
         </div>
       </div>
     </div>
+
   </perfect-scrollbar>
+  <div
+    class="revoke-request"
+    *ngIf="showCancelOrderConfirm == true"
+  >
+    <div class="revoke-inner">
+      <div class="revoke-request__title">{{'Are you sure you want to cancel this order?' | translate}}</div>
+      <div class="revoke-request__button-wrap">
+        <button
+          class="btn btn--small"
+          (click)="cancelOrder(item)"
+          [disabled]="loading"
+        >{{'Yes' | translate}}</button>
+        <button
+          class="btn btn--small"
+          (click)="onShowCancelOrderConfirm(false)"
+        >{{'No' | translate}}</button>
+      </div>
+    </div>
+
+  </div>
 </div>
