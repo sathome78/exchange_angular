@@ -1,0 +1,57 @@
+<div class="select">
+  <div
+    class="select__value select__value--active"
+    (click)="dropdownToggle()"
+  >
+    {{activeCountry.name}}
+    <div class="select__triangle"></div>
+  </div>
+  <div class="select__label">{{'Country' | translate}}</div>
+  <div class="select__line"></div>
+  <div
+    class="select__list-searching"
+    [ngClass]="{'select__list-searching--open': openDropdown}"
+    *ngIf="openDropdown"
+  >
+    <div class="select__search">
+      <input
+        class="select__search-input"
+        type="text"
+        placeholder="Search"
+        (input)="search($event)"
+      >
+      <div class="select__search-icon">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M15 8C15 11.8662 11.8652 15 8 15C4.13477 15 1 11.8662 1 8C1 4.13379 4.13477 1 8 1C11.8652 1 15 4.13379 15 8ZM13.293 13.999C11.8828 15.2441 10.0293 16 8 16C3.58203 16 0 12.418 0 8C0 3.58203 3.58203 0 8 0C12.418 0 16 3.58203 16 8C16 10.0293 15.2461 11.8818 14 13.292L17.8535 17.1465C17.9141 17.207 17.957 17.2803 17.9805 17.3574C18.0293 17.5273 17.9883 17.7188 17.8535 17.8535C17.6582 18.0488 17.3418 18.0488 17.1465 17.8535L13.293 13.999Z"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="select__list-searching-body">
+
+      <perfect-scrollbar>
+        <ng-container *ngFor="let letter of alphabet; trackBy: trackByAlphabet">
+          <h6 class="select__searching-items-title"><span>{{letter.toUpperCase()}}</span></h6>
+          <div class="select__searching-items-wrap">
+            <div
+              class="select__searching-item"
+              *ngFor="let item of filteredList | groupCoin:letter; trackBy: trackBy"
+              (click)="onSelect(item)"
+            >
+              <span>{{item.name}}</span>
+            </div>
+          </div>
+        </ng-container>
+      </perfect-scrollbar>
+    </div>
+  </div>
+</div>

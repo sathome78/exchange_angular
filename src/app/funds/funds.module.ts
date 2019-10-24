@@ -84,6 +84,10 @@ import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/r
 import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.component';
 import { CommissionComponent } from './components/commission/commission.component';
 import { SendLinesComponent } from './components/send-lines/send-lines.component';
+import { SyndexService } from './services/syndex.service';
+import { SyndexCountriesSelectorComponent } from './components/syndex-countries-selector/syndex-countries-selector.component';
+import { SyndexPaymentSystemsSelectorComponent } from './components/syndex-payment-systems-selector/syndex-payment-systems-selector.component';
+import { SyndexPaymentCurrenciesSelectorComponent } from './components/syndex-payment-currencies-selector/syndex-payment-currencies-selector.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -177,10 +181,14 @@ export function createTranslateLoader(http: HttpClient) {
     NeedKycMsgComponent,
     CommissionComponent,
     SendLinesComponent,
+    SyndexCountriesSelectorComponent,
+    SyndexPaymentSystemsSelectorComponent,
+    SyndexPaymentCurrenciesSelectorComponent,
   ],
   providers: [
     BalanceService,
     TransactionsService,
+    SyndexService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

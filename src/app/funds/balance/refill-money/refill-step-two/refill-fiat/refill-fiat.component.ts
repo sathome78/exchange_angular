@@ -10,8 +10,8 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil, first } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
+import { takeUntil, first, mergeMap } from 'rxjs/operators';
 import { CurrencyBalanceModel } from '../../../../../model/currency-balance.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BalanceService } from '../../../../services/balance.service';
@@ -26,6 +26,9 @@ import { UtilsService } from 'app/shared/services/utils.service';
 import { QiwiRefill } from 'app/model/qiwi-rifill-response.model';
 import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
 import { CurrencySelectFiatComponent } from 'app/shared/components/currency-select-fiat/currency-select-fiat.component';
+import { SyndexService } from 'app/funds/services/syndex.service';
+import { SyndexCountry } from 'app/funds/models/syndexCountry.model';
+import { SyndexPaymentSystem, SyndexPSCurrency } from 'app/funds/models/syndexPaymentSystem.model';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -74,6 +77,14 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   public VIEW = this.viewsList.LOADING;
 
+  // Syndex
+
+  public syndexCountires = [];
+  public activeSyndexCountry: SyndexCountry = null;
+  public syndexPaymentSystems = [];
+  public activeSyndexPS: SyndexPaymentSystem = null;
+  public activeSyndexPSCurrency: SyndexPSCurrency = null;
+
   /** Are listening click in document */
   @HostListener('document:click', ['$event']) clickout($event) {
     if (
@@ -95,6 +106,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     public balanceService: BalanceService,
     public popupService: PopupService,
     public utilsService: UtilsService,
+    public syndexService: SyndexService,
     public router: Router,
     private store: Store<State>
   ) {}
@@ -168,7 +180,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.balanceService
       .getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
+      .subscribe((res: any) => {
         this.fiatDataByName = res;
         // FUG BLOCK
         this.merchants = this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
@@ -183,6 +195,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.formAmout.updateValueAndValidity();
         if (this.selectedMerchant) {
           this.setMinRefillSum();
+        }
+        if (this.isSyndex) {
+          this.getSyndexCoutries();
         }
         this.setView(this.viewsList.MAIN);
       }, err => {
@@ -199,6 +214,9 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       this.fiatDataByName.minRefillSum > parseFloat(this.selectedMerchant.minSum)
         ? this.fiatDataByName.minRefillSum
         : parseFloat(this.selectedMerchant.minSum);
+  }
+  private setMinRefillSumSyndex(val: number) {
+    this.minRefillSum = val;
   }
 
   selectMerchant(merchant, merchantImage = null) {
@@ -395,8 +413,61 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getSyndexCoutries() {
+    this.syndexService.getSyndexCountries()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(mergeMap((res: SyndexCountry[]) => {
+        if (res && res.length) {
+          this.syndexCountires = res;
+          this.activeSyndexCountry = res[0];
+          return this.syndexService.getSyndexPaymentSystems(this.activeSyndexCountry.id);
+        }
+        return of([]);
+      }))
+      .subscribe((res: SyndexPaymentSystem[]) => {
+        if (res && res.length) {
+          this.syndexPaymentSystems = res;
+          this.activeSyndexPS = res[0];
+          this.activeSyndexPSCurrency = this.activeSyndexPS.currency[0];
+          this.setMinRefillSumSyndex(this.minRefillSumSyndex);
+        }
+      });
+  }
+
+  public getSyndexPaymentSystemsByCountryId(countryId: string) {
+    this.syndexService.getSyndexPaymentSystems(countryId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res: SyndexPaymentSystem[]) => {
+        this.syndexPaymentSystems = res;
+      });
+  }
+
+  public onSelectSyndexCountry(country: SyndexCountry) {
+    if (country) {
+      this.activeSyndexCountry = country;
+      this.getSyndexPaymentSystemsByCountryId(this.activeSyndexCountry.id);
+    }
+  }
+
+  public onSelectSyndexPaymentSystem(ps: SyndexPaymentSystem) {
+    if (ps) {
+      this.activeSyndexPS = ps;
+      this.getSyndexPaymentSystemsByCountryId(this.activeSyndexCountry.id);
+    }
+  }
+
+  public onSelectSyndexPSCurrency(currency: SyndexPSCurrency) {
+    if (currency) {
+      this.activeSyndexPSCurrency = currency;
+      this.setMinRefillSumSyndex(this.minRefillSumSyndex);
+    }
+  }
+
   get isQIWI(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
+  }
+  get isSyndex(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.name === 'Syndex';
   }
   get isRefillClosed(): boolean {
     return !this.merchants.length;
@@ -412,6 +483,18 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   }
   get currName() {
     return this.activeFiat && this.activeFiat.name;
+  }
+  get syndexPSCurrencies(): SyndexPSCurrency[] {
+    if (this.activeSyndexPS) {
+      return this.activeSyndexPS.currency || [];
+    }
+    return [];
+  }
+  get minRefillSumSyndex(): number {
+    if (this.activeSyndexPSCurrency && this.activeSyndexPS) {
+      return this.activeSyndexPS.min_amount[this.activeSyndexPSCurrency.id];
+    }
+    return 0;
   }
   private setView(v) {
     this.VIEW = v;

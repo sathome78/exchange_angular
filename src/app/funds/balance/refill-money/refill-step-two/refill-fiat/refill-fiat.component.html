@@ -101,6 +101,42 @@
           </div>
         </div>
 
+        <ng-container *ngIf="isSyndex">
+          <div
+            class="currency-select-wrapper"
+            *ngIf="syndexCountires && syndexCountires.length"
+          >
+            <app-syndex-countries-selector
+              [activeCountry]="activeSyndexCountry"
+              [countries]="syndexCountires"
+              (select)="onSelectSyndexCountry($event)"
+            ></app-syndex-countries-selector>
+          </div>
+
+          <div
+            class="currency-select-wrapper"
+            *ngIf="syndexPaymentSystems && syndexPaymentSystems.length"
+          >
+            <app-syndex-payment-systems-selector
+              [activePS]="activeSyndexPS"
+              [paymentSystems]="syndexPaymentSystems"
+              (select)="onSelectSyndexPaymentSystem($event)"
+            ></app-syndex-payment-systems-selector>
+          </div>
+
+          <div
+            class="currency-select-wrapper"
+            *ngIf="syndexPSCurrencies && syndexPSCurrencies.length"
+          >
+            <app-syndex-payment-currencies-selector
+              [activePSCurrency]="activeSyndexPSCurrency"
+              [currencies]="syndexPSCurrencies"
+              (select)="onSelectSyndexPSCurrency($event)"
+            ></app-syndex-payment-currencies-selector>
+          </div>
+
+        </ng-container>
+
         <div
           class="wrap-input refill__wrap-input"
           *ngIf="selectedMerchant && !isQIWI"

@@ -4,10 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'groupCoin',
 })
 export class GroupCoinPipe implements PipeTransform {
-  transform(array: any[], field: string): any[] {
+  transform(array: any[], field: string, key: string = 'name'): any[] {
     const result = [];
     array.forEach(item => {
-      if (item.name[0].toLowerCase() === field.toLowerCase()) {
+      if (item[key][0].toLowerCase() === field.toLowerCase()) {
         result.push(item);
       }
     });
