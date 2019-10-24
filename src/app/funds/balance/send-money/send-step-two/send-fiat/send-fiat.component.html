@@ -6,9 +6,11 @@
         <div class="send__inputs-wrap">
           <div class="currency-select-wrapper">
             <app-currency-select-fiat
+              #currencySelect
               [activeCurrency]="activeFiat"
               [currencies]="fiatNames"
               (selectCurrency)="selectCurrency($event)"
+              (toggleDropdown)="toggleCurrencySelect($event)"
             ></app-currency-select-fiat>
           </div>
 
