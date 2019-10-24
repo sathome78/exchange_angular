@@ -36,11 +36,17 @@
     }
 }
 
-.open-orders{
+.open-orders-dash{
 
 	.table__row{
 		padding: 6px 0;
 		
+	}
+	.table__cell-head{
+		padding: 14px 6px;
+	}
+	.table__cell{
+		white-space: normal;
 	}
 .tr, .table__row{
 	display: flex;
@@ -48,29 +54,30 @@
     width: 100%;
 	margin: 0 auto;
 	align-items: center;
+	font-size: 12px;
 	.table__cell1{
-		width: 10%;
+		width: 8.5%;
 	}
 	.table__cell2{
-		width: 11.5%;
+		width: 10.5%;
 	}
 	.table__cell3{
-		width: 11.5%;
+		width: 10.5%;
 	}
 	.table__cell4{
-		width: 14%;
+		width: 15%;
 	}
 	.table__cell5{
 		width: 10.5%;
 	}
 	.table__cell6{
-		width: 11.5%;
+		width: 14.5%;
 	}
 	.table__cell7{
 		width: 9%;
 	}
 	.table__cell8{
-		width: 13%;
+		width: 15%;
 	}
 	.table__cell9{
 		
@@ -79,7 +86,7 @@
 
 	}
 	.table__cell{
-		padding: 2px 4px 2px 10px;
+		padding: 2px 4px 2px 6px;
 	}
 	
 }

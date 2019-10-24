@@ -25,6 +25,7 @@ import { FUG, EUR } from 'app/funds/balance/balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { QiwiRefill } from 'app/model/qiwi-rifill-response.model';
 import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
+import { CurrencySelectFiatComponent } from 'app/shared/components/currency-select-fiat/currency-select-fiat.component';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -41,6 +42,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   @ViewChild('listMerchant') listMerchantTemplate: TemplateRef<any>;
   @ViewChild('sendF') sendFTemplate: TemplateRef<any>;
   @ViewChild('redirectionLink') redirectionLink: ElementRef;
+  @ViewChild('currencySelect') private currencySelect: CurrencySelectFiatComponent;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public form: FormGroup;
   public isSubmited = false;
@@ -52,7 +54,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public amount;
   public merchants;
   public searchTemplate = '';
-  public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public activeFiat;
   public minRefillSum = 0;
@@ -87,7 +88,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
           ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
           : [];
       this.searchTemplate = '';
-      this.openCurrencyDropdown = false;
     }
   }
 
@@ -140,10 +140,10 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  toggleCurrencyDropdown() {
-    this.openCurrencyDropdown = !this.openCurrencyDropdown;
-    this.openPaymentSystemDropdown = false;
-    this.prepareAlphabet();
+  toggleCurrencySelect(val) {
+    if (val) {
+      this.openPaymentSystemDropdown = false;
+    }
   }
 
   togglePaymentSystemDropdown() {
@@ -154,13 +154,12 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         ? this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
         : [];
     this.searchTemplate = '';
-    this.openCurrencyDropdown = false;
+    this.currencySelect.closeDropdown();
   }
 
   selectCurrency(currency) {
     this.isSubmited = false;
     this.activeFiat = currency;
-    this.toggleCurrencyDropdown();
     this.getDataByCurrency(currency.name);
     this.form.updateValueAndValidity();
   }
