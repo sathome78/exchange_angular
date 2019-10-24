@@ -90,13 +90,28 @@
     &:nth-of-type(odd) {
       background-color: #f4f8fe;
     }
-
+    .btn--hidden{
+      &.active-btn{
+        visibility: visible;
+        transition: none;
+        color: #fff;
+    border-color: #EB5757;
+    background-color: #EB5757;
+      }
+    }
     &:hover {
       background-color: #deebfd;
       //cursor: pointer;
       .btn--hidden{
         visibility: visible;
         transition: none;
+        &.active-btn{
+          visibility: visible;
+          transition: none;
+          color: #EB5757;
+    border-color: #EB5757;
+    background-color: transparent;
+        }
       }
       .table__row-btn {
         display: inline-block;
