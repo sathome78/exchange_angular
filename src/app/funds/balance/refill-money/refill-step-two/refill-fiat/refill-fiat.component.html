@@ -381,6 +381,28 @@
 
   </div>
 
+  <ng-container *ngIf="VIEW === viewsList.SYNDEX_SUCCESS">
+    <div class="side-popups send-cripto-s2">
+      <h2 class="title refill__title">
+        {{'Fiat Deposit' | translate}} <span>{{currName}}</span>
+      </h2>
+      <div class="title refill__fiat-successful-title">{{'Request was created!' | translate}}</div>
+      <div class="subtitle refill__fiat-successful-subtitle">
+        {{'Please go to' | translate}}
+        <a
+          class="standart-link"
+          href="#"
+          [routerLink]="['/funds/balances']"
+          [queryParams]="{tab: 'pr'}"
+          (click)="hideSend()"
+        >
+          {{'Pending requests' | translate}}
+        </a>
+        {{'to observe a payment' | translate}}
+      </div>
+    </div>
+  </ng-container>
+
   <div class="note modal__note">
     <div class="note__title">{{'Please note:' | translate}}</div>
     <ul class="note__list">

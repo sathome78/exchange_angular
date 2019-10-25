@@ -19,7 +19,7 @@ import { select, Store } from '@ngrx/store';
 import { getFiatCurrenciesForChoose, State } from 'app/core/reducers';
 import { PopupService } from '../../../../../shared/services/popup.service';
 import * as _uniq from 'lodash/uniq';
-import { RefillData } from '../../../../../shared/interfaces/refill-data-interface';
+import { RefillData, RefillDataSyndex } from '../../../../../shared/interfaces/refill-data-interface';
 import { Router } from '@angular/router';
 import { FUG, EUR } from 'app/funds/balance/balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -73,6 +73,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     SUCCESS: 'success',
     MAIN: 'main',
     DENIED: 'denied',
+    SYNDEX_SUCCESS: 'syndex_success',
   };
 
   public VIEW = this.viewsList.LOADING;
@@ -181,6 +182,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: any) => {
+        res.merchantCurrencyData[0].name = 'Syndex';
         this.fiatDataByName = res;
         // FUG BLOCK
         this.merchants = this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));
@@ -329,10 +331,43 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       );
   }
 
+  refillSyndex() {
+    this.isSubmited = false;
+    this.amount = this.formAmout.value;
+    const data: RefillDataSyndex = {
+      operationType: this.fiatDataByName.payment.operationType,
+      currency: this.fiatDataByName.currency.id,
+      merchant: this.selectedMerchant.merchantId,
+      destination: this.selectedMerchant.description,
+      merchantImage: this.selectedMerchantNested.id,
+      sum: +this.amount,
+      country: this.activeSyndexCountry.id,
+      currencyToPaySyndex: this.activeSyndexPSCurrency.id,
+      paymentSystem: this.activeSyndexPS.id,
+    };
+    this.setView(this.viewsList.SYNDEX_SUCCESS);
+    this.loading = true;
+    this.balanceService
+      .refill(data)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (res: any) => {
+          // this.setView(this.viewsList.SUCCESS);
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+          console.error(err);
+        }
+      );
+  }
+
   submitRefill() {
     this.isSubmited = true;
     if (this.selectedMerchant.name === FUG && this.activeFiat.name === EUR) {
       this.refillQubera();
+    } else if (this.isSyndex) {
+      this.refillSyndex();
     } else {
       if (this.form.valid && this.selectedMerchant.name) {
         this.refillMerchant();
