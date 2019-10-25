@@ -103,7 +103,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(res => (this.activeMobileWidget = res));
 
     this.widgets = this.dataService.getWidgetPositions();
-    this.defauldWidgets = [...this.widgets];
+    this.defauldWidgets = this.dataService.getDefaultWidgetPositions();
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
 
