@@ -6,9 +6,11 @@
         <div class="send__inputs-wrap">
           <div class="currency-select-wrapper">
             <app-currency-select-fiat
+              #currencySelect
               [activeCurrency]="activeFiat"
               [currencies]="fiatNames"
               (selectCurrency)="selectCurrency($event)"
+              (toggleDropdown)="toggleCurrencySelect($event)"
             ></app-currency-select-fiat>
           </div>
 
@@ -236,33 +238,43 @@
         </div>
       </form>
 
-      <ng-container *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length">
-        <div class="send__line"></div>
-        <ng-container *ngIf="fiatInfoByName.leftRequestSum > 0">
-          <app-commission
-            type="withdraw"
-            [merchant]="selectedMerchant"
-            [currencyName]="activeFiat ? activeFiat.name : 'USD'"
-            [baseAmount]="formAmount.value"
-          ></app-commission>
+      <ng-container *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && !isNeedKyc">
+        <app-send-lines>
+          <ng-container *ngIf="fiatInfoByName.leftRequestSum > 0">
+            <app-commission
+              type="withdraw"
+              [merchant]="selectedMerchant"
+              [currencyName]="currName || 'USD'"
+              [baseAmount]="formAmount.value"
+            ></app-commission>
 
-          <button
-            class="btn btn--center "
-            [disabled]="isDisabledForm"
-            (click)="onSubmitWithdrawal()"
-          >
-            {{'Withdraw' | translate}}
-            <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw') | currencyFormat: currName}}</span>
-            <span> {{currName}}</span>
-          </button>
-        </ng-container>
+            <button
+              class="btn btn--center "
+              [disabled]="isDisabledForm"
+              (click)="onSubmitWithdrawal()"
+            >
+              {{'Withdraw' | translate}}
+              <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw') | currencyFormat: currName}}</span>
+              <span> {{currName}}</span>
+            </button>
+          </ng-container>
 
-        <ng-container *ngIf="fiatInfoByName.leftRequestSum == 0">
-          <div class="withdraw-limit-error">
-            {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
-          </div>
-        </ng-container>
-        <div class="send__line"></div>
+          <ng-container *ngIf="fiatInfoByName.leftRequestSum == 0">
+            <div class="withdraw-limit-error">
+              {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
+            </div>
+          </ng-container>
+        </app-send-lines>
+      </ng-container>
+
+      <ng-container *ngIf="isNeedKyc">
+        <app-send-lines>
+          <app-need-kyc-msg
+            [type]="'withdraw'"
+            [kyc]="selectedMerchant.verificationType"
+            [currencyName]="currName"
+          ></app-need-kyc-msg>
+        </app-send-lines>
       </ng-container>
 
 
@@ -292,7 +304,6 @@
     <app-loader></app-loader>
   </div>
 </ng-container>
-
 
 <ng-container *ngIf="VIEW === viewsList.CAPTCHA">
   <div
@@ -329,7 +340,7 @@
 <ng-container *ngIf="VIEW === viewsList.DENIED">
   <div class="side-popups send-cripto-s2">
     <h2 class="title send__title">{{'Fiat Withdrawal' | translate}} <span>{{currName}}</span></h2>
-    <div>{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
-    <div>{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
+    <div class="closed-opation">{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
+    <div class="closed-opation">{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
   </div>
 </ng-container>

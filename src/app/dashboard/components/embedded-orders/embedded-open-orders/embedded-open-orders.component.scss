@@ -1,5 +1,5 @@
 .table {
-  margin-top: 16px;
+  // margin-top: 16px;
   th {
     padding: 0 8px 12px;
     &:first-child {
@@ -143,7 +143,37 @@ input:not([value=""]){
 }
 @media (min-width: 1200px) {
   .revoke-request {
-    right: 15px;
-
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    background: rgba(25, 26, 57, .6);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .revoke-inner{
+      background: #264479;
+      border: 1px solid #237BEF;
+      max-width: 320px;
+      width: 100%;
+      min-height: 124px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      .btn--small{
+        min-width: 100px;
+        padding: 4px 8px;
+      }
+      .revoke-request__title{
+        margin-bottom: 21px;
+      }
+    }
   }
 }

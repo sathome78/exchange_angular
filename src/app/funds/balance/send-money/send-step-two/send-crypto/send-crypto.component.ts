@@ -194,8 +194,11 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
           this.VIEW = this.viewsList.MAIN;
         }
       }, err => {
-        if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
+        if (err.error && err.error.title === 'USER_OPERATION_DENIED') {
           this.VIEW = this.viewsList.DENIED;
+        }
+        if (this.activeCrypto && this.cryptoInfoByName) {
+          this.VIEW = this.viewsList.MAIN;
         }
       });
   }
@@ -229,8 +232,16 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     return this.cryptoInfoByName && this.cryptoInfoByName.merchantCurrencyData.length;
   }
 
+  get merchant() {
+    return this.cryptoInfoByName && this.isMerchantData && this.cryptoInfoByName.merchantCurrencyData[0];
+  }
+
   get isDisabledForm() {
     return this.formAmount.invalid || this.formAddress.invalid || !this.selectCurrency ;
+  }
+
+  get isNeedKyc(): boolean {
+    return this.merchant && this.merchant.needKycWithdraw;
   }
 
 }

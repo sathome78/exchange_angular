@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CurrencyBalanceModel } from 'app/model';
 import { Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { PopupService } from 'app/shared/services/popup.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { FUG } from 'app/funds/balance/balance-constants';
 import { BalanceItem } from 'app/funds/models/balance-item.model';
+import { CurrencySelectFiatComponent } from 'app/shared/components/currency-select-fiat/currency-select-fiat.component';
 
 @Component({
   selector: 'app-send-fiat',
@@ -20,10 +21,10 @@ import { BalanceItem } from 'app/funds/models/balance-item.model';
 })
 export class SendFiatComponent implements OnInit, OnDestroy {
   @Input() balanceData;
+  @ViewChild('currencySelect') private currencySelect: CurrencySelectFiatComponent;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public recaptchaKey = keys.recaptchaKey;
-  public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public fiatInfoByName;
   public minWithdrawSum = 0;
@@ -69,7 +70,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       $event.target.className !== 'select__value select__value--active' &&
       $event.target.className !== 'select__search-input'
     ) {
-      this.openCurrencyDropdown = false;
       this.openPaymentSystemDropdown = false;
     }
   }
@@ -124,7 +124,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   selectCurrency(currency) {
     this.form.reset();
     this.activeFiat = currency;
-    this.currencyDropdownToggle();
     this.getFiatInfoByName(this.activeFiat.name);
     this.getBalance(this.activeFiat.id);
   }
@@ -139,11 +138,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     } else {
       this.form.addControl('address', new FormControl('', [Validators.required]));
     }
-  }
-
-  currencyDropdownToggle() {
-    this.openCurrencyDropdown = !this.openCurrencyDropdown;
-    this.openPaymentSystemDropdown = false;
   }
 
   balanceClick() {
@@ -175,7 +169,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         ? this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
         : [];
     this.searchTemplate = '';
-    this.openCurrencyDropdown = false;
+    this.currencySelect.closeDropdown();
+  }
+
+  toggleCurrencySelect(val) {
+    if (val) {
+      this.openPaymentSystemDropdown = false;
+    }
   }
 
   onSubmitWithdrawal() {
@@ -219,7 +219,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
           this.VIEW = this.viewsList.MAIN;
         }
       }, err => {
-        if (err.error && err.error.tittle === 'USER_OPERATION_DENIED') {
+        if (err.error && err.error.title === 'USER_OPERATION_DENIED') {
           this.VIEW = this.viewsList.DENIED;
         }
       });
@@ -317,6 +317,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
   get isDisabledForm() {
     return this.formAmount.invalid || this.formAddress.invalid || !this.searchMerchant || !this.activeFiat;
+  }
+  get isNeedKyc(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.needKycWithdraw;
   }
 
   trackByFiatNames(index, item) {

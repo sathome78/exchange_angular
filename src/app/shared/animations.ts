@@ -88,7 +88,27 @@ export const Animations = {
     })
   ),
   transition('*=>show', [animate('.5s ease-out', style({opacity:1,transform: 'translateY(0)'}))]),
-  transition('*=>hide', [animate('0s', style({opacity:0,transform: 'translateY(15px)'}))]),
+  transition('*=>hide', [animate('.0s', style({opacity:0,transform: 'translateY(15px)'}))]),
+]),
+
+componentTriggerBallanceAnimation: trigger('ballanceAnimation', [
+  state(
+    'show',
+    style({
+      opacity: 1,
+      transform: 'translateY(0)'
+
+    })
+  ),
+  state(
+    'hide',
+    style({
+      opacity: 0,
+      transform: 'translateY(15px)'
+    })
+  ),
+  transition('*=>show', [animate('.5s ease-out', style({opacity:1,transform: 'translateY(0)'}))]),
+  transition('*=>hide', [animate('.5s', style({opacity:0,transform: 'translateY(15px)'}))]),
 ]),
 };
 

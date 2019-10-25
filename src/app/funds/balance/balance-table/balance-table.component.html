@@ -1,4 +1,7 @@
-<table class="table ballance-table fade-move-anim del6">
+<table
+  class="table ballance-table"
+  [@ballanceAnimation]="activeTab ? 'show' : 'hide' "
+>
   <thead>
     <tr>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
@@ -94,7 +97,7 @@
 </table>
 
 <!--paginator start-->
-<div class="fade-move-anim del7">
+<div [@ballanceAnimation]="activeTab ? 'show' : 'hide' ">
   <div
     class="row row--aic balance__paginator"
     *ngIf="countOfEntries > countPerPage"

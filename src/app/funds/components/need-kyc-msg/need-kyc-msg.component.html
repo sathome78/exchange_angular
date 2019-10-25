@@ -1,1 +1,15 @@
-<div>{{'You need proceed KYC to continue'}}</div>
+<ng-container>
+  <div class="kyc-msg-inner">
+    {{'Sorry, to use the system, you need to go through the KYC procedure and confirm your identity.currencyName' | translate}}
+    {{'Follow the link below to begin verification' | translate}}
+  </div>
+  <div class="kyc-btn-inner">
+    <a
+      class="standart-link"
+      href="#"
+      routerLink="/settings/verification"
+    >
+      {{'https://exrates.me/settings/verification'}}
+    </a>
+  </div>
+</ng-container>

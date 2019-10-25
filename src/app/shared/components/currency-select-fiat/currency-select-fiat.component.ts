@@ -10,6 +10,7 @@ export class CurrencySelectFiatComponent implements OnInit {
   @Input() public activeCurrency: CurrencyBalanceModel;
   @Input() public currencies: CurrencyBalanceModel[];
   @Output() public selectCurrency: EventEmitter<CurrencyBalanceModel> = new EventEmitter();
+  @Output() public toggleDropdown: EventEmitter<boolean> = new EventEmitter();
   public openCurrencyDropdown = false;
   public alphabet;
 
@@ -26,6 +27,12 @@ export class CurrencySelectFiatComponent implements OnInit {
 
   toggleCurrencyDropdown() {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
+    this.toggleDropdown.emit(this.openCurrencyDropdown);
+  }
+
+  closeDropdown() {
+    this.openCurrencyDropdown = false;
+    this.toggleDropdown.emit(this.openCurrencyDropdown);
   }
 
   onSelectCurrency(currency: CurrencyBalanceModel) {

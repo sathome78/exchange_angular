@@ -29,11 +29,13 @@ import { BALANCE_TABS, EUR } from './balance-constants';
 import { DetailedCurrencyPair } from '../../model/detailed-currency-pair';
 import { UserService } from 'app/shared/services/user.service';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
   styleUrls: ['./balance.component.scss'],
+  animations: [Animations.componentTriggerBallanceAnimation],
 })
 export class BalanceComponent implements OnInit, OnDestroy {
   /** */
@@ -82,7 +84,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public currencyForChoose: string = null;
   public currentPage = 1;
   public countPerPage = 15;
-  public filtering = false;
 
   constructor(
     public balanceService: BalanceService,
@@ -251,7 +252,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           currencyName: this.currValue || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
-          excludeZero: this.filtering ? !this.filtering : this.hideAllZero,
+          excludeZero: this.hideAllZero,
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadCryptoBalAction(paramsC));
@@ -262,7 +263,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
           currencyName: this.currValue || '',
           offset: (this.currentPage - 1) * this.countPerPage,
           limit: this.countPerPage,
-          excludeZero: this.filtering ? !this.filtering : this.hideAllZero,
+          excludeZero: this.hideAllZero,
           concat: concat || false,
         };
         return this.store.dispatch(new fundsAction.LoadFiatBalAction(paramsF));
@@ -471,9 +472,6 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onSelectPair(currId: string): void {
-    setTimeout(() => {
-      this.filtering = currId !== null;
-    });
     this.currencyForChoose = currId;
     this.currentPage = 1;
     this.loadBalances(this.currTab);
