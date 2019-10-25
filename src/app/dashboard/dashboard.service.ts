@@ -138,6 +138,8 @@ export class DashboardService {
     //   type: 'prediction'
     // },
   ];
+  public defaultWidgetPositions = [...this.widgetPositions];
+
   /** Array of dashboard tools item */
   public dashboardToolsItems = [
     {
@@ -189,6 +191,9 @@ export class DashboardService {
    */
   getWidgetPositions() {
     return this.widgetPositions;
+  }
+  getDefaultWidgetPositions() {
+    return this.defaultWidgetPositions;
   }
 
   /**
