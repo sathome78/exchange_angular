@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
 import * as _uniq from 'lodash/uniq';
-import { SyndexPaymentSystem } from 'app/funds/models/syndexPaymentSystem.model';
+import { SyndexPaymentSystem } from 'app/funds/models/syndex-payment-system.model';
 
 @Component({
   selector: 'app-syndex-payment-systems-selector',

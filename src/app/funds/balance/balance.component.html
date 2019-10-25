@@ -362,8 +362,9 @@
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [loading]="loading$ | async"
-        (onPaginate)="onPageChanged($event)"
-        (onRevokePendingRequest)="onRevokePendingRequest($event)"
+        (paginate)="onPageChanged($event)"
+        (revokePendingRequest)="onRevokePendingRequest($event)"
+        (selectSyndexOrder)="onSelectSyndexOrder($event)"
         *ngSwitchCase="Tab.PR"
       ></app-pending-request-table>
       <ng-container>
@@ -405,6 +406,14 @@
     [optionData]="refillBalanceData"
     (closeRefillBalancePopup)="openRefillBalancePopup(false)"
   ></app-refill-money>
+</div>
+
+<div>
+  <app-refill-syndex-step-three
+    *ngIf="(syndexPopupData$ | async).state"
+    [showPopup]="(syndexPopupData$ | async).state"
+    [data]="(syndexPopupData$ | async).data"
+  ></app-refill-syndex-step-three>
 </div>
 
 <div>

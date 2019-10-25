@@ -1,18 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
-import { SyndexCountry } from 'app/funds/models/syndexCountry.model';
 import * as _uniq from 'lodash/uniq';
+import { SyndexPSCurrency } from 'app/funds/models/syndex-payment-system.model';
 
 @Component({
-  selector: 'app-syndex-countries-selector',
-  templateUrl: './syndex-countries-selector.component.html',
-  styleUrls: ['./syndex-countries-selector.component.scss'],
+  selector: 'app-syndex-payment-currencies-selector',
+  templateUrl: './syndex-payment-currencies-selector.component.html',
+  styleUrls: ['./syndex-payment-currencies-selector.component.scss']
 })
-export class SyndexCountriesSelectorComponent implements OnInit {
-
-  @Input() public activeCountry: SyndexCountry;
-  @Input() public countries: SyndexCountry[];
-  @Output() public select: EventEmitter<SyndexCountry> = new EventEmitter();
-  public filteredList: SyndexCountry[];
+export class SyndexPaymentCurrenciesSelectorComponent implements OnInit {
+  @Input() public activePSCurrency: SyndexPSCurrency;
+  @Input() public currencies: SyndexPSCurrency[];
+  @Output() public select: EventEmitter<SyndexPSCurrency> = new EventEmitter();
+  public filteredList: SyndexPSCurrency[];
   public openDropdown = false;
   public alphabet: string[];
 
@@ -26,22 +25,22 @@ export class SyndexCountriesSelectorComponent implements OnInit {
   constructor(private _elementRef: ElementRef) { }
 
   ngOnInit() {
-    this.filteredList = this.countries;
+    this.filteredList = this.currencies;
     this.prepareAlphabet();
   }
 
   dropdownToggle() {
     this.openDropdown = !this.openDropdown;
     if (this.openDropdown) {
-      this.filteredList = this.countries;
+      this.filteredList = this.currencies;
       this.prepareAlphabet();
     }
   }
 
   prepareAlphabet() {
     const temp = [];
-    this.filteredList.forEach(country => {
-      const letter = country.name.toUpperCase()[0];
+    this.filteredList.forEach(item => {
+      const letter = item.iso.toUpperCase()[0];
       temp.push(letter);
     });
     const unique = (value, index, self) => {
@@ -50,13 +49,13 @@ export class SyndexCountriesSelectorComponent implements OnInit {
     this.alphabet = _uniq(temp.filter(unique).sort());
   }
 
-  onSelect(currency: SyndexCountry) {
+  onSelect(currency: SyndexPSCurrency) {
     this.select.emit(currency);
     this.dropdownToggle();
   }
 
   search(e) {
-    this.filteredList = this.countries.filter(f => f.name.toUpperCase().match(e.target.value.toUpperCase()));
+    this.filteredList = this.currencies.filter(f => f.iso.toUpperCase().match(e.target.value.toUpperCase()));
     this.prepareAlphabet();
   }
 

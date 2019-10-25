@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { SyndexCountry } from '../models/syndexCountry.model';
-import { SyndexPSCurrency, SyndexPaymentSystem } from '../models/syndexPaymentSystem.model';
+import { SyndexCountry } from '../models/syndex-country.model';
+import { SyndexOrderInfo } from '../models/syndex-order-info.model';
+import { SyndexPSCurrency, SyndexPaymentSystem } from '../models/syndex-payment-system.model';
 
 const mockCountries = [
   {
@@ -23461,6 +23462,21 @@ const mockPayments = [
   }
 ]
 
+const mockOrderInfo = {
+  "id": 61921,    // id ордера
+  "amount": 550.00000000,   // сумма
+  "status": "COMPLETE",      // статус
+  "commission": 11.00000000,   //комиссия мерчанты
+  "paymentSystemId": "OKPay",  // платежная система
+  "currency": "SGD",   //валюта
+  "countryId": "SG",   //id старны
+  "paymentDetails": "платежные детали 4531231656556146",  //детали для оплаты
+  "statusModifDate": "2019-10-22 17:07:40",    //дата последнего изменения статуса
+  "paymentDetailsReceivedDate": "2019-10-22 16:57:18",   // дата получения срока оплаты или платежных деталей
+  "paymentEndTime": "2019-10-22 17:15:21",  // срок оплаты, обязательно выводить юзеру!
+  "confirmed": true  //подтверждена ли оптала юзером
+}
+
 @Injectable()
 export class SyndexService {
   apiUrl = environment.apiUrl;
@@ -23478,6 +23494,31 @@ export class SyndexService {
     // };
     // return this.http.get<SyndexPaymentSystem[]>(`${this.apiUrl}/api/public/v2/syndex/country`, { params });
     return of(mockPayments)
+  }
+
+  getSyndexOrderInfo(orderId: string): Observable<SyndexOrderInfo> {
+    // const params = {
+    //   id: orderId,
+    // };
+    // return this.http.get<SyndexOrderInfo>(`${this.apiUrl}/api/private/v2/syndex/order`, { params });
+    return of(mockOrderInfo);
+  }
+
+  postSyndexOrder(orderId: string) {
+    // const params = {
+    //   id: orderId,
+    // };
+    // return this.http.post<SyndexOrderInfo>(`${this.apiUrl}/api/private/v2/syndex/order`, { params });
+    return of(mockOrderInfo);
+  }
+
+  postSyndexOrderDisput(id: string, text: string) {
+    // const params = {
+    //   id,
+    //   text,
+    // };
+    // return this.http.post<SyndexOrderInfo>(`${this.apiUrl}/api/private/v2/syndex/order/dipsute`, { params });
+    return of(mockOrderInfo);
   }
 
 }

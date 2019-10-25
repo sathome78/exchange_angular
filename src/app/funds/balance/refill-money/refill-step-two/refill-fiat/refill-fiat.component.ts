@@ -27,8 +27,8 @@ import { QiwiRefill } from 'app/model/qiwi-rifill-response.model';
 import { COPY_ADDRESS } from '../../../send-money/send-money-constants';
 import { CurrencySelectFiatComponent } from 'app/shared/components/currency-select-fiat/currency-select-fiat.component';
 import { SyndexService } from 'app/funds/services/syndex.service';
-import { SyndexCountry } from 'app/funds/models/syndexCountry.model';
-import { SyndexPaymentSystem, SyndexPSCurrency } from 'app/funds/models/syndexPaymentSystem.model';
+import { SyndexCountry } from 'app/funds/models/syndex-country.model';
+import { SyndexPaymentSystem, SyndexPSCurrency } from 'app/funds/models/syndex-payment-system.model';
 
 @Component({
   selector: 'app-refill-fiat',
@@ -182,7 +182,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
       .getCurrencyRefillData(currencyName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: any) => {
-        res.merchantCurrencyData[0].name = 'Syndex';
         this.fiatDataByName = res;
         // FUG BLOCK
         this.merchants = this.fiatDataByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i));

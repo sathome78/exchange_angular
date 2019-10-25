@@ -85,9 +85,14 @@ import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.comp
 import { CommissionComponent } from './components/commission/commission.component';
 import { SendLinesComponent } from './components/send-lines/send-lines.component';
 import { SyndexService } from './services/syndex.service';
-import { SyndexCountriesSelectorComponent } from './components/syndex-countries-selector/syndex-countries-selector.component';
-import { SyndexPaymentSystemsSelectorComponent } from './components/syndex-payment-systems-selector/syndex-payment-systems-selector.component';
-import { SyndexPaymentCurrenciesSelectorComponent } from './components/syndex-payment-currencies-selector/syndex-payment-currencies-selector.component';
+import { SyndexCountriesSelectorComponent } from './balance/syndex/syndex-countries-selector/syndex-countries-selector.component';
+import { SyndexPaymentSystemsSelectorComponent } from './balance/syndex/syndex-payment-systems-selector/syndex-payment-systems-selector.component';
+import { SyndexPaymentCurrenciesSelectorComponent } from './balance/syndex/syndex-payment-currencies-selector/syndex-payment-currencies-selector.component';
+import { RefillSyndexStepThreeComponent } from './balance/syndex/refill-syndex-step-three/refill-syndex-step-three.component';
+import { SyndexOrderInfoComponent } from './balance/syndex/syndex-order-info/syndex-order-info.component';
+import { SyndexDisputComponent } from './balance/syndex/syndex-disput/syndex-disput.component';
+import { SyndexOrderStatusPipe } from './balance/syndex/syndex-order-status.pipe';
+import { TimeLeftSyndexPipe } from './balance/syndex/syndex-time-left.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -184,6 +189,11 @@ export function createTranslateLoader(http: HttpClient) {
     SyndexCountriesSelectorComponent,
     SyndexPaymentSystemsSelectorComponent,
     SyndexPaymentCurrenciesSelectorComponent,
+    RefillSyndexStepThreeComponent,
+    SyndexOrderInfoComponent,
+    SyndexDisputComponent,
+    SyndexOrderStatusPipe,
+    TimeLeftSyndexPipe,
   ],
   providers: [
     BalanceService,

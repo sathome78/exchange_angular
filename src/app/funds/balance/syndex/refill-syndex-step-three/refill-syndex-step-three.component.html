@@ -1,0 +1,120 @@
+<div
+  class="overlay--modal"
+  *ngIf="showPopup"
+  [@overlayAnimation]="showPopup ? 'show' : 'hide'"
+  appAddClass="no-scroll"
+  to="body"
+>
+  <div
+    class="modal"
+    [@modalAnimation]="showPopup ? 'show' : 'hide' "
+  >
+    <!-- btn modal close -->
+    <div class="modal__controls modal__controls--top">
+      <a
+        class="modal__button modal__button--close"
+        (click)="onCloseRefillBalancePopup()"
+      >
+        <span>{{'close' | translate}}</span>
+        <img
+          class="modal__button-icon"
+          src="../../../assets/img/close.svg"
+        >
+      </a>
+    </div>
+    <!-- modal header start -->
+    <div class="modal__header-mob">
+      <div class="steps__counter steps__counter--mob">{{'step' | translate}}
+        <span class="steps__counter-val">{{step}}</span>/2</div>
+      <div class="modal__header-mob-controls">
+        <a
+          class="modal__control-mob"
+          (click)="onCloseRefillBalancePopup()"
+        >
+          <img
+            class="modal__control-icon"
+            src="../../../assets/img/close-blue.svg"
+          ></a>
+      </div>
+    </div>
+    <div class="modal__header">
+      <ul class="steps">
+        <li class="steps__item">
+          <a class="steps__link">
+            <span class="steps__number steps__number--valid">1</span>
+            <span class="steps__number-mob-current">1. {{'Refill money' | translate}}</span>
+            <span class="steps__title">{{'Refill money' | translate}}</span>
+          </a>
+        </li>
+        <li class="steps__item">
+          <a class="steps__link">
+            <span class="steps__number steps__number--valid">2</span>
+            <span class="steps__number-mob-current">2. {{'Fiat deposit' | translate}}</span>
+            <span class="steps__title">{{'Fiat deposit' | translate}}</span>
+          </a>
+        </li>
+        <li class="steps__item steps__item--current">
+          <a class="steps__link">
+            <span class="steps__number steps__number--current">3</span>
+            <!-- [ngClass]="{'steps__number--current': step === 3, 'steps__number--valid': step != 3 }" -->
+            <span class="steps__number-mob-current">3. {{'Refill' | translate}} {{data.currencyName}}</span>
+            <span class="steps__title">{{'Refill' | translate}}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="steps__counter">{{'step' | translate}} <span class="steps__counter-val">{{3}}</span> / 3</div>
+
+    </div>
+    <!-- modal header end -->
+    <div class="modal__content">
+
+      <h2 class="title refill__title">
+        {{'Refill' | translate}} <span>{{data.currencyName}}</span>
+      </h2>
+
+      <app-syndex-order-info [orderInfo]="orderInfo"></app-syndex-order-info>
+
+      <div
+        class="button-part"
+        *ngIf="activeState === statesList.WAITING_CONFIRM"
+      >
+        <button
+          class="btn balance__title-btn"
+          disabled
+        >Confirm payment</button>
+        <button class="btn balance__title-btn">Cancel</button>
+      </div>
+
+      <app-syndex-disput
+        [orderInfo]="orderInfo"
+        *ngIf="activeState === statesList.OPEN_DISPUT"
+      ></app-syndex-disput>
+
+
+      <div class="note modal__note">
+        <div class="note__title">{{'Please note:' | translate}}</div>
+        <ul class="note__list">
+          <li class="note__list-item">
+            <b>{{'To continue the operation you need to transfer funds to the indicated account by the payment details and confirm the transfer by pressing the "Confirm" button' | translate}}</b>
+          </li>
+          <li class="note__list-item">
+            {{'Please note that a fee is charged for depositing fiat. Size of the commission you can see here:' | translate}}
+            <a
+              class="standart-link"
+              href="https://support.exrates.me/article/fees-pairs"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+            >
+              https://support.exrates.me/article/fees-pairs
+            </a>
+          </li>
+          <li class="note__list-item">
+            {{'If you didn\'t receive' | translate}}
+            {{data.currencyName}}
+            {{'on your wallet but have paid, you may open disput in 90 minutes. There you can attached proof of payment.' | translate}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+.info-block {
+  margin: 0 30px 23px;
+
+  //   border-bottom: 1px solid #ECECEC;
+  display: flex;
+  justify-content: space-between;
+  padding: 17px;
+
+  @media(max-width: 1200px) {
+    border-bottom: 1px solid #94C2FF;
+  }
+
+  @media(max-width: 1240px) {
+    padding: 17px 0;
+  }
+
+  @media(max-width: 640px) {
+    margin: 0 15px 32px;
+  }
+
+  .left-part {
+    max-width: 446px;
+    width: 100%;
+    margin: 0 auto;
+
+    @media(max-width: 640px) {
+      max-width: unset;
+      margin-right: 0;
+    }
+  }
+
+
+  .item-info {
+    margin-bottom: 11px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .key-info {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.44;
+    color: #4B4B4B;
+
+    @media(max-width: 1200px) {
+      color: #94C2FF;
+    }
+  }
+
+  .value-info {
+    min-width: 261px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.44;
+    text-align: left;
+    color: #000000;
+
+    @media(max-width: 1200px) {
+      color: #DEDEFB;
+    }
+  }
+
+}

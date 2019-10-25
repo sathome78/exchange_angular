@@ -1,0 +1,33 @@
+<div
+  class="discuss-block"
+  *ngIf="!showTextArea"
+>
+  <div class="timer">
+    <p>Waiting:<span>{{orderInfo.statusModifDate | timeLeftSyndex}}</span></p>
+  </div>
+  <button
+    class="btn balance__title-btn"
+    [disabled]="!canOpenDisput"
+    (click)="openDisput()"
+  >Open dispute</button>
+</div>
+
+<div
+  class="disput-detail"
+  *ngIf="showTextArea"
+>
+  <h5>DETAILED STATE OF THE DISPUTE
+  </h5>
+  <p>To upload the proof of payment, please use external resource <a href="#">https://imgbb.com/</a> and send us link where your document has been inserted
+  </p>
+  <form action="#">
+    <textarea
+      name="disput"
+      id="disput"
+    ></textarea>
+    <button
+      class="btn balance__title-btn"
+      disabled
+    >Send</button>
+  </form>
+</div>

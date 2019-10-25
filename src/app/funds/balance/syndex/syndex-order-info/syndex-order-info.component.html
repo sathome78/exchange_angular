@@ -1,0 +1,42 @@
+<div class="info-block">
+  <div
+    class="left-part"
+    *ngIf="orderInfo"
+  >
+    <div class="item-info">
+      <span class="key-info">{{'id:' | translate}}</span>
+      <span class="value-info">{{orderInfo.id}}</span>
+    </div>
+    <div class="item-info">
+      <span class="key-info">{{'Amount:' | translate}}</span>
+      <span class="value-info">{{orderInfo.amount | currencyFormat: orderInfo.currency}} {{orderInfo.currency}}</span>
+    </div>
+    <div class="item-info">
+      <span class="key-info">{{'Current status:' | translate}}</span>
+      <span class="value-info">{{orderInfo.status | syndexOrderStatus}}</span>
+    </div>
+    <div class="item-info">
+      <span class="key-info">{{'To pay:' | translate}}</span>
+      <span class="value-info">100 UAH Transfer with specific Bank</span>
+    </div>
+    <div class="item-info">
+      <span class="key-info">{{'Payment details:' | translate}}</span>
+      <span class="value-info">{{orderInfo.paymentDetails}}</span>
+    </div>
+    <div class="item-info">
+      <span class="key-info">{{'Created:' | translate}}</span>
+      <span class="value-info">
+        {{orderInfo.paymentDetailsReceivedDate | amFromUtc | amLocal | amDateFormat:"dd DD.MM.YYYY HH:mm:ss"}}
+      </span>
+    </div>
+    <div
+      class="item-info"
+      *ngIf="orderInfo.paymentEndTime"
+    >
+      <span class="key-info">{{'Expiration time:' | translate}}</span>
+      <span class="value-info">
+        {{orderInfo.paymentEndTime | amFromUtc | amLocal | amDateFormat:"dd DD.MM.YYYY HH:mm:ss"}}
+      </span>
+    </div>
+  </div>
+</div>

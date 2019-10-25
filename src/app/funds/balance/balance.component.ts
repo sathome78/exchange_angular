@@ -45,6 +45,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
   public showRefillBalancePopup = false;
   public showSendMoneyPopup = false;
   public showQuberaPopup = false;
+  public syndexPopupData$: Subject<{state: boolean, data?: any}> = null;
   public hideAllZero = false;
   public existQuberaAccounts: string = PENDING;
   public showContent: boolean = environment.showContent;
@@ -181,6 +182,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
     this.balanceService.closeSendQuberaPopup$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
       this.openQuberaPopup(res);
     });
+
+    this.syndexPopupData$ = this.balanceService.toggleSyndexRefillPopup$;
+
     this.getUserInfo();
     this.checkEmail(this.email);
   }
@@ -440,6 +444,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
       },
     };
     this.store.dispatch(new fundsAction.RevokePendingReqAction(params));
+  }
+
+  public onSelectSyndexOrder(orderId) {
+    this.balanceService.toggleSyndexRefillPopup$.next({ state: true, data: { orderId, currencyName: 'USD' } });
   }
 
   public onGoToBalanceDetails({ currencyId, priceIn }) {

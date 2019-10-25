@@ -13,6 +13,7 @@ export class BalanceService {
   apiUrl = environment.apiUrl;
   public goToPinCode$ = new Subject();
   public closeRefillMoneyPopup$ = new Subject<boolean>();
+  public toggleSyndexRefillPopup$ = new BehaviorSubject<{state: boolean, data?: any}>({ state: false, data: null });
   public closeSendMoneyPopup$ = new Subject<boolean>();
   public closeSendQuberaPopup$ = new Subject<boolean>();
   public goToSendMoneySuccess$ = new Subject();
