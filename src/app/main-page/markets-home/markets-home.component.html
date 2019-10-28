@@ -1,5 +1,5 @@
-<div class="markets-table-container">
-  <div class="markets-table">
+<div class="markets-table-container animate-item">
+  <div class="markets-table animate-elem-no-move animate-item-1">
     <div class="search-block">
       <label for="search"></label>
       <input
@@ -92,7 +92,7 @@
       </button>
     </div>
     <table
-      class="table"
+      class="table markets-container-animate animate-elem animate-item-4"
       id="markets-container"
       (click)="onClickMarketItem($event)"
       [ngClass]="{'no-auth' : !isAuthenticated}"

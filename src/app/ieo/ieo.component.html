@@ -67,6 +67,7 @@
 
   <app-popup-buy
     [IEOData]="IEOData"
+    [loading]="loadingBuy"
     *ngIf="showBuy"
     (close)="toggleBuy(false)"
     (confirm)="confirmBuy($event)"

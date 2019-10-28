@@ -17,11 +17,13 @@ import { Subscription } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UserService } from '../../../shared/services/user.service';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-markets',
   templateUrl: 'markets.component.html',
   styleUrls: ['markets.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarketsComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
@@ -56,6 +58,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   public volumeOrderDirection = 'NONE';
   public selectedCurrencyPair: CurrencyPair;
   public scrollHeight = 0;
+  public showContent4 = false;
 
   @ViewChild('mobileContainer') mobileContainer: ElementRef;
 
@@ -67,19 +70,35 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
     private utilsService: UtilsService,
     public breakpointService: BreakpointService,
     private dashboardWebsocketService: DashboardWebSocketService,
-    private route: ActivatedRoute,
     private router: Router
   ) {
     super();
   }
 
   ngOnInit() {
+
+    if (document.documentElement.clientWidth > 1199) {
+      setTimeout(() => {
+        this.showContent4 = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }, 6000);
+    }
+    if (document.documentElement.clientWidth < 1199) {
+      this.showContent4 = true;
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
+    }
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.currentCurrencyPair = pair;
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -88,7 +107,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe((userFavorites: number[]) => {
         this.userFavorites = userFavorites;
         this.filterByMarket(this.currencyDisplayMode, this.searchInput);
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -111,11 +132,15 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
           this.currencyPairsCache = Object.values(currencyPairs);
           this.filterTopMarket();
           this.filterByMarket(this.currencyDisplayMode, this.searchInput);
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         },
         err => {
           console.error(err);
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         }
       );
 
@@ -132,7 +157,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(data => {
         this.store.dispatch(new dashboardActions.SetMarketsCurrencyPairsAction(data));
         this.loadingFinished();
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -155,7 +182,9 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.isMobile = true;
         setTimeout(() => {
           this.scrollHeight = this.mobileContainer.nativeElement.offsetHeight - 144;
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         }, 300);
       } else {
         this.isMobile = false;

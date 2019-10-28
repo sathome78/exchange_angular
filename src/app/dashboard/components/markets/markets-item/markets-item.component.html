@@ -71,6 +71,6 @@
       class="table__cell table__cell--p4 table__cell--tar"
       style="width: 25%;"
     >
-      <span style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | currencyFormat}}</span>
+      <span style="font-size: 10px; color:#A0A0A0">{{ +pair.currencyVolume | currencyFormat | orderBookCutBigNum: 18}}</span>
     </div>
   </div>

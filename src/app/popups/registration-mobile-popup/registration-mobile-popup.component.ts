@@ -102,8 +102,8 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           this.afterCaptchaMessage = `${this.translateService.instant('We sent the confirmation link to')}
-           <br> <span class="popup__email-link"> ${email} </span> <br>
-           ${this.translateService.instant('Please check your email and follow instructions.')}`;
+            <br> <span class="popup__email-link"> ${email} </span> <br>
+            ${this.translateService.instant('Please check your email and follow instructions.')}`;
           this.setTemplate('emailConfirmLinkTemplate');
           this.gtagService.sendRegistrationGtag();
           this.loading = false;

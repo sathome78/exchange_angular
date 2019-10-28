@@ -1,262 +1,243 @@
-<div
-  *ngIf="!!activeCrypto && !!cryptoInfoByName"
-  class="side-popups send-cripto-s2"
->
-  <h2 class="title send__title">{{'Crypto Withdrawal' | translate}}
-    <span>{{currName}}</span>
-  </h2>
-  <div
-    class="formWraper"
-    *ngIf="isEnterData"
-  >
-    <form [formGroup]="form">
-      <div
-        class="send__inputs-wrap"
-        *ngIf="!!cryptoInfoByName"
-      >
-
-        <div class="currency-select-wrapper">
-          <app-currency-select-crypto
-            [activeCurrency]="activeCrypto"
-            [currencies]="cryptoNames"
-            (selectCurrency)="selectCurrency($event)"
-          ></app-currency-select-crypto>
-        </div>
-
+<ng-container *ngIf="VIEW === viewsList.MAIN">
+  <div class="side-popups send-cripto-s2">
+    <h2 class="title send__title">{{'Crypto Withdrawal' | translate}}
+      <span>{{currName}}</span>
+    </h2>
+    <div class="formWraper">
+      <form [formGroup]="form">
         <div
-          class="wrap-input send__wrap-input"
-          *ngIf="!isMerchantData"
-        >
-          <div class="withdrawal__closed-error">
-            {{'Sorry, withdrawal is closed for current moment!' | translate}}
-          </div>
-        </div>
-
-        <div
-          class="wrap-input send__wrap-input"
-          *ngIf="isMerchantData"
-          [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
+          class="send__inputs-wrap"
+          *ngIf="!!cryptoInfoByName"
         >
 
-          <div class="daily-avaliable">{{'24h limit:' | translate}}
-            <a
-              (click)="dailyLimitClick()"
-              class="link"
-              [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
-            >
-              {{dailyLimit | currencyFormat}} {{currName}}
-            </a>
+          <div class="currency-select-wrapper">
+            <app-currency-select-crypto
+              [activeCurrency]="activeCrypto"
+              [currencies]="cryptoNames"
+              (selectCurrency)="selectCurrency($event)"
+            ></app-currency-select-crypto>
           </div>
-          <div class="avaliable">{{'Available:' | translate}}
-            <a
-              (click)="balanceClick()"
-              class="link"
-              [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
-            >
-              {{activeBalance | currencyFormat}} {{currName}}
-            </a>
-          </div>
-          <app-price-input
-            [placeholder]="'Amount'"
-            [currencyName]="activeCrypto.name"
-            (customBlur)="amountBlur($event)"
-            name="amount"
-            formControlName="amount"
-          >
-            <!--Input error section starts-->
-            <div *ngIf="formAmount.errors">
-              <div class="input-hint-wrapper">
-                <span
-                  class="wrap-input__message wrap-input__message--show"
-                  *ngIf="formAmount.errors['isMinThenMinWithdraw'] &&  (formAmount.touched || isSubmited)"
-                >
-                  {{
-                    'Minimum sum for withdrawal' | translate
-                  }} {{
-                    minWithdrawSum | currencyFormat
-                  }} {{
-                    currName
-                  }}
-                </span>
-                <span
-                  class="wrap-input__message wrap-input__message--show"
-                  *ngIf="formAmount.errors['isMaxThenActiveBalance'] && (formAmount.touched || isSubmited)"
-                >
-                  {{
-                    'Your available balance:' | translate
-                  }} {{
-                    activeBalance | currencyFormat
-                  }} {{
-                    currName
-                  }}
-                </span>
-                <span
-                  class="wrap-input__message wrap-input__message--show"
-                  *ngIf="formAmount.errors['isMaxThenDailyLimit'] && (formAmount.touched || isSubmited)"
-                >
-                  {{
-                    'Your 24h limit to withdrawal:' | translate
-                  }} {{
-                    dailyLimit | currencyFormat
-                  }} {{
-                    currName
-                  }}
-                </span>
-              </div>
-            </div>
-            <!--Input error section ends-->
-          </app-price-input>
 
-          <span class="bottom-tooltip wrap-input__message--show">
-            {{
-              'Minimum sum for withdrawal' | translate
-            }} {{
-              minWithdrawSum  | currencyFormat
-            }} {{
-              currName
-            }}
-          </span>
-        </div>
-      </div>
-
-
-      <div class="send__inputs-wrap">
-
-        <div
-          class="wrap-input  send__wrap-input"
-          *ngIf="isMerchantData"
-          [ngClass]="{'wrap-input--error': formAddress.invalid && (formAddress.touched || isSubmited)}"
-        >
-          <input
-            class="wrap-input__input"
-            name="address"
-            formControlName="address"
-            required
-          >
-          <label class="wrap-input__label">{{'Address for withdraw money' | translate}}</label>
-          <div class="wrap-input__line"></div>
-          <!--Input error section starts-->
           <div
-            class="input-hint-wrapper"
-            *ngIf="formAddress.invalid && (formAddress.touched || isSubmited)"
+            class="wrap-input send__wrap-input"
+            *ngIf="!isMerchantData"
           >
-            <span class="wrap-input__message wrap-input__message--show">
-              {{'You should enter' | translate}} {{currName}} {{'address for withdrawal' | translate}}
+            <div class="withdrawal__closed-error">
+              {{'Sorry, withdrawal is closed for current moment!' | translate}}
+            </div>
+          </div>
+
+          <div
+            class="wrap-input send__wrap-input"
+            *ngIf="isMerchantData"
+            [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
+          >
+            <div class="daily-avaliable">{{'24h limit:' | translate}}
+              <a
+                (click)="dailyLimitClick()"
+                class="link"
+                [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
+              >
+                {{dailyLimit | currencyFormat}} {{currName}}
+              </a>
+            </div>
+            <div class="avaliable">{{'Available:' | translate}}
+              <a
+                (click)="balanceClick()"
+                class="link"
+                [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
+              >
+                {{activeBalance | currencyFormat}} {{currName}}
+              </a>
+            </div>
+            <app-price-input
+              [placeholder]="'Amount'"
+              [currencyName]="activeCrypto.name"
+              name="amount"
+              formControlName="amount"
+            >
+              <!--Input error section starts-->
+              <div *ngIf="formAmount.errors">
+                <div class="input-hint-wrapper">
+                  <span
+                    class="wrap-input__message wrap-input__message--show"
+                    *ngIf="formAmount.errors['isMinThenMinWithdraw'] &&  (formAmount.touched || isSubmited)"
+                  >
+                    {{
+                      'Minimum sum for withdrawal' | translate
+                    }} {{
+                      minWithdrawSum | currencyFormat
+                    }} {{
+                      currName
+                    }}
+                  </span>
+                  <span
+                    class="wrap-input__message wrap-input__message--show"
+                    *ngIf="formAmount.errors['isMaxThenActiveBalance'] && (formAmount.touched || isSubmited)"
+                  >
+                    {{
+                      'Your available balance:' | translate
+                    }} {{
+                      activeBalance | currencyFormat
+                    }} {{
+                      currName
+                    }}
+                  </span>
+                  <span
+                    class="wrap-input__message wrap-input__message--show"
+                    *ngIf="formAmount.errors['isMaxThenDailyLimit'] && (formAmount.touched || isSubmited)"
+                  >
+                    {{
+                      'Your 24h limit to withdrawal:' | translate
+                    }} {{
+                      dailyLimit | currencyFormat
+                    }} {{
+                      currName
+                    }}
+                  </span>
+                </div>
+              </div>
+              <!--Input error section ends-->
+            </app-price-input>
+            <span class="bottom-tooltip wrap-input__message--show">
+              {{
+                'Minimum sum for withdrawal' | translate
+              }} {{
+                minWithdrawSum  | currencyFormat
+              }} {{
+                currName
+              }}
             </span>
           </div>
-          <!--Input error section ends-->
         </div>
 
-        <div
-          class="wrap-input send__wrap-input"
-          *ngIf="isMemo && isMerchantData"
-          [ngClass]="{'wrap-input--error': formMemo.invalid && (formMemo.touched || isSubmited)}"
-        >
-          <input
-            class="wrap-input__input"
-            name="memo"
-            formControlName="memo"
+        <div class="send__inputs-wrap">
+          <div
+            class="wrap-input  send__wrap-input"
+            *ngIf="isMerchantData"
+            [ngClass]="{'wrap-input--error': formAddress.invalid && (formAddress.touched || isSubmited)}"
           >
-          <label class="wrap-input__label">{{memoName | translate}}</label>
-          <div class="wrap-input__line"></div>
-          <!--Input error section starts-->
-          <span
-            class="wrap-input__message wrap-input__message--show"
-            *ngIf="formMemo.invalid && (formMemo.touched || isSubmited)"
-          >
-            <div class="input-hint-wrapper">
-              {{'Enter memo ID' | translate}}
+            <input
+              class="wrap-input__input"
+              name="address"
+              formControlName="address"
+              required
+            >
+            <label class="wrap-input__label">{{'Address for withdraw money' | translate}}</label>
+            <div class="wrap-input__line"></div>
+            <!--Input error section starts-->
+            <div
+              class="input-hint-wrapper"
+              *ngIf="formAddress.invalid && (formAddress.touched || isSubmited)"
+            >
+              <span class="wrap-input__message wrap-input__message--show">
+                {{'You should enter' | translate}} {{currName}} {{'address for withdrawal' | translate}}
+              </span>
             </div>
-          </span>
-          <!--Input error section ends-->
+            <!--Input error section ends-->
+          </div>
+
+          <div
+            class="wrap-input send__wrap-input"
+            *ngIf="isMemo && isMerchantData"
+            [ngClass]="{'wrap-input--error': formMemo.invalid && (formMemo.touched || isSubmited)}"
+          >
+            <input
+              class="wrap-input__input"
+              name="memo"
+              formControlName="memo"
+            >
+            <label class="wrap-input__label">{{memoName | translate}}</label>
+            <div class="wrap-input__line"></div>
+            <!--Input error section starts-->
+            <span
+              class="wrap-input__message wrap-input__message--show"
+              *ngIf="formMemo.invalid && (formMemo.touched || isSubmited)"
+            >
+              <div class="input-hint-wrapper">
+                {{'Enter memo ID' | translate}}
+              </div>
+            </span>
+            <!--Input error section ends-->
+          </div>
         </div>
+      </form>
+
+      <ng-container *ngIf="isMerchantData && !isNeedKyc">
+        <app-send-lines>
+          <ng-container *ngIf="cryptoInfoByName.leftRequestSum > 0">
+            <app-commission
+              type="withdraw"
+              [merchant]="cryptoInfoByName.merchantCurrencyData[0]"
+              [currencyName]="activeCrypto ? activeCrypto.name : ''"
+              [baseAmount]="formAmount.value"
+            ></app-commission>
+
+            <button
+              [id]="currName === 'BTC' ? 'analytics-modal-withdraw-btc': currName === 'ETH' ? 'analytics-modal-withdraw-eth': ''"
+              class="btn btn--center"
+              [disabled]="isDisabledForm"
+              (click)="onSubmitWithdrawal()"
+            >{{'Withdraw' | translate}}
+              <span class="value">
+                {{utilsService.calcValueWithoutCommision(cryptoInfoByName.merchantCurrencyData[0], formAmount.value, 'withdraw') | currencyFormat}}
+              </span>
+              <span> {{currName}}</span>
+            </button>
+
+          </ng-container>
+          <ng-container *ngIf="cryptoInfoByName.leftRequestSum == 0">
+            <div class="withdraw-limit-error">
+              {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
+            </div>
+          </ng-container>
+        </app-send-lines>
+      </ng-container>
+      <ng-container *ngIf="isNeedKyc">
+        <app-send-lines>
+          <app-need-kyc-msg
+            [type]="'withdraw'"
+            [kyc]="merchant.verificationType"
+            [currencyName]="currName"
+          ></app-need-kyc-msg>
+        </app-send-lines>
+      </ng-container>
+
+      <div class="note modal__note">
+        <div class="note__title">{{'Please note:' | translate}}</div>
+        <ul class="note__list">
+          <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email' | translate}}
+            .
+            {{'Please then click on the confirmation link in your email' | translate}}.
+          </li>
+          <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}
+            .
+          </li>
+          <li class="note__list-item">{{'Do not withdraw directly to a crowdfund or ICO' | translate}}
+            . {{'We will not credit your account with tokens from that sale' | translate}}.
+          </li>
+        </ul>
       </div>
-    </form>
-
-    <ng-container *ngIf="isMerchantData">
-      <div class="send__line"></div>
-
-      <ng-container *ngIf="cryptoInfoByName.leftRequestSum > 0">
-        <div class="send__info">
-          <div class="send__info-row">
-            <div class="send__info-title">{{'You want to withdraw:' | translate}}</div>
-            <div class="send__info-value">
-              {{calculateData.amount | currencyFormat}} {{currName}}
-            </div>
-          </div>
-          <div class="send__info-row">
-            <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
-            <div class="send__info-value">{{calculateData.companyCommissionRate | currencyFormat}}
-              = {{calculateData.companyCommissionAmount | currencyFormat}} {{currName}}
-            </div>
-          </div>
-          <div class="send__info-row">
-            <div class="send__info-title">{{'Merchant comission:' | translate}}</div>
-            <div class="send__info-value">{{calculateData.merchantCommissionRate | currencyFormat}} =
-              {{calculateData.merchantCommissionAmount | currencyFormat}} {{currName}}
-            </div>
-          </div>
-          <div class="send__info-row">
-            <div class="send__info-title">{{'Total comission:' | translate}}</div>
-            <div class="send__info-value">{{calculateData.commission_rates_sum}}% = {{calculateData.totalCommissionAmount | currencyFormat}}
-              {{currName}}
-            </div>
-          </div>
-          <div class="send__info-row">
-            <div class="send__info-title">{{'Total with comission:' | translate}}</div>
-            <div class="send__info-value">{{calculateData.resultAmount | currencyFormat}} {{currName}}</div>
-          </div>
-        </div>
-
-        <button
-          [id]="currName === 'BTC' ? 'analytics-modal-withdraw-btc': currName === 'ETH' ? 'analytics-modal-withdraw-eth': ''"
-          class="btn btn--center"
-          [disabled]="isDisabledForm"
-          (click)="onSubmitWithdrawal()"
-        >{{'Withdraw' | translate}}
-          <span class="value">{{calculateData.resultAmount | currencyFormat}}</span>
-          <span> {{currName}}</span>
-        </button>
-
-      </ng-container>
-      <ng-container *ngIf="cryptoInfoByName.leftRequestSum == 0">
-        <div class="withdraw-limit-error">
-          {{'Your daily output limit for this currency has been exceeded. Please try again tomorrow.' | translate}}
-        </div>
-      </ng-container>
-
-      <div class="send__line"></div>
-    </ng-container>
-    <div class="note modal__note">
-      <div class="note__title">{{'Please note:' | translate}}</div>
-      <ul class="note__list">
-        <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email' | translate}}
-          .
-          {{'Please then click on the confirmation link in your email' | translate}}.
-        </li>
-        <li class="note__list-item">{{'After making a withdrawal, you can track its progress in history on funds page' | translate}}
-          .
-        </li>
-        <li class="note__list-item">{{'Do not withdraw directly to a crowdfund or ICO' | translate}}
-          . {{'We will not credit your account with tokens from that sale' | translate}}.
-        </li>
-      </ul>
     </div>
   </div>
-</div>
+</ng-container>
 
-<div
-  class="loading-container"
-  *ngIf="!activeCrypto || !cryptoInfoByName"
->
-  <app-loader></app-loader>
-</div>
 
-<ng-container *ngIf="!isEnterData">
+<ng-container *ngIf="VIEW === viewsList.LOADING">
+  <div class="loading-container">
+    <app-loader></app-loader>
+  </div>
+</ng-container>
+
+
+<ng-container *ngIf="VIEW === viewsList.CAPTCHA">
   <div
     *ngIf="!utilsService.isDevCaptcha(userInfo.username); else devCaptchaTemplate"
     class="captcha-wrapper side-popups send-cripto-s2"
   >
+    <h2 class="title send__title">
+      {{'Crypto Withdrawal' | translate}} <span>{{currName}}</span>
+    </h2>
     <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
     <re-captcha
       (resolved)="afterResolvedCaptcha($event)"
@@ -274,6 +255,9 @@
 
 <ng-template #devCaptchaTemplate>
   <div class="captcha-wrapper side-popups send-cripto-s2">
+    <h2 class="title send__title">
+      {{'Crypto Withdrawal' | translate}} <span>{{currName}}</span>
+    </h2>
     <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
     <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
     <button
@@ -282,3 +266,13 @@
     >{{'Resolve' | translate}}</button>
   </div>
 </ng-template>
+
+<ng-container *ngIf="VIEW === viewsList.DENIED">
+  <div class="side-popups send-cripto-s2">
+    <h2 class="title send__title">
+      {{'Crypto Withdrawal' | translate}} <span>{{currName}}</span>
+    </h2>
+    <div class="closed-opation">{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
+    <div class="closed-opation">{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
+  </div>
+</ng-container>

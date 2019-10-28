@@ -30,6 +30,9 @@ export class AppComponent implements OnInit, OnDestroy {
   public isAuthenticated = false;
   public shouldSetDefaultCurrPair = true;
   public technicalWorks = false;
+  public preload = true;
+
+
 
   constructor(
     public popupService: PopupService,
@@ -86,6 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    
     this.authService.isSessionValid().subscribe(res => {
       if (res) {
         const parsedToken = this.authService.parseToken();

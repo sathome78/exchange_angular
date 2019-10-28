@@ -100,6 +100,7 @@
         <p>{{'Pay:' | translate}} {{pay | currencyFormat}} BTC</p>
       </div>
       <button
+        type="submit"
         class="btn btn--active btn--center btn-ieo"
         [disabled]="form.invalid || loading"
       >{{'Confirm' | translate}}</button>

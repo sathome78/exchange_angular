@@ -36,6 +36,7 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
   public showBuyIEO = false;
   public showSuccessIEO = false;
   public userInfo: ParsedToken;
+  public loadingBuy = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   constructor(
     private store: Store<fromCore.State>,
@@ -106,6 +107,7 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
   }
 
   public confirmBuyIEO(amount) {
+    this.loadingBuy = true;
     this.ieoService
       .buyTokens({
         currencyName: this.IEOData.currencyName,
@@ -115,6 +117,9 @@ export class IEOBalanceDetailsComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.closeBuyIEO();
         this.openSuccessIEO();
+        this.loadingBuy = false;
+      }, err => {
+        this.loadingBuy = false;
       });
   }
 

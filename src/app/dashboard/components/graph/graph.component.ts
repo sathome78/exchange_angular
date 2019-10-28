@@ -39,11 +39,13 @@ import { Observable } from 'rxjs';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT } from 'app/shared/constants';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-graph',
   templateUrl: 'graph.component.html',
   styleUrls: ['graph.component.scss'],
+  animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
@@ -69,6 +71,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   /** current active pair */
   public pair: SimpleCurrencyPair;
   public chartReady = false;
+
+  public showContent3 = false;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
   private _interval: ChartingLibraryWidgetOptions['interval'] = '30'; // 3
@@ -107,6 +111,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
+    if (document.documentElement.clientWidth > 1199) {
+      setTimeout(() => {
+        this.showContent3 = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }, 5800);
+    }
+    if (document.documentElement.clientWidth < 1199) {
+      this.showContent3 = true;
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
+    }
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -121,7 +139,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
             // console.log(e);
           }
         }
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -131,7 +151,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.currentCurrencyInfo = pair;
         this.splitPairName(this.pair);
         this.isFiat = this.getIsFiat(this.secondCurrency);
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -139,7 +161,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.formattingCurrentPairName(this.currencyPairName);
@@ -245,8 +269,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    // debugger
-    if (this._tvWidget !== null && this.chartReady) {
+    const container = document.querySelector(`#${this._containerId} iframe`);
+    if (!!this._tvWidget && this.chartReady && container) {
       this._tvWidget.remove();
       this._tvWidget = null;
     }

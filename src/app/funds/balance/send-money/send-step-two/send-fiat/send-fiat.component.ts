@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CurrencyBalanceModel } from 'app/model';
 import { Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,12 +8,11 @@ import { keys } from '../../../../../shared/constants';
 import { getFiatCurrenciesForChoose, getUserInfo, State } from 'app/core/reducers';
 import { select, Store } from '@ngrx/store';
 import { SEND_FIAT } from '../../send-money-constants';
-import { CommissionData } from '../../../../models/commission-data.model';
-import { defaultCommissionData } from '../../../../store/reducers/default-values';
 import { PopupService } from 'app/shared/services/popup.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { FUG } from 'app/funds/balance/balance-constants';
 import { BalanceItem } from 'app/funds/models/balance-item.model';
+import { CurrencySelectFiatComponent } from 'app/shared/components/currency-select-fiat/currency-select-fiat.component';
 
 @Component({
   selector: 'app-send-fiat',
@@ -22,16 +21,15 @@ import { BalanceItem } from 'app/funds/models/balance-item.model';
 })
 export class SendFiatComponent implements OnInit, OnDestroy {
   @Input() balanceData;
+  @ViewChild('currencySelect') private currencySelect: CurrencySelectFiatComponent;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public fiatNames: CurrencyBalanceModel[] = [];
   public recaptchaKey = keys.recaptchaKey;
-  public openCurrencyDropdown = false;
   public openPaymentSystemDropdown = false;
   public fiatInfoByName;
   public minWithdrawSum = 0;
   public merchants;
   public amountValue = 0;
-  public isEnterData = true;
   public activeBalance = 0;
   public isSubmited = false;
   public selectedMerchant;
@@ -41,11 +39,19 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   public searchTemplate = '';
   public selectMerchantName;
   public selectedMerchantNested;
-  public calculateData: CommissionData = defaultCommissionData;
   public userInfo: ParsedToken;
   public FUG = FUG;
   public isQuberaBalances = false;
   public isQuberaKYCSuccess = false;
+
+  public viewsList = {
+    LOADING: 'loading',
+    CAPTCHA: 'captcha',
+    MAIN: 'main',
+    DENIED: 'denied',
+  };
+
+  public VIEW = this.viewsList.LOADING;
 
   public model = {
     currency: 0,
@@ -64,7 +70,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       $event.target.className !== 'select__value select__value--active' &&
       $event.target.className !== 'select__search-input'
     ) {
-      this.openCurrencyDropdown = false;
       this.openPaymentSystemDropdown = false;
     }
   }
@@ -119,7 +124,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   selectCurrency(currency) {
     this.form.reset();
     this.activeFiat = currency;
-    this.currencyDropdownToggle();
     this.getFiatInfoByName(this.activeFiat.name);
     this.getBalance(this.activeFiat.id);
   }
@@ -129,8 +133,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.selectMerchantName = merchantImage.image_name || merchant.name;
     this.selectedMerchant = merchant;
     this.setMinWithdrawSum();
-    this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
-    this.calculateCommission(this.amountValue);
     if (merchant.name === FUG) {
       this.form.removeControl('address');
     } else {
@@ -138,15 +140,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     }
   }
 
-  currencyDropdownToggle() {
-    this.openCurrencyDropdown = !this.openCurrencyDropdown;
-    this.openPaymentSystemDropdown = false;
-  }
-
   balanceClick() {
     if (+this.activeBalance > +this.minWithdrawSum) {
       this.formAmount.setValue(this.activeBalance.toString());
-      this.calculateCommission(this.activeBalance);
       this.amountValue = this.activeBalance;
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
@@ -159,7 +155,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         amount = this.dailyLimit;
       }
       this.formAmount.setValue(amount.toString());
-      this.calculateCommission(amount);
       this.amountValue = amount;
       this.formAmount.updateValueAndValidity();
       this.formAmount.markAsTouched();
@@ -174,7 +169,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         ? this.fiatInfoByName.merchantCurrencyData.filter(i => this.utilsService.filterMerchants(i))
         : [];
     this.searchTemplate = '';
-    this.openCurrencyDropdown = false;
+    this.currencySelect.closeDropdown();
+  }
+
+  toggleCurrencySelect(val) {
+    if (val) {
+      this.openPaymentSystemDropdown = false;
+    }
   }
 
   onSubmitWithdrawal() {
@@ -182,7 +183,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     this.formAmount.updateValueAndValidity();
     if (this.form.valid && this.selectedMerchant.name) {
       this.isSubmited = false;
-      this.isEnterData = false;
+      this.VIEW = this.viewsList.CAPTCHA;
     }
   }
 
@@ -196,7 +197,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   private getFiatInfoByName(name: string) {
-    this.calculateData = defaultCommissionData;
     this.balanceService
       .getCurrencyData(name)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -210,12 +210,17 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
         if (this.selectedMerchant) {
-          this.calculateData.commission_rates_sum = this.selectedMerchant.outputCommission;
-          this.calculateCommission(0);
           this.setMinWithdrawSum();
         }
         if (this.selectMerchantName === FUG) {
           this.form.removeControl('address');
+        }
+        if (this.activeFiat && this.fiatInfoByName) {
+          this.VIEW = this.viewsList.MAIN;
+        }
+      }, err => {
+        if (err.error && err.error.title === 'USER_OPERATION_DENIED') {
+          this.VIEW = this.viewsList.DENIED;
         }
       });
   }
@@ -226,32 +231,6 @@ export class SendFiatComponent implements OnInit, OnDestroy {
         ? this.fiatInfoByName.minWithdrawSum
         : parseFloat(this.selectedMerchant.minSum);
     this.formAmount.updateValueAndValidity();
-  }
-
-  calculateCommission(amount) {
-    if (this.formAmount.valid && this.selectedMerchant.merchantId) {
-      this.balanceService
-        .getCommissionToWithdraw(amount, this.activeFiat.id, this.selectedMerchant.merchantId)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(res => {
-          this.calculateData = res as CommissionData;
-          const compCommission = parseFloat(
-            this.calculateData.companyCommissionRate.replace('%)', '').replace('(', '')
-          );
-          this.calculateData.commission_rates_sum =
-            +this.selectedMerchant.outputCommission + (Number.isNaN(compCommission) ? compCommission : 0);
-        });
-    } else {
-      const outCommission = !!this.selectedMerchant ? this.selectedMerchant.outputCommission : 0;
-      const fixCommission = !!this.selectedMerchant ? this.selectedMerchant.fixedMinCommission : 0;
-      this.calculateData.merchantCommissionRate = `(${outCommission}%, but not less than ${fixCommission} USD)`;
-    }
-  }
-
-  amountBlur(event) {
-    if (event && this.formAmount.valid) {
-      this.calculateCommission(this.amountValue);
-    }
   }
 
   amountInput(event) {
@@ -291,7 +270,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
 
   goToWithdrawal() {
-    this.isEnterData = true;
+    this.VIEW = this.viewsList.MAIN;
   }
 
   private initForm() {
@@ -338,6 +317,9 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
   get isDisabledForm() {
     return this.formAmount.invalid || this.formAddress.invalid || !this.searchMerchant || !this.activeFiat;
+  }
+  get isNeedKyc(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.needKycWithdraw;
   }
 
   trackByFiatNames(index, item) {

@@ -3,6 +3,7 @@ import { EmbeddedOrdersService } from '../../embedded-orders/embedded-orders.ser
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { SimpleCurrencyPair } from '../../../../model/simple-currency-pair';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-embedded-open-orders-mobile',
@@ -17,7 +18,7 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
   public showCancelOrderConfirm = null;
   public loading = false;
 
-  constructor(private ordersService: EmbeddedOrdersService) {}
+  constructor(private ordersService: EmbeddedOrdersService, private userService: UserService) {}
 
   ngOnInit() {}
 
@@ -38,6 +39,8 @@ export class EmbeddedOpenOrdersMobileComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           this.loading = false;
+          const pair = new SimpleCurrencyPair(order.currencyPairId, order.currencyPairName);
+          this.userService.getUserBalance(pair);
         },
         err => {
           this.loading = false;

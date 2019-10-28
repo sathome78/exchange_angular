@@ -17,15 +17,18 @@ import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { Location } from '@angular/common';
 import { UserService } from 'app/shared/services/user.service';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  animations: [Animations.componentTriggerShow, Animations.componentTriggerMove],
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
+  private waitPairsSub: Subject<void> = new Subject<void>();
+  public showContent = false;
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
 
@@ -59,6 +62,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public currencyPair: SimpleCurrencyPair = null;
   public isAuthenticated = false;
   public widgetTemplate;
+  public preload = true;
 
   constructor(
     public breakPointService: BreakpointService,
@@ -74,6 +78,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+
+    setTimeout(() => {
+      this.preload = false;
+    }, 5500);
+
+    setTimeout(() => {
+      this.showContent = true;
+    }, 5700);
+
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
       if (widget) {
@@ -90,7 +103,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(res => (this.activeMobileWidget = res));
 
     this.widgets = this.dataService.getWidgetPositions();
-    this.defauldWidgets = [...this.widgets];
+    this.defauldWidgets = this.dataService.getDefaultWidgetPositions();
     this.gridsterOptions = gridsterOptions;
     this.gridsterItemOptions = gridsterItemOptions;
 
@@ -180,17 +193,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   findAndSetActiveCurrencyPair(pairName: string) {
     this.store
-      .pipe(select(fromCore.getMarketCurrencyPairsMap))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((currencyPairs: MapModel<CurrencyPair>) => {
-        const pair = Object.values(currencyPairs).filter(
-          item => item.currencyPairName.toLowerCase() === pairName.toLowerCase()
-        )[0];
-        if (pair) {
-          const newActivePair = new SimpleCurrencyPair(pair.currencyPairId, pair.currencyPairName);
-          this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(newActivePair));
-          this.utilsService.saveActiveCurrencyPairToSS(newActivePair);
-          this.userService.getUserBalance(newActivePair);
+      .pipe(select(fromCore.getSimpleCurrencyPairsSelector))
+      .pipe(takeUntil(this.waitPairsSub))
+      .subscribe((currencyPairs: SimpleCurrencyPair[]) => {
+        if (currencyPairs.length) {
+          this.waitPairsSub.next();
+          this.waitPairsSub.complete();
+          const pair = currencyPairs.find(el => el.name === pairName);
+          if (pair) {
+            this.store.dispatch(new dashboardActions.ChangeActiveCurrencyPairAction(pair));
+            this.utilsService.saveActiveCurrencyPairToSS(pair);
+            this.userService.getUserBalance(pair);
+          }
         }
       });
   }

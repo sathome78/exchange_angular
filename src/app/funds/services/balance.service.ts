@@ -53,7 +53,7 @@ export class BalanceService {
       currencyName: currencyName || '',
       offset: offset + '',
       limit: limit + '',
-      excludeZero: (!!excludeZero).toString(),
+      excludeZero: currencyName ? 'false' : (!!excludeZero).toString(),
     };
     return this.http.get<ResponseModel<BalanceItem[]>>(`${this.apiUrl}/api/private/v2/balances`, { params });
   }
@@ -119,38 +119,17 @@ export class BalanceService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
   }
 
-  getCryptoMerchants(cryptoName) {
-    const httpOptions: any = {
-      params: new HttpParams().set('currency', cryptoName),
-      observe: 'response',
-    };
-    const url = `${this.apiUrl}/api/private/v2/balances/withdraw/merchants/output`;
-    return this.http.get(url, httpOptions).pipe(this.apiErrorsService.catchAPIErrorWithNotification());
-  }
+  // getCommissionToWithdraw(amount: string, currency: string, merchant: string) {
+  //   let httpOptions = new HttpParams();
+  //   httpOptions = httpOptions.append('amount', amount);
+  //   httpOptions = httpOptions.append('currency', currency);
+  //   httpOptions = httpOptions.append('merchant', merchant);
 
-  getCommissionToWithdraw(amount: string, currency: string, merchant: string) {
-    let httpOptions = new HttpParams();
-    httpOptions = httpOptions.append('amount', amount);
-    httpOptions = httpOptions.append('currency', currency);
-    httpOptions = httpOptions.append('merchant', merchant);
-
-    const url = `${this.apiUrl}/api/private/v2/balances/withdraw/commission`;
-    return this.http
-      .get(url, { params: httpOptions, observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
-  }
-
-  getCommissionToDeposit(amount: string, currency: string, merchant: string) {
-    let httpOptions = new HttpParams();
-    httpOptions = httpOptions.append('amount', amount);
-    httpOptions = httpOptions.append('currency', currency);
-    httpOptions = httpOptions.append('merchant', merchant);
-
-    const url = `${this.apiUrl}/api/private/v2/balances/refill/commission`;
-    return this.http
-      .get(url, { params: httpOptions, observe: 'response' })
-      .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
-  }
+  //   const url = `${this.apiUrl}/api/private/v2/balances/withdraw/commission`;
+  //   return this.http
+  //     .get(url, { params: httpOptions, observe: 'response' })
+  //     .pipe(this.apiErrorsService.catchAPIErrorWithNotification());
+  // }
 
   sendTransferCode(code: string) {
     const data = { CODE: code };

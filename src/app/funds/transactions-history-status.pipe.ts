@@ -66,6 +66,7 @@ export class ShowTransactionsStatusPipe implements PipeTransform {
     if (item.sourceType === 'FREE_COINS_TRANSFER') {
       switch (status) {
         case 'CREATED_BY_USER':
+        case 'CREATED':
           return 'Completed';
         default:
           return status;
