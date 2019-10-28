@@ -259,9 +259,10 @@
   <!--orders-desktop start-->
   <div
     class="orders"
+    [ngClass]="{'active' : startAnimation}"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
   >
-    <div class="page-title">
+    <div class="page-title fade-anim del3">
       <h1 class="page-title__text">
         {{'Orders history' | translate}}
       </h1>
