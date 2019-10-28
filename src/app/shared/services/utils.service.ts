@@ -243,9 +243,9 @@ export class UtilsService {
 
   filterMerchants(merch) {
     // FUG BLOCK
-    // if (!this.isDeveloper) {
-    //   return merch.name !== FUG;
-    // }
+    if (!this.isDeveloper) {
+      return merch.name !== FUG;
+    }
     if (this.isQuberaReady) {
       return true;
     }
