@@ -120,7 +120,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     if (this.refillData && this.refillData.currencyId) {
       currency = this.fiatNames.filter(item => +item.id === +this.refillData.currencyId);
     }
-    this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
+    // this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
+    this.activeFiat = "default"
   }
 
   prepareAlphabet() {

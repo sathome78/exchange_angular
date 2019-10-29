@@ -2,9 +2,13 @@
   <div
     class="select__value select__value--active"
     (click)="toggleCurrencyDropdown()"
+    [ngClass]="{'select__value--active' : activeCurrency !=='default'}"
   >
     <!-- [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}" -->
-    <div class="icon-wr">
+    <div
+      class="icon-wr"
+      *ngIf="activeCurrency !=='default'"
+    >
       <img
         [src]="activeCurrency.name | getIconUrl:true"
         onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
