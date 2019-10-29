@@ -17,9 +17,8 @@
 
     <button
       class="btn btn--empty-blue"
-      *ngIf="isGenerateNewAddress"
       (click)="generateNewAddress()"
-      [disabled]="loading || isNeedKyc"
+      [disabled]="isGenerateNewAddress || loading || isNeedKyc || activeCrypto === 'default'"
     >
       <span class="btn__icon btn__icon--light-blue">
         <svg
