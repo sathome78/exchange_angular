@@ -2,9 +2,10 @@
   <!--orders-mob start-->
   <div
     class="orders orders--mob"
+    [ngClass]="{'active' : startAnimation}"
     *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
   >
-    <div class="orders__header-mob">
+    <div class="orders__header-mob fade-anim del2">
       <div class=" orders__page-title">
         {{'Open orders' | translate}}
       </div>
@@ -38,7 +39,7 @@
       (scrolled)="loadMoreOrders()"
     >
       <table class="table table--mob">
-        <thead class="table__head">
+        <thead class="table__head  fade-anim del1">
           <tr class="table__head-row">
             <th class="table__cell-head table__cell-head--tal">{{'Market/Date' | translate}}
               <svg
@@ -59,7 +60,7 @@
             <th class="table__cell-head table__cell-head--tar">{{'Limit Price' | translate}}</th>
           </tr>
         </thead>
-        <tbody class="table__body table__body--none-shadow">
+        <tbody class="table__body table__body--none-shadow fade-move-anim del9">
           <!-- t-row start-->
           <ng-container *ngFor="let item of orderItems$ | async; trackBy: trackByOrders">
             <tr

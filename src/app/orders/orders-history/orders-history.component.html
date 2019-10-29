@@ -2,9 +2,10 @@
   <!--orders-mob start-->
   <div
     class="orders orders--mob"
+    [ngClass]="{'active' : startAnimation}"
     *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
   >
-    <div class="orders__header-mob">
+    <div class="orders__header-mob fade-anim del2">
       <div class=" orders__page-title">
         {{'Orders history' | translate}}
       </div>
@@ -40,7 +41,7 @@
       [horizontal]="false"
       (scrolled)="loadMoreOrders()"
     >
-      <table class="table table--mob">
+      <table class="table table--mob fade-anim del1">
         <thead class="table__head">
           <tr class="table__head-row">
             <th class="table__cell-head table__cell-head--tal">{{'Pair/Date' | translate}}
@@ -62,7 +63,7 @@
             <th class="table__cell-head table__cell-head--tar">{{'Avg' | translate}}.{{'Price' | translate}}</th>
           </tr>
         </thead>
-        <tbody class="table__body table__body--none-shadow">
+        <tbody class="table__body table__body--none-shadow fade-move-anim del9">
           <!-- t-row start-->
           <ng-container *ngFor="let item of orderItems$ | async; trackBy: trackByOrders">
             <tr
@@ -295,7 +296,7 @@
     </div>
     <form action="">
       <div class="row orders__filters">
-        <div class="wrap-input wrap-input--with-icon orders__search">
+        <div class="wrap-input wrap-input--with-icon orders__search fade-move-anim del8">
           <app-dynamic-input
             [value]="currencyPairValue"
             [options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"
@@ -305,7 +306,7 @@
           </app-dynamic-input>
           <div class="wrap-input__line"></div>
         </div>
-        <div class="wrap-input orders__datepicker">
+        <div class="wrap-input orders__datepicker fade-move-anim del9">
           <label
             class="wrap-input__label"
             [ngClass]="{'select-input_label': modelDateFrom?.date || isDateInputFromFocus}"
@@ -330,7 +331,7 @@
             style="position: absolute; bottom: 1px; width: 100%;"
           ></div>
         </div>
-        <div class="wrap-input orders__datepicker ">
+        <div class="wrap-input orders__datepicker fade-move-anim del10">
           <label
             class="wrap-input__label"
             [ngClass]="{'select-input_label': modelDateTo?.date || isDateInputToFocus}"
@@ -356,13 +357,13 @@
           ></div>
         </div>
         <button
-          class="btn btn--auto orders__search-btn transaction__search-btn"
+          class="btn btn--auto orders__search-btn transaction__search-btn fade-move-anim del11"
           (click)="onFilterOrders()"
           [disabled]="loading$ | async"
         >
           <span>Search</span>
         </button>
-        <div class="orders__hide-toggler">
+        <div class="orders__hide-toggler fade-move-anim del6">
           <label class="toggler">
             <input
               type="checkbox"
@@ -379,7 +380,7 @@
     </form>
     <!--table start-->
     <table class="table">
-      <thead>
+      <thead class="fade-move-anim del7">
         <tr>
           <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Order id' | translate}}</th>
           <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Date' | translate}}</th>
@@ -393,7 +394,7 @@
           <th class="table__cell-head table__cell-head--sort table__cell-head--tar">{{'Status' | translate}}</th>
         </tr>
       </thead>
-      <tbody class="table__body">
+      <tbody class="table__body fade-move-anim del12">
         <tr
           class="table__row"
           *ngFor="let item of orderItems$ | async | paginate: {
@@ -482,7 +483,7 @@
     <!--table end-->
     <!--paginator start-->
     <div
-      class="row row--aic orders__paginator"
+      class="row row--aic orders__paginator fade-move-anim del12"
       *ngIf="(countOfEntries$ | async) > countPerPage"
     >
       <app-page-items-dropdown
