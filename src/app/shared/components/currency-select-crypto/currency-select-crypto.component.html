@@ -3,14 +3,10 @@
   *ngIf="activeCurrency"
 >
   <div
-    class="select__value"
-    [ngClass]="{'select__value--active' : activeCurrency !=='default'}"
+    class="select__value select__value--active"
     (click)="currencyDropdownToggle()"
   >
-    <div
-      class="icon-wr"
-      *ngIf="activeCurrency !=='default'"
-    >
+    <div class="icon-wr">
       <img
         [src]="activeCurrency.name | getIconUrl"
         onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"

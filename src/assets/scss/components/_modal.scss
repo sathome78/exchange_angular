@@ -925,18 +925,3 @@
   }
     
 }
-
-
-.dark-theme .modal .btn--empty-blue[disabled] {
-  background-color: transparent;
-  color: #91929F;
-  border-color: #91929F;
-}
-
-
-.dark-theme .side-popups .select__label{
-  @media(min-width: 1200px){
-    background-color: #fff;
-  }
-  
-}

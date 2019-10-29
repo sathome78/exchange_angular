@@ -2,7 +2,7 @@
   class="table ballance-table"
   [@ballanceAnimation]="activeTab ? 'show' : 'hide' "
 >
-  <thead class="fade-anim del6">
+  <thead>
     <tr>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Total balance' | translate}}</th>
@@ -17,7 +17,7 @@
       <th class="table__cell-head table__cell-head--tac">{{'Withdraw' | translate}}</th>
     </tr>
   </thead>
-  <tbody class="table__body fade-move-anim del7">
+  <tbody class="table__body">
     <tr
       class="table__row balance__table-row"
       *ngFor="let item of balances | paginate: {itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries}; trackBy: trackByFn"

@@ -75,8 +75,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     if (this.refillData && this.refillData.currencyId) {
       currency = this.cryptoNames.filter(item => +item.id === +this.refillData.currencyId);
     }
-    // this.activeCrypto = currency && currency.length ? currency[0] : this.cryptoNames[0];
-    this.activeCrypto = "default"
+    this.activeCrypto = currency && currency.length ? currency[0] : this.cryptoNames[0];
   }
 
   selectCurrency(currency) {
