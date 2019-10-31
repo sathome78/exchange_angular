@@ -1,9 +1,12 @@
 <!-- start component -->
-<div class="first-screen">
+<div class="first-screen ">
   <div class="fs-wr">
     <div class="fs-wr-inner">
       <div class="fs-image-container">
-        <img src="assets/img/ieo/bg.jpg" alt="">
+        <img
+          src="assets/img/ieo/bg.jpg"
+          alt=""
+        >
       </div>
       <div
         class="fs-content"
@@ -49,7 +52,10 @@
           </table>
           <div class="buy-block">
 
-            <div class="progress-block" *ngIf="stage.RUNNING === currentStage">
+            <div
+              class="progress-block"
+              *ngIf="stage.RUNNING === currentStage"
+            >
               <div class="currency-info">
                 <div class="currency-buyed">
                   <span class="buyed-value">{{boughtAmount | currencyFormat}}</span>
@@ -60,7 +66,10 @@
                 </div>
               </div>
               <div class="currency-bar">
-                <div class="currency-bar-progress" [style.width.%]="boughtAmountPer"></div>
+                <div
+                  class="currency-bar-progress"
+                  [style.width.%]="boughtAmountPer"
+                ></div>
               </div>
             </div>
 
@@ -70,9 +79,15 @@
               </p>
             </div>
 
-            <div class="starts" *ngIf="stage.PENDING === currentStage">
+            <div
+              class="starts"
+              *ngIf="stage.PENDING === currentStage"
+            >
               <p>{{'Starts In' | translate}}:</p>
-              <div class="timer" [innerHTML]="timer"></div>
+              <div
+                class="timer"
+                [innerHTML]="timer"
+              ></div>
             </div>
 
             <div class="button-part">
@@ -86,13 +101,20 @@
                 >
                   <span>{{'Buy Now' | translate}}</span>
                 </button>
-                <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+                <div
+                  class="input-hint-wrapper"
+                  *ngIf="isAuthenticated"
+                >
                   <span class="wrap-input__message">
                     {{'Sorry, your country not allowed' | translate}}
                   </span>
                 </div>
               </div>
-              <button class="standart-btn" *ngIf="!isAuthenticated" (click)="onLogin()">
+              <button
+                class="standart-btn"
+                *ngIf="!isAuthenticated"
+                (click)="onLogin()"
+              >
                 <span>{{'Log In' | translate}}</span>
               </button>
 

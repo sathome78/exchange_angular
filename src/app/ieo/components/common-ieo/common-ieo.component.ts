@@ -85,6 +85,16 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    setTimeout(() =>{
+      document.querySelectorAll(".animate-item").forEach(function(item){
+      if(item.getBoundingClientRect().top + pageYOffset + 100 < pageYOffset + document.documentElement.clientHeight){
+          item.classList.add('active')
+      }
+  })
+    },1000)
+    
+
+
     this.subscribeToIEOList();
     this.getIEOList();
     this.initEmailForm();
