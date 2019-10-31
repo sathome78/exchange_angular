@@ -49,7 +49,12 @@ export class IEOServiceService {
 
   public getIEO(id): any {
     return this.stompService.watch(`/app/ieo/ieo_details/${id}`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+      .pipe(map((message: Message) => {
+        if (message.body === 'none') {
+          return null;
+        }
+        return JSON.parse(message.body);
+      }));
   }
 
   ieoEmailSubscription(email: string) {
