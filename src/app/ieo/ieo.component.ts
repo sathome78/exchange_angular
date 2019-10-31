@@ -61,9 +61,15 @@ export class IEOComponent implements OnInit, OnDestroy {
 
     this.route.paramMap.subscribe(params => {
       this.IEOId = params.get('id');
+      if (isNaN(+this.IEOId)) {
+        return this.router.navigate(['/ieo']);
+      }
       this.IEOSub$ = this.ieoService.getIEO(this.IEOId);
       this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
       this.IEOSub$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IEOItem) => {
+        if (!res) {
+          return this.router.navigate(['/ieo']);
+        }
         this.IEOData = res;
         this.ieoLoading = false;
         this.currentStage = res.status;
