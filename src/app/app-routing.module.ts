@@ -15,6 +15,7 @@ import { AdvisorComponent } from './advisor/advisor.component';
 import { UnsubscribeComponent } from './unsubscribe/unsubscribe.component';
 import { UnsubscribeGuard } from './shared/guards/unsubscribe.guard';
 import { MainPageComponent } from './main-page/main-page.component';
+import { ReferalComponent } from './referal/referal.component';
 
 const routes: Routes = [
   // permit all
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'fiat', component: FiatComponent },
   { path: 'unsubscribe', component: UnsubscribeComponent, canActivate: [UnsubscribeGuard] },
   { path: 'free-coins', loadChildren: './freecoins/freecoins.module#FreecoinsModule' },
+  { path: 'referal', component: ReferalComponent },
   {
     path: 'final-registration/token',
     component: FinalRegistrationComponent,
