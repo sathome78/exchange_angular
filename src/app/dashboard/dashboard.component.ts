@@ -28,7 +28,13 @@ import { Animations } from 'app/shared/animations';
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private waitPairsSub: Subject<void> = new Subject<void>();
+
+
   public showContent = false;
+  public tradeTime = 5900;
+  public oBookTime = 5600;
+public graphTime = 5800;
+
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
 
@@ -86,6 +92,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.showContent = true;
     }, 5700);
+
+    setTimeout(() => {
+      this.tradeTime = 30;
+    }, this.tradeTime + 30);
+
+    setTimeout(() => {
+      this.oBookTime = 500;
+    }, this.oBookTime + 30);
+
+    setTimeout(() => {
+      this.graphTime = 500;
+    }, this.graphTime + 30);
 
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
@@ -302,5 +320,17 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   // tslint:disable-next-line: function-name
   DragEnd(event) {
     this.isDrag = false;
+  }
+
+
+  get tradingOffset(): number {
+    return this.tradeTime;
+  }
+
+  get oBookOffset(): number {
+    return this.oBookTime;
+  }
+  get graphOffset(): number {
+    return this.graphTime;
   }
 }
