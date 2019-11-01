@@ -7,6 +7,8 @@ app-trade-history-item{
   display: inline-table;
 
 }
+
+@media(min-width: 1200px){
 .widget__content{
   opacity: 0;
   transform: translateY(15px);
@@ -15,4 +17,5 @@ app-trade-history-item{
     opacity: 1;
   transform: translateY(0);
   }
+}
 }
