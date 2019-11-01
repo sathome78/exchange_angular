@@ -27,7 +27,7 @@
     top: 5px!important;
   }
 }
-
+@media(min-width: 1200px){
 .widget__content{
   opacity: 0;
   transform: translateY(15px);
@@ -36,4 +36,5 @@
     opacity: 1;
   transform: translateY(0);
   }
+}
 }
