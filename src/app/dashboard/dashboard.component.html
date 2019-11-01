@@ -89,6 +89,7 @@
   <app-markets
     (changeItemSize)="changeItemSize($event)"
     (removeItem)="removeItem(index)"
+    [marketsOffset]="marketsOffset"
   >
   </app-markets>
 </ng-template>
@@ -125,6 +126,7 @@
   <app-trade-history
     (changeItemSize)="changeItemSize($event)"
     (removeItem)="removeItem(index)"
+    [tHistoryOffset]="tHistoryOffset"
   >
   </app-trade-history>
 </ng-template>

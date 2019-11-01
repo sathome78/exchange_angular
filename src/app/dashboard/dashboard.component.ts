@@ -32,8 +32,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public showContent = false;
   public tradeTime = 5900;
-  public oBookTime = 5600;
+  public oBookTime = 5700;
 public graphTime = 5800;
+public marketsTime = 6000
+public tHistoryTime = 6100
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
@@ -104,6 +106,14 @@ public graphTime = 5800;
     setTimeout(() => {
       this.graphTime = 500;
     }, this.graphTime + 30);
+
+    setTimeout(() => {
+      this.marketsTime = 800;
+    }, this.marketsTime + 30);
+
+    setTimeout(() => {
+      this.tHistoryTime = 500;
+    }, this.tHistoryTime + 30);
 
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
@@ -333,4 +343,12 @@ public graphTime = 5800;
   get graphOffset(): number {
     return this.graphTime;
   }
+  get marketsOffset(): number {
+    return this.marketsTime;
+  }
+
+  get tHistoryOffset(): number {
+    return this.tHistoryTime;
+  }
+  
 }

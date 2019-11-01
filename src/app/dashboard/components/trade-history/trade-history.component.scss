@@ -7,3 +7,12 @@ app-trade-history-item{
   display: inline-table;
 
 }
+.widget__content{
+  opacity: 0;
+  transform: translateY(15px);
+  transition: .5s ease-out;
+  &.active{
+    opacity: 1;
+  transform: translateY(0);
+  }
+}
