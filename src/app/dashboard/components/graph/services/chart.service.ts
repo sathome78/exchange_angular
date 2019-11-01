@@ -5,19 +5,19 @@ import { BarData } from 'app/model/bar-data.model';
 
 export class ChartService {
 
-  apiUrl = environment.apiUrl;
+  chartApiUrl = environment.chartApiUrl;
 
   constructor(private http: HttpClient) {
   }
 
   getHistory(symbol, resolution, from, to): Observable<BarData[]> {
     const params = {
-      symbol,
       resolution,
       from,
       to,
+      currencyPair: symbol,
     };
-    const url = `${this.apiUrl}/api/public/v2/graph/history`;
+    const url = `${this.chartApiUrl}/data/range`;
     return this.http.get<BarData[]>(url, { params });
   }
 }

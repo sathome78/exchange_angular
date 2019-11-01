@@ -107,7 +107,6 @@ const stompConfig: InjectableRxStompConfig = {
     GraphicLinksComponent,
     BottomFormComponent,
     BannerComponent,
-    
   ],
   imports: [
     StoreModule.forRoot(reducers),

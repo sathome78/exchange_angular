@@ -38,6 +38,7 @@ import {UtilsService} from 'app/shared/services/utils.service';
 import {GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT} from 'app/shared/constants';
 import {Animations} from 'app/shared/animations';
 import {ChartService} from './services/chart.service';
+import {BarData} from '../../../model/bar-data.model';
 
 declare const TradingView: any;
 
@@ -207,7 +208,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
               exchange: 'EXRATES',
               listed_exchange: 'EXRATES',
               timezone: this.setTimeZoneToWidget(),
-              pricescale: this.getIsFiat(symbolName) ? 100 : 100_000_000,
+              pricescale: this.isFiat ? 100 : 100_000_000,
               minmov: 1,
               fractional: false,
               has_intraday: true,
@@ -223,28 +224,41 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
             });
           }, 0);
         },
-        getBars: (symbolInfo, resolution, rangeStartDate, rangeEndDate, onResult) => {
+        getBars: (symbolInfo, resolution, rangeStartDate, rangeEndDate, onResult, onError) => {
           console.log('getBars running -->');
 
           this.chartService.getHistory(
             symbolInfo.name,
             resolution,
-            rangeStartDate,
-            rangeEndDate)
-            .subscribe((data: any) => {
+            rangeStartDate.toFixed(0),
+            rangeEndDate.toFixed(0))
+            .subscribe((data: BarData[]) => {
               if (data.length) {
-                onResult(data, {noData: false});
+                const bars = data.map(el => {
+                  return {
+                    time: el.time * 1000,
+                    open: el.open,
+                    high: el.high,
+                    low: el.low,
+                    close: el.close,
+                    volume: el.volume,
+                  };
+                });
+                onResult(bars, { noData: false });
               } else {
-                onResult(data, {noData: true});
+                onResult([], { noData: true });
               }
             }, (error: any) => {
               console.log(error);
+              onError(error);
             });
         },
         getServerTime: callback => {
           console.log('getServerTime running -->');
         },
         subscribeBars: (symbolInfo, resolution, onTick) => {
+          console.log('subscribeBars running -->');
+
           const pairName = symbolInfo.name.toLowerCase().replace(/\//i, '_');
 
           this.unsubscribeLastCandleData();
@@ -252,13 +266,15 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           this.lastCandleSub$ = this.dashboardWebsocketService
             .chartSubscription(pairName, resolution)
             .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(data => {
+            .subscribe((data: BarData) => {
               onTick(data);
-            }).catch((error: any) => {
-              console.error(error);
+            }, (error: any) => {
+              console.log(error);
             });
         },
         unsubscribeBars: listenerGuid => {
+          console.log('unsubscribeBars running -->');
+
           this.unsubscribeLastCandleData();
         },
       },
