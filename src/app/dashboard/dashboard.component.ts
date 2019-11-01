@@ -28,7 +28,15 @@ import { Animations } from 'app/shared/animations';
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private waitPairsSub: Subject<void> = new Subject<void>();
+
+
   public showContent = false;
+  public tradeTime = 5900;
+  public oBookTime = 5700;
+public graphTime = 5800;
+public marketsTime = 6000
+public tHistoryTime = 6100
+
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
 
@@ -86,6 +94,26 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.showContent = true;
     }, 5700);
+
+    setTimeout(() => {
+      this.tradeTime = 30;
+    }, this.tradeTime + 30);
+
+    setTimeout(() => {
+      this.oBookTime = 500;
+    }, this.oBookTime + 30);
+
+    setTimeout(() => {
+      this.graphTime = 500;
+    }, this.graphTime + 30);
+
+    setTimeout(() => {
+      this.marketsTime = 800;
+    }, this.marketsTime + 30);
+
+    setTimeout(() => {
+      this.tHistoryTime = 500;
+    }, this.tHistoryTime + 30);
 
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
@@ -303,4 +331,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   DragEnd(event) {
     this.isDrag = false;
   }
+
+
+  get tradingOffset(): number {
+    return this.tradeTime;
+  }
+
+  get oBookOffset(): number {
+    return this.oBookTime;
+  }
+  get graphOffset(): number {
+    return this.graphTime;
+  }
+  get marketsOffset(): number {
+    return this.marketsTime;
+  }
+
+  get tHistoryOffset(): number {
+    return this.tHistoryTime;
+  }
+  
 }

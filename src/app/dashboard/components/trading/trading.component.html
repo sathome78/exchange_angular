@@ -46,7 +46,7 @@
   <div
     class="widget__content widget__content--pg"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
-    [@showOrderBook]="showContent5 ? 'show' : 'hide' "
+    [ngClass]="{'active' : showContent5}"
   >
     <div class="row row--jcsb row--aic widget__trading-row">
       <div class="dropdown widget__limit-dropdown">

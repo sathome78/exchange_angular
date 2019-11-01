@@ -39,6 +39,8 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   /** Markets data by active tab */
   public pairs: CurrencyPair[] = [];
 
+  @Input() public marketsOffset : number; 
+
   private marketsSub$: Subscription;
   public currentCurrencyPair: SimpleCurrencyPair;
   public sortPoint = 'asc';
@@ -83,7 +85,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         if (!this.cdr['destroyed']) {
           this.cdr.detectChanges();
         }
-      }, 6000);
+      }, this.marketsOffset);
     }
     if (document.documentElement.clientWidth < 1199) {
       this.showContent4 = true;
