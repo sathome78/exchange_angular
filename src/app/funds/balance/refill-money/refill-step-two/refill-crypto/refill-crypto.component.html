@@ -18,7 +18,7 @@
     <button
       class="btn btn--empty-blue"
       (click)="generateNewAddress()"
-      [disabled]="isGenerateNewAddress || loading || isNeedKyc || activeCrypto === 'default'"
+      [disabled]="loading || isNeedKyc || !activeCrypto"
     >
       <span class="btn__icon btn__icon--light-blue">
         <svg

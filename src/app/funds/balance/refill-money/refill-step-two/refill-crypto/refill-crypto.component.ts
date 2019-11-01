@@ -61,6 +61,8 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         this.setActiveCrypto();
         if (this.activeCrypto) {
           this.getDataByCurrency(this.activeCrypto.name);
+        } else {
+          this.setView(this.viewsList.MAIN);
         }
       });
   }
@@ -75,8 +77,7 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     if (this.refillData && this.refillData.currencyId) {
       currency = this.cryptoNames.filter(item => +item.id === +this.refillData.currencyId);
     }
-    // this.activeCrypto = currency && currency.length ? currency[0] : this.cryptoNames[0];
-    this.activeCrypto = "default"
+    this.activeCrypto = currency && currency.length ? currency[0] : null;
   }
 
   selectCurrency(currency) {
@@ -92,17 +93,17 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
         res => {
           this.cryptoDataByName = res;
           this.identifyCrypto();
-          this.VIEW = this.viewsList.MAIN;
+          this.setView(this.viewsList.MAIN);
         },
         error => {
           if (error.error && error.error.title === 'USER_OPERATION_DENIED') {
-            this.VIEW = this.viewsList.DENIED;
+            this.setView(this.viewsList.DENIED);
           } else {
             this.isGenerateNewAddress = false;
             this.cryptoDataByName = null;
             const msg = this.translateService.instant('Sorry, refill is unavailable for current moment!');
             this.setError(msg);
-            this.VIEW = this.viewsList.MAIN;
+            this.setView(this.viewsList.MAIN);
           }
         }
       );
@@ -242,6 +243,10 @@ export class RefillCryptoComponent implements OnInit, OnDestroy {
     } else {
       this.showGenerateAddressBtn(false);
     }
+  }
+
+  setView(view) {
+    this.VIEW = view;
   }
 
   get isRefillClosed() {

@@ -1,26 +1,26 @@
 <div class="select">
   <div
-    class="select__value select__value--active"
+    class="select__value"
     (click)="toggleCurrencyDropdown()"
-    [ngClass]="{'select__value--active' : activeCurrency !=='default'}"
+    [ngClass]="{'select__value--active' : activeCurrency}"
   >
     <!-- [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}" -->
-    <div
-      class="icon-wr"
-      *ngIf="activeCurrency !=='default'"
-    >
-      <img
-        [src]="activeCurrency.name | getIconUrl:true"
-        onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
-        class="select__list-item-icon select__list-item-icon--mobile"
-      >
-      <img
-        [src]="activeCurrency.name | getIconUrl"
-        onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
-        class="select__list-item-icon select__list-item-icon--destop"
-      >
-    </div>
-    {{activeCurrency.name}}
+    <ng-container *ngIf="activeCurrency">
+      <div class="icon-wr">
+        <img
+          [src]="activeCurrency.name | getIconUrl:true"
+          onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+          class="select__list-item-icon select__list-item-icon--mobile"
+        >
+        <img
+          [src]="activeCurrency.name | getIconUrl"
+          onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+          class="select__list-item-icon select__list-item-icon--destop"
+        >
+      </div>
+      {{activeCurrency.name}}
+    </ng-container>
+
   </div>
   <div class="select__label">{{'Currency' | translate}}</div>
   <div class="select__line"></div>
