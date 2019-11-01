@@ -39,6 +39,8 @@ import {GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT} from 'app/shared/constants';
 import {Animations} from 'app/shared/animations';
 import {ChartService} from './services/chart.service';
 import {BarData} from '../../../model/bar-data.model';
+import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
 
 declare const TradingView: any;
 
@@ -93,6 +95,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public timeZoneName: string;
   private language: any;
 
+  private stompClient: any;
   private lastCandleSub$: Subscription;
 
   private widgetOptions: ChartingLibraryWidgetOptions;
@@ -182,6 +185,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       supported_resolutions: supportedResolutions,
     };
 
+    this.connectChartServer();
+
     this.widgetOptions = {
       symbol: this.currencyPairName,
       datafeed: {
@@ -263,14 +268,18 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
           this.unsubscribeLastCandleData();
 
-          this.lastCandleSub$ = this.dashboardWebsocketService
-            .chartSubscription(pairName, resolution)
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe((data: BarData) => {
-              onTick(data);
-            }, (error: any) => {
-              console.log(error);
-            });
+          this.lastCandleSub$ = this.stompClient.subscribe(`/app/chart/${pairName}/${resolution}`, function (data: BarData) {
+            onTick(data);
+          });
+
+          // this.lastCandleSub$ = this.dashboardWebsocketService
+          //   .chartSubscription(pairName, resolution)
+          //   .pipe(takeUntil(this.ngUnsubscribe))
+          //   .subscribe((data: BarData) => {
+          //     onTick(data);
+          //   }, (error: any) => {
+          //     console.log(error);
+          //   });
         },
         unsubscribeBars: listenerGuid => {
           console.log('unsubscribeBars running -->');
@@ -370,6 +379,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     if (this._tvWidget !== null && this.chartReady) {
       this._tvWidget.remove();
       this._tvWidget = null;
+    }
+    if (this.stompClient != null) {
+      this.stompClient.ws.close();
     }
   }
 
@@ -517,5 +529,11 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     if (this.lastCandleSub$) {
       this.lastCandleSub$.unsubscribe();
     }
+  }
+
+  private connectChartServer() {
+    const socket = new SockJS(environment.chartApiUrl + '/chart_socket');
+    this.stompClient = Stomp.over(socket);
+    this.stompClient.connect();
   }
 }
