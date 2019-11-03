@@ -11,18 +11,12 @@ import { UserService } from '../shared/services/user.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { TOKEN, EXRATES_REST_TOKEN } from 'app/shared/services/http.utils';
-import { environment } from '../../environments/environment';
-import * as SockJS from 'sockjs-client';
 
 @Injectable()
 export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairs: CurrencyPair[] = [];
-  public sessionIdsubject = new Subject();
-  public pairFromDashboard = '';
   public sessionId = null;
-  public userEmail = null;
-  private chartStompService = new RxStompService();
 
   constructor(
     private stompService: RxStompService,
@@ -30,18 +24,6 @@ export class DashboardWebSocketService implements OnDestroy {
     private utilsService: UtilsService,
     private store: Store<fromCore.State>
   ) { }
-
-  chartSubscription(pairName: string, resolution: string): any {
-    this.chartStompService
-      .configure({
-        heartbeatIncoming: 0,
-        heartbeatOutgoing: 20000,
-        reconnectDelay: 5000,
-        webSocketFactory: new SockJS(environment.chartApiUrl + '/chart_socket')});
-    return this.chartStompService
-      .watch(`/app/chart/${pairName}/${resolution}`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
-  }
 
   marketsSubscription(): any {
     return this.stompService

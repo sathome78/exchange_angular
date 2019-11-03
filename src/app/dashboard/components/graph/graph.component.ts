@@ -8,12 +8,12 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import {takeUntil} from 'rxjs/internal/operators';
-import {Subject} from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/internal/operators';
+import { Subject } from 'rxjs/Subject';
 
-import {LangService} from 'app/shared/services/lang.service';
-import {AbstractDashboardItems} from '../../abstract-dashboard-items';
-import {DashboardService} from '../../dashboard.service';
+import { LangService } from 'app/shared/services/lang.service';
+import { AbstractDashboardItems } from '../../abstract-dashboard-items';
+import { DashboardService } from '../../dashboard.service';
 import {
   ChartingLibraryWidgetOptions,
   IChartingLibraryWidget,
@@ -21,24 +21,24 @@ import {
   Timezone,
   widget
 } from 'assets/js/charting_library/charting_library.min';
-import {environment} from 'environments/environment';
-import {select, Store} from '@ngrx/store';
-import {getActiveCurrencyPair, getIsAuthenticated, getLanguage, State} from 'app/core/reducers/index';
-import {CurrencyPair} from '../../../model/currency-pair.model';
-import {getCurrencyPairArray, getCurrencyPairInfo} from '../../../core/reducers';
-import {DashboardWebSocketService} from '../../dashboard-websocket.service';
-import {CurrencyPairInfo} from '../../../model/currency-pair-info.model';
-import {SelectedOrderBookOrderAction} from '../../actions/dashboard.actions';
-import {Router} from '@angular/router';
-import {Currency} from 'app/model/currency.model';
-import {BreakpointService} from 'app/shared/services/breakpoint.service';
-import {Observable, Subscription} from 'rxjs';
-import {SimpleCurrencyPair} from 'app/model/simple-currency-pair';
-import {UtilsService} from 'app/shared/services/utils.service';
-import {GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT} from 'app/shared/constants';
-import {Animations} from 'app/shared/animations';
-import {ChartService} from './services/chart.service';
-import {BarData} from '../../../model/bar-data.model';
+import { environment } from 'environments/environment';
+import { select, Store } from '@ngrx/store';
+import { getActiveCurrencyPair, getIsAuthenticated, getLanguage, State } from 'app/core/reducers/index';
+import { CurrencyPair } from '../../../model/currency-pair.model';
+import { getCurrencyPairArray, getCurrencyPairInfo } from '../../../core/reducers';
+import { DashboardWebSocketService } from '../../dashboard-websocket.service';
+import { CurrencyPairInfo } from '../../../model/currency-pair-info.model';
+import { SelectedOrderBookOrderAction } from '../../actions/dashboard.actions';
+import { Router } from '@angular/router';
+import { Currency } from 'app/model/currency.model';
+import { BreakpointService } from 'app/shared/services/breakpoint.service';
+import { Observable, Subscription } from 'rxjs';
+import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UtilsService } from 'app/shared/services/utils.service';
+import { GRAPH_TIME_ZONE_SUPPORT, LANG_SUPPORT } from 'app/shared/constants';
+import { Animations } from 'app/shared/animations';
+import { ChartService } from './services/chart.service';
+import { BarData } from '../../../model/bar-data.model';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 
@@ -67,7 +67,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   /** available currencies */
   public currencies: Currency[];
   public isFiat = false;
-  public marketsArray = [{name: 'USD'}, {name: 'ETH'}, {name: 'BTC'}];
   public allCurrencyPairs;
   public currentCurrencyInfo;
   private lang;
@@ -78,10 +77,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   public showContent3 = false;
 
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.currencyPairName;
-  private _interval: ChartingLibraryWidgetOptions['interval'] = '30'; // 3
-  // BEWARE: no trailing slash is expected in feed URL
-  // private _datafeedUrl = 'https://demo_feed.tradingview.com';
-  private _datafeedUrl = environment.apiUrl + '/api/public/v2/graph';
+  private _interval: ChartingLibraryWidgetOptions['interval'] = '30';
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = 'assets/js/charting_library/';
   private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
   private _chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version'] = '1.1';
@@ -91,9 +87,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
   private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
   private _tvWidget: IChartingLibraryWidget | null = null;
-  private _getDataInterval = 10 * 1000;
   public timeZoneName: string;
-  private language: any;
 
   private stompClient: any;
   private lastCandleSub$: Subscription;
@@ -141,7 +135,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           this.formattingCurrentPairName(pair.name as string);
           try {
             this._tvWidget.setSymbol(pair.name, '30', () => {
-            }); // 5
+            });
           } catch (e) {
             // console.log(e);
           }
@@ -235,8 +229,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           this.chartService.getHistory(
             symbolInfo.name,
             resolution,
-            rangeStartDate.toFixed(0),
-            rangeEndDate.toFixed(0))
+            rangeStartDate,
+            rangeEndDate)
             .subscribe((data: BarData[]) => {
               if (data.length) {
                 const bars = data.map(el => {
@@ -268,18 +262,19 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
           this.unsubscribeLastCandleData();
 
-          this.lastCandleSub$ = this.stompClient.subscribe(`/app/chart/${pairName}/${resolution}`, function (data: BarData) {
-            onTick(data);
+          this.lastCandleSub$ = this.stompClient.subscribe(`/app/chart/${pairName}/${resolution}`, function (data: any) {
+            const el = JSON.parse(data.body);
+            if (el) {
+              onTick({
+                time: el.time * 1000,
+                open: el.open,
+                high: el.high,
+                low: el.low,
+                close: el.close,
+                volume: el.volume,
+              });
+            }
           });
-
-          // this.lastCandleSub$ = this.dashboardWebsocketService
-          //   .chartSubscription(pairName, resolution)
-          //   .pipe(takeUntil(this.ngUnsubscribe))
-          //   .subscribe((data: BarData) => {
-          //     onTick(data);
-          //   }, (error: any) => {
-          //     console.log(error);
-          //   });
         },
         unsubscribeBars: listenerGuid => {
           console.log('unsubscribeBars running -->');
@@ -291,12 +286,12 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       container_id: this._containerId,
       timezone: this.setTimeZoneToWidget(),
       time_frames: [
-        {text: '1D', resolution: 'D'},
-        {text: '6h', resolution: '360'},
-        {text: '1h', resolution: '60'},
-        {text: '30m', resolution: '30'},
-        {text: '15m', resolution: '15'},
-        {text: '5m', resolution: '5'},
+        { text: '5m', resolution: '5' },
+        { text: '15m', resolution: '15' },
+        { text: '30m', resolution: '30' },
+        { text: '1h', resolution: '60' },
+        { text: '6h', resolution: '360' },
+        { text: '1D', resolution: 'D' },
       ],
       library_path: this._libraryPath,
       locale: this.setLang(),
@@ -308,7 +303,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         'header_compare',
         'header_undo_redo',
         'header_indicators',
-        // 'header_resolutions', // hidden by DEVEX-3308
         'save_chart_properties_to_local_storage',
         'header_saveload',
         'border_around_the_chart',
@@ -323,16 +317,13 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       custom_css_url: '/assets/css/chart_style.css',
       favorites: {
         chartTypes: ['Area'],
-        intervals: ['5', '15', '30', '60', '360', '1D'],
+        intervals: supportedResolutions,
       },
       studies_overrides: {
         'volume.volume.color.0': '#EB5757',
         'volume.volume.color.1': '#00B43D',
         'volume.volume ma.color': '#FF0000',
         'volume.volume ma.linewidth': 5,
-        // 'volume.show ma': true,
-        // 'bollinger bands.median.color': '#33FF88',
-        // 'bollinger bands.upper.linewidth': 7
       },
       overrides: {
         'paneProperties.background': '#252543',
@@ -410,11 +401,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     this.dashboardService.selectedOrderTrading$.next(item);
     this.router.navigate(['/dashboard'], {
-      queryParams: {widget: widgetName},
+      queryParams: { widget: widgetName },
     });
     this.dashboardService.activeMobileWidget.next(widgetName);
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
-    // this.store.dispatch(new SetTradingTypeAction(type));
   }
 
   /** Are listening click in document */
