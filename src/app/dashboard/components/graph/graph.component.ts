@@ -14,6 +14,7 @@ import { Subject } from 'rxjs/Subject';
 import { LangService } from 'app/shared/services/lang.service';
 import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { DashboardService } from '../../dashboard.service';
+
 import {
   ChartingLibraryWidgetOptions,
   IChartingLibraryWidget,
@@ -41,8 +42,6 @@ import { ChartService } from './services/chart.service';
 import { BarData } from '../../../model/bar-data.model';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
-
-declare const TradingView: any;
 
 @Component({
   selector: 'app-graph',
@@ -116,12 +115,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnInit() {
     this.connectChartServer();
 
-    if (document.documentElement.clientWidth > 1199) {
-      setTimeout(() => {
-        this.showContent3 = true;
-        this.cdr.detectChanges();
-      }, 5800);
-    }
     if (document.documentElement.clientWidth > 1199) {
       setTimeout(() => {
         this.showContent3 = true;
@@ -393,8 +386,8 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    // debugger
-    if (this._tvWidget !== null && this.chartReady) {
+    const container = document.querySelector(`#${this._containerId} iframe`);
+    if (!!this._tvWidget && this.chartReady && container) {
       this._tvWidget.remove();
       this._tvWidget = null;
     }
