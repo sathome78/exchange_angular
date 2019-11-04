@@ -89,11 +89,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
         this.fiatNames = currencies;
-        this.activeFiat = this.fiatNames[0];
+        // this.activeFiat = this.fiatNames[0];
         this.setActiveFiat();
         if (this.activeFiat) {
           this.getFiatInfoByName(this.activeFiat.name);
           this.getBalance(this.activeFiat.id);
+        } else {
+          this.VIEW = this.viewsList.MAIN;
         }
       });
     if (this.selectMerchantName === FUG) {
@@ -118,7 +120,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (this.balanceData && this.balanceData.currencyId) {
       currency = this.fiatNames.filter(item => +item.id === +this.balanceData.currencyId);
     }
-    this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
+    this.activeFiat = currency && currency.length ? currency[0] : null;
   }
 
   selectCurrency(currency) {
