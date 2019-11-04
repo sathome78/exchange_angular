@@ -16,15 +16,15 @@ import { AbstractDashboardItems } from '../../abstract-dashboard-items';
 import { DashboardService } from '../../dashboard.service';
 
 import {
-  ChartingLibraryWidgetOptions,
+  widget,
   IChartingLibraryWidget,
+  ChartingLibraryWidgetOptions,
   LanguageCode,
-  Timezone,
-  widget
+  Timezone
 } from 'assets/js/charting_library/charting_library.min';
 import { environment } from 'environments/environment';
 import { select, Store } from '@ngrx/store';
-import { getActiveCurrencyPair, getIsAuthenticated, getLanguage, State } from 'app/core/reducers/index';
+import { getActiveCurrencyPair, State, getIsAuthenticated, getLanguage } from 'app/core/reducers/index';
 import { CurrencyPair } from '../../../model/currency-pair.model';
 import { getCurrencyPairArray, getCurrencyPairInfo } from '../../../core/reducers';
 import { DashboardWebSocketService } from '../../dashboard-websocket.service';
@@ -543,6 +543,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private connectChartServer() {
     const socket = new SockJS(environment.chartApiUrl + '/chart_socket');
     this.stompClient = Stomp.over(socket);
+    this.stompClient.debug = () => {};
     this.stompClient.connect();
   }
 }
