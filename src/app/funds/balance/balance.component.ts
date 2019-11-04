@@ -29,11 +29,13 @@ import { BALANCE_TABS, EUR } from './balance-constants';
 import { DetailedCurrencyPair } from '../../model/detailed-currency-pair';
 import { UserService } from 'app/shared/services/user.service';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
   styleUrls: ['./balance.component.scss'],
+  animations: [Animations.componentTriggerBallanceAnimation],
 })
 export class BalanceComponent implements OnInit, OnDestroy {
   /** */

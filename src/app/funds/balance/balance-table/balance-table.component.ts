@@ -12,15 +12,19 @@ import { Subject } from 'rxjs';
 import { BalanceService } from '../../services/balance.service';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { DetailedCurrencyPair } from '../../../model/detailed-currency-pair';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-balance-table',
   templateUrl: './balance-table.component.html',
   styleUrls: ['./balance-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [Animations.componentTriggerBallanceAnimation],
 })
-export class BalanceTableComponent {
+export class BalanceTableComponent implements OnInit, OnDestroy  {
   constructor() {}
+
+  public activeTab = false;
 
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('allPairs') public allPairs: DetailedCurrencyPair[] = [];
@@ -49,5 +53,16 @@ export class BalanceTableComponent {
 
   trackByFn(index, item) {
     return item.currencyId;
+  }
+
+  ngOnInit() {
+    setTimeout(() => {
+this.activeTab = true;
+    },1900)
+    
+  }
+
+  ngOnDestroy() {
+    this.activeTab = false;
   }
 }
