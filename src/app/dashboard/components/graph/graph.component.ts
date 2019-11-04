@@ -1,12 +1,12 @@
 import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  HostListener,
-  Input,
-  OnDestroy,
   OnInit,
+  AfterContentInit,
+  OnDestroy,
+  Input,
+  ChangeDetectorRef,
+  HostListener,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { debounceTime, take, takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -140,8 +140,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (this.currencyPairName) {
           this.formattingCurrentPairName(pair.name as string);
           try {
-            this._tvWidget.setSymbol(this.currencyPairName, '30', () => {
-            });
+            this._tvWidget.setSymbol(this.currencyPairName, '30', () => {});  // 5
           } catch (e) {
             // console.log(e);
           }
@@ -201,15 +200,15 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           symbol: this.currencyPairName,
           datafeed: {
             onReady: callback => {
-              console.log('onReady running -->');
+              // console.log('onReady running -->');
 
               setTimeout(() => callback(config), 0);
             },
             searchSymbols: (userInput, exchange, symbolType, onResult) => {
-              console.log('searchSymbols running -->');
+              // console.log('searchSymbols running -->');
             },
             resolveSymbol: (symbolName, onResolve) => {
-              console.log('resolveSymbol running -->');
+              // console.log('resolveSymbol running -->');
 
               setTimeout(() => {
                 onResolve({
@@ -240,7 +239,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
               }, 0);
             },
             getBars: (symbolInfo, resolution, rangeStartDate, rangeEndDate, onResult, onError) => {
-              console.log('getBars running -->');
+              // console.log('getBars running -->');
 
               this.chartService.getHistory(
                 symbolInfo.name,
@@ -269,10 +268,10 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
                 });
             },
             getServerTime: callback => {
-              console.log('getServerTime running -->');
+              // console.log('getServerTime running -->');
             },
             subscribeBars: (symbolInfo, resolution, onTick) => {
-              console.log('subscribeBars running -->');
+              // console.log('subscribeBars running -->');
 
               const pairName = symbolInfo.name.toLowerCase().replace(/\//i, '_');
 
@@ -293,7 +292,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
               });
             },
             unsubscribeBars: listenerGuid => {
-              console.log('unsubscribeBars running -->');
+              // console.log('unsubscribeBars running -->');
 
               this.unsubscribeLastCandleData();
             },
@@ -421,7 +420,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
     this.dashboardService.selectedOrderTrading$.next(item);
     this.router.navigate(['/dashboard'], {
-      queryParams: {widget: widgetName},
+      queryParams: { widget: widgetName },
     });
     this.dashboardService.activeMobileWidget.next(widgetName);
     this.store.dispatch(new SelectedOrderBookOrderAction(item));
