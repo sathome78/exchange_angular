@@ -8,7 +8,7 @@ import {
   HostListener,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { debounceTime, take, takeUntil } from 'rxjs/internal/operators';
+import { takeUntil, take, debounceTime } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
 import { LangService } from 'app/shared/services/lang.service';
