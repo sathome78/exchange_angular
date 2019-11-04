@@ -60,6 +60,10 @@ import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.c
 import { BottomFormComponent } from './main-page/bottom-form/bottom-form.component';
 import { BannerComponent } from './banner/banner.component';
 import { ReferalComponent } from './referal/referal.component';
+import { IncomeTableComponent } from './referal/income-table/income-table.component';
+import { StructureTableComponent } from './referal/structure-table/structure-table.component';
+import { RefHowWorkComponent } from './referal/ref-how-work/ref-how-work.component';
+import { RefHowMuchComponent } from './referal/ref-how-much/ref-how-much.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -106,6 +110,10 @@ const stompConfig: InjectableRxStompConfig = {
     BottomFormComponent,
     BannerComponent,
     ReferalComponent,
+    IncomeTableComponent,
+    StructureTableComponent,
+    RefHowWorkComponent,
+    RefHowMuchComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers),

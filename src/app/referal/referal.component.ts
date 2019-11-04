@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./referal.component.scss']
 })
 export class ReferalComponent implements OnInit {
+  public user = 'auth';
+  public tab = 'referal-structure'
 
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }
