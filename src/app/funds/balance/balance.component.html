@@ -329,9 +329,9 @@
     <!--</form>-->
     <!--filters end-->
 
-    <ng-container [ngSwitch]="currTab">
+    <ng-container>
       <app-balance-table
-        *ngSwitchCase="Tab.CRYPTO"
+        [hidden]="currTab !== Tab.CRYPTO"
         [allPairs]="detailedCurrencyPairs$ | async"
         [balances]="cryptoBalances$ | async"
         [countPerPage]="countPerPage"
@@ -344,7 +344,7 @@
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
       ></app-balance-table>
       <app-balance-table
-        *ngSwitchCase="Tab.FIAT"
+        [hidden]="currTab !== Tab.FIAT"
         [allPairs]="detailedCurrencyPairs$ | async"
         [balances]="fiatBalances$ | async"
         [countPerPage]="countPerPage"
@@ -364,11 +364,11 @@
         [loading]="loading$ | async"
         (onPaginate)="onPageChanged($event)"
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
-        *ngSwitchCase="Tab.PR"
+        [hidden]="currTab !== Tab.PR"
       ></app-pending-request-table>
       <ng-container>
         <app-qubera-table
-          *ngSwitchCase="Tab.QUBERA"
+          [hidden]="currTab !== Tab.QUBERA"
           [balances]="quberaBalances$ | async"
           [kycStatus]="quberaKycStatus$ | async"
           (transferQuberaOut)="goToTransferQuberaPopup($event)"
@@ -382,7 +382,7 @@
       </ng-container>
 
       <app-ieo-table
-        *ngSwitchCase="Tab.IEO"
+        [hidden]="currTab !== Tab.IEO"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
