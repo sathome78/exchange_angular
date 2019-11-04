@@ -167,9 +167,8 @@
   </div>
   <div
     class="widget__graph"
-    [@showOrderBook]="showContent3 ? 'show' : 'hide' "
+    [ngClass]="{'active' : showContent3}"
   >
-
     <div
       class="amcharts-stock_chart_div"
       id="tv_chart_container"

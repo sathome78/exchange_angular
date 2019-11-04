@@ -25,7 +25,6 @@ import { LoggingService } from './shared/services/logging.service';
 import { UserService } from './shared/services/user.service';
 import { UserVerificationService } from './shared/services/user-verification.service';
 import { ThemeService } from './shared/services/theme.service';
-import { MockDataService } from './shared/services/mock-data.service';
 import { EmbeddedOrdersService } from './dashboard/components/embedded-orders/embedded-orders.service';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
@@ -61,7 +60,6 @@ import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.c
 import { BottomFormComponent } from './main-page/bottom-form/bottom-form.component';
 import { BannerComponent } from './banner/banner.component';
 import {ChartService} from './dashboard/components/graph/services/chart.service';
-
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -152,7 +150,6 @@ const stompConfig: InjectableRxStompConfig = {
     UserService,
     UserVerificationService,
     ThemeService,
-    MockDataService,
     GtagService,
     EmbeddedOrdersService,
     CoreService,

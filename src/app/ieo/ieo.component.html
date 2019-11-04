@@ -1,4 +1,7 @@
-<div class="ieo-container">
+<div
+  class="ieo-container"
+  *ngIf="!ieoLoading"
+>
   <div
     class="ieo-header"
     *ngIf="currentStage !== stage.PENDING"
@@ -95,4 +98,11 @@
     (close)="toggleSorry(false)"
   >
   </app-popup-sorry-ieo>
+</div>
+
+<div
+  class="ieo-loader"
+  *ngIf="ieoLoading"
+>
+  <app-loader></app-loader>
 </div>

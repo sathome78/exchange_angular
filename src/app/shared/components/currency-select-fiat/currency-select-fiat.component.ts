@@ -7,9 +7,10 @@ import { CurrencyBalanceModel } from 'app/model';
   styleUrls: ['./currency-select-fiat.component.scss'],
 })
 export class CurrencySelectFiatComponent implements OnInit {
-  @Input() public activeCurrency: CurrencyBalanceModel;
+  @Input() public activeCurrency: CurrencyBalanceModel = null;
   @Input() public currencies: CurrencyBalanceModel[];
   @Output() public selectCurrency: EventEmitter<CurrencyBalanceModel> = new EventEmitter();
+  @Output() public toggleDropdown: EventEmitter<boolean> = new EventEmitter();
   public openCurrencyDropdown = false;
   public alphabet;
 
@@ -26,13 +27,17 @@ export class CurrencySelectFiatComponent implements OnInit {
 
   toggleCurrencyDropdown() {
     this.openCurrencyDropdown = !this.openCurrencyDropdown;
+    this.toggleDropdown.emit(this.openCurrencyDropdown);
+  }
+
+  closeDropdown() {
+    this.openCurrencyDropdown = false;
+    this.toggleDropdown.emit(this.openCurrencyDropdown);
   }
 
   onSelectCurrency(currency: CurrencyBalanceModel) {
     this.selectCurrency.emit(currency);
     this.toggleCurrencyDropdown();
   }
-
-
 
 }

@@ -5,7 +5,8 @@ import {
   HostListener,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ViewChild
+  ViewChild,
+  Input
 } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
@@ -93,6 +94,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private successTimeout;
   private failTimeout;
   public showContent5 = false;
+  public timeOffset = 5900;
+  @Input() public tradingOffset : number;
   @ViewChild('quantitySell') public quantitySell: PriceInputComponent;
   @ViewChild('quantityBuy') public quantityBuy: PriceInputComponent;
 
@@ -155,12 +158,17 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     if (document.documentElement.clientWidth > 1199) {
       setTimeout(() => {
         this.showContent5 = true;
-        this.cdr.detectChanges();
-      }, 5900);
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+        console.log(this.tradingOffset)
+      }, this.tradingOffset);
     }
     if (document.documentElement.clientWidth < 1199) {
       this.showContent5 = true;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     }
 
     this.store
@@ -170,7 +178,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(([isAuth, pair]: [boolean, SimpleCurrencyPair]) => {
         this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you login
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -181,7 +191,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         // this.userBalance = {cur2: {balance: 0.1, name: 'BTC'}, cur1: {balance: 0.1, name: 'LTC'}};
         this.maxSellMarketOrder = this.calcMaxSellMarketOrder(this.ordersBookBuyOrders);
         this.maxBuyMarketOrder = this.calcMaxBuyMarketOrder(this.ordersBookSellOrders);
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -191,7 +203,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       .subscribe(([pair, isAuth]: [SimpleCurrencyPair, boolean]) => {
         this.isAuthenticated = isAuth;
         this.onGetCurrentCurrencyPair(pair, isAuth); // get commission when you change currency pair
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -202,7 +216,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           const rate = parseFloat(lastPrice.price.toString());
           this.setNewLimitAndStop(rate);
         }
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -213,7 +229,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           this.isPossibleSetPrice = false;
           this.orderFromOrderBook(order);
         }
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -452,7 +470,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
           type === this.BUY
             ? (this.buyCommissionIndex = res.commissionValue)
             : (this.sellCommissionIndex = res.commissionValue);
-          this.cdr.detectChanges();
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
         });
     }
   }
@@ -798,11 +818,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.userService.getUserBalance(this.currentPair);
     this.notifySuccess = true;
     this.loading = false;
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
     this.successTimeout = setTimeout(() => {
       this.notifySuccess = false;
       this.createdOrder = null;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     }, 5000);
   }
 
@@ -812,11 +836,15 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     }
     this.notifyFail = true;
     this.loading = false;
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
     this.failTimeout = setTimeout(() => {
       this.notifyFail = false;
       this.createdOrder = null;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     }, 5000);
   }
 
@@ -826,7 +854,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.translateService.instant('Sorry, you are not allowed to trade this pair!');
     this.notifyFailShowKycBtn = false;
     this.loading = false;
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
   }
   private createOrderNeedKycFail() {
     this.notifyFailRestricted = true;
@@ -834,7 +864,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       this.translateService.instant('Sorry, you must pass verification to trade this pair!');
     this.notifyFailShowKycBtn = true;
     this.loading = false;
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
   }
 
   closeNotifyFailRestricted() {

@@ -2,6 +2,14 @@
 	font-size: calc(.656rem + .66vw);
 	position: relative;
 	padding-bottom: 7em;
+	.standart-btn{
+		@media(max-width: 1199px){
+			span{
+				font-size: 1em;
+			}
+			
+		}
+	}
 	.top-info{
 		display: flex;
 		justify-content: space-between;
@@ -246,6 +254,9 @@
 		.wrap-input{
 			width: 12.8em;
 			margin-right: .8em;
+			@media(max-width: 1199px){
+				width: 11.8em;
+			}
 			@media(max-width: 992px){
 				width: calc(100% - 10em);
 			}
@@ -270,7 +281,7 @@
 					font-size: inherit;
 					height: 43px;
 					span{
-						font-size: .8em;
+						font-size: .7em;
 						display: block;
 					}
 				}

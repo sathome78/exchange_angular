@@ -1059,3 +1059,35 @@ max-width: 270px;
 }
 }
 }
+
+
+.infomation-txt{
+text-align: center;
+padding: 20px;
+color: #EB5757;
+}
+
+
+.kyc-msg-inner{
+  text-align: center;
+  padding-top: 30px;
+  margin-bottom: 25px;
+  color: #EB5757;
+}
+
+.kyc-btn-inner {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.closed-opation{
+  text-align: center;
+  color: #DEDEFB;
+  font-size: 16px;
+  @media(min-width: 1201px){
+color: #191A39;
+  }
+  a{
+    color: #237BEF;
+  }
+}

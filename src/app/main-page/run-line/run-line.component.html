@@ -25,7 +25,7 @@
         </div>
         <div class="change">
           <span [ngClass]="{'txt-green' : isChangePositive(pair),'txt-red' : !isChangePositive(pair)}">
-            {{pair.percentChange | currencyFormat: 'USD'}}%
+            {{pair.percentChange | positivePipe | currencyFormat: 'USD'}}%
           </span>
         </div>
         <div class="course">
