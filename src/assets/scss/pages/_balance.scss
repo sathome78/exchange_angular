@@ -1254,7 +1254,7 @@ div.send-protected-s3 {
     transition-timing-function: ease-out;
     transition-delay: 1.3s;
     }
-    
+
   }
   .del1{
 transition-delay: .5s;
@@ -1297,18 +1297,18 @@ transition-delay: .5s;
       &::after{
         opacity: 1;
       }
-      
+
     }
 
     .fade-anim {
       opacity: 1;
       pointer-events: auto;
     }
-  
+
     .move-anim {
       transform: translateY(0);
     }
-  
+
     .fade-move-anim {
       transform: translateY(0);
       opacity: 1;
@@ -1350,3 +1350,33 @@ transition-delay: .5s;
 
 
 
+.infomation-txt{
+text-align: center;
+padding: 20px;
+color: #EB5757;
+}
+
+
+.kyc-msg-inner{
+  text-align: center;
+  padding-top: 30px;
+  margin-bottom: 25px;
+  color: #EB5757;
+}
+
+.kyc-btn-inner {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.closed-opation{
+  text-align: center;
+  color: #DEDEFB;
+  font-size: 16px;
+  @media(min-width: 1201px){
+color: #191A39;
+  }
+  a{
+    color: #237BEF;
+  }
+}

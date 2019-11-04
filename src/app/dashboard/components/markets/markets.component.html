@@ -332,7 +332,7 @@
   <div
     class="widget__content"
     *ngIf="!loading && (breakpointService.breakpoint$ | async) === 'desktop'"
-    [@showOrderBook]="showContent4 ? 'show' : 'hide' "
+    [ngClass]="{'active' : showContent4}"
   >
     <div class="tabs widget__tabs markets-type-tabs">
       <button

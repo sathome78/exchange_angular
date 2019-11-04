@@ -6,9 +6,10 @@ import {
   Input,
   ChangeDetectorRef,
   HostListener,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+
 } from '@angular/core';
-import { takeUntil } from 'rxjs/internal/operators';
+import { takeUntil, take, debounceTime } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
 import { LangService } from 'app/shared/services/lang.service';
@@ -50,6 +51,8 @@ import { Animations } from 'app/shared/animations';
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
+
+  @Input() public graphOffset : number;
   public itemName = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -94,8 +97,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   private widgetOptions: ChartingLibraryWidgetOptions;
 
-  @Input() public showContent = false;
-
   constructor(
     private store: Store<State>,
     private router: Router,
@@ -113,19 +114,24 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   }
 
   ngOnInit() {
-    if(document.documentElement.clientWidth >1199){
-      setTimeout(()=>{
-      this.showContent3 = true;
-      this.cdr.detectChanges();
-    },5800)
+    if (document.documentElement.clientWidth > 1199) {
+      setTimeout(() => {
+        this.showContent3 = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }, this.graphOffset);
     }
-    if(document.documentElement.clientWidth < 1199){
+    if (document.documentElement.clientWidth < 1199) {
       this.showContent3 = true;
-      this.cdr.detectChanges();
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
     }
 
     this.store
       .pipe(select(getActiveCurrencyPair))
+      .pipe(debounceTime(1000))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: SimpleCurrencyPair) => {
         this.pair = pair;
@@ -133,12 +139,14 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (this.currencyPairName) {
           this.formattingCurrentPairName(pair.name as string);
           try {
-            this._tvWidget.setSymbol(pair.name, '30', () => {}); // 5
+            this._tvWidget.setSymbol(this.currencyPairName, '30', () => {}); // 5
           } catch (e) {
             // console.log(e);
           }
         }
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -148,7 +156,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         this.currentCurrencyInfo = pair;
         this.splitPairName(this.pair);
         this.isFiat = this.getIsFiat(this.secondCurrency);
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.store
@@ -156,7 +166,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((pair: CurrencyPair[]) => {
         this.allCurrencyPairs = pair;
-        this.cdr.detectChanges();
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
       });
 
     this.formattingCurrentPairName(this.currencyPairName);
@@ -171,99 +183,109 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }
       });
 
-    this.widgetOptions = {
-      symbol: this.currencyPairName,
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, this._getDataInterval),
-      interval: this._interval,
-      container_id: this._containerId,
-      timezone: this.setTimeZoneToWidget(),
-      time_frames: [
-        { text: '1D', resolution: 'D' },
-        { text: '6h', resolution: '360' },
-        { text: '1h', resolution: '60' },
-        { text: '30m', resolution: '30' },
-        { text: '15m', resolution: '15' },
-        { text: '5m', resolution: '5' },
-      ],
-      library_path: this._libraryPath,
-      locale: this.setLang(),
-      disabled_features: [
-        'use_localstorage_for_settings',
-        'cl_feed_return_all_data',
-        'header_settings',
-        'header_symbol_search',
-        'header_compare',
-        'header_undo_redo',
-        'header_indicators',
-        // 'header_resolutions', // hidden by DEVEX-3308
-        'save_chart_properties_to_local_storage',
-        'header_saveload',
-        'border_around_the_chart',
-      ],
-      charts_storage_url: this._chartsStorageUrl,
-      charts_storage_api_version: this._chartsStorageApiVersion,
-      client_id: this._clientId,
-      user_id: this._userId,
-      fullscreen: this._fullscreen,
-      autosize: this._autosize,
-      toolbar_bg: '#252543',
-      custom_css_url: '/assets/css/chart_style.css',
-      favorites: {
-        chartTypes: ['Area'],
-        intervals: ['5', '15', '30', '60', '360', '1D'],
-      },
-      studies_overrides: {
-        'volume.volume.color.0': '#EB5757',
-        'volume.volume.color.1': '#00B43D',
-        'volume.volume ma.color': '#FF0000',
-        'volume.volume ma.linewidth': 5,
-        // 'volume.show ma': true,
-        // 'bollinger bands.median.color': '#33FF88',
-        // 'bollinger bands.upper.linewidth': 7
-      },
-      overrides: {
-        'paneProperties.background': '#252543',
-        'paneProperties.vertGridProperties.color': '#1A1F42',
-        'paneProperties.horzGridProperties.color': '#1A1F42',
-        'symbolWatermarkProperties.transparency': 90,
-        'scalesProperties.textColor': '#aaa',
-        'scalesProperties.backgroundColor': 'rgba(0, 0, 0, 0)',
+    this.store
+      .pipe(select(getActiveCurrencyPair))
+      .pipe(take(1))
+      .subscribe((firstPair: SimpleCurrencyPair) => {
+        this.pair = firstPair;
+        this.currencyPairName = this.pair.name;
+        this.widgetOptions = {
+          symbol: this.currencyPairName,
+          datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl, this._getDataInterval),
+          interval: this._interval,
+          container_id: this._containerId,
+          timezone: this.setTimeZoneToWidget(),
+          time_frames: [
+            { text: '1D', resolution: 'D' },
+            { text: '6h', resolution: '360' },
+            { text: '1h', resolution: '60' },
+            { text: '30m', resolution: '30' },
+            { text: '15m', resolution: '15' },
+            { text: '5m', resolution: '5' },
+          ],
+          library_path: this._libraryPath,
+          locale: this.setLang(),
+          disabled_features: [
+            'use_localstorage_for_settings',
+            'cl_feed_return_all_data',
+            'header_settings',
+            'header_symbol_search',
+            'header_compare',
+            'header_undo_redo',
+            'header_indicators',
+            // 'header_resolutions', // hidden by DEVEX-3308
+            'save_chart_properties_to_local_storage',
+            'header_saveload',
+            'border_around_the_chart',
+          ],
+          charts_storage_url: this._chartsStorageUrl,
+          charts_storage_api_version: this._chartsStorageApiVersion,
+          client_id: this._clientId,
+          user_id: this._userId,
+          fullscreen: this._fullscreen,
+          autosize: this._autosize,
+          toolbar_bg: '#252543',
+          custom_css_url: '/assets/css/chart_style.css',
+          favorites: {
+            chartTypes: ['Area'],
+            intervals: ['5', '15', '30', '60', '360', '1D'],
+          },
+          studies_overrides: {
+            'volume.volume.color.0': '#EB5757',
+            'volume.volume.color.1': '#00B43D',
+            'volume.volume ma.color': '#FF0000',
+            'volume.volume ma.linewidth': 5,
+            // 'volume.show ma': true,
+            // 'bollinger bands.median.color': '#33FF88',
+            // 'bollinger bands.upper.linewidth': 7
+          },
+          overrides: {
+            'paneProperties.background': '#252543',
+            'paneProperties.vertGridProperties.color': '#1A1F42',
+            'paneProperties.horzGridProperties.color': '#1A1F42',
+            'symbolWatermarkProperties.transparency': 90,
+            'scalesProperties.textColor': '#aaa',
+            'scalesProperties.backgroundColor': 'rgba(0, 0, 0, 0)',
 
-        'mainSeriesProperties.areaStyle.color1': 'rgba(35, 123, 239, 1)',
-        'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
+            'mainSeriesProperties.areaStyle.color1': 'rgba(35, 123, 239, 1)',
+            'mainSeriesProperties.areaStyle.color2': 'rgba(35, 123, 239, 0)',
 
-        'mainSeriesProperties.candleStyle.wickUpColor': '#53B987',
-        'mainSeriesProperties.candleStyle.wickDownColor': '#EB5757',
-      },
-    };
+            'mainSeriesProperties.candleStyle.wickUpColor': '#53B987',
+            'mainSeriesProperties.candleStyle.wickDownColor': '#EB5757',
+          },
+        };
 
-    const tvWidget = new widget(this.widgetOptions);
-    this._tvWidget = tvWidget;
+        const tvWidget = new widget(this.widgetOptions);
+        this._tvWidget = tvWidget;
 
-    tvWidget.onChartReady(() => {
-      this.chartReady = true;
-      const button = tvWidget
-        .createButton()
-        .attr('title', 'Click to show a notification popup')
-        .addClass('apply-common-tooltip')
-        .on('click', () =>
-          tvWidget.showNoticeDialog({
-            title: 'Notification',
-            body: 'TradingView Charting Library API works correctly',
-            callback: () => {
-              // console.log('Noticed!');
-            },
-          })
-        );
-      button[0].innerHTML = 'Check API';
-    });
+        tvWidget.onChartReady(() => {
+          this.chartReady = true;
+          const button = tvWidget
+            .createButton()
+            .attr('title', 'Click to show a notification popup')
+            .addClass('apply-common-tooltip')
+            .on('click', () =>
+              tvWidget.showNoticeDialog({
+                title: 'Notification',
+                body: 'TradingView Charting Library API works correctly',
+                callback: () => {
+                  // console.log('Noticed!');
+                },
+              })
+            );
+          button[0].innerHTML = 'Check API';
+        });
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    // debugger
-    if (this._tvWidget !== null && this.chartReady) {
+    const container = document.querySelector(`#${this._containerId} iframe`);
+    if (!!this._tvWidget && this.chartReady && container) {
       this._tvWidget.remove();
       this._tvWidget = null;
     }

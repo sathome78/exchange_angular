@@ -30,6 +30,10 @@
 	}
 }
 
+.ieo-loader {
+  margin-top: 200px;
+}
+
 .first-screen{
 	position: relative;
 	background-color: var(--main-bg);
@@ -57,7 +61,7 @@
 		left: 0;
 		img{
 			width: 100%;
-			
+
 
 		}
 	}
@@ -127,7 +131,7 @@
 		margin-left: 15px;
 		font-weight: 400;
 		font-size: .5em;
-		
+
 		display: flex;
 		align-items: center;
 		top: .4em;

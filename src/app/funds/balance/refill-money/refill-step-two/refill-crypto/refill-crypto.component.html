@@ -4,7 +4,7 @@
 >
   <h2 class="title refill__title">
     {{'Crypto deposit' | translate}}
-    <span>{{activeCrypto.name}}</span>
+    <span>{{currName}}</span>
   </h2>
   <div class="refill__inputs-wrap">
     <div class="refill__select refill__select--cripto">
@@ -17,9 +17,8 @@
 
     <button
       class="btn btn--empty-blue"
-      *ngIf="isGenerateNewAddress"
       (click)="generateNewAddress()"
-      [disabled]="loading"
+      [disabled]="loading || isNeedKyc || !activeCrypto"
     >
       <span class="btn__icon btn__icon--light-blue">
         <svg
@@ -39,17 +38,28 @@
 
     <div
       class="request-errors"
-      *ngIf="!isGenerateNewAddress && cryptoDataByName && !cryptoDataByName?.merchantCurrencyData.length"
+      *ngIf="isRefillClosed"
     >
       {{'Sorry, refill is closed for current moment!' | translate}}
     </div>
   </div>
 
+  <ng-container *ngIf="isNeedKyc">
+    <app-send-lines>
+      <app-need-kyc-msg
+        [currencyName]="currName"
+        type="refill"
+        [kyc]="currentMerchant && currentMerchant.verificationType || 'none'"
+      >
+      </app-need-kyc-msg>
+    </app-send-lines>
+  </ng-container>
+
   <div class="request-errors">{{reqError}}</div>
 
   <div
     class="refill__crypto-refill-info"
-    *ngIf="cryptoDataByName?.merchantCurrencyData?.length"
+    *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData && cryptoDataByName.merchantCurrencyData.length"
   >
     <div class="refill__qr-code">
       <qr-code
@@ -63,7 +73,7 @@
         class="refill__crypto-address"
         *ngIf="address"
       >
-        <h6 class="refill__crypto-title"><span>{{activeCrypto?.name}}</span> {{'address' | translate}}</h6>
+        <h6 class="refill__crypto-title"><span>{{currName}}</span> {{'address' | translate}}</h6>
         <div class="refill__crypto-hash">{{address}}</div>
         <button
           class="btn btn--small btn--empty-blue refill__crypto-copy-btn"
@@ -105,9 +115,9 @@
     <ul class="note__list">
       <li
         class="note__list-item"
-        *ngIf="activeCrypto.name === 'LSK'"
+        *ngIf="currName === 'LSK'"
       >
-        <b>{{' Commission for the' | translate}} {{activeCrypto.name}} {{'deposit is' | translate}} 0.1</b>
+        <b>{{' Commission for the' | translate}} {{currName}} {{'deposit is' | translate}} 0.1</b>
       </li>
       <li
         class="note__list-item"
@@ -115,17 +125,22 @@
       >
         {{'Coins will be deposited immediately after' | translate}}
         <b>
-          {{cryptoDataByName.minConfirmations | countConfirmations:activeCrypto.name}}
+          {{cryptoDataByName.minConfirmations | countConfirmations: currName}}
         </b>
         {{'network confirmations' | translate}}
       </li>
       <li class="note__list-item">
-        {{'Send only' | translate}} <b>{{activeCrypto.name}} </b>
+        {{'Send only' | translate}} <b>{{currName}} </b>
         {{'to this deposit address.'  | translate}}{{' Sending any other coin or token to this address may result in the loss of your deposit.' | translate}}
       </li>
       <li
         class="note__list-item note__list-item__warning"
-        *ngIf="cryptoDataByName && cryptoDataByName.merchantCurrencyData[0].additionalFieldName && !!additionalAddress"
+        *ngIf="
+          cryptoDataByName &&
+          cryptoDataByName.merchantCurrencyData &&
+          cryptoDataByName.merchantCurrencyData[0] &&
+          cryptoDataByName.merchantCurrencyData[0].additionalFieldName &&
+          !!additionalAddress"
       >
         {{'If the MEMO-text, TAG is not included in your transfer, we cannot credit your account, your funds being lost. Please do not deposit unless you make sure that you can specify a MEMO, TAG.' | translate}}
       </li>
@@ -143,9 +158,9 @@
 <ng-container *ngIf="VIEW === viewsList.DENIED">
   <div class="side-popups send-cripto-s2">
     <h2 class="title refill__title">
-      {{'Crypto deposit' | translate}}<span>{{activeCrypto.name}}</span>
+      {{'Crypto deposit' | translate}}<span>{{currName}}</span>
     </h2>
-    <div>{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
-    <div>{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
+    <div class="closed-opation">{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
+    <div class="closed-opation">{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
   </div>
 </ng-container>

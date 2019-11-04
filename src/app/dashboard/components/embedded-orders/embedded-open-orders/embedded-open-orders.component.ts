@@ -6,18 +6,18 @@ import { Store } from '@ngrx/store';
 import { State } from 'app/core/reducers/index';
 import { TradingService } from 'app/dashboard/services/trading.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
   selector: 'app-embedded-open-orders',
   templateUrl: './embedded-open-orders.component.html',
   styleUrls: ['./embedded-open-orders.component.scss'],
 })
-export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges {
+export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy {
   @Input() makeHeight;
   @Input() currentPair: SimpleCurrencyPair;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   @Input() openOrders;
-  @Input() countPerPage = 7;
 
   public orderType = 'BUY';
   public order;
@@ -25,11 +25,11 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
   public arrPairName = ['', ''];
 
   public currentPage = 1;
-  public showCancelOrderConfirm = null;
+  public showCancelOrder = null;
   public loading = false;
 
   constructor(
-    private store: Store<State>,
+    private userService: UserService,
     private ordersService: EmbeddedOrdersService,
     public tradingService: TradingService
   ) {}
@@ -38,28 +38,6 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
     this.arrPairName = this.currentPair.name.split('/');
   }
 
-  /**
-   * filter open orders
-   */
-  changePage(page: number): void {
-    this.currentPage = page;
-    this.showCancelOrderConfirm = null;
-  }
-
-  /**
-   * Change count items when we make height bigger
-   * @param changes
-   */
-  ngOnChanges(changes): void {
-    if (changes.openOrders) {
-      this.arrPairName = this.currentPair.name.split('/');
-    }
-    if (!changes.makeHeight) {
-      return;
-    }
-    // change count orders perPage
-    this.countPerPage = changes.makeHeight.currentValue === true ? 7 : 18;
-  }
 
   /**
    * set status order canceled
@@ -67,22 +45,25 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy, OnChanges
    */
   cancelOrder(order): void {
     this.loading = true;
-    this.showCancelOrderConfirm = null;
     this.ordersService
       .deleteOrder(order)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
           this.loading = false;
+          const pair = new SimpleCurrencyPair(order.currencyPairId, order.currencyPairName);
+          this.userService.getUserBalance(pair);
+          this.showCancelOrder = null;
         },
         err => {
           this.loading = false;
+          this.showCancelOrder = null;
         }
       );
   }
 
-  onShowCancelOrderConfirm(orderId: string | null): void {
-    this.showCancelOrderConfirm = orderId;
+  onShowCancelOrderConfirm(order): void {
+    this.showCancelOrder = order;
   }
 
   ngOnDestroy() {
