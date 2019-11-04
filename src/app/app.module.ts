@@ -59,7 +59,8 @@ import { InfoGraficsComponent } from './main-page/info-grafics/info-grafics.comp
 import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.component';
 import { BottomFormComponent } from './main-page/bottom-form/bottom-form.component';
 import { BannerComponent } from './banner/banner.component';
-import {ChartService} from './dashboard/components/graph/services/chart.service';
+import { ChartService } from './dashboard/components/graph/services/chart.service';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -68,6 +69,9 @@ export function createTranslateLoader(http: HttpClient) {
 export function socketProvider() {
   return new SockJS(environment.apiUrl + '/public_socket');
 }
+
+const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
+
 const stompConfig: InjectableRxStompConfig = {
   // Which server?
   // brokerURL: `${environment.apiUrlWS}/public_socket`,
@@ -107,6 +111,7 @@ const stompConfig: InjectableRxStompConfig = {
     BannerComponent,
   ],
   imports: [
+    NgxMaskModule.forRoot(options),
     StoreModule.forRoot(reducers),
     ScrollingModule,
     MomentModule,
