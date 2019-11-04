@@ -135,7 +135,7 @@
       </div>
     </form>
 
-    <ng-container *ngIf="!isRefillClosed && !isQIWI && !isNeedKyc">
+    <ng-container *ngIf="!isRefillClosed && !isQIWI && !isNeedKyc && activeFiat && selectedMerchant">
       <app-send-lines>
         <ng-container>
           <app-commission
@@ -159,7 +159,7 @@
       </app-send-lines>
     </ng-container>
 
-    <ng-container *ngIf="isRefillClosed">
+    <ng-container *ngIf="isRefillClosed && activeFiat">
       <app-send-lines>
         <div class="infomation-txt">{{'Sorry, refill is closed for now' | translate}}.</div>
       </app-send-lines>
@@ -177,7 +177,7 @@
 
     <button
       class="btn btn--center"
-      *ngIf="!isRefillClosed && !isNeedKyc && isQIWI"
+      *ngIf="!isRefillClosed && !isNeedKyc && isQIWI && activeFiat"
       (click)="submitRefill()"
       [disabled]="!form.valid || !selectedMerchant.name || loading"
     >
