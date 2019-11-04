@@ -6,7 +6,8 @@ import {
   Input,
   ChangeDetectorRef,
   HostListener,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+
 } from '@angular/core';
 import { takeUntil, take, debounceTime } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
@@ -50,6 +51,8 @@ import { Animations } from 'app/shared/animations';
 })
 export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
+
+  @Input() public graphOffset : number;
   public itemName = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -117,7 +120,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         if (!this.cdr['destroyed']) {
           this.cdr.detectChanges();
         }
-      }, 5800);
+      }, this.graphOffset);
     }
     if (document.documentElement.clientWidth < 1199) {
       this.showContent3 = true;

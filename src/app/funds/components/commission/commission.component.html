@@ -37,6 +37,12 @@
     >
       {{fixedMerchantCommission | currencyFormat: currencyName}} {{currencyName}}
     </div>
+    <div
+      class="send__info-value"
+      *ngIf="+fixedMerchantCommission === 0 && +merchantCommission === 0"
+    >
+      {{fixedMerchantCommission | currencyFormat: currencyName}} {{currencyName}}
+    </div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">{{'Total with comission:' | translate}}</div>

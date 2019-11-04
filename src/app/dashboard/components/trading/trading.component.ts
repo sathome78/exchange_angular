@@ -5,7 +5,8 @@ import {
   HostListener,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ViewChild
+  ViewChild,
+  Input
 } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
@@ -93,6 +94,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private successTimeout;
   private failTimeout;
   public showContent5 = false;
+  public timeOffset = 5900;
+  @Input() public tradingOffset : number;
   @ViewChild('quantitySell') public quantitySell: PriceInputComponent;
   @ViewChild('quantityBuy') public quantityBuy: PriceInputComponent;
 
@@ -158,7 +161,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
         if (!this.cdr['destroyed']) {
           this.cdr.detectChanges();
         }
-      }, 5900);
+        console.log(this.tradingOffset)
+      }, this.tradingOffset);
     }
     if (document.documentElement.clientWidth < 1199) {
       this.showContent5 = true;
