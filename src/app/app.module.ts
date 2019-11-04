@@ -60,6 +60,7 @@ import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.c
 import { BottomFormComponent } from './main-page/bottom-form/bottom-form.component';
 import { BannerComponent } from './banner/banner.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { MainLoaderService } from './shared/services/main-loader.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -158,6 +159,7 @@ const stompConfig: InjectableRxStompConfig = {
     EmbeddedOrdersService,
     CoreService,
     RxStompService,
+    MainLoaderService,
 
     {
       provide: InjectableRxStompConfig,

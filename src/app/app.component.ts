@@ -31,8 +31,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public technicalWorks = false;
   public preload = true;
 
-
-
   constructor(
     public popupService: PopupService,
     private themeService: ThemeService,
@@ -88,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    
+
     this.authService.isSessionValid().subscribe(res => {
       if (res) {
         const parsedToken = this.authService.parseToken();
