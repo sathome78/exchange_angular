@@ -34,6 +34,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
   public dailyLimit;
   public form: FormGroup;
   public loadingBalance = false;
+  public isWithdrawClosed = false;
   public userInfo: ParsedToken;
 
   public viewsList = {
@@ -72,7 +73,11 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .subscribe(currencies => {
         this.cryptoNames = currencies;
         this.setActiveCrypto();
-        this.getCryptoInfoByName(this.activeCrypto.name);
+        if (this.activeCrypto) {
+          this.getCryptoInfoByName(this.activeCrypto.name);
+        } else {
+          this.VIEW = this.viewsList.MAIN;
+        }
       });
 
     this.store
@@ -101,7 +106,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     if (this.balanceData && this.balanceData.currencyId) {
       currency = this.cryptoNames.filter(item => +item.id === +this.balanceData.currencyId);
     }
-    this.activeCrypto = currency && currency.length ? currency[0] : this.cryptoNames[0];
+    this.activeCrypto = currency && currency.length ? currency[0] : null;
   }
 
   afterResolvedCaptcha(event) {
@@ -180,6 +185,7 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.cryptoInfoByName = res;
+        this.checkIsWithdrawClosed();
         this.activeBalance = this.cryptoInfoByName.activeBalance;
         this.dailyLimit = this.cryptoInfoByName.leftDailyWithdrawAmount;
         if (this.cryptoInfoByName.merchantCurrencyData.length) {
@@ -228,12 +234,12 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     return this.activeCrypto ? this.activeCrypto.name : '';
   }
 
-  get isMerchantData() {
-    return this.cryptoInfoByName && this.cryptoInfoByName.merchantCurrencyData.length;
+  checkIsWithdrawClosed() {
+    this.isWithdrawClosed = this.cryptoInfoByName && !this.cryptoInfoByName.merchantCurrencyData.length;
   }
 
   get merchant() {
-    return this.cryptoInfoByName && this.isMerchantData && this.cryptoInfoByName.merchantCurrencyData[0];
+    return this.cryptoInfoByName && !this.isWithdrawClosed && this.cryptoInfoByName.merchantCurrencyData[0];
   }
 
   get isDisabledForm() {
