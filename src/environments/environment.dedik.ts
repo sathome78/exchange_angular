@@ -4,11 +4,12 @@
 // ng build --configuration=dedik
 
 // test
-import { DEDIK_HOST } from '../app/shared/services/http.utils';
+import { CHART_DEDIK_HOST, DEDIK_HOST } from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,
   apiUrl: DEDIK_HOST,
+  chartApiUrl: CHART_DEDIK_HOST,
   showContent: true,
   captcha: true,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
