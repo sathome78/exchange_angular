@@ -9,13 +9,14 @@
     [config]="slideConfig"
     (afterChange)="afterChange($event)"
   >
-    <div
+    <a
       ngxSlickItem
       class="slider-item"
+      href="https://about.exrates.me/en/analytics/"
     >
       <div class="bg-wr">
         <img
-          src="assets/img/fs-sl1.jpg"
+          src="assets/img/Banner_2.jpg"
           alt=""
         >
       </div>
@@ -25,14 +26,16 @@
           <p>{{'Register and become part of the Exrates trading community' | translate}}</p>
         </div>
       </div>
-    </div>
-    <!-- <div
+    </a>
+    <a
       ngxSlickItem
       class="slider-item"
+      [routerLink]="['/free-coins']"
+      href="#"
     >
       <div class="bg-wr">
         <img
-          src="assets/img/fs-sl1.jpg"
+          src="assets/img/Banner_crane.jpg"
           alt=""
         >
       </div>
@@ -42,14 +45,16 @@
           <p>{{'Register and become part of the Exrates trading community' | translate}}</p>
         </div>
       </div>
-    </div>
-    <div
+    </a>
+    <a
       ngxSlickItem
       class="slider-item"
+      [routerLink]="['/dashboard']"
+      href="#"
     >
       <div class="bg-wr">
         <img
-          src="assets/img/fs-sl1.jpg"
+          src="assets/img/Banner_5.jpg"
           alt=""
         >
       </div>
@@ -59,7 +64,7 @@
           <p>{{'Register and become part of the Exrates trading community' | translate}}</p>
         </div>
       </div>
-    </div> -->
+    </a>
 
   </ngx-slick-carousel>
 
