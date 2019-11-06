@@ -309,7 +309,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   agreeWithPolicy() {
     this.ieoService
-      .setPolicy()
+      .setPolicy(this.buyIEOData.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.togglePolicy(false);

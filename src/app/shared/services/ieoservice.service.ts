@@ -23,8 +23,8 @@ export class IEOServiceService {
       .pipe(map(res => res.data));
   }
 
-  public setPolicy(): Observable<ResponseModelIEO<boolean>> {
-    return this.http.put<ResponseModelIEO<boolean>>(`${this.apiUrl}/api/private/v2/dashboard/policy/IEO`, {});
+  public setPolicy(id): Observable<ResponseModelIEO<boolean>> {
+    return this.http.post<ResponseModelIEO<boolean>>(`${this.apiUrl}/api/private/v2/ieo/policy/check/${id}`, {});
   }
 
   public buyTokens(data: { currencyName: string; amount: string }): Observable<ResponseModelIEO<IEOSuccessBuyModel>> {
