@@ -271,7 +271,10 @@
   .slider-item {
     position: relative;
     min-height: 640px;
+    .popup__wrap-input{
+      margin-bottom: 0;
 
+    }
     @media(max-width: 680px) {
       min-height: calc(100vh - 120px);
       max-height: calc(100vh - 120px);
@@ -309,15 +312,15 @@
 
     .slide-txt {
       position: absolute;
-      height: calc(50% + 48px);
-      top: 0;
+
       max-width: 1464px;
       margin: 0 auto;
       padding: 0 134px;
-      left: 0;
-      right: 0;
+      top: 0;
+      bottom: 0;
       display: flex;
-
+      align-items: center;
+      padding-top: 40px;
       @media (max-width: 1280px) {
         height: calc(47% + 48px);
       }
@@ -354,7 +357,10 @@
         color: #ffffff;
         font-size: 35px;
         margin-bottom: 22px;
-
+        &.no-uppercase{
+          text-transform: unset;
+          margin-bottom: 0;
+        }
         @media (max-width: 1280px) {
           font-size: 30px;
         }
@@ -392,26 +398,13 @@
   .register-form {
     max-width: 1464px;
     margin: 0 auto;
-    padding: 0 134px;
-    left: 0;
-    right: 0;
-
-    position: absolute;
-
-    height: calc(50% - 110px);
-    bottom: 0;
     width: 100%;
-
-    @media (max-width: 1280px) {
-      height: calc(52% - 110px);
-    }
-
-    @media (max-width: 992px) {
-      padding: 0 50px;
-    }
-
-    @media(max-width: 680px) {
-      height: calc(60% - 110px);
+    margin-top: 40px;
+    .btn{
+      font-size: 17px;
+      text-decoration: none;
+      text-align: center;
+      margin-left: 0;
     }
   }
 
@@ -420,7 +413,6 @@
     align-items: flex-start;
     max-width: 511px;
     width: 100%;
-    margin-left: 16px;
 
     @media (max-width: 992px) {
       margin-left: 0;
