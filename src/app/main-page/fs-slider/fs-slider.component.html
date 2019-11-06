@@ -82,9 +82,10 @@
         </div>
       </div>
     </a>
-    <div
+    <a
       ngxSlickItem
       class="slider-item"
+      href="/dashboard"
     >
       <div class="bg-wr">
         <img
@@ -117,8 +118,43 @@
           </div>
         </div>
       </div>
-    </div>
-
+    </a>
+    <a
+      ngxSlickItem
+      class="slider-item"
+      href="/dashboard"
+    >
+      <div class="bg-wr">
+        <img
+          src="assets/img/bg-ref.png"
+          alt=""
+        >
+      </div>
+      <div class="slide-txt">
+        <div class="txt-inner">
+          <h2 class="no-uppercase">Join and get up to 60% of <br>the referral's commission</h2>
+          <div class="register-form">
+            <form action="#">
+              <div class="wrap-input popup__wrap-input">
+                <input
+                  required
+                  class="wrap-input__input"
+                  placeholder="Enter email"
+                  name="email"
+                  [(ngModel)]="email"
+                >
+              </div>
+              <button
+                class="btn balance__title-btn"
+                (click)="openRegistration()"
+              >
+                {{'Start Registration' | translate}}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </a>
   </ngx-slick-carousel>
 
 
