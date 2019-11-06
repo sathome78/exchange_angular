@@ -1,7 +1,7 @@
 .fs-slider-container {
   position: relative;
   background-color: #e5e5e5;
-  top: -48px;
+  // top: -48px;
 
   &.bottom-slider {
     top: 0;
@@ -475,7 +475,7 @@
   .run-line-wr {
     overflow: hidden;
     position: relative;
-    top: -48px;
+    // top: -48px;
     // display: flex;
     min-height: 77px;
 
@@ -620,7 +620,7 @@
 
 .markets-home {
   background-color: #e5e5e5;
-  padding: 26px 0 83px;
+  padding: 72px 0 83px;
 
   @media (max-width: 992px) {
     padding: 15px 15px 43px;
