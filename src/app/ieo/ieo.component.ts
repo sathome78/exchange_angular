@@ -164,7 +164,7 @@ export class IEOComponent implements OnInit, OnDestroy {
 
   agreeWithPolicy() {
     this.ieoService
-      .setPolicy()
+      .setPolicy(this.IEOData.id)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(res => {
         this.togglePolicy(false);
