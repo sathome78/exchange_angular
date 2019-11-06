@@ -216,8 +216,10 @@
   .slick-next {
     position: absolute;
     display: block;
-    width: 24px;
-    height: 45px;
+    width: 44px;
+    height: 65px;
+    background-repeat: no-repeat;
+    background-position: center;
     cursor: pointer;
     top: 0;
     bottom: 0;
@@ -241,7 +243,7 @@
   }
 
   .slick-prev {
-    left: 56px;
+    left: 46px;
     background-image: url(assets/img/slider-arr-left.svg);
 
     @media (max-width: 992px) {
@@ -250,7 +252,7 @@
   }
 
   .slick-next {
-    right: 56px;
+    right: 46px;
     background-image: url(assets/img/slider-arr-right.svg);
 
     @media (max-width: 992px) {
