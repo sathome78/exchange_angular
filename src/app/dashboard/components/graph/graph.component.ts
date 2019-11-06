@@ -108,7 +108,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ) {
     super();
     this.timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    this.setTimeZoneToWidget();
     this.isAuthenticated$ = this.store.pipe(select(getIsAuthenticated));
   }
 
@@ -260,7 +259,20 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
                     });
                     onResult(bars, { noData: false });
                   } else {
-                    onResult([], { noData: true });
+                    this.chartService.getLastBarTime(
+                      symbolInfo.name,
+                      resolution,
+                      rangeStartDate)
+                      .subscribe((nextTime: number) => {
+                        if (nextTime) {
+                          onResult([], { noData: true, nextTime: nextTime * 1000 });
+                        } else {
+                          onResult([], { noData: true });
+                        }
+                      }, (error: any) => {
+                        console.log(error);
+                        onError(error);
+                      });
                   }
                 }, (error: any) => {
                   console.log(error);
@@ -299,7 +311,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           },
           interval: this._interval,
           container_id: this._containerId,
-          timezone: this.setTimeZoneToWidget(),
+          // timezone: this.setTimeZoneToWidget(),
           time_frames: [
             { text: '5m', resolution: '5' },
             { text: '15m', resolution: '15' },
