@@ -64,6 +64,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   public qiwiResData: QiwiRefill;
   public isShowCopyAddress = false;
   public isShowCopyMemoId = false;
+  public isRefillClosed = false;
 
   public viewsList = {
     LOADING: 'loading',
@@ -110,6 +111,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.setActiveFiat();
         if (this.activeFiat) {
           this.getDataByCurrency(this.activeFiat.name);
+        } else {
+          this.setView(this.viewsList.MAIN);
         }
         this.prepareAlphabet();
       });
@@ -120,7 +123,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
     if (this.refillData && this.refillData.currencyId) {
       currency = this.fiatNames.filter(item => +item.id === +this.refillData.currencyId);
     }
-    this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
+    this.activeFiat = currency && currency.length ? currency[0] : null;
   }
 
   prepareAlphabet() {
@@ -138,6 +141,10 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  checkRefillIsClosed() {
+    this.isRefillClosed = this.merchants && !this.merchants.length;
   }
 
   toggleCurrencySelect(val) {
@@ -175,6 +182,7 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
         this.selectedMerchant = this.merchants.length ? this.merchants[0] : null;
         this.selectedMerchantNested = this.selectedMerchant ? this.selectedMerchant.listMerchantImage[0] : null;
         this.selectMerchantName = this.selectedMerchantNested ? this.selectedMerchantNested.image_name : '';
+        this.checkRefillIsClosed();
         if (this.isQIWI) {
           this.formAmout.setValidators([]);
         } else {
@@ -397,9 +405,6 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
 
   get isQIWI(): boolean {
     return this.selectedMerchant && this.selectedMerchant.name === 'QIWI';
-  }
-  get isRefillClosed(): boolean {
-    return !this.merchants.length;
   }
   get isNeedKyc(): boolean {
     return this.selectedMerchant && this.selectedMerchant.needKycRefill;

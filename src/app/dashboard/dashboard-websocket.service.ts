@@ -16,10 +16,7 @@ import { TOKEN, EXRATES_REST_TOKEN } from 'app/shared/services/http.utils';
 export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairs: CurrencyPair[] = [];
-  public sessionIdsubject = new Subject();
-  public pairFromDashboard = '';
   public sessionId = null;
-  public userEmail = null;
 
   constructor(
     private stompService: RxStompService,

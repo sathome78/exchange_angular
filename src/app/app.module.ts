@@ -59,6 +59,8 @@ import { InfoGraficsComponent } from './main-page/info-grafics/info-grafics.comp
 import { GraphicLinksComponent } from './main-page/graphic-links/graphic-links.component';
 import { BottomFormComponent } from './main-page/bottom-form/bottom-form.component';
 import { BannerComponent } from './banner/banner.component';
+import { ChartService } from './dashboard/components/graph/services/chart.service';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ReferalComponent } from './referal/referal.component';
 import { IncomeTableComponent } from './referal/income-table/income-table.component';
 import { StructureTableComponent } from './referal/structure-table/structure-table.component';
@@ -73,6 +75,9 @@ export function createTranslateLoader(http: HttpClient) {
 export function socketProvider() {
   return new SockJS(environment.apiUrl + '/public_socket');
 }
+
+const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
+
 const stompConfig: InjectableRxStompConfig = {
   // Which server?
   // brokerURL: `${environment.apiUrlWS}/public_socket`,
@@ -118,6 +123,7 @@ const stompConfig: InjectableRxStompConfig = {
     StructureTableMobileComponent,
   ],
   imports: [
+    NgxMaskModule.forRoot(options),
     StoreModule.forRoot(reducers),
     ScrollingModule,
     MomentModule,
@@ -165,6 +171,7 @@ const stompConfig: InjectableRxStompConfig = {
     EmbeddedOrdersService,
     CoreService,
     RxStompService,
+    ChartService,
 
     {
       provide: InjectableRxStompConfig,
