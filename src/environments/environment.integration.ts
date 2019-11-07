@@ -4,11 +4,12 @@
 // ng build --configuration=integration
 
 // test
-import { INTEGRATION_HOST } from '../app/shared/services/http.utils';
+import { CHART_INTEGRATION_HOST, INTEGRATION_HOST } from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,
   apiUrl: INTEGRATION_HOST,
+  chartApiUrl: CHART_INTEGRATION_HOST,
   showContent: true,
   captcha: true,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',

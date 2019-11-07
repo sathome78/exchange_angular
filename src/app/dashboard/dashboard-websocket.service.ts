@@ -17,10 +17,7 @@ import { MainLoaderService } from 'app/shared/services/main-loader.service';
 export class DashboardWebSocketService implements OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public currencyPairs: CurrencyPair[] = [];
-  public sessionIdsubject = new Subject();
-  public pairFromDashboard = '';
   public sessionId = null;
-  public userEmail = null;
 
   constructor(
     private stompService: RxStompService,
