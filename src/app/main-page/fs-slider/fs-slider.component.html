@@ -9,11 +9,14 @@
     [config]="slideConfig"
     (afterChange)="afterChange($event)"
   >
-    <a
+    <div
       ngxSlickItem
       class="slider-item"
-      href="https://about.exrates.me/en/analytics/"
     >
+      <a
+        href="https://about.exrates.me/en/analytics/"
+        class="banner-link"
+      ></a>
       <div class="bg-wr">
         <img
           src="assets/img/Banner_2.jpg"
@@ -44,13 +47,16 @@
           </div>
         </div>
       </div>
-    </a>
-    <a
+    </div>
+    <div
       ngxSlickItem
       class="slider-item"
-      [routerLink]="['/free-coins']"
-      href="#"
     >
+      <a
+        [routerLink]="['/free-coins']"
+        href="#"
+        class="banner-link"
+      ></a>
       <div class="bg-wr">
         <img
           src="assets/img/Banner_crane.jpg"
@@ -81,11 +87,16 @@
           </div>
         </div>
       </div>
-    </a>
+    </div>
     <div
       ngxSlickItem
       class="slider-item"
     >
+      <a
+        [routerLink]="['/dasboard']"
+        href="#"
+        class="banner-link"
+      ></a>
       <div class="bg-wr">
         <img
           src="assets/img/Banner_5.jpg"
