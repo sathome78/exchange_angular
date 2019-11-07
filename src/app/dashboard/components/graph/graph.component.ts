@@ -220,7 +220,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
                   session: '24x7',
                   exchange: 'EXRATES',
                   listed_exchange: 'EXRATES',
-                  timezone: this.setTimeZoneToWidget(),
+                  timezone: 'Etc/UTC',
                   pricescale: this.isFiat ? 100 : 100_000_000,
                   minmov: 1,
                   fractional: false,
@@ -311,7 +311,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
           },
           interval: this._interval,
           container_id: this._containerId,
-          // timezone: this.setTimeZoneToWidget(),
+          timezone: this.setTimeZoneToWidget(),
           time_frames: [
             { text: '5m', resolution: '5' },
             { text: '15m', resolution: '15' },
