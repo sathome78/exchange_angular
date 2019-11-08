@@ -284,7 +284,7 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   openBuyPopup() {
     if (!this.requirements.kycCheck) {
       this.toggleNoReqs(true);
-    } else if (!this.requirements.policyCheck) {
+    } else if (!this.requirements.policyConfirmed) {
       this.togglePolicy(true);
     } else {
       this.showBuyIEO = true;
@@ -309,11 +309,11 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
 
   agreeWithPolicy() {
     this.ieoService
-      .setPolicy()
+      .setPolicy(this.buyIEOData.id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.togglePolicy(false);
-        this.requirements = { ...this.requirements, policyCheck: true };
+        this.requirements = { ...this.requirements, policyConfirmed: true };
         this.openBuyPopup();
       });
   }

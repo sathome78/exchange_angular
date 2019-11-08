@@ -62,7 +62,7 @@
   >
     <div
       class="order-table"
-      [@showOrderBook]="showContentOrderBook ? 'show' : 'hide' "
+      [ngClass]="{'active' : showContentOrderBook}"
     >
 
 

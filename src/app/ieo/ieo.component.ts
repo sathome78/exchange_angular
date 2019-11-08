@@ -61,9 +61,15 @@ export class IEOComponent implements OnInit, OnDestroy {
 
     this.route.paramMap.subscribe(params => {
       this.IEOId = params.get('id');
+      if (isNaN(+this.IEOId)) {
+        return this.router.navigate(['/ieo']);
+      }
       this.IEOSub$ = this.ieoService.getIEO(this.IEOId);
       this.AuthSub$ = this.store.pipe(select(fromCore.getIsAuthenticated));
       this.IEOSub$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IEOItem) => {
+        if (!res) {
+          return this.router.navigate(['/ieo']);
+        }
         this.IEOData = res;
         this.ieoLoading = false;
         this.currentStage = res.status;
@@ -158,11 +164,11 @@ export class IEOComponent implements OnInit, OnDestroy {
 
   agreeWithPolicy() {
     this.ieoService
-      .setPolicy()
+      .setPolicy(this.IEOData.id)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(res => {
         this.togglePolicy(false);
-        this.requirements = { ...this.requirements, policyCheck: true };
+        this.requirements = { ...this.requirements, policyConfirmed: true };
       });
   }
 
@@ -171,7 +177,7 @@ export class IEOComponent implements OnInit, OnDestroy {
     } else if (this.stage.RUNNING === this.currentStage) {
       if (!this.requirements.kycCheck) {
         this.toggleNoReqs(true);
-      } else if (!this.requirements.policyCheck) {
+      } else if (!this.requirements.policyConfirmed) {
         this.togglePolicy(true);
       } else {
         this.toggleBuy(true);
@@ -181,7 +187,7 @@ export class IEOComponent implements OnInit, OnDestroy {
   }
 
   checkRequirements() {
-    if (!this.requirements.countryCheck || !this.requirements.kycCheck || !this.requirements.policyCheck) {
+    if (!this.requirements.countryCheck || !this.requirements.kycCheck || !this.requirements.policyConfirmed) {
       return false;
     }
     return true;

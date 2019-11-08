@@ -10,7 +10,7 @@ import { select, Store } from '@ngrx/store';
 import { SEND_FIAT } from '../../send-money-constants';
 import { PopupService } from 'app/shared/services/popup.service';
 import { UtilsService } from 'app/shared/services/utils.service';
-import { FUG } from 'app/funds/balance/balance-constants';
+import { FUG, COINPAY } from 'app/funds/balance/balance-constants';
 import { BalanceItem } from 'app/funds/models/balance-item.model';
 import { CurrencySelectFiatComponent } from 'app/shared/components/currency-select-fiat/currency-select-fiat.component';
 
@@ -89,11 +89,13 @@ export class SendFiatComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(currencies => {
         this.fiatNames = currencies;
-        this.activeFiat = this.fiatNames[0];
+        // this.activeFiat = this.fiatNames[0];
         this.setActiveFiat();
         if (this.activeFiat) {
           this.getFiatInfoByName(this.activeFiat.name);
           this.getBalance(this.activeFiat.id);
+        } else {
+          this.VIEW = this.viewsList.MAIN;
         }
       });
     if (this.selectMerchantName === FUG) {
@@ -118,7 +120,7 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     if (this.balanceData && this.balanceData.currencyId) {
       currency = this.fiatNames.filter(item => +item.id === +this.balanceData.currencyId);
     }
-    this.activeFiat = currency && currency.length ? currency[0] : this.fiatNames[0];
+    this.activeFiat = currency && currency.length ? currency[0] : null;
   }
 
   selectCurrency(currency) {
@@ -320,6 +322,12 @@ export class SendFiatComponent implements OnInit, OnDestroy {
   }
   get isNeedKyc(): boolean {
     return this.selectedMerchant && this.selectedMerchant.needKycWithdraw;
+  }
+  get isCoinPay(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.name === COINPAY;
+  }
+  get isFUG(): boolean {
+    return this.selectedMerchant && this.selectedMerchant.name === FUG;
   }
 
   trackByFiatNames(index, item) {
