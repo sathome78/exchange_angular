@@ -716,9 +716,10 @@
   padding: 0 0 30px;
   background-color: #fff;
   margin-bottom: 9px;
+  min-height: 698px;
 .markets-container-animate{
   @media(min-width: 1201px){
-    min-height: 545px;
+    
   }
 }
   @media (max-width: 1200px) {
