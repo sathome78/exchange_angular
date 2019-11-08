@@ -15,6 +15,9 @@
 
     .currency-inf {
       display: flex;
+      @media (max-width: 1199px){
+      flex-direction: column;
+      }
     }
 
     .table.structure {
@@ -261,7 +264,7 @@
         height: 1px;
         background-color: #525f73;
 
-        @media(max-width: 780px) {
+        @media(max-width: 1200px) {
           bottom: 2px;
           left: 10px;
           right: 10px;
@@ -417,42 +420,43 @@
 
 
 
+    .hidden-info {
 
+      height: 0;
+      transition: height .3s ease-out .3s, opacity .3s ease-out;
+      opacity: 0;
+      pointer-events: none;
+      &.opened {
+        height: 146px;
+        opacity: 1;
+        transition: height .3s ease-out, opacity .3s ease-out .3s;
+        pointer-events: auto;
+      }
+    }
+
+    .hidden-info-wr {
+      border-top: 1px solid #237BEF;
+      border-bottom: 1px solid #237BEF;
+    }
+
+    .hidden-info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      padding-right: 16px;
+
+      .left {
+        color: #DEDEFB;
+
+        span {}
+      }
+
+      .right {
+        span {}
+      }
+    }
     .table--mob {
-      .hidden-info {
-
-        height: 0;
-        transition: height .3s ease-out .3s, opacity .3s ease-out;
-        opacity: 0;
-        pointer-events: none;
-        &.opened {
-          height: 146px;
-          opacity: 1;
-          transition: height .3s ease-out, opacity .3s ease-out .3s;
-          pointer-events: auto;
-        }
-      }
-
-      .hidden-info-wr {
-        border-top: 1px solid #237BEF;
-        border-bottom: 1px solid #237BEF;
-      }
-
-      .hidden-info-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-
-        .left {
-          color: #DEDEFB;
-
-          span {}
-        }
-
-        .right {
-          span {}
-        }
-      }
+      
 
       .table__body {
         .table__row--mob {
@@ -892,4 +896,53 @@
     }
   }
 
+}
+
+.referal-page{
+  .referal{
+
+
+.ref-income-mobile{
+
+  .row-wr {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+  .currency-cell {
+    width: 25%;
+}
+.hidden-info{
+  &.opened{
+    height: 70px;
+  }
+}
+.table__row{
+  display: block;
+}
+.income-cell {
+  width: calc(75% - 119px);
+}
+.actions-cell {
+  width: 85px;
+}
+  .thead{
+    .tr{
+      display: flex;
+    }
+  }
+  .balance__currency-icon img{
+    width: 17px;
+    max-width: unset;
+  }
+  .referal .table__row {
+    display: flex;
+    align-items: center;
+}
+  .table__cell-head{
+    display: block;
+  }
+}
+
+}
 }

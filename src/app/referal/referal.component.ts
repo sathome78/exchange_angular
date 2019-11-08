@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReferalComponent implements OnInit {
   public user = 'auth';
-  public tab = 'referal-structure'
+  public tab = 'referal-income'
 
   constructor() { }
 
