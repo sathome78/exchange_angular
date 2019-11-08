@@ -9,10 +9,9 @@
     [config]="slideConfig"
     (afterChange)="afterChange($event)"
   >
-    <a
+    <div
       ngxSlickItem
       class="slider-item"
-      href="https://about.exrates.me/en/analytics/"
     >
       <div class="bg-wr">
         <img
@@ -21,6 +20,10 @@
         >
       </div>
       <div class="slide-txt">
+        <a
+          href="https://about.exrates.me/en/analytics/"
+          class="banner-link"
+        ></a>
         <div class="txt-inner">
           <h2 class="no-uppercase">Need help with trading?<br> check out our analytics</h2>
           <div class="register-form">
@@ -44,12 +47,10 @@
           </div>
         </div>
       </div>
-    </a>
-    <a
+    </div>
+    <div
       ngxSlickItem
       class="slider-item"
-      [routerLink]="['/free-coins']"
-      href="#"
     >
       <div class="bg-wr">
         <img
@@ -58,6 +59,11 @@
         >
       </div>
       <div class="slide-txt">
+        <a
+          [routerLink]="['/free-coins']"
+          href="#"
+          class="banner-link"
+        ></a>
         <div class="txt-inner">
           <h2 class="no-uppercase">Register and take your <br> first coins for free</h2>
           <div class="register-form">
@@ -81,8 +87,8 @@
           </div>
         </div>
       </div>
-    </a>
-    <a
+    </div>
+    <div
       ngxSlickItem
       class="slider-item"
       href="/dashboard"
@@ -94,6 +100,11 @@
         >
       </div>
       <div class="slide-txt">
+        <a
+          [routerLink]="['/dasboard']"
+          href="#"
+          class="banner-link"
+        ></a>
         <div class="txt-inner">
           <h2><span>172,000 </span>traders</h2>
           <p>{{'Register and become part of the Exrates trading community' | translate}}</p>

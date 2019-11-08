@@ -1,7 +1,7 @@
 .fs-slider-container {
   position: relative;
   background-color: #e5e5e5;
-  top: -48px;
+  // top: -48px;
 
   &.bottom-slider {
     top: 0;
@@ -216,8 +216,10 @@
   .slick-next {
     position: absolute;
     display: block;
-    width: 24px;
-    height: 45px;
+    width: 44px;
+    height: 65px;
+    background-repeat: no-repeat;
+    background-position: center;
     cursor: pointer;
     top: 0;
     bottom: 0;
@@ -241,20 +243,20 @@
   }
 
   .slick-prev {
-    left: 56px;
+    left: 46px;
     background-image: url(assets/img/slider-arr-left.svg);
 
     @media (max-width: 992px) {
-      left: 15px;
+      left: 0;
     }
   }
 
   .slick-next {
-    right: 56px;
+    right: 46px;
     background-image: url(assets/img/slider-arr-right.svg);
 
     @media (max-width: 992px) {
-      right: 15px;
+      right: 0;
     }
   }
 
@@ -266,6 +268,9 @@
     left: 0;
     margin: 0 auto;
     padding: 0 57px;
+    @media(max-width: 580px){
+      top: 0;
+    }
   }
 
   .slider-item {
@@ -279,7 +284,14 @@
       min-height: calc(100vh - 120px);
       max-height: calc(100vh - 120px);
     }
+    .banner-link{
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
 
+    }
     .bg-wr {
       padding-top: 40.5%;
       position: relative;
@@ -321,17 +333,11 @@
       display: flex;
       align-items: center;
       padding-top: 40px;
-      @media (max-width: 1280px) {
-        height: calc(47% + 48px);
-      }
+      width: 100%;
 
       @media (max-width: 992px) {
         padding: 0 50px;
         justify-content: center;
-      }
-
-      @media(max-width: 680px) {
-        height: calc(40% + 48px);
       }
 
       .txt-inner {
@@ -339,7 +345,8 @@
         flex-direction: column;
         max-width: 697px;
         margin-left: 16px;
-
+        width: 100%;
+        position: relative;
         @media (max-width: 992px) {
           margin-left: 0;
           text-align: center;
@@ -405,6 +412,9 @@
       text-decoration: none;
       text-align: center;
       margin-left: 0;
+      @media(max-width: 580px){
+        margin: 15px auto 0;
+      }
     }
   }
 
@@ -475,7 +485,7 @@
   .run-line-wr {
     overflow: hidden;
     position: relative;
-    top: -48px;
+    // top: -48px;
     // display: flex;
     min-height: 77px;
 
@@ -620,7 +630,7 @@
 
 .markets-home {
   background-color: #e5e5e5;
-  padding: 26px 0 83px;
+  padding: 72px 0 83px;
 
   @media (max-width: 992px) {
     padding: 15px 15px 43px;
@@ -706,9 +716,10 @@
   padding: 0 0 30px;
   background-color: #fff;
   margin-bottom: 9px;
+  min-height: 698px;
 .markets-container-animate{
   @media(min-width: 1201px){
-    min-height: 545px;
+    
   }
 }
   @media (max-width: 1200px) {
