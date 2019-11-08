@@ -51,20 +51,20 @@
             <span></span></span>
         </div>
         <div class="table__cell table__cell4">
-          <span>{{(item.exExchangeRate || item.limitRate)  | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
+          <span>{{(item.exExchangeRate || item.limitRate)  | currencyFormat:'BTC': 'short'}} {{secondCurr}}</span>
         </div>
         <div class="table__cell table__cell5">
-          <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat:arrPairName[1]}}
-            {{item.orderBaseType !== 'STOP_LIMIT' ? '' : arrPairName[1]}}</span>
+          <span>{{item.orderBaseType !== 'STOP_LIMIT' ? '-' : item.stopRate  | currencyFormat: secondCurr}}
+            {{item.orderBaseType !== 'STOP_LIMIT' ? '' : secondCurr}}</span>
         </div>
         <div class="table__cell table__cell6">
-          <span>{{item.amountBase | currencyFormat:arrPairName[0]}} {{arrPairName[0]}}</span>
+          <span>{{item.amountBase | currencyFormat: firstCurr}} {{firstCurr}}</span>
         </div>
         <div class="table__cell txt-grey table__cell7">
-          <span>{{item.commissionFixedAmount | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
+          <span>{{item.commissionFixedAmount | currencyFormat:'BTC': 'short'}} {{secondCurr}}</span>
         </div>
         <div class="table__cell table__cell8">
-          <span>{{item.amountWithCommission | currencyFormat:'BTC': 'short'}} {{arrPairName[1]}}</span>
+          <span>{{item.amountWithCommission | currencyFormat:'BTC': 'short'}} {{secondCurr}}</span>
         </div>
         <div class="table__cell table__cell9">
           <button
