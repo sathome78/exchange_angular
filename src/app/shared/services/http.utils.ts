@@ -17,7 +17,7 @@ export const DEDIK_HOST = 'https://oldex.cronpoint.com';
 export const LOCAL_HOST = 'http://dev1.exapp';
 export const DEV_HOST = 'http://localhost:8080';
 
-export const CHART_PROD_HOST = 'http://chart-service-prod.service:4101';
+export const CHART_PROD_HOST = 'https://exrates.me/charts';
 export const CHART_PRE_PROD_HOST = 'http://chart-service-preprod.service:4102';
 export const CHART_INTEGRATION_HOST = 'http://chart-service-stage.service:4103';
 export const CHART_DEV_HOST = 'http://chart-service-dev.service:4104';
