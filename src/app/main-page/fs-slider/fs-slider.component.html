@@ -15,31 +15,36 @@
     >
       <div class="bg-wr">
         <img
-          src="assets/img/fs-sl1.jpg"
+          src="assets/img/Banner_2.jpg"
           alt=""
         >
       </div>
       <div class="slide-txt">
+        <a
+          href="https://about.exrates.me/en/analytics/"
+          class="banner-link"
+        ></a>
         <div class="txt-inner">
-          <h2><span>172,000 </span>traders</h2>
-          <p>{{'Register and become part of the Exrates trading community' | translate}}</p>
-        </div>
-      </div>
-    </div>
-    <!-- <div
-      ngxSlickItem
-      class="slider-item"
-    >
-      <div class="bg-wr">
-        <img
-          src="assets/img/fs-sl1.jpg"
-          alt=""
-        >
-      </div>
-      <div class="slide-txt">
-        <div class="txt-inner">
-          <h2><span>172,000 </span>traders</h2>
-          <p>{{'Register and become part of the Exrates trading community' | translate}}</p>
+          <h2 class="no-uppercase">Need help with trading?<br> check out our analytics</h2>
+          <div class="register-form">
+            <form action="#">
+              <div class="wrap-input popup__wrap-input">
+                <input
+                  required
+                  class="wrap-input__input"
+                  placeholder="Enter email"
+                  name="email"
+                  [(ngModel)]="email"
+                >
+              </div>
+              <button
+                class="btn balance__title-btn"
+                (click)="openRegistration()"
+              >
+                {{'Start Registration' | translate}}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -49,70 +54,83 @@
     >
       <div class="bg-wr">
         <img
-          src="assets/img/fs-sl1.jpg"
+          src="assets/img/Banner_crane.jpg"
           alt=""
         >
       </div>
       <div class="slide-txt">
+        <a
+          [routerLink]="['/free-coins']"
+          href="#"
+          class="banner-link"
+        ></a>
+        <div class="txt-inner">
+          <h2 class="no-uppercase">Register and take your <br> first coins for free</h2>
+          <div class="register-form">
+            <form action="#">
+              <div class="wrap-input popup__wrap-input">
+                <input
+                  required
+                  class="wrap-input__input"
+                  placeholder="Enter email"
+                  name="email"
+                  [(ngModel)]="email"
+                >
+              </div>
+              <button
+                class="btn balance__title-btn"
+                (click)="openRegistration()"
+              >
+                {{'Start Registration' | translate}}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      ngxSlickItem
+      class="slider-item"
+    >
+      <div class="bg-wr">
+        <img
+          src="assets/img/Banner_5.jpg"
+          alt=""
+        >
+      </div>
+      <div class="slide-txt">
+        <a
+          [routerLink]="['/dasboard']"
+          href="#"
+          class="banner-link"
+        ></a>
         <div class="txt-inner">
           <h2><span>172,000 </span>traders</h2>
           <p>{{'Register and become part of the Exrates trading community' | translate}}</p>
+          <div class="register-form">
+            <form action="#">
+              <div class="wrap-input popup__wrap-input">
+                <input
+                  required
+                  class="wrap-input__input"
+                  placeholder="Enter email"
+                  name="email"
+                  [(ngModel)]="email"
+                >
+              </div>
+              <button
+                class="btn balance__title-btn"
+                (click)="openRegistration()"
+              >
+                {{'Start Registration' | translate}}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
   </ngx-slick-carousel>
 
-  <div class="register-form">
-    <form action="#">
-      <div class="wrap-input popup__wrap-input">
-        <input
-          required
-          class="wrap-input__input"
-          placeholder="Enter email"
-          name="email"
-          [(ngModel)]="email"
-        >
-      </div>
-      <button
-        class="btn balance__title-btn"
-        (click)="openRegistration()"
-      >
-        {{'Start Registration' | translate}}
-      </button>
-    </form>
-  </div>
-  <!-- <div class="slider-dots">
-    <div
-      class="dots-item"
-      [ngClass]="{'active': currSlide == '0'}"
-      (click)="slickModal.slickGoTo(0)"
-    >
-      <img
-        src="assets/img/prev1.jpg"
-        alt=""
-      >
-    </div>
-    <div
-      class="dots-item"
-      [ngClass]="{'active': currSlide == '1'}"
-      (click)="slickModal.slickGoTo(1)"
-    >
-      <img
-        src="assets/img/prev2.jpg"
-        alt=""
-      >
-    </div>
-    <div
-      class="dots-item"
-      [ngClass]="{'active': currSlide == '2'}"
-      (click)="slickModal.slickGoTo(2)"
-    >
-      <img
-        src="assets/img/prev3.jpg"
-        alt=""
-      >
-    </div>
 
-  </div> -->
 </div>

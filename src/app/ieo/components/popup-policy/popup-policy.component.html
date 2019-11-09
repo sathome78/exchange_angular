@@ -5,8 +5,14 @@
       (click)="closeMe()"
     ></div>
     <ng-container [ngSwitch]="IEOName">
-      <app-etao-policy *ngSwitchCase="'E-TAO'"></app-etao-policy>
+      <app-etao-policy *ngSwitchCase="'ETAO'"></app-etao-policy>
+      <app-etao-policy *ngSwitchCase="'ETAO1'"></app-etao-policy>
+      <app-etao-policy *ngSwitchCase="'ETAO2'"></app-etao-policy>
+      <app-etao-policy *ngSwitchCase="'ETAO3'"></app-etao-policy>
       <app-dom-policy *ngSwitchCase="'DOM'"></app-dom-policy>
+      <app-dom-policy *ngSwitchCase="'DOM1'"></app-dom-policy>
+      <app-dom-policy *ngSwitchCase="'DOM2'"></app-dom-policy>
+      <app-dom-policy *ngSwitchCase="'DOM3'"></app-dom-policy>
 
       <p
         *ngSwitchDefault

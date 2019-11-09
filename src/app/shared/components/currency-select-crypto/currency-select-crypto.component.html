@@ -1,19 +1,19 @@
-<div
-  class="select"
-  *ngIf="activeCurrency"
->
+<div class="select">
   <div
     class="select__value select__value--active"
+    [ngClass]="{'select__value--active': activeCurrency}"
     (click)="currencyDropdownToggle()"
   >
-    <div class="icon-wr">
-      <img
-        [src]="activeCurrency.name | getIconUrl"
-        onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
-        class="select__list-item-icon"
-      >
-    </div>
-    {{activeCurrency.name}}
+    <ng-container *ngIf="activeCurrency">
+      <div class="icon-wr">
+        <img
+          [src]="activeCurrency.name | getIconUrl"
+          onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
+          class="select__list-item-icon"
+        >
+      </div>
+      {{activeCurrency.name}}
+    </ng-container>
     <div class="select__triangle"></div>
   </div>
   <div class="select__label">{{'Currency' | translate}}</div>
@@ -27,7 +27,6 @@
       <input
         class="select__search-input"
         type="text"
-        placeholder="Search"
         (input)="searchCoin($event)"
       >
       <div class="select__search-icon">

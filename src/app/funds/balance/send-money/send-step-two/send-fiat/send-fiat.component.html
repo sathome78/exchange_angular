@@ -196,11 +196,10 @@
             </div>
           </div>
 
-
           <div
             class="wrap-input send__wrap-input"
             [ngClass]="{'wrap-input--error': (!formAddress.valid && (formAddress.touched || isSubmited)) && formAmount.valid}"
-            *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && selectedMerchant.name !== 'FUG'"
+            *ngIf="fiatInfoByName && fiatInfoByName.merchantCurrencyData.length && !isFUG && !isCoinPay"
           >
             <input
               class="wrap-input__input"
@@ -224,11 +223,41 @@
             </div>
           </div>
 
+          <div
+            class="wrap-input send__wrap-input"
+            [ngClass]="{'wrap-input--error': (!formAddress.valid && (formAddress.touched || isSubmited)) && formAmount.valid}"
+            *ngIf="isCoinPay"
+          >
+            <input
+              class="wrap-input__input"
+              name="address"
+              type="text"
+              formControlName="address"
+              mask="0000 0000 0000 0000"
+              [showMaskTyped]="true"
+              placeHolderCharacter="_"
+              required
+            >
+            <label class="wrap-input__label">
+              <span>{{currName}}</span>
+              {{'card number' | translate}}
+            </label>
+            <div class="wrap-input__line"></div>
+            <div
+              class="input-hint-wrapper"
+              *ngIf="(!formAddress.valid && (formAddress.touched || isSubmited)) && formAmount.valid"
+            >
+              <span class="wrap-input__message wrap-input__message--show">
+                {{'Card number is not valid' | translate}}
+              </span>
+            </div>
+          </div>
+
 
           <!-- if qubera -->
           <div
             class="notice-for-withdraw"
-            *ngIf="selectedMerchant.name == 'FUG'"
+            *ngIf="isFUG"
           >
             <p>{{'Funds will be transferred to your personal account' | translate}}</p>
           </div>

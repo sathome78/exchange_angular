@@ -339,3 +339,15 @@
 // .jc-center {
 //     justify-content: center;
 // }
+
+@media(min-width: 1200px){
+.order-table{
+  opacity: 0;
+  transform: translateY(15px);
+  transition: .5s ease-out;
+  &.active{
+    opacity: 1;
+  transform: translateY(0);
+  }
+}
+}

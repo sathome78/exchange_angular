@@ -23,8 +23,8 @@ export class IEOServiceService {
       .pipe(map(res => res.data));
   }
 
-  public setPolicy(): Observable<ResponseModelIEO<boolean>> {
-    return this.http.put<ResponseModelIEO<boolean>>(`${this.apiUrl}/api/private/v2/dashboard/policy/IEO`, {});
+  public setPolicy(id): Observable<ResponseModelIEO<boolean>> {
+    return this.http.post<ResponseModelIEO<boolean>>(`${this.apiUrl}/api/private/v2/ieo/policy/check/${id}`, {});
   }
 
   public buyTokens(data: { currencyName: string; amount: string }): Observable<ResponseModelIEO<IEOSuccessBuyModel>> {
@@ -49,7 +49,12 @@ export class IEOServiceService {
 
   public getIEO(id): any {
     return this.stompService.watch(`/app/ieo/ieo_details/${id}`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+      .pipe(map((message: Message) => {
+        if (message.body === 'none') {
+          return null;
+        }
+        return JSON.parse(message.body);
+      }));
   }
 
   ieoEmailSubscription(email: string) {
@@ -70,3 +75,7 @@ export class IEOServiceService {
     return this.http.get(`${this.apiUrl}/api/public/v2/ieo/subscribe`, httpOptions);
   }
 }
+
+
+// getUserAgreement for ieo
+// GET  /api/private/v2/ieo/policy/{ieoId}

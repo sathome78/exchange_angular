@@ -22,7 +22,6 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy {
   public orderType = 'BUY';
   public order;
   public userBalance = 0;
-  public arrPairName = ['', ''];
 
   public currentPage = 1;
   public showCancelOrder = null;
@@ -34,9 +33,7 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy {
     public tradingService: TradingService
   ) {}
 
-  ngOnInit() {
-    this.arrPairName = this.currentPair.name.split('/');
-  }
+  ngOnInit() { }
 
 
   /**
@@ -73,5 +70,12 @@ export class EmbeddedOpenOrdersComponent implements OnInit, OnDestroy {
 
   trackByFn(index, item) {
     return item.id;
+  }
+
+  get firstCurr() {
+    return this.currentPair && this.currentPair.name && this.currentPair.name.split('/')[0];
+  }
+  get secondCurr() {
+    return this.currentPair && this.currentPair.name && this.currentPair.name.split('/')[1];
   }
 }
