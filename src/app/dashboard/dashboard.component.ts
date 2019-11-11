@@ -91,6 +91,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe(() => {
         this.preload = false;
+      }, err => {
+        this.preload = false;
       });
 
     // setTimeout(() => {
