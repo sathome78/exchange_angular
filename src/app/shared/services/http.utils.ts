@@ -16,7 +16,7 @@ export const INTEGRATION_HOST = 'http://dev1.exapp';
 export const DEDIK_HOST = 'https://oldex.cronpoint.com';
 export const LOCAL_HOST = 'http://dev1.exapp';
 export const DEV_HOST = 'http://localhost:8080';
-export const QA1_HOST = 'http://172.10.10.120';
+export const QA1_HOST = 'https://qa1.exrates.tech';
 
 export const CHART_PROD_HOST = 'http://chart-service-prod.service:4101';
 export const CHART_PRE_PROD_HOST = 'http://chart-service-preprod.service:4102';
