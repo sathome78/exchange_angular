@@ -5,7 +5,7 @@ import { DashboardService } from './dashboard.service';
 import { DashboardItemChangeSize } from '../shared/models/dashboard-item-change-size-model';
 import { BreakpointService } from '../shared/services/breakpoint.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators';
+import { takeUntil, take } from 'rxjs/internal/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardWebSocketService } from './dashboard-websocket.service';
 import { Store, select } from '@ngrx/store';
@@ -18,6 +18,7 @@ import { UtilsService } from 'app/shared/services/utils.service';
 import { Location } from '@angular/common';
 import { UserService } from 'app/shared/services/user.service';
 import { Animations } from 'app/shared/animations';
+import { MainLoaderService } from 'app/shared/services/main-loader.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,13 +30,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private waitPairsSub: Subject<void> = new Subject<void>();
 
-
   public showContent = false;
   public tradeTime = 5900;
   public oBookTime = 5700;
-public graphTime = 5800;
-public marketsTime = 6000
-public tHistoryTime = 6100
+  public graphTime = 5800;
+  public marketsTime = 6000;
+  public tHistoryTime = 6100;
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
@@ -75,6 +75,7 @@ public tHistoryTime = 6100
   constructor(
     public breakPointService: BreakpointService,
     public dashboardWebsocketService: DashboardWebSocketService,
+    private mainLoaderService: MainLoaderService,
     private dataService: DashboardService,
     private route: ActivatedRoute,
     private router: Router,
@@ -86,10 +87,15 @@ public tHistoryTime = 6100
   ) {}
 
   ngOnInit() {
+    this.mainLoaderService.dashboardLoader
+      .pipe(take(1))
+      .subscribe(() => {
+        this.preload = false;
+      });
 
-    setTimeout(() => {
-      this.preload = false;
-    }, 5500);
+    // setTimeout(() => {
+    //   this.preload = false;
+    // }, 5500);
 
     setTimeout(() => {
       this.showContent = true;
@@ -158,6 +164,7 @@ public tHistoryTime = 6100
         if (this.gridsterContainer) {
           this.gridsterContainer.reload();
         }
+        this.mainLoaderService.dashboardLoaderFn(isAuthenticated);
       });
 
     this.widgetTemplate = {
@@ -332,7 +339,6 @@ public tHistoryTime = 6100
     this.isDrag = false;
   }
 
-
   get tradingOffset(): number {
     return this.tradeTime;
   }
@@ -350,5 +356,5 @@ public tHistoryTime = 6100
   get tHistoryOffset(): number {
     return this.tHistoryTime;
   }
-  
+
 }

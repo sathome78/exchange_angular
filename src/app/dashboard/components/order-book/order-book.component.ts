@@ -37,7 +37,7 @@ import { Animations } from 'app/shared/animations';
 })
 export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
   public showContentOrderBook = false;
-  @Input() public oBookOffset : number;
+  @Input() public oBookOffset: number;
   @ViewChild('mainContent') public orderBookContainer: ElementRef;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   /** dashboard item name (field for base class)*/
@@ -99,7 +99,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
         if (!this.cdr['destroyed']) {
           this.cdr.detectChanges();
         }
-        console.log(this.oBookOffset)
+        console.log(this.oBookOffset);
       }, this.oBookOffset);
     }
     if (document.documentElement.clientWidth < 1199) {
@@ -381,5 +381,5 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       this.cdr.detectChanges();
     }
   }
-  
+
 }
