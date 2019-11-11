@@ -1,17 +1,17 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+// ng build --configuration=qa1
 
-import { CHART_DEV_HOST, CHART_LOCAL_HOST, DEV_HOST, LOCAL_HOST } from '../app/shared/services/http.utils';
+// test
+import { CHART_QA1_HOST, QA1_HOST } from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,
-  apiUrl: LOCAL_HOST,
-  // apiUrl: DEV_HOST,
-  chartApiUrl: CHART_LOCAL_HOST,
-  // chartApiUrl: CHART_DEV_HOST,
+  apiUrl: QA1_HOST,
+  chartApiUrl: CHART_QA1_HOST,
   showContent: true,
-  captcha: false,
+  captcha: true,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',
 };
 

@@ -84,6 +84,7 @@ import { RefillCoinPayComponent } from './balance/refill-money/refill-step-two/r
 import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.component';
 import { CommissionComponent } from './components/commission/commission.component';
 import { SendLinesComponent } from './components/send-lines/send-lines.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -111,6 +112,7 @@ export function createTranslateLoader(http: HttpClient) {
       },
       isolate: true,
     }),
+    NgxMaskModule.forChild({}),
   ],
   declarations: [
     FundsComponent,

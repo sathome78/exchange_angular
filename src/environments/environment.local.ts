@@ -2,11 +2,12 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { DEV_HOST } from '../app/shared/services/http.utils';
+import { CHART_LOCAL_HOST, DEV_HOST } from '../app/shared/services/http.utils';
 
 export const environment = {
   production: false,
   apiUrl: DEV_HOST,
+  chartApiUrl: CHART_LOCAL_HOST,
   showContent: true,
   captcha: false,
   encodeKey: '3255c246-4b9f-43a5-b2dd-63524f959953',

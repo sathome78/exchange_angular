@@ -15,13 +15,10 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
   @Input() currentPair: SimpleCurrencyPair;
   public currentPage = 1;
   public countPerPage = 7;
-  public arrPairName = ['', ''];
 
   constructor(private utils: UtilsService, public authService: AuthService) {}
 
-  ngOnInit() {
-    this.arrPairName = this.currentPair.name.split('/');
-  }
+  ngOnInit() { }
 
   filterOpenOrders(page) {
     this.currentPage = page;
@@ -49,5 +46,12 @@ export class EmbeddedOrdersHistoryComponent implements OnInit, OnChanges {
 
   trackByFn(index, item) {
     return item.id;
+  }
+
+  get firstCurr() {
+    return this.currentPair && this.currentPair.name && this.currentPair.name.split('/')[0];
+  }
+  get secondCurr() {
+    return this.currentPair && this.currentPair.name && this.currentPair.name.split('/')[1];
   }
 }
