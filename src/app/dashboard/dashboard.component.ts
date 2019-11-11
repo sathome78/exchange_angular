@@ -42,13 +42,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gridsterContainer') private gridsterContainer;
 
   /** retrieve templates for loadWidgetTemplate method*/
-  @ViewChild('graph') graphTemplate: TemplateRef < any > ;
-  @ViewChild('markets') marketsTemplate: TemplateRef < any > ;
-  @ViewChild('trading') tradingTemplate: TemplateRef < any > ;
-  @ViewChild('orderBook') orderBookTemplate: TemplateRef < any > ;
-  @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef < any > ;
-  @ViewChild('prediction') predictionTemplate: TemplateRef < any > ;
-  @ViewChild('orders') ordersTemplate: TemplateRef < any > ;
+  @ViewChild('graph') graphTemplate: TemplateRef<any> ;
+  @ViewChild('markets') marketsTemplate: TemplateRef<any> ;
+  @ViewChild('trading') tradingTemplate: TemplateRef<any> ;
+  @ViewChild('orderBook') orderBookTemplate: TemplateRef<any> ;
+  @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef<any> ;
+  @ViewChild('prediction') predictionTemplate: TemplateRef<any> ;
+  @ViewChild('orders') ordersTemplate: TemplateRef<any> ;
 
   /** variables for resize method */
   public minWidth = 1200;
@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private utilsService: UtilsService,
     private userService: UserService,
     private popupService: PopupService,
-    private store: Store < fromCore.State >
+    private store: Store<fromCore.State>
   ) {}
 
   ngOnInit() {
