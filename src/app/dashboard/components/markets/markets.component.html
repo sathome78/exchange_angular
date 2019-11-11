@@ -250,7 +250,12 @@
                   <div
                     class="txt-small txt-light-grey"
                     *ngIf="!(pair.market === 'USD' || pair.market === 'USDT')"
-                  >$ {{ pair.priceInUsd | currencyFormat: 'USD'}}</div>
+                  >
+                    <span *ngIf="(+pair.priceInUSD * +pair.lastOrderRate) >= 0.01; else verySmall">
+                      $ {{ +pair.priceInUSD * +pair.lastOrderRate | currencyFormat: 'USD'}}
+                    </span>
+                    <ng-template #verySmall>$ 0.01 >></ng-template>
+                  </div>
                 </div>
                 <div
                   class="table__cell table__cell--p4 table__cell--tar"

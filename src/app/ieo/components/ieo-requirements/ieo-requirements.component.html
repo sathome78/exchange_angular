@@ -96,7 +96,7 @@
         <div *ngIf="isAuthenticated">
           <div
             class="requirement-status requirement-success"
-            *ngIf="requirements.policyCheck"
+            *ngIf="requirements.policyConfirmed"
           >
             <ng-component *ngTemplateOutlet="successIcon"></ng-component>
             <p>{{'Confirmed' | translate}}</p>
@@ -105,7 +105,7 @@
             href="#"
             (click)="policyOpen($event)"
             class="requirement-status requirement-faild"
-            *ngIf="!requirements.policyCheck"
+            *ngIf="!requirements.policyConfirmed"
           >
             <ng-component *ngTemplateOutlet="failIcon"></ng-component>
             <p>{{'Accept the terms of the agreement' | translate}} »</p>
