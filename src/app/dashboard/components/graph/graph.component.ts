@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnChanges,
   AfterContentInit,
   OnDestroy,
   Input,
@@ -50,10 +51,11 @@ import * as Stomp from 'stompjs';
   animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
+export class GraphComponent extends AbstractDashboardItems implements OnInit,OnChanges, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
 
   @Input() public graphOffset: number;
+  @Input() public clearPreload: boolean;
   public itemName = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -114,20 +116,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   ngOnInit() {
     this.connectChartServer();
 
-    if (document.documentElement.clientWidth > 1199) {
-      setTimeout(() => {
-        this.showContent3 = true;
-        if (!this.cdr['destroyed']) {
-          this.cdr.detectChanges();
-        }
-      }, this.graphOffset);
-    }
-    if (document.documentElement.clientWidth < 1199) {
-      this.showContent3 = true;
-      if (!this.cdr['destroyed']) {
-        this.cdr.detectChanges();
-      }
-    }
+    
 
     this.store
       .pipe(select(getActiveCurrencyPair))
@@ -393,7 +382,25 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }
       });
   }
+  ngOnChanges() {
 
+    if(this.clearPreload == false){
+      if (document.documentElement.clientWidth > 1199) {
+        setTimeout(() => {
+          this.showContent3 = true;
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
+        }, this.graphOffset);
+      }
+      if (document.documentElement.clientWidth < 1199) {
+        this.showContent3 = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }
+    }
+}
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

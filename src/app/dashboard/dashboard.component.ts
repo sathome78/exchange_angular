@@ -27,27 +27,28 @@ import { MainLoaderService } from 'app/shared/services/main-loader.service';
   animations: [Animations.componentTriggerShow, Animations.componentTriggerMove],
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private waitPairsSub: Subject<void> = new Subject<void>();
+  private ngUnsubscribe: Subject < void > = new Subject < void > ();
+  private waitPairsSub: Subject < void > = new Subject < void > ();
 
   public showContent = false;
-  public tradeTime = 5900;
-  public oBookTime = 5700;
-  public graphTime = 5800;
-  public marketsTime = 6000;
-  public tHistoryTime = 6100;
+
+  public oBookTime = 1100;
+  public graphTime = 1450;
+  public tradeTime = 1600;
+  public marketsTime = 1750;
+  public tHistoryTime = 1900;
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
 
   /** retrieve templates for loadWidgetTemplate method*/
-  @ViewChild('graph') graphTemplate: TemplateRef<any>;
-  @ViewChild('markets') marketsTemplate: TemplateRef<any>;
-  @ViewChild('trading') tradingTemplate: TemplateRef<any>;
-  @ViewChild('orderBook') orderBookTemplate: TemplateRef<any>;
-  @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef<any>;
-  @ViewChild('prediction') predictionTemplate: TemplateRef<any>;
-  @ViewChild('orders') ordersTemplate: TemplateRef<any>;
+  @ViewChild('graph') graphTemplate: TemplateRef < any > ;
+  @ViewChild('markets') marketsTemplate: TemplateRef < any > ;
+  @ViewChild('trading') tradingTemplate: TemplateRef < any > ;
+  @ViewChild('orderBook') orderBookTemplate: TemplateRef < any > ;
+  @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef < any > ;
+  @ViewChild('prediction') predictionTemplate: TemplateRef < any > ;
+  @ViewChild('orders') ordersTemplate: TemplateRef < any > ;
 
   /** variables for resize method */
   public minWidth = 1200;
@@ -83,7 +84,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private utilsService: UtilsService,
     private userService: UserService,
     private popupService: PopupService,
-    private store: Store<fromCore.State>
+    private store: Store < fromCore.State >
   ) {}
 
   ngOnInit() {
@@ -91,37 +92,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe(() => {
         this.preload = false;
+        setTimeout(() => {
+          this.setAnimationTimeout();
+          this.showContent = true;
+        }, 700)
+
       }, err => {
         this.preload = false;
+        setTimeout(() => {
+          this.showContent = true;
+          this.setAnimationTimeout();
+        }, 700)
       });
-
-    // setTimeout(() => {
-    //   this.preload = false;
-    // }, 5500);
-
-    setTimeout(() => {
-      this.showContent = true;
-    }, 5700);
-
-    setTimeout(() => {
-      this.tradeTime = 30;
-    }, this.tradeTime + 30);
-
-    setTimeout(() => {
-      this.oBookTime = 500;
-    }, this.oBookTime + 30);
-
-    setTimeout(() => {
-      this.graphTime = 500;
-    }, this.graphTime + 30);
-
-    setTimeout(() => {
-      this.marketsTime = 800;
-    }, this.marketsTime + 30);
-
-    setTimeout(() => {
-      this.tHistoryTime = 500;
-    }, this.tHistoryTime + 30);
 
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
@@ -253,21 +235,21 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   changeItemSize(event: DashboardItemChangeSize): void {
     const widget = this.widgets.filter(item => item.type === event.itemName);
     if (event.widthOrHeight === 'height') {
-      event.isIncrement
-        ? widget[0].hLg === this.gridsterItemOptions.maxHeight
-          ? (widget[0].hLg = this.gridsterItemOptions.maxHeight)
-          : (widget[0].hLg += 1)
-        : widget[0].hLg === this.gridsterItemOptions.minHeight
-        ? (widget[0].hLg = this.gridsterItemOptions.minHeight)
-        : (widget[0].hLg -= 1);
+      event.isIncrement ?
+        widget[0].hLg === this.gridsterItemOptions.maxHeight ?
+        (widget[0].hLg = this.gridsterItemOptions.maxHeight) :
+        (widget[0].hLg += 1) :
+        widget[0].hLg === this.gridsterItemOptions.minHeight ?
+        (widget[0].hLg = this.gridsterItemOptions.minHeight) :
+        (widget[0].hLg -= 1);
     } else {
-      event.isIncrement
-        ? widget[0].wLg === this.gridsterItemOptions.maxWidth
-          ? (widget[0].wLg = this.gridsterItemOptions.maxWidth)
-          : (widget[0].wLg += 1)
-        : widget[0].wLg === 2
-        ? (widget[0].wLg = 2)
-        : (widget[0].wLg -= 1);
+      event.isIncrement ?
+        widget[0].wLg === this.gridsterItemOptions.maxWidth ?
+        (widget[0].wLg = this.gridsterItemOptions.maxWidth) :
+        (widget[0].wLg += 1) :
+        widget[0].wLg === 2 ?
+        (widget[0].wLg = 2) :
+        (widget[0].wLg -= 1);
     }
     if (this.gridsterContainer) {
       this.gridsterContainer.reload();
@@ -283,6 +265,31 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataService.dashboardToTools$.next(this.widgets);
   }
 
+
+  setAnimationTimeout(): void {
+    console.log("srgsrg")
+if(!this.preload){
+    setTimeout(() => {
+      this.tradeTime = 30;
+    }, this.tradeTime + 300);
+
+    setTimeout(() => {
+      this.oBookTime = 500;
+    }, this.oBookTime + 300);
+
+    setTimeout(() => {
+      this.graphTime = 500;
+    }, this.graphTime + 300);
+
+    setTimeout(() => {
+      this.marketsTime = 800;
+    }, this.marketsTime + 300);
+
+    setTimeout(() => {
+      this.tHistoryTime = 500;
+    }, this.tHistoryTime + 300);
+    }
+  }
   /**
    * add item to dashboard
    * @param itemType
@@ -358,5 +365,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   get tHistoryOffset(): number {
     return this.tHistoryTime;
   }
-
+  get clearPreload(): boolean {
+    return this.preload;
+  }
 }
