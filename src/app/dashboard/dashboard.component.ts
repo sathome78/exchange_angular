@@ -33,10 +33,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   public showContent = false;
 
   public oBookTime = 1100;
-  public graphTime = 1450;
+  public graphTime = 1350;
   public tradeTime = 1600;
-  public marketsTime = 1750;
-  public tHistoryTime = 1900;
+  public marketsTime = 1850;
+  public tHistoryTime = 2000;
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
