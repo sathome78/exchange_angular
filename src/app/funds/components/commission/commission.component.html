@@ -18,31 +18,33 @@
   </div>
   <div class="send__info-row">
     <div class="send__info-title">{{'Commission:' | translate}}</div>
-    <div
-      class="send__info-value"
-      *ngIf="+merchantCommission > 0 && +fixedMerchantCommission > 0"
-    >
-      ({{merchantCommission}}%, but not less than {{fixedMerchantCommission}} {{currencyName}}) =
-      {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
-    </div>
-    <div
-      class="send__info-value"
-      *ngIf="+merchantCommission > 0 && +fixedMerchantCommission === 0"
-    >
-      ({{merchantCommission}}%) = {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
-    </div>
-    <div
-      class="send__info-value"
-      *ngIf="+fixedMerchantCommission > 0 && +merchantCommission === 0"
-    >
-      {{fixedMerchantCommission | currencyFormat: currencyName}} {{currencyName}}
-    </div>
-    <div
-      class="send__info-value"
-      *ngIf="+fixedMerchantCommission === 0 && +merchantCommission === 0"
-    >
-      {{fixedMerchantCommission | currencyFormat: currencyName}} {{currencyName}}
-    </div>
+    <ng-container *ngIf="merchantCommissionValue >= 0">
+      <div
+        class="send__info-value"
+        *ngIf="+merchantCommission > 0 && +fixedMerchantCommission > 0"
+      >
+        ({{merchantCommission}}%, but not less than {{fixedMerchantCommission}} {{currencyName}}) =
+        {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
+      </div>
+      <div
+        class="send__info-value"
+        *ngIf="+merchantCommission > 0 && +fixedMerchantCommission === 0"
+      >
+        ({{merchantCommission}}%) = {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
+      </div>
+      <div
+        class="send__info-value"
+        *ngIf="+fixedMerchantCommission > 0 && +merchantCommission === 0"
+      >
+        {{fixedMerchantCommission | currencyFormat: currencyName}} {{currencyName}}
+      </div>
+      <div
+        class="send__info-value"
+        *ngIf="+fixedMerchantCommission === 0 && +merchantCommission === 0"
+      >
+        <!-- {{fixedMerchantCommission | currencyFormat: currencyName}} {{currencyName}} -->
+      </div>
+    </ng-container>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">{{'Total with comission:' | translate}}</div>
