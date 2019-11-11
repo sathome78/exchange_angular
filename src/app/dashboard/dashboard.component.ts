@@ -27,8 +27,8 @@ import { MainLoaderService } from 'app/shared/services/main-loader.service';
   animations: [Animations.componentTriggerShow, Animations.componentTriggerMove],
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
-  private ngUnsubscribe: Subject < void > = new Subject < void > ();
-  private waitPairsSub: Subject < void > = new Subject < void > ();
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private waitPairsSub: Subject<void> = new Subject<void>();
 
   public showContent = false;
 
@@ -95,14 +95,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.setAnimationTimeout();
           this.showContent = true;
-        }, 700)
+        }, 700);
 
       }, err => {
         this.preload = false;
         setTimeout(() => {
           this.showContent = true;
           this.setAnimationTimeout();
-        }, 700)
+        }, 700);
       });
 
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
@@ -265,29 +265,28 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataService.dashboardToTools$.next(this.widgets);
   }
 
-
   setAnimationTimeout(): void {
-    console.log("srgsrg")
-if(!this.preload){
-    setTimeout(() => {
-      this.tradeTime = 30;
-    }, this.tradeTime + 300);
+    // console.log("srgsrg")
+    if (!this.preload) {
+      setTimeout(() => {
+        this.tradeTime = 30;
+      }, this.tradeTime + 300);
 
-    setTimeout(() => {
-      this.oBookTime = 500;
-    }, this.oBookTime + 300);
+      setTimeout(() => {
+        this.oBookTime = 500;
+      }, this.oBookTime + 300);
 
-    setTimeout(() => {
-      this.graphTime = 500;
-    }, this.graphTime + 300);
+      setTimeout(() => {
+        this.graphTime = 500;
+      }, this.graphTime + 300);
 
-    setTimeout(() => {
-      this.marketsTime = 800;
-    }, this.marketsTime + 300);
+      setTimeout(() => {
+        this.marketsTime = 800;
+      }, this.marketsTime + 300);
 
-    setTimeout(() => {
-      this.tHistoryTime = 500;
-    }, this.tHistoryTime + 300);
+      setTimeout(() => {
+        this.tHistoryTime = 500;
+      }, this.tHistoryTime + 300);
     }
   }
   /**

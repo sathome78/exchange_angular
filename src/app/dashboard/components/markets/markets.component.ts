@@ -1,4 +1,4 @@
-import { Component, OnDestroy,OnChanges, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnDestroy, OnChanges, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, Input } from '@angular/core';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 import { Store, select } from '@ngrx/store';
@@ -39,7 +39,7 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
   /** Markets data by active tab */
   public pairs: CurrencyPair[] = [];
 
-  @Input() public marketsOffset : number; 
+  @Input() public marketsOffset: number;
   @Input() public clearPreload: boolean;
 
   private marketsSub$: Subscription;
@@ -80,7 +80,6 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
 
   ngOnInit() {
 
-    
     this.store
       .pipe(select(getActiveCurrencyPair))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -191,26 +190,25 @@ export class MarketsComponent extends AbstractDashboardItems implements OnInit, 
         this.store.dispatch(new dashboardActions.SetUserFavoritesCurrencyPairsAction(favoriteIds));
       });
   }
-  ngOnChanges() {
 
-    if(this.clearPreload == false){
-      if (document.documentElement.clientWidth > 1199) {
-        console.log(this.marketsOffset)
+  ngOnChanges(data) {
+    if (data.clearPreload && data.clearPreload.currentValue === false) {
+      if (!this.isMobile) {
         setTimeout(() => {
           this.showContent4 = true;
           if (!this.cdr['destroyed']) {
             this.cdr.detectChanges();
           }
         }, this.marketsOffset);
-      }
-      if (document.documentElement.clientWidth < 1199) {
+      } else {
         this.showContent4 = true;
         if (!this.cdr['destroyed']) {
           this.cdr.detectChanges();
         }
       }
     }
-}
+  }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

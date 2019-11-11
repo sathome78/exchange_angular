@@ -36,7 +36,7 @@ import { Animations } from 'app/shared/animations';
   animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderBookComponent extends AbstractDashboardItems implements OnInit,OnChanges, OnDestroy {
+export class OrderBookComponent extends AbstractDashboardItems implements OnInit, OnChanges, OnDestroy {
   public showContentOrderBook = false;
   @Input() public oBookOffset: number;
   @Input() public clearPreload: boolean;
@@ -95,23 +95,6 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
   }
 
   ngOnInit() {
-    // if (document.documentElement.clientWidth > 1199 ) {
-    //   setTimeout(() => {
-    //     this.showContentOrderBook = true;
-    //     if (!this.cdr['destroyed']) {
-    //       this.cdr.detectChanges();
-    //     }
-    //     console.log(this.oBookOffset);
-    //   }, this.oBookOffset);
-    // }
-    console.log(this.clearPreload)
-    
-    if (document.documentElement.clientWidth < 1199) {
-      this.showContentOrderBook = true;
-      if (!this.cdr['destroyed']) {
-        this.cdr.detectChanges();
-      }
-    }
     this.calculateMaxNumberLength();
 
     this.withForChartLineElements = {
@@ -155,20 +138,25 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
       500
     );
   }
-  ngOnChanges() {
-    console.log(this.oBookOffset)
-    if(this.clearPreload == false){
-      if (document.documentElement.clientWidth > 1199 ) {
-          setTimeout(() => {
-            this.showContentOrderBook = true;
-            if (!this.cdr['destroyed']) {
-              this.cdr.detectChanges();
-            }
-            console.log(this.oBookOffset);
-          }, this.oBookOffset);
+
+  ngOnChanges(data) {
+    if (data.clearPreload && data.clearPreload.currentValue === false) {
+      if (!this.isMobile) {
+        setTimeout(() => {
+          this.showContentOrderBook = true;
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
+        }, this.oBookOffset);
+      } else {
+        this.showContentOrderBook = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
         }
+      }
     }
-}
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -399,4 +387,7 @@ export class OrderBookComponent extends AbstractDashboardItems implements OnInit
     }
   }
 
+  get isMobile(): boolean {
+    return window.innerWidth <= 1200;
+  }
 }
