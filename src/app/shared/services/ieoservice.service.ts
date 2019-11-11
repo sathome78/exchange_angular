@@ -75,3 +75,7 @@ export class IEOServiceService {
     return this.http.get(`${this.apiUrl}/api/public/v2/ieo/subscribe`, httpOptions);
   }
 }
+
+
+// getUserAgreement for ieo
+// GET  /api/private/v2/ieo/policy/{ieoId}

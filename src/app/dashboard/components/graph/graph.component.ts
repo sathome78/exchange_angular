@@ -287,8 +287,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
               const pairName = symbolInfo.name.toLowerCase().replace(/\//i, '_');
 
-              this.unsubscribeLastCandleData();
-
               this.lastCandleSub$ = this.stompClient.subscribe(`/app/chart/${pairName}/${resolution}`, function (data: any) {
                 const el = JSON.parse(data.body);
                 if (el) {
@@ -306,7 +304,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
             unsubscribeBars: listenerGuid => {
               // console.log('unsubscribeBars running -->');
 
-              this.unsubscribeLastCandleData();
+              if (this.lastCandleSub$) {
+                this.lastCandleSub$.unsubscribe();
+              }
             },
           },
           interval: this._interval,
@@ -544,12 +544,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
   private setLang(): LanguageCode {
     const indexCandidate = LANG_SUPPORT.indexOf(this.lang);
     return indexCandidate !== -1 ? <LanguageCode>LANG_SUPPORT[indexCandidate] : <LanguageCode>'en';
-  }
-
-  unsubscribeLastCandleData() {
-    if (this.lastCandleSub$) {
-      this.lastCandleSub$.unsubscribe();
-    }
   }
 
   private connectChartServer() {
