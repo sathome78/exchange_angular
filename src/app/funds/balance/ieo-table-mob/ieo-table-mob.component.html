@@ -27,8 +27,8 @@
       </button>
 
       <!-- FUG BLOCK -->
-      <!-- *ngIf="utils.isDeveloper" -->
       <button
+        *ngIf="utils.isDeveloper"
         class="tabs__item"
         [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
         (click)="onSelectTab.emit(Tab.QUBERA)"
