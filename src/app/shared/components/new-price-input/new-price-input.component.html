@@ -1,0 +1,8 @@
+<input
+  [(ngModel)]='value'
+  type="text"
+  [mask]="isFiat ? 'separator.2' : 'separator.8'"
+  thousandSeparator=" "
+  name="value"
+>
+{{value}}

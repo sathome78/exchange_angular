@@ -68,6 +68,8 @@ import { CurrencySelectCryptoComponent } from './components/currency-select-cryp
 import { TimeLeftFreeCoinsPipe } from './pipes/time-left.pipe';
 import { DisableGetFreeCoinsPipe } from './pipes/disable-get-coins.pipe';
 import { UnsubscribeGuard } from './guards/unsubscribe.guard';
+import { NgxMaskModule } from 'ngx-mask';
+import { NewPriceInputComponent } from './components/new-price-input/new-price-input.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +123,7 @@ import { UnsubscribeGuard } from './guards/unsubscribe.guard';
     CurrencySelectCryptoComponent,
     TimeLeftFreeCoinsPipe,
     DisableGetFreeCoinsPipe,
+    NewPriceInputComponent,
   ],
   imports: [
     FormsModule,
@@ -133,6 +136,7 @@ import { UnsubscribeGuard } from './guards/unsubscribe.guard';
     RecaptchaModule,
     ScrollingModule,
     MomentModule,
+    NgxMaskModule.forChild({}),
   ],
   exports: [
     InfiniteScrollModule,
