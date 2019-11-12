@@ -166,10 +166,6 @@ export class LoginPopupMobileComponent implements OnInit, OnDestroy {
               this.twoFaAuthModeMessage = this.translateService.instant(
                 'Code is wrong! Please, check you code in Google Authenticator application.'
               );
-            } else {
-              this.twoFaAuthModeMessage = this.translateService.instant(
-                'Code is wrong! New code was sent to your email.'
-              );
             }
           } else {
             this.twoFaAuthModeMessage = this.translateService.instant('Code is wrong!');

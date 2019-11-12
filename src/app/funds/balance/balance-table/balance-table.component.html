@@ -14,7 +14,7 @@
       <th class="table__cell-head table__cell-head--tac">{{'Withdraw' | translate}}</th>
     </tr>
   </thead>
-  <tbody class="table__body">
+  <tbody class="table__body fade-move-anim del7">
     <tr
       class="table__row balance__table-row"
       *ngFor="let item of balances | paginate: {itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries}; trackBy: trackByFn"

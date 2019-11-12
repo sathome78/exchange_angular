@@ -925,3 +925,28 @@
   }
     
 }
+
+
+.dark-theme .modal .btn--empty-blue[disabled] {
+  background-color: transparent;
+  color: #91929F;
+  border-color: #91929F;
+}
+
+
+.dark-theme .side-popups .select__label{
+  @media(min-width: 1200px){
+    background-color: #fff;
+  }
+  
+}
+
+
+.dark-theme .side-popups .select__search-input{
+  padding: 0 12px 0 40px;
+}
+
+.dark-theme .side-popups .select__search-icon{
+  left: 12px;
+  right: auto;
+}
