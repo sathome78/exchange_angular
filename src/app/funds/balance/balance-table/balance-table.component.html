@@ -1,8 +1,8 @@
 <table
   class="table ballance-table"
-  [@ballanceAnimation]="activeTab ? 'show' : 'hide' "
+  [ngClass]="{'hide-bal-block' : leaveAnimationFn, 'show-bal-block' : !leaveAnimationFn}"
 >
-  <thead>
+  <thead class="table__body fade-anim del7">
     <tr>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Currency' | translate}}</th>
       <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Total balance' | translate}}</th>
@@ -97,28 +97,29 @@
 </table>
 
 <!--paginator start-->
-<div [@ballanceAnimation]="activeTab ? 'show' : 'hide' ">
-  <div
-    class="row row--aic balance__paginator"
-    *ngIf="countOfEntries > countPerPage"
-  >
-    <app-page-items-dropdown
-      [countPerPage]="countPerPage"
-      [countOfEntries]="countOfEntries"
-      (onChange)="changeItemsPerPage($event)"
-    ></app-page-items-dropdown>
-    <ul
-      class="paginator"
-      style="margin-left: auto;"
+<div class="fade-anim del12">
+  <div [ngClass]="{'hide-bal-block' : leaveAnimationFn, 'show-bal-block' : !leaveAnimationFn}">
+    <div
+      class="row row--aic balance__paginator"
+      *ngIf="countOfEntries > countPerPage"
     >
-      <pagination-controls
-        maxSize="7"
-        [previousLabel]="''"
-        [nextLabel]="''"
-        (pageChange)="changePage($event)"
-      ></pagination-controls>
-    </ul>
+      <app-page-items-dropdown
+        [countPerPage]="countPerPage"
+        [countOfEntries]="countOfEntries"
+        (onChange)="changeItemsPerPage($event)"
+      ></app-page-items-dropdown>
+      <ul
+        class="paginator"
+        style="margin-left: auto;"
+      >
+        <pagination-controls
+          maxSize="7"
+          [previousLabel]="''"
+          [nextLabel]="''"
+          (pageChange)="changePage($event)"
+        ></pagination-controls>
+      </ul>
+    </div>
   </div>
 </div>
-
 <!--paginator end-->

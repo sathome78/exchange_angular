@@ -44,6 +44,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public Tab = BALANCE_TABS;
 
+  public leaveAnimation = false;
   public balanceItems: BalanceItem[] = [];
   public currTab: string = this.Tab.CRYPTO;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -218,12 +219,21 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onSelectTab(tab: string): void {
-    this.currTab = tab;
+    this.leaveAnimation = true;
+    setTimeout(()=>{
+      
+      this.currTab = tab;
     this.changingQueryParams('tab', tab);
     this.currentPage = 1;
     this.currValue = '';
     this.currencyForChoose = null;
     this.loadBalances(this.currTab);
+    setTimeout(()=>{
+this.leaveAnimation = false;
+    },800)
+    
+    },500)
+    
   }
 
   public changingQueryParams(key: 'tab' | 'hz', value: string) {
@@ -518,5 +528,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     // .pipe(first())
     // .subscribe(data => {
     // });
+  }
+  get leaveAnimationFn(): boolean {
+    return this.leaveAnimation;
   }
 }

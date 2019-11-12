@@ -342,6 +342,7 @@
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-table>
       <app-balance-table
         [hidden]="currTab !== Tab.FIAT"
@@ -355,6 +356,7 @@
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-table>
       <app-pending-request-table
         [pendingRequests]="pendingRequests$ | async"
@@ -365,6 +367,7 @@
         (onPaginate)="onPageChanged($event)"
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         [hidden]="currTab !== Tab.PR"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-pending-request-table>
       <ng-container>
         <app-qubera-table
@@ -377,6 +380,7 @@
           (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
           (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)"
           [loading]="loading$ | async"
+          [leaveAnimationFn]="leaveAnimationFn"
         >
         </app-qubera-table>
       </ng-container>
@@ -389,6 +393,7 @@
         [IEOData]="IEOData"
         [loading]="loading$ | async"
         (onPaginate)="onPageChanged($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-ieo-table>
     </ng-container>
 

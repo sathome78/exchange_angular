@@ -25,7 +25,7 @@ export class BalanceTableComponent implements OnInit, OnDestroy  {
   constructor() {}
 
   public activeTab = false;
-
+  @Input() public leaveAnimationFn : boolean;
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('allPairs') public allPairs: DetailedCurrencyPair[] = [];
   @Input('countPerPage') public countPerPage: number;

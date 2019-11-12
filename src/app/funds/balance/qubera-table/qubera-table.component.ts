@@ -9,6 +9,7 @@ import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 })
 export class QuberaTableComponent implements OnInit {
   public _kycStatus: string;
+  @Input() public leaveAnimationFn : boolean;
   @Input() public balances: QuberaBalanceModel;
   @Input()
   get kycStatus() {
