@@ -421,4 +421,8 @@ export class RefillFiatComponent implements OnInit, OnDestroy {
   private setView(v) {
     this.VIEW = v;
   }
+
+  get isAmountValid() {
+    return +this.formAmout.value >= +this.minRefillSum;
+  }
 }

@@ -10,6 +10,7 @@ export class CommissionComponent implements OnInit {
   private _baseAmount = 0;
   @Input() public type: 'refill' | 'withdraw';
   @Input() public merchant;
+  @Input() public minSum = 0;
   @Input() public currencyName: string;
   @Input() set baseAmount(val) {
     if (!isNaN(+val)) {
@@ -36,7 +37,7 @@ export class CommissionComponent implements OnInit {
   }
 
   get merchantCommissionValue() {
-    if (+this.baseAmount === 0) {
+    if (!this.isAmountValid) {
       return 0;
     }
     const countedCommision = this.baseAmount / 100 * this.merchantCommission;
@@ -44,7 +45,21 @@ export class CommissionComponent implements OnInit {
   }
 
   get totalValue() {
+    if (!this.isAmountValid) {
+      return 0;
+    }
     return this.baseAmount - this.merchantCommissionValue;
+  }
+
+  get isAmountValid() {
+    return +this.baseAmount >= +this.minSum;
+  }
+
+  get amount() {
+    if (!this.isAmountValid) {
+      return 0;
+    }
+    return this.baseAmount;
   }
 
 }
