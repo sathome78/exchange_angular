@@ -1,8 +1,9 @@
 <div
   class="balance__content-mob"
+  [ngClass]="{'active' : startAnimation}"
   (window:resize)="setScrollStyles()"
 >
-  <div class="balance__header-mob">
+  <div class="balance__header-mob fade-anim del2">
     <div class="top-balance-wr">
       <div class="page-title">
         <h1 class="page-title__text">
@@ -89,7 +90,10 @@
     </div>
   </div>
   <!--filters start-->
-  <form action="">
+  <form
+    action=""
+    class="fade-anim del2"
+  >
     <div class="balance__filters">
       <ng-container [ngSwitch]="currTab">
         <!-- <app-dynamic-input
@@ -153,16 +157,16 @@
     <!--table-mob start-->
     <table
       class="table table--mob"
-      [ngClass]="{'balance-fiat': currTab === Tab.FIAT}"
+      [ngClass]="{'balance-fiat': currTab === Tab.FIAT,'hide-bal-block' : leaveAnimationFn, 'show-bal-block' : !leaveAnimationFn}"
     >
-      <thead class="table__head">
+      <thead class="table__head fade-move-anim del2">
         <tr class="table__head-row">
           <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
           <th class="table__cell-head table__cell-head--tal">{{'Available balance' | translate}}</th>
           <th class="table__cell-head table__cell-head--tar">{{'Price' | translate}}</th>
         </tr>
       </thead>
-      <tbody class="table__body table__body--none-shadow">
+      <tbody class="table__body table__body--none-shadow fade-move-anim del2">
         <ng-container *ngFor="let item of balances">
           <tr
             class="table__row--mob"
@@ -228,7 +232,7 @@
     </table>
     <!-- table-mob end -->
   </div>
-  <div class="pending-wr">
+  <div class="pending-wr fade-anim del2">
     <div class="bg-btn"></div>
     <button
       class="tabs__item"

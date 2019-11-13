@@ -6,7 +6,7 @@
   >
     <ng-container [ngSwitch]="currTab">
       <app-balance-mob
-        *ngSwitchCase="Tab.CRYPTO"
+        [hidden]="currTab !== Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
         [countEntries]="countOfCryptoEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
@@ -25,10 +25,11 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-mob>
 
       <app-balance-mob
-        *ngSwitchCase="Tab.FIAT"
+        [hidden]="currTab !== Tab.FIAT"
         [balances]="fiatBalances$ | async"
         [countEntries]="countOfFiatEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
@@ -47,10 +48,11 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-mob>
 
       <app-qubera-mob
-        *ngSwitchCase="Tab.QUBERA"
+        [hidden]="currTab !== Tab.QUBERA"
         [Tab]="Tab"
         [currTab]="currTab"
         [balances]="quberaBalances$ | async"
@@ -61,10 +63,11 @@
         (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-qubera-mob>
 
       <app-ieo-table-mob
-        *ngSwitchCase="Tab.IEO"
+        [hidden]="currTab !== Tab.IEO"
         [IEOData]="IEOData"
         [Tab]="Tab"
         [currTab]="currTab"
@@ -74,6 +77,7 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onGoToBalanceDetails)="onGoToIEOBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-ieo-table-mob>
     </ng-container>
   </div>
