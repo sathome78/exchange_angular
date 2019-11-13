@@ -13,23 +13,27 @@
       {{'You want to refill:' | translate}}
     </div>
     <div class="send__info-value">
-      {{baseAmount | currencyFormat: currencyName}} {{currencyName}}
+      {{amount | currencyFormat: currencyName}} {{currencyName}}
     </div>
   </div>
   <div class="send__info-row">
     <div class="send__info-title">{{'Commission:' | translate}}</div>
+
     <div
       class="send__info-value"
       *ngIf="+merchantCommission > 0 && +fixedMerchantCommission > 0"
     >
-      ({{merchantCommission}}%, but not less than {{fixedMerchantCommission}} {{currencyName}}) =
-      {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
+      ({{merchantCommission}}%, but not less than {{fixedMerchantCommission}} {{currencyName}})
+      <ng-container *ngIf="isAmountValid">= {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}</ng-container>
     </div>
     <div
       class="send__info-value"
       *ngIf="+merchantCommission > 0 && +fixedMerchantCommission === 0"
     >
-      ({{merchantCommission}}%) = {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
+      <ng-container *ngIf="isAmountValid; else invalidPercent">
+        ({{merchantCommission}}%) = {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
+      </ng-container>
+      <ng-template #invalidPercent>{{merchantCommission}}%</ng-template>
     </div>
     <div
       class="send__info-value"
@@ -43,6 +47,7 @@
     >
       {{fixedMerchantCommission | currencyFormat: currencyName}} {{currencyName}}
     </div>
+
   </div>
   <div class="send__info-row">
     <div class="send__info-title">{{'Total with comission:' | translate}}</div>

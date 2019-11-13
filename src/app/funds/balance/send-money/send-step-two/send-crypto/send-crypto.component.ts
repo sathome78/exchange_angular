@@ -250,4 +250,8 @@ export class SendCryptoComponent implements OnInit, OnDestroy {
     return this.merchant && this.merchant.needKycWithdraw;
   }
 
+  get isAmountValid() {
+    return +this.formAmount.value >= +this.minWithdrawSum;
+  }
+
 }
