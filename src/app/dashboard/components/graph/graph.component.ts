@@ -221,7 +221,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
                   exchange: 'EXRATES',
                   listed_exchange: 'EXRATES',
                   timezone: 'Etc/UTC',
-                  pricescale: this.isFiat ? 100 : 100_000_000,
+                  pricescale: 100_000_000,
                   minmov: 1,
                   fractional: false,
                   has_intraday: true,
