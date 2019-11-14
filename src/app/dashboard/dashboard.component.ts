@@ -4,8 +4,8 @@ import { gridsterItemOptions, gridsterOptions } from '../shared/configs/gridster
 import { DashboardService } from './dashboard.service';
 import { DashboardItemChangeSize } from '../shared/models/dashboard-item-change-size-model';
 import { BreakpointService } from '../shared/services/breakpoint.service';
-import { Subject } from 'rxjs';
-import { takeUntil, take } from 'rxjs/internal/operators';
+import { Subject, race, timer } from 'rxjs';
+import { takeUntil, take, delay, map } from 'rxjs/internal/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardWebSocketService } from './dashboard-websocket.service';
 import { Store, select } from '@ngrx/store';
@@ -88,22 +88,23 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.mainLoaderService.dashboardLoader
-      .pipe(take(1))
-      .subscribe(() => {
-        this.preload = false;
-        setTimeout(() => {
-          this.setAnimationTimeout();
-          this.showContent = true;
-        }, 700);
+    race(
+      this.mainLoaderService.dashboardLoader.pipe(take(1)),
+      timer(10000)
+    ).subscribe(() => {
+      this.preload = false;
+      setTimeout(() => {
+        this.setAnimationTimeout();
+        this.showContent = true;
+      }, 700);
 
-      }, err => {
-        this.preload = false;
-        setTimeout(() => {
-          this.showContent = true;
-          this.setAnimationTimeout();
-        }, 700);
-      });
+    }, err => {
+      this.preload = false;
+      setTimeout(() => {
+        this.showContent = true;
+        this.setAnimationTimeout();
+      }, 700);
+    });
 
     this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       const widget = params['widget'];
