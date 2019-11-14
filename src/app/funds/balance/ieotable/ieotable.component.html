@@ -1,5 +1,8 @@
-<table class="table ieo-table">
-  <thead>
+<table
+  class="table ieo-table"
+  [ngClass]="{'hide-bal-block' : leaveAnimationFn, 'show-bal-block' : !leaveAnimationFn}"
+>
+  <thead class="fade-anim del7">
     <tr>
       <th class="table__cell-head table__cell-head--tal coins-cell">{{'Coins' | translate}}</th>
       <th class="table__cell-head table__cell-head--tar">{{'Status' | translate}}</th>
@@ -11,7 +14,7 @@
       <th class="table__cell-head table__cell-head--tac button-cell"></th>
     </tr>
   </thead>
-  <tbody class="table__body">
+  <tbody class="table__body fade-anim del7">
     <tr
       class="table__row balance__table-row"
       *ngFor="let ieo of IEOData; trackBy: trackByFn"
@@ -89,27 +92,31 @@
 </table>
 
 <!--paginator start-->
-<div
-  class="row row--aic balance__paginator"
-  *ngIf="countOfEntries > countPerPage"
->
-  <app-page-items-dropdown
-    [countPerPage]="countPerPage"
-    [countOfEntries]="countOfEntries"
-    (onChange)="changeItemsPerPage($event)"
-  ></app-page-items-dropdown>
-  <ul
-    class="paginator"
-    style="margin-left: auto;"
+<div class="fade-anim del12">
+  <div
+    class="row row--aic balance__paginator"
+    *ngIf="countOfEntries > countPerPage"
+    [ngClass]="{'hide-bal-block' : leaveAnimationFn, 'show-bal-block' : !leaveAnimationFn}"
   >
-    <pagination-controls
-      maxSize="7"
-      [previousLabel]="''"
-      [nextLabel]="''"
-      (pageChange)="changePage($event)"
-    ></pagination-controls>
-  </ul>
+    <app-page-items-dropdown
+      [countPerPage]="countPerPage"
+      [countOfEntries]="countOfEntries"
+      (onChange)="changeItemsPerPage($event)"
+    ></app-page-items-dropdown>
+    <ul
+      class="paginator"
+      style="margin-left: auto;"
+    >
+      <pagination-controls
+        maxSize="7"
+        [previousLabel]="''"
+        [nextLabel]="''"
+        (pageChange)="changePage($event)"
+      ></pagination-controls>
+    </ul>
+  </div>
 </div>
+
 <!--paginator end-->
 
 

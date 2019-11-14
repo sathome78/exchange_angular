@@ -13,7 +13,7 @@ export class PendingRequestTableComponent implements OnInit {
   public revokeModalId;
 
   constructor(private utils: UtilsService) {}
-
+  @Input() public leaveAnimationFn : boolean;
   @Input('pendingRequests') public pendingRequests: PendingRequestsItem[] = [];
   @Input('countPerPage') public countPerPage: number;
   @Input('currentPage') public currentPage: number;

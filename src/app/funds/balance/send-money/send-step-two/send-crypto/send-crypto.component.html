@@ -167,6 +167,7 @@
               type="withdraw"
               [merchant]="cryptoInfoByName.merchantCurrencyData[0]"
               [currencyName]="activeCrypto ? activeCrypto.name : ''"
+              [minSum]="minWithdrawSum"
               [baseAmount]="formAmount.value"
             ></app-commission>
 
@@ -176,10 +177,12 @@
               [disabled]="isDisabledForm"
               (click)="onSubmitWithdrawal()"
             >{{'Withdraw' | translate}}
-              <span class="value">
-                {{utilsService.calcValueWithoutCommision(cryptoInfoByName.merchantCurrencyData[0], formAmount.value, 'withdraw') | currencyFormat}}
-              </span>
-              <span> {{currName}}</span>
+              <ng-container *ngIf="isAmountValid">
+                <span class="value">
+                  {{utilsService.calcValueWithoutCommision(cryptoInfoByName.merchantCurrencyData[0], formAmount.value, 'withdraw') | currencyFormat}}
+                </span>
+                <span> {{currName}}</span>
+              </ng-container>
             </button>
 
           </ng-container>

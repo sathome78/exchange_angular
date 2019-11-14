@@ -274,6 +274,7 @@
               type="withdraw"
               [merchant]="selectedMerchant"
               [currencyName]="currName || 'USD'"
+              [minSum]="minWithdrawSum"
               [baseAmount]="formAmount.value"
             ></app-commission>
 
@@ -283,8 +284,10 @@
               (click)="onSubmitWithdrawal()"
             >
               {{'Withdraw' | translate}}
-              <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw') | currencyFormat: currName}}</span>
-              <span> {{currName}}</span>
+              <ng-container *ngIf="isAmountValid">
+                <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw') | currencyFormat: currName}}</span>
+                <span> {{currName}}</span>
+              </ng-container>
             </button>
           </ng-container>
 

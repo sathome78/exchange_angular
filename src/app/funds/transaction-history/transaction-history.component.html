@@ -7,7 +7,7 @@
     class="transaction transaction--mob"
     *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
   >
-    <div class="transaction__header-mob">
+    <div class="transaction__header-mob fade-anim del7">
       <div class=" orders__page-title">
         {{'Transaction history' | translate}}
       </div>
@@ -43,14 +43,14 @@
       (scrolled)="loadMoreTransactions()"
     >
       <table class="table table--mob">
-        <thead class="table__head">
+        <thead class="table__head fade-move-anim del7">
           <tr class="table__head-row">
             <th class="table__cell-head table__cell-head--tal">{{'Date / Type' | translate}}</th>
             <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
             <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
           </tr>
         </thead>
-        <tbody class="table__body table__body--none-shadow">
+        <tbody class="table__body table__body--none-shadow fade-move-anim del7">
           <!-- t-row start-->
           <ng-container *ngFor="let item of transactionsItems$ | async; trackBy: trackByFn; let index = index;">
             <tr

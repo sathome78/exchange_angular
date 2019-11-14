@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { ADRIAN_NEXT_KYC_STATUS } from 'app/shared/constants';
 import { EUR } from '../balance-constants';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class QuberaMobComponent implements OnInit {
   tableScrollStyles: any = {};
   EUR = EUR;
-
+  public startAnimation = false;
   public _kycStatus: string;
   @Input() public balances: QuberaBalanceModel;
   @Input()
@@ -33,19 +33,20 @@ export class QuberaMobComponent implements OnInit {
       this._kycStatus = value.toUpperCase();
     }
   }
+  @Input() public leaveAnimationFn: boolean;
   @Input() public countOfPendingRequests = 0;
   @Input() public Tab;
   @Input() public loading: boolean;
   @Input() public currTab;
-  @Output() public selectTab: EventEmitter<any> = new EventEmitter();
-  @Output() public createQuberaAccount: EventEmitter<any> = new EventEmitter<boolean>();
-  @Output() public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
-  @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output() public quberaKycVerification: EventEmitter<any> = new EventEmitter();
-  @Output() public goToQuberaDetails: EventEmitter<any> = new EventEmitter();
+  @Output() public selectTab: EventEmitter < any > = new EventEmitter();
+  @Output() public createQuberaAccount: EventEmitter < any > = new EventEmitter < boolean > ();
+  @Output() public openRefillBalancePopup: EventEmitter < any > = new EventEmitter();
+  @Output() public openSendMoneyPopup: EventEmitter < any > = new EventEmitter();
+  @Output() public quberaKycVerification: EventEmitter < any > = new EventEmitter();
+  @Output() public goToQuberaDetails: EventEmitter < any > = new EventEmitter();
   public KYC_STATUS = ADRIAN_NEXT_KYC_STATUS;
 
-  constructor(public utilsService: UtilsService, public router: Router) {
+  constructor(public utilsService: UtilsService, public router: Router, private cdr: ChangeDetectorRef,) {
     this.setScrollStyles();
   }
 
@@ -57,7 +58,13 @@ export class QuberaMobComponent implements OnInit {
     };
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(()=>{
+      this.startAnimation = true;
+      console.log('afasdfs')
+      this.cdr.detectChanges();
+    },1000)
+  }
 
   onShowMobDetails(currencyCode): void {
     this.goToQuberaDetails.emit({ currencyCode });

@@ -6,7 +6,7 @@
   >
     <ng-container [ngSwitch]="currTab">
       <app-balance-mob
-        *ngSwitchCase="Tab.CRYPTO"
+        [hidden]="currTab !== Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
         [countEntries]="countOfCryptoEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
@@ -25,10 +25,11 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-mob>
 
       <app-balance-mob
-        *ngSwitchCase="Tab.FIAT"
+        [hidden]="currTab !== Tab.FIAT"
         [balances]="fiatBalances$ | async"
         [countEntries]="countOfFiatEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
@@ -47,10 +48,11 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-mob>
 
       <app-qubera-mob
-        *ngSwitchCase="Tab.QUBERA"
+        [hidden]="currTab !== Tab.QUBERA"
         [Tab]="Tab"
         [currTab]="currTab"
         [balances]="quberaBalances$ | async"
@@ -61,10 +63,11 @@
         (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-qubera-mob>
 
       <app-ieo-table-mob
-        *ngSwitchCase="Tab.IEO"
+        [hidden]="currTab !== Tab.IEO"
         [IEOData]="IEOData"
         [Tab]="Tab"
         [currTab]="currTab"
@@ -74,6 +77,7 @@
         (onSelectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
         (onGoToBalanceDetails)="onGoToIEOBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-ieo-table-mob>
     </ng-container>
   </div>
@@ -216,8 +220,8 @@
         </button>
 
         <!-- FUG BLOCK -->
-        <!-- *ngIf="utilsService.isDeveloper" -->
         <button
+          *ngIf="utilsService.isDeveloper"
           class="tabs__item funding-tabs"
           [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
           (click)="onSelectTab(Tab.QUBERA)"
@@ -342,6 +346,7 @@
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-table>
       <app-balance-table
         [hidden]="currTab !== Tab.FIAT"
@@ -355,6 +360,7 @@
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-table>
       <app-pending-request-table
         [pendingRequests]="pendingRequests$ | async"
@@ -365,6 +371,7 @@
         (onPaginate)="onPageChanged($event)"
         (onRevokePendingRequest)="onRevokePendingRequest($event)"
         [hidden]="currTab !== Tab.PR"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-pending-request-table>
       <ng-container>
         <app-qubera-table
@@ -377,6 +384,7 @@
           (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
           (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)"
           [loading]="loading$ | async"
+          [leaveAnimationFn]="leaveAnimationFn"
         >
         </app-qubera-table>
       </ng-container>
@@ -389,6 +397,7 @@
         [IEOData]="IEOData"
         [loading]="loading$ | async"
         (onPaginate)="onPageChanged($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-ieo-table>
     </ng-container>
 

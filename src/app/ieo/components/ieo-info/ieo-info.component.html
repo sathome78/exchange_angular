@@ -2,7 +2,7 @@
 <div class="first-screen ">
   <div class="fs-wr">
     <div class="fs-wr-inner">
-      <div class="fs-image-container">
+      <div class="fs-image-container animate-item">
         <img
           src="assets/img/ieo/bg.jpg"
           alt=""
@@ -13,7 +13,7 @@
         *ngIf="IEOData"
       >
         <div
-          class="bittorrent"
+          class="bittorrent animate-item"
           [ngSwitch]="IEOData.currencyName"
         >
           <img
@@ -23,12 +23,12 @@
           >
         </div>
         <div class="btc-session">
-          <div class="b-s-title">
+          <div class="b-s-title animate-item">
             <h3>
               {{IEOData.currencyDescription}} - BTC {{'Session' | translate}}
               <span class="upcoming {{IEOData.status | lowercase}}">{{IEOData.status | showStageStatus}}</span></h3>
           </div>
-          <table class="b-s-table">
+          <table class="b-s-table animate-item">
             <tr>
               <td><span>{{'Price' | translate}}：</span></td>
               <td class="right-text">
@@ -53,10 +53,10 @@
           <div class="buy-block">
 
             <div
-              class="progress-block"
+              class="progress-block animate-item"
               *ngIf="stage.RUNNING === currentStage"
             >
-              <div class="currency-info">
+              <div class="currency-info animate-item">
                 <div class="currency-buyed">
                   <span class="buyed-value">{{boughtAmount | currencyFormat}}</span>
                   <span class="currency-name">{{IEOData.currencyName}}</span>
@@ -65,7 +65,7 @@
                   <span>{{boughtAmountPer}}%</span>
                 </div>
               </div>
-              <div class="currency-bar">
+              <div class="currency-bar animate-item">
                 <div
                   class="currency-bar-progress"
                   [style.width.%]="boughtAmountPer"
@@ -73,14 +73,14 @@
               </div>
             </div>
 
-            <div class="amount">
+            <div class="amount animate-item">
               <p>{{'Amount' | translate}}:
                 <span>{{IEOData.amount | currencyFormat}} {{IEOData.currencyName}}</span>
               </p>
             </div>
 
             <div
-              class="starts"
+              class="starts animate-item"
               *ngIf="stage.PENDING === currentStage"
             >
               <p>{{'Starts In' | translate}}:</p>
@@ -90,7 +90,7 @@
               ></div>
             </div>
 
-            <div class="button-part">
+            <div class="button-part animate-item">
               <div>
                 <button
                   class="standart-btn"

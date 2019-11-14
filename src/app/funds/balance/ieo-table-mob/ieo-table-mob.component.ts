@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { BalanceItem } from '../../models/balance-item.model';
 import { Router } from '@angular/router';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -18,12 +18,12 @@ import * as moment from 'moment';
 export class IEOTableMobComponent implements OnInit {
   @ViewChild('dropdown') dropdownElement: ElementRef;
   @ViewChild('scrollContainer') public scrollContainer: ElementRef;
-
+  @Input() public leaveAnimationFn : boolean;
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
   };
-
+  public startAnimation = false;
   public tableScrollStyles: any = {};
   public get currenciesArr() {
     return Object.keys(this.currencies);
@@ -66,7 +66,7 @@ export class IEOTableMobComponent implements OnInit {
   @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
   @Output() public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router, public utils: UtilsService, private store: Store<fromCore.State>) {
+  constructor(private router: Router, public utils: UtilsService, private store: Store<fromCore.State>,  private cdr: ChangeDetectorRef) {
     this.setScrollStyles();
   }
 
@@ -131,7 +131,13 @@ export class IEOTableMobComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+      setTimeout(()=>{
+        this.startAnimation = true;
+        console.log('afasdfs')
+        this.cdr.detectChanges();
+      },1000)
+  }
 
   trackByFn(index, item) {
     return item.id;

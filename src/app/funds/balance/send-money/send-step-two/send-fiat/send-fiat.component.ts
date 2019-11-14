@@ -330,6 +330,10 @@ export class SendFiatComponent implements OnInit, OnDestroy {
     return this.selectedMerchant && this.selectedMerchant.name === FUG;
   }
 
+  get isAmountValid() {
+    return +this.formAmount.value >= +this.minWithdrawSum;
+  }
+
   trackByFiatNames(index, item) {
     return item.id;
   }

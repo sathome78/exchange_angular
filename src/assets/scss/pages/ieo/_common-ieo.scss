@@ -1080,3 +1080,13 @@
       }
   }
 }
+
+.animate-item{
+  opacity: 0;
+      transition: .7s ease-out;
+      transform: translateY(15px);
+      &.active{
+        opacity: 1;
+        transform: translateY(0);
+      }
+}

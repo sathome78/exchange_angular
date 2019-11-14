@@ -13,7 +13,7 @@ import * as moment from 'moment';
 })
 export class IEOTableComponent implements OnInit {
   @Input() public countPerPage: number;
-
+  @Input() public leaveAnimationFn : boolean;
   @Input('IEOData')
   set IEOData(data: IEOItem[]) {
     this._IEOData = data;

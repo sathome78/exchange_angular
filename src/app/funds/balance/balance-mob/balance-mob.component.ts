@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { BalanceItem } from '../../models/balance-item.model';
 import { Router } from '@angular/router';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -14,6 +14,7 @@ import { environment } from 'environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BalanceMobComponent implements OnInit {
+  
   @ViewChild('dropdown') dropdownElement: ElementRef;
   @ViewChild('scrollContainer') public scrollContainer: ElementRef;
 
@@ -26,14 +27,14 @@ export class BalanceMobComponent implements OnInit {
   public get currenciesArr() {
     return Object.keys(this.currencies);
   }
-
+  public startAnimation = false;
   public loadModeDisabled: boolean = false;
   public priceIn: string = this.currencies.USD;
   public hideAllZero: boolean = false;
   public currencyForChoose: string = '';
   public currValue: string = '';
   public isShowSearchPopup = false;
-
+  @Input() public leaveAnimationFn : boolean;
   @Input('loading') public loading: boolean;
   @Input('balances') public balances: BalanceItem[] = [];
   @Input('countEntries') public countEntries: number = 0;
@@ -55,7 +56,7 @@ export class BalanceMobComponent implements OnInit {
   @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
   @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router, public utils: UtilsService, private store: Store<fromCore.State>) {
+  constructor(private router: Router, public utils: UtilsService, private cdr: ChangeDetectorRef, private store: Store<fromCore.State>) {
     this.setScrollStyles();
   }
 
@@ -149,7 +150,13 @@ export class BalanceMobComponent implements OnInit {
     return environment.showContent;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(()=>{
+      this.startAnimation = true;
+      console.log('afasdfs')
+      this.cdr.detectChanges();
+    },1000)
+  }
 
   trackByFn(index, item) {
     return item.currencyId;
