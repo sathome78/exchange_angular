@@ -2,30 +2,66 @@
   <h2 class="title send__title">
     {{'Make Inner transfer' | translate}}
   </h2>
-  <div class="send__row">
-    <button class="btn btn--empty-blue"
-    (click)="chooseTransfer('By email')"
-    >{{'Instant transfer' | translate}}</button>
-    <div class="send__transfer-description">
-      {{'Send instant internal transfer to another account using their email' | translate}}.
+  <ng-container *ngIf="VIEW === viewsList.MAIN">
+    <ng-container *ngFor="let merch of merchantData">
+      <ng-container *ngIf="merch.name === 'SimpleTransfer'">
+        <div class="send__row">
+          <button
+            class="btn btn--empty-blue"
+            (click)="chooseTransfer('By email', merch)"
+          >{{'Instant transfer' | translate}}</button>
+          <div class="send__transfer-description">
+            {{'Send instant internal transfer to another account using their email' | translate}}.
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="merch.name === 'VoucherTransfer'">
+        <div class="send__row">
+          <button
+            class="btn btn--empty-blue"
+            (click)="chooseTransfer('By code', merch)"
+          >
+            {{'Protected by code & mail' | translate}}
+          </button>
+          <div
+            class="send__transfer-description"
+            [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email</b>' | translate"
+          >
+            <div class="small">({{'user can get the money if he knows the transfer code' | translate}})</div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="merch.name === 'VoucherFreeTransfer'">
+        <div class="send__row">
+          <button
+            class="btn btn--empty-blue"
+            (click)="chooseTransfer('By private code', merch)"
+          >{{'Protected by code only' | translate}}</button>
+          <div
+            class="send__transfer-description"
+            [innerHTML]="'Make <b>password-protected</b> transfer' | translate"
+          >
+            <div class="small">{{'Anyone who knows the code may recive the transfer' | translate}}</div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="VIEW === viewsList.LOADING">
+    <div class="loading-container">
+      <app-loader></app-loader>
     </div>
-  </div>
-  <div class="send__row">
-    <button class="btn btn--empty-blue"
-    (click)="chooseTransfer('By code')">
-    {{'Protected by code & mail' | translate}}
-  </button>
-  <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email</b>' | translate">
-    <div class="small">({{'user can get the money if he knows the transfer code' | translate}})</div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="VIEW === viewsList.DENIED">
+    <div class="side-popups send-cripto-s2">
+      <div class="closed-opation">{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
+      <div class="closed-opation">{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="VIEW === viewsList.ERROR">
+    <div class="side-popups send-cripto-s2">
+      <div class="closed-opation">{{'Something went wrong!' | translate}}</div>
+      <div class="closed-opation">{{'Please try again later.' | translate}}</div>
+    </div>
+  </ng-container>
 </div>
-<div class="send__row">
-  <button class="btn btn--empty-blue"
-  (click)="chooseTransfer('By private code')"
-  >{{'Protected by code only' | translate}}</button>
-  <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> transfer' | translate">
-    <div class="small">{{'Anyone who knows the code may recive the transfer' | translate}}</div>
-  </div>
-</div>
-</div>
-
