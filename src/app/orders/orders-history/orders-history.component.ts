@@ -34,7 +34,6 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   public loading$: Observable<boolean>;
   public isLast15Items$: Observable<boolean>;
 
-
   public currentPage = 1;
   public countPerPage = 15;
 
@@ -97,10 +96,9 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.startAnimation = true;
-    },600)
-
+    }, 600);
 
     this.isMobile = window.innerWidth < 1200;
     if (this.isMobile) {

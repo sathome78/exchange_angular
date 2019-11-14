@@ -51,6 +51,8 @@ export class MainLoaderService {
       .pipe(take(1))
       .subscribe(() => {
         this.dashboardLoader.next();
+      }, err => {
+        this.dashboardLoader.next();
       });
   }
 
@@ -64,6 +66,8 @@ export class MainLoaderService {
     )
       .pipe(take(1))
       .subscribe(() => {
+        this.dashboardLoader.next();
+      }, err => {
         this.dashboardLoader.next();
       });
   }

@@ -74,10 +74,9 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.startAnimation = true;
-    },600)
-
+    }, 600);
 
     this.isMobile = window.innerWidth < 1200;
     if (this.isMobile) {
