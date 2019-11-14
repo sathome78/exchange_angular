@@ -11,9 +11,8 @@
         <li class="sidebar-menu__item">
           <a
             class="sidebar-menu__link"
-            [routerLinkActive]="['sidebar-menu__link--active']"
-            [routerLink]="['/settings/two-factor-auth']"
-            (click)="activeLnk()"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/two-factor-auth')}"
+            (click)="activeLnk('/settings/two-factor-auth')"
           >
             {{'Two-Factor Authentication' | translate}}
           </a>
@@ -21,9 +20,8 @@
         <li class="sidebar-menu__item">
           <a
             class="sidebar-menu__link"
-            [routerLinkActive]="['sidebar-menu__link--active']"
-            [routerLink]="['/settings/password']"
-            (click)="activeLnk()"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/password')}"
+            (click)="activeLnk('/settings/password')"
           >
             {{'Password' | translate}}
           </a>
@@ -31,9 +29,8 @@
         <li class="sidebar-menu__item">
           <a
             class="sidebar-menu__link"
-            [routerLinkActive]="['sidebar-menu__link--active']"
-            [routerLink]="['/settings/session']"
-            (click)="activeLnk()"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/session')}"
+            (click)="activeLnk('/settings/session')"
           >
             {{'Session Time' | translate}}
           </a>
@@ -41,9 +38,8 @@
         <li class="sidebar-menu__item">
           <a
             class="sidebar-menu__link"
-            [routerLinkActive]="['sidebar-menu__link--active']"
-            [routerLink]="['/settings/verification']"
-            (click)="activeLnk()"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/verification')}"
+            (click)="activeLnk('/settings/verification')"
           >
             {{'Identity Verification' | translate}}
           </a>
@@ -51,9 +47,8 @@
         <li class="sidebar-menu__item">
           <a
             class="sidebar-menu__link"
-            [routerLinkActive]="['sidebar-menu__link--active']"
-            [routerLink]="['/settings/api-keys']"
-            (click)="activeLnk()"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/api-keys')}"
+            (click)="activeLnk('/settings/api-keys')"
           >
             {{'Api keys' | translate}}
           </a>
