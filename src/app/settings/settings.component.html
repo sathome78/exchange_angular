@@ -1,50 +1,59 @@
 <div class="container">
   <div class="settings">
-    <div class="settings__sidebar">
+    <div class="settings__sidebar fade-anim del2">
       <div class="ppage-title settings__sidebar-title">
         <h1 class="page-title__text">{{'Settings' | translate}} </h1>
       </div>
       <ul class="sidebar-menu">
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/two-factor-auth']">
+          <a
+            class="sidebar-menu__link"
+            [routerLinkActive]="['sidebar-menu__link--active']"
+            [routerLink]="['/settings/two-factor-auth']"
+          >
             {{'Two-Factor Authentication' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/password']">
+          <a
+            class="sidebar-menu__link"
+            [routerLinkActive]="['sidebar-menu__link--active']"
+            [routerLink]="['/settings/password']"
+          >
             {{'Password' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/session']">
+          <a
+            class="sidebar-menu__link"
+            [routerLinkActive]="['sidebar-menu__link--active']"
+            [routerLink]="['/settings/session']"
+          >
             {{'Session Time' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
+          <a
+            class="sidebar-menu__link"
             [routerLinkActive]="['sidebar-menu__link--active']"
-            [routerLink]="['/settings/verification']">
+            [routerLink]="['/settings/verification']"
+          >
             {{'Identity Verification' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/api-keys']">
+          <a
+            class="sidebar-menu__link"
+            [routerLinkActive]="['sidebar-menu__link--active']"
+            [routerLink]="['/settings/api-keys']"
+          >
             {{'Api keys' | translate}}
           </a>
         </li>
       </ul>
     </div>
-    <div class="settings-content-wr">
+    <div class="settings-content-wr fade-move-anim del4">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
