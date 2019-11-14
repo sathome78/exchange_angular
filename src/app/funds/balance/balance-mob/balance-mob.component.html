@@ -10,7 +10,10 @@
           {{ "Balances" | translate }}
         </h1>
       </div>
-      <div class="widget__search-btn" (click)="toggleShowSearchPopup(true)">
+      <div
+        class="widget__search-btn"
+        (click)="toggleShowSearchPopup(true)"
+      >
         <svg
           fill="none"
           height="14"
@@ -86,7 +89,10 @@
     </div>
   </div>
   <!--filters start-->
-  <form action="" class="fade-anim del2">
+  <form
+    action=""
+    class="fade-anim del2"
+  >
     <div
       class="balance__filters"
       [ngClass]="{
@@ -112,10 +118,20 @@
       </ng-container>
 
       <span>{{ "Price in" | translate }}</span>
-      <div class="dropdown" #dropdown (click)="onToggleDropdown()">
+      <div
+        class="dropdown"
+        #dropdown
+        (click)="onToggleDropdown()"
+      >
         <div class="dropdown__btn">{{ priceIn }}</div>
-        <ul class="dropdown__list" (click)="onSelectCurrency($event)">
-          <li class="dropdown__item" *ngFor="let item of currenciesArr">
+        <ul
+          class="dropdown__list"
+          (click)="onSelectCurrency($event)"
+        >
+          <li
+            class="dropdown__item"
+            *ngFor="let item of currenciesArr"
+          >
             {{ item }}
           </li>
         </ul>
@@ -169,7 +185,10 @@
       </thead>
       <tbody class="table__body table__body--none-shadow fade-move-anim del2">
         <ng-container *ngFor="let item of balances">
-          <tr class="table__row--mob" (click)="onShowMobDetails(item)">
+          <tr
+            class="table__row--mob"
+            (click)="onShowMobDetails(item)"
+          >
             <td class="table__cell table__cell--tal">
               <div class="balance__currency">
                 <div class="balance__currency-icon">
@@ -223,8 +242,14 @@
             </td>
           </tr>
         </ng-container>
-        <tr class="table__row--mob" *ngIf="!balances.length && !loading">
-          <td class="table__cell table__cell--tac" colspan="4">
+        <tr
+          class="table__row--mob"
+          *ngIf="!balances.length && !loading"
+        >
+          <td
+            class="table__cell table__cell--tac"
+            colspan="4"
+          >
             {{ "No matching records found" | translate }}
           </td>
         </tr>

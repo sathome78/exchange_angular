@@ -13,7 +13,7 @@ import * as moment from 'moment';
 })
 export class IEOTableComponent implements OnInit {
   @Input() public countPerPage: number;
-  @Input() public leaveAnimationFn : boolean;
+  @Input() public leaveAnimationFn: boolean;
   @Input('IEOData')
   set IEOData(data: IEOItem[]) {
     this._IEOData = data;
@@ -27,11 +27,11 @@ export class IEOTableComponent implements OnInit {
         const diff = aT - bT;
         if (diff < 0) {
           return 1;
-        } else if (diff > 0) {
-          return -1;
-        } else {
-          return 0;
         }
+        if (diff > 0) {
+          return -1;
+        }
+        return 0;
       }),
     ];
   }
@@ -39,7 +39,7 @@ export class IEOTableComponent implements OnInit {
   @Input() public loading: boolean;
   @Input() public currentPage: number;
   @Input() public countOfEntries: number;
-  @Output() public onPaginate: EventEmitter<any> = new EventEmitter();
+  @Output() public paginate: EventEmitter<any> = new EventEmitter();
   public icoBalances = [];
   public stage = {
     PENDING: 'PENDING',
@@ -65,7 +65,12 @@ export class IEOTableComponent implements OnInit {
   public handleTestIEO(data) {
     if (this.selectedIEO && data && data.length) {
       const ieo = data.find(i => i.id === this.selectedIEO.id);
-      if (ieo && ieo.multiplyProcessing && ieo.status === this.stage.TERMINATED && this._firstLoadedStatus !== this.stage.TERMINATED) {
+      if (
+        ieo &&
+        ieo.multiplyProcessing &&
+        ieo.status === this.stage.TERMINATED &&
+        this._firstLoadedStatus !== this.stage.TERMINATED
+      ) {
         this.toggleWait(false);
         this.toggleSorry(true);
       }
@@ -73,14 +78,14 @@ export class IEOTableComponent implements OnInit {
   }
 
   public changeItemsPerPage(items: number) {
-    this.onPaginate.emit({
+    this.paginate.emit({
       currentPage: this.currentPage,
       countPerPage: items,
     });
   }
 
   public changePage(page: number): void {
-    this.onPaginate.emit({
+    this.paginate.emit({
       currentPage: page,
       countPerPage: this.countPerPage,
     });

@@ -15,14 +15,14 @@
       <button
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.CRYPTO }"
-        (click)="onSelectTab.emit(Tab.CRYPTO)"
+        (click)="selectTab.emit(Tab.CRYPTO)"
       >
         {{ "Crypto" | translate }}
       </button>
       <button
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.FIAT }"
-        (click)="onSelectTab.emit(Tab.FIAT)"
+        (click)="selectTab.emit(Tab.FIAT)"
       >
         {{ "Exchange Wallet" | translate }}
       </button>
@@ -32,7 +32,7 @@
         *ngIf="utils.isDeveloper"
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.QUBERA }"
-        (click)="onSelectTab.emit(Tab.QUBERA)"
+        (click)="selectTab.emit(Tab.QUBERA)"
       >
         {{ "Funding Wallet" | translate }}
       </button>
@@ -40,7 +40,7 @@
       <button
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.IEO }"
-        (click)="onSelectTab.emit(Tab.IEO)"
+        (click)="selectTab.emit(Tab.IEO)"
       >
         {{ "IEO" | translate }}
       </button>
@@ -96,7 +96,10 @@
       </thead>
       <tbody class="table__body table__body--none-shadow fade-move-anim del2">
         <ng-container *ngFor="let ieo of IEOData; trackBy: trackByFn">
-          <tr class="table__row--mob" (click)="onShowIEOMobDetails(ieo)">
+          <tr
+            class="table__row--mob"
+            (click)="onShowIEOMobDetails(ieo)"
+          >
             <td class="table__cell table__cell--tal">
               <div class="balance__currency">
                 <div class="balance__currency-icon">
@@ -108,21 +111,10 @@
               </div>
             </td>
             <td class="table__cell table__cell--tal">
-              <span>{{
-                ieo.availableAmount || 0
-                  | roundCurrency: "BTC"
-                  | formatCurrency: "short":"BTC"
-              }}</span>
+              <span>{{ieo.availableAmount || 0 | currencyFormat}}</span>
             </td>
             <td class="table__cell table__cell--tar">
-              <div>
-                {{
-                  ieo.rate || 0
-                    | roundCurrency: "BTC"
-                    | formatCurrency: "short":"BTC"
-                }}
-                BTC
-              </div>
+              <div>{{ieo.rate || 0 | currencyFormat}} BTC</div>
             </td>
             <td class="table__cell table__cell--arr-mob">
               <svg
@@ -147,8 +139,14 @@
             </td>
           </tr>
         </ng-container>
-        <tr class="table__row--mob" *ngIf="!IEOData.length">
-          <td class="table__cell table__cell--tac" colspan="4">
+        <tr
+          class="table__row--mob"
+          *ngIf="!IEOData.length"
+        >
+          <td
+            class="table__cell table__cell--tac"
+            colspan="4"
+          >
             {{ "No matching records found" | translate }}
           </td>
         </tr>

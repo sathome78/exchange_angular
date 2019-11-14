@@ -138,9 +138,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    setTimeout(()=>{
+    setTimeout(() => {
       this.startAnimation = true;
-    },1000)
+    }, 1000);
 
     this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
     this.store.dispatch(new fundsAction.LoadQuberaKycStatusAction());
@@ -220,20 +220,18 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
   public onSelectTab(tab: string): void {
     this.leaveAnimation = true;
-    setTimeout(()=>{
-      
+    setTimeout(() => {
       this.currTab = tab;
-    this.changingQueryParams('tab', tab);
-    this.currentPage = 1;
-    this.currValue = '';
-    this.currencyForChoose = null;
-    this.loadBalances(this.currTab);
-    setTimeout(()=>{
-this.leaveAnimation = false;
-    },800)
-    
-    },500)
-    
+      this.changingQueryParams('tab', tab);
+      this.currentPage = 1;
+      this.currValue = '';
+      this.currencyForChoose = null;
+      this.loadBalances(this.currTab);
+      setTimeout(() => {
+        this.leaveAnimation = false;
+      }, 800);
+    }, 500);
+
   }
 
   public changingQueryParams(key: 'tab' | 'hz', value: string) {

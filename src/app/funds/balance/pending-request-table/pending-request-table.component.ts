@@ -13,24 +13,24 @@ export class PendingRequestTableComponent implements OnInit {
   public revokeModalId;
 
   constructor(private utils: UtilsService) {}
-  @Input() public leaveAnimationFn : boolean;
-  @Input('pendingRequests') public pendingRequests: PendingRequestsItem[] = [];
-  @Input('countPerPage') public countPerPage: number;
-  @Input('currentPage') public currentPage: number;
-  @Input('loading') public loading: boolean;
-  @Input('countOfEntries') public countOfEntries: number;
-  @Output('onPaginate') public onPaginate: EventEmitter<any> = new EventEmitter();
-  @Output('onRevokePendingRequest') public onRevokePendingRequest: EventEmitter<any> = new EventEmitter();
+  @Input() public leaveAnimationFn: boolean;
+  @Input() public pendingRequests: PendingRequestsItem[] = [];
+  @Input() public countPerPage: number;
+  @Input() public currentPage: number;
+  @Input() public loading: boolean;
+  @Input() public countOfEntries: number;
+  @Output() public paginate: EventEmitter<any> = new EventEmitter();
+  @Output() public revokePendingRequest: EventEmitter<any> = new EventEmitter();
 
   public changeItemsPerPage(items: number) {
-    this.onPaginate.emit({
+    this.paginate.emit({
       currentPage: this.currentPage,
       countPerPage: items,
     });
   }
 
   public changePage(page: number): void {
-    this.onPaginate.emit({
+    this.paginate.emit({
       currentPage: page,
       countPerPage: this.countPerPage,
     });
@@ -42,7 +42,7 @@ export class PendingRequestTableComponent implements OnInit {
   }
   public onRevoke(item): void {
     this.showRevokeModal = false;
-    this.onRevokePendingRequest.emit({
+    this.revokePendingRequest.emit({
       requestId: item.requestId,
       operation: item.operation,
     });

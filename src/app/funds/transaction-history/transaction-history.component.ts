@@ -84,11 +84,9 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    setTimeout(()=>{
+    setTimeout(() => {
       this.startAnimation = true;
-    },1000)
-
-
+    }, 1000);
 
     // this.initDate();
     this.store.dispatch(new coreAction.LoadAllCurrenciesForChoose());
