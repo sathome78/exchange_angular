@@ -1,5 +1,8 @@
 <div class="container">
-  <div class="settings">
+  <div
+    class="settings"
+    [ngClass]="{'active':startAnimation}"
+  >
     <div class="settings__sidebar fade-anim del2">
       <div class="ppage-title settings__sidebar-title">
         <h1 class="page-title__text">{{'Settings' | translate}} </h1>

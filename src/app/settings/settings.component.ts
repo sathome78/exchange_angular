@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 export class SettingsComponent implements OnInit, OnDestroy {
   lang$: Observable<string>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
+  public startAnimation = false;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -34,6 +34,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     // this.lang$
     //   .pipe(takeUntil(this.ngUnsubscribe))
     //   .subscribe(lang => this.translate.use(lang));
+
+    setTimeout(()=>{
+      this.startAnimation = true;
+    },300)
     this.store
       .pipe(select(fromCore.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
