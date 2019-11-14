@@ -61,6 +61,7 @@ import { BottomFormComponent } from './main-page/bottom-form/bottom-form.compone
 import { BannerComponent } from './banner/banner.component';
 import { ChartService } from './dashboard/components/graph/services/chart.service';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { MainLoaderService } from './shared/services/main-loader.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -159,6 +160,7 @@ const stompConfig: InjectableRxStompConfig = {
     EmbeddedOrdersService,
     CoreService,
     RxStompService,
+    MainLoaderService,
     ChartService,
 
     {

@@ -6,7 +6,7 @@
   >
     <ng-container [ngSwitch]="currTab">
       <app-balance-mob
-        *ngSwitchCase="Tab.CRYPTO"
+        [hidden]="currTab !== Tab.CRYPTO"
         [balances]="cryptoBalances$ | async"
         [countEntries]="countOfCryptoEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
@@ -18,17 +18,18 @@
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
         [loading]="loading$ | async"
-        (onToggleAllZero)="onToggleAllZeroMobile($event)"
-        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (toggleAllZero)="onToggleAllZeroMobile($event)"
+        (loadMore)="loadMoreBalancesForMobile($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
-        (onSelectTab)="onSelectTab($event)"
+        (selectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        (goToBalanceDetails)="onGoToBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-mob>
 
       <app-balance-mob
-        *ngSwitchCase="Tab.FIAT"
+        [hidden]="currTab !== Tab.FIAT"
         [balances]="fiatBalances$ | async"
         [countEntries]="countOfFiatEntries$ | async"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
@@ -40,17 +41,18 @@
         [cryptoCurrenciesForChoose]="cryptoCurrenciesForChoose$ | async"
         [fiatCurrenciesForChoose]="fiatCurrenciesForChoose$ | async"
         [loading]="loading$ | async"
-        (onToggleAllZero)="onToggleAllZeroMobile($event)"
-        (onLoadMore)="loadMoreBalancesForMobile($event)"
+        (toggleAllZero)="onToggleAllZeroMobile($event)"
+        (loadMore)="loadMoreBalancesForMobile($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
-        (onSelectTab)="onSelectTab($event)"
+        (selectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-        (onGoToBalanceDetails)="onGoToBalanceDetails($event)"
+        (goToBalanceDetails)="onGoToBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-mob>
 
       <app-qubera-mob
-        *ngSwitchCase="Tab.QUBERA"
+        [hidden]="currTab !== Tab.QUBERA"
         [Tab]="Tab"
         [currTab]="currTab"
         [balances]="quberaBalances$ | async"
@@ -61,19 +63,21 @@
         (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-qubera-mob>
 
       <app-ieo-table-mob
-        *ngSwitchCase="Tab.IEO"
+        [hidden]="currTab !== Tab.IEO"
         [IEOData]="IEOData"
         [Tab]="Tab"
         [currTab]="currTab"
         [countOfPendingRequests]="countOfPendingRequests$ | async"
         (openRefillBalancePopup)="openRefillBalancePopup($event)"
         (openSendMoneyPopup)="openSendMoneyPopup($event)"
-        (onSelectTab)="onSelectTab($event)"
+        (selectTab)="onSelectTab($event)"
         (filterByCurrencyForMobile)="filterByCurrencyForMobile($event)"
-        (onGoToBalanceDetails)="onGoToIEOBalanceDetails($event)"
+        (goToBalanceDetails)="onGoToIEOBalanceDetails($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-ieo-table-mob>
     </ng-container>
   </div>
@@ -83,14 +87,14 @@
   <!--balance-desktop start-->
   <div
     class="balance"
-    [ngClass]="{'balance-fiat': currTab === Tab.FIAT}"
+    [ngClass]="{'balance-fiat': currTab === Tab.FIAT, 'active' : startAnimation}"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
   >
     <div class="page-title">
-      <h1 class="page-title__text">
+      <h1 class="page-title__text fade-anim del2">
         {{'Balances' | translate}}
       </h1>
-      <div class="balance__your-active">
+      <div class="balance__your-active fade-anim del2">
         <h6 class="txt-grey">{{'Estimated Holdings:' | translate}}</h6>
         <div class="row">
           <div class="balance__your-active-item">
@@ -128,17 +132,17 @@
         </div>
       </div>
 
-      <div [hidden]="!(loading$ | async)">
+      <!-- <div [hidden]="!(loading$ | async)">
         <app-loader size="small"></app-loader>
-      </div>
+      </div> -->
       <button
-        class="btn btn--active balance__title-btn"
+        class="btn btn--active balance__title-btn fade-move-anim del1"
         (click)="openRefillBalancePopup(true)"
       >
         {{'Refill balance' | translate}}
       </button>
       <button
-        class="btn balance__title-btn"
+        class="btn balance__title-btn fade-move-anim del4"
         style="margin-left: 32px;"
         (click)="openSendMoneyPopup(true)"
       >
@@ -148,7 +152,7 @@
     <!--filters start-->
     <!--<form action="">-->
     <div
-      class="balance__filters"
+      class="balance__filters fade-anim del5"
       [ngClass]="{'balance__filters--pending-open': currTab === Tab.PR}"
     >
       <ng-container [ngSwitch]="currTab">
@@ -329,32 +333,34 @@
     <!--</form>-->
     <!--filters end-->
 
-    <ng-container [ngSwitch]="currTab">
+    <ng-container>
       <app-balance-table
-        *ngSwitchCase="Tab.CRYPTO"
+        [hidden]="currTab !== Tab.CRYPTO"
         [allPairs]="detailedCurrencyPairs$ | async"
         [balances]="cryptoBalances$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [loading]="loading$ | async"
-        (onPaginate)="onPageChanged($event)"
+        (paginate)="onPageChanged($event)"
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-table>
       <app-balance-table
-        *ngSwitchCase="Tab.FIAT"
+        [hidden]="currTab !== Tab.FIAT"
         [allPairs]="detailedCurrencyPairs$ | async"
         [balances]="fiatBalances$ | async"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [loading]="loading$ | async"
-        (onPaginate)="onPageChanged($event)"
+        (paginate)="onPageChanged($event)"
         (transferOut)="goToTransferPopup($event)"
         (cryptoWithdrawOut)="goToCryptoWithdrawPopup($event)"
         (cryptoDepositOut)="goToCryptoDepositPopup($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-balance-table>
       <app-pending-request-table
         [pendingRequests]="pendingRequests$ | async"
@@ -362,13 +368,14 @@
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [loading]="loading$ | async"
-        (onPaginate)="onPageChanged($event)"
-        (onRevokePendingRequest)="onRevokePendingRequest($event)"
-        *ngSwitchCase="Tab.PR"
+        (paginate)="onPageChanged($event)"
+        (revokePendingRequest)="onRevokePendingRequest($event)"
+        [hidden]="currTab !== Tab.PR"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-pending-request-table>
       <ng-container>
         <app-qubera-table
-          *ngSwitchCase="Tab.QUBERA"
+          [hidden]="currTab !== Tab.QUBERA"
           [balances]="quberaBalances$ | async"
           [kycStatus]="quberaKycStatus$ | async"
           (transferQuberaOut)="goToTransferQuberaPopup($event)"
@@ -377,18 +384,20 @@
           (createQuberaAccount)="goToCreateQuberaAccountPopup($event)"
           (cryptoDepositQuberaOut)="goToQuberaDepositPopup($event)"
           [loading]="loading$ | async"
+          [leaveAnimationFn]="leaveAnimationFn"
         >
         </app-qubera-table>
       </ng-container>
 
       <app-ieo-table
-        *ngSwitchCase="Tab.IEO"
+        [hidden]="currTab !== Tab.IEO"
         [countPerPage]="countPerPage"
         [countOfEntries]="getCountOfEntries() | async"
         [currentPage]="currentPage"
         [IEOData]="IEOData"
         [loading]="loading$ | async"
-        (onPaginate)="onPageChanged($event)"
+        (paginate)="onPageChanged($event)"
+        [leaveAnimationFn]="leaveAnimationFn"
       ></app-ieo-table>
     </ng-container>
 

@@ -22,6 +22,9 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['./orders-history.component.scss'],
 })
 export class OrdersHistoryComponent implements OnInit, OnDestroy {
+
+  public startAnimation = false;
+
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public orderItems$: Observable<OrderItem[]>;
   public orderItems: OrderItem[] = [];
@@ -93,6 +96,10 @@ export class OrdersHistoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.startAnimation = true;
+    }, 600);
+
     this.isMobile = window.innerWidth < 1200;
     if (this.isMobile) {
       this.countPerPage = 30;
