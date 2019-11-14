@@ -59,10 +59,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.startAnimationTab = false;
     setTimeout(() => {
       this.navTo(url);
-    }, 0);
-    setTimeout(() => {
-      this.startAnimationTab = true;
-    }, 600);
+      setTimeout(() => {
+        this.startAnimationTab = true;
+      }, 500);
+    }, 300);
+    
   }
 
   navTo(target) {
