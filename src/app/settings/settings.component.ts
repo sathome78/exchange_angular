@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,10 +15,12 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./settings.component.scss'],
   // host: {'class': 'app-settings'}
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent implements OnInit, OnChanges, OnDestroy {
   lang$: Observable<string>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public startAnimation = false;
+  public startAnimationTab = true;
+  public activeLink = "";
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -48,9 +50,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
       });
     this.store.dispatch(new settingsActions.LoadSessionTimeAction());
   }
-
+ngOnChanges(){
+  
+}
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+  activeLnk() {
+    this.startAnimationTab = false;
+    setTimeout(() => {
+      this.startAnimationTab = true;
+    },600)
+ }
 }
