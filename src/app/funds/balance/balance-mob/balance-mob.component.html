@@ -35,7 +35,7 @@
       <button
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.CRYPTO }"
-        (click)="onSelectTab.emit(Tab.CRYPTO)"
+        (click)="selectTab.emit(Tab.CRYPTO)"
         [disabled]="loading"
       >
         {{ "Crypto" | translate }}
@@ -44,7 +44,7 @@
       <button
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.FIAT }"
-        (click)="onSelectTab.emit(Tab.FIAT)"
+        (click)="selectTab.emit(Tab.FIAT)"
         [disabled]="loading"
       >
         {{ "Exchange Wallet" | translate }}
@@ -54,7 +54,7 @@
         *ngIf="utils.isDeveloper"
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.QUBERA }"
-        (click)="onSelectTab.emit(Tab.QUBERA)"
+        (click)="selectTab.emit(Tab.QUBERA)"
         [disabled]="loading"
       >
         {{ "Funding Wallet" | translate }}
@@ -63,7 +63,7 @@
       <button
         class="tabs__item"
         [ngClass]="{ 'tabs__item--active': currTab === Tab.IEO }"
-        (click)="onSelectTab.emit(Tab.IEO)"
+        (click)="selectTab.emit(Tab.IEO)"
         [disabled]="loading"
       >
         {{ "IEO" | translate }}
