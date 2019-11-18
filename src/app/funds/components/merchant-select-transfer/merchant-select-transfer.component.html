@@ -1,0 +1,29 @@
+<div class="select">
+  <div
+    class="select__value"
+    (click)="onToggleDropdown()"
+    [ngClass]="{'select__value--active' : activeMerchant}"
+  >
+    <!-- [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}" -->
+    <ng-container *ngIf="activeMerchant">
+      {{activeMerchant.name}}
+    </ng-container>
+
+  </div>
+  <div class="select__label">{{'Currency' | translate}}</div>
+  <div class="select__line"></div>
+  <div class="select__triangle"></div>
+  <ul
+    class="select__list"
+    [ngClass]="{'select__list--open': openDropdown}"
+    *ngIf="openDropdown"
+  >
+    <li
+      class="select__list-item"
+      *ngFor="let merch of merchants"
+      (click)="onSelect(merch)"
+    >
+      {{merch.name}}
+    </li>
+  </ul>
+</div>

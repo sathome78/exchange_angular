@@ -22,6 +22,7 @@ export class SendInnerTransferComponent implements OnInit {
     DENIED: 'denied',
   };
   public VIEW = this.viewsList.LOADING;
+  public openDropdown = true;
 
   constructor(public balanceService: BalanceService) {}
 
@@ -48,5 +49,11 @@ export class SendInnerTransferComponent implements OnInit {
 
   setView(view) {
     this.VIEW = view;
+  }
+
+  toggleSelect(val) {
+    if (val) {
+      this.openDropdown = false;
+    }
   }
 }

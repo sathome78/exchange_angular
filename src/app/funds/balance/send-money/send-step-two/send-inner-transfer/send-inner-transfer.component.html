@@ -65,3 +65,10 @@
     </div>
   </ng-container>
 </div>
+
+
+<app-merchant-select-transfer
+  [activeMerchant]="null"
+  [merchants]="merchantData"
+  (toggleDropdown)="toggleSelect($event)"
+></app-merchant-select-transfer>
