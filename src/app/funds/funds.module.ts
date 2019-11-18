@@ -54,8 +54,6 @@ import { ShowPendingSystemPipe } from './pending-system.pipe';
 import { ShowTransactionsStatusPipe } from './transactions-history-status.pipe';
 import { ShowTransactionsTypePipe } from './transactions-history-type.pipe';
 import { QuberaTableComponent } from './balance/qubera-table/qubera-table.component';
-import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
-import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
 import { IEOTableComponent } from './balance/ieotable/ieotable.component';
 import { BalanceSearchMobComponent } from './balance/balance-search-mob/balance-search-mob.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -153,8 +151,6 @@ export function createTranslateLoader(http: HttpClient) {
     ShowTransactionsTypePipe,
     HashToUrlPipe,
     QuberaTableComponent,
-    SendFiatQuberaComponent,
-    TransferQuberaComponent,
     IEOTableComponent,
     BalanceSearchMobComponent,
     IEOTableMobComponent,
