@@ -6,7 +6,7 @@
   >
     <!-- [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}" -->
     <ng-container *ngIf="activeMerchant">
-      {{activeMerchant.name}}
+      {{activeMerchant.name | transferNamePipe}}
     </ng-container>
 
   </div>
@@ -23,7 +23,7 @@
       *ngFor="let merch of merchants"
       (click)="onSelect(merch)"
     >
-      {{merch.name}}
+      {{merch.name | transferNamePipe}}
     </li>
   </ul>
 </div>

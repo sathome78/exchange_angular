@@ -86,6 +86,7 @@ import { CommissionComponent } from './components/commission/commission.componen
 import { SendLinesComponent } from './components/send-lines/send-lines.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { MerchantSelectTransferComponent } from './components/merchant-select-transfer/merchant-select-transfer.component';
+import { TransferNamePipe } from './transfer-name.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -181,6 +182,7 @@ export function createTranslateLoader(http: HttpClient) {
     CommissionComponent,
     SendLinesComponent,
     MerchantSelectTransferComponent,
+    TransferNamePipe,
   ],
   providers: [
     BalanceService,
