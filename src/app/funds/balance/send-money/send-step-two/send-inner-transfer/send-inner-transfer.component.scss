@@ -13,7 +13,7 @@
     }
   }
   &__transfer-description{
-    
+
     .small{
       font-size: 12px;
       line-height: 14px;
@@ -48,5 +48,20 @@
     color: #DEDEFB;
     text-align: center;
   }
-  
+
+}
+
+.send__title {
+  text-align: center;
+  margin-bottom: 38px;
+}
+
+.bottom-tooltip {
+  position: absolute;
+}
+
+
+.currency-select-wrapper {
+  width: 100%;
+  margin-bottom: 35px;
 }

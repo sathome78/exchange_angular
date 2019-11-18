@@ -9,6 +9,7 @@ export class MerchantSelectTransferComponent implements OnInit {
 
   @Input() public activeMerchant = null;
   @Input() public merchants: any[] = [];
+  @Input() public disabled: boolean;
   @Output() public selectMerchant: EventEmitter<any> = new EventEmitter();
   @Output() public toggleDropdown: EventEmitter<boolean> = new EventEmitter();
   public openDropdown = false;
@@ -25,8 +26,10 @@ export class MerchantSelectTransferComponent implements OnInit {
   ngOnInit() { }
 
   onToggleDropdown() {
-    this.openDropdown = !this.openDropdown;
-    this.toggleDropdown.emit(this.openDropdown);
+    if (!this.disabled) {
+      this.openDropdown = !this.openDropdown;
+      this.toggleDropdown.emit(this.openDropdown);
+    }
   }
 
   closeDropdown() {

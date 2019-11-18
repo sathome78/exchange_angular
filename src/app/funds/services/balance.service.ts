@@ -281,78 +281,153 @@ export class BalanceService {
       currency: currencyName,
     };
     const mock = {
-      "merchantCurrencies": [
+      merchantCurrencies: [
         {
-          "merchantId": 30,
-          "currencyId": 4,
-          "name": "SimpleTransfer",
-          "processType": "TRANSFER",
-          "minInputSum": 0.00165,
-          "minOutputSum": 0.00165,
-          "minTransferSum": 0.00165,
-          "inputCommission": 0,
-          "outputCommission": 0,
-          "transferCommission": 0,
-          "minFixedCommission": 0,
-          "listMerchantImage": [
+          merchantId: 30,
+          currencyId: 4,
+          name: 'SimpleTransfer',
+          processType: 'TRANSFER',
+          minInputSum: 0.00165,
+          minOutputSum: 0.00165,
+          minTransferSum: 0.00165,
+          inputCommission: 0,
+          outputCommission: 0,
+          transferCommission: 0.002,
+          minFixedCommission: 0,
+          listMerchantImage: [
             {
-              "id": 85,
-              "imagePath": "/client/img/merchants/transfer.png"
-            }
+              id: 85,
+              imagePath: '/client/img/merchants/transfer.png',
+            },
           ],
-          "withdrawBlocked": true,
-          "refillBlocked": true,
-          "transferBlocked": false
+          withdrawBlocked: true,
+          refillBlocked: true,
+          transferBlocked: false,
         },
         {
-          "merchantId": 31,
-          "currencyId": 4,
-          "name": "VoucherTransfer",
-          "processType": "TRANSFER",
-          "minInputSum": 0.00165,
-          "minOutputSum": 0.00165,
-          "minTransferSum": 0.00165,
-          "inputCommission": 0,
-          "outputCommission": 0,
-          "transferCommission": 0,
-          "minFixedCommission": 0,
-          "listMerchantImage": [
+          merchantId: 31,
+          currencyId: 4,
+          name: 'VoucherTransfer',
+          processType: 'TRANSFER',
+          minInputSum: 0.00165,
+          minOutputSum: 0.00165,
+          minTransferSum: 0.00165,
+          inputCommission: 0,
+          outputCommission: 0,
+          transferCommission: 0.002,
+          minFixedCommission: 0,
+          listMerchantImage: [
             {
-              "id": 106,
-              "imagePath": "/client/img/merchants/voucher.png"
-            }
+              id: 106,
+              imagePath: '/client/img/merchants/voucher.png',
+            },
           ],
-          "withdrawBlocked": true,
-          "refillBlocked": true,
-          "transferBlocked": false
+          withdrawBlocked: true,
+          refillBlocked: true,
+          transferBlocked: false,
         },
         {
-          "merchantId": 32,
-          "currencyId": 4,
-          "name": "VoucherFreeTransfer",
-          "processType": "TRANSFER",
-          "minInputSum": 0.00165,
-          "minOutputSum": 0.00165,
-          "minTransferSum": 0.00165,
-          "inputCommission": 0,
-          "outputCommission": 0,
-          "transferCommission": 0,
-          "minFixedCommission": 0,
-          "listMerchantImage": [
+          merchantId: 32,
+          currencyId: 4,
+          name: 'VoucherFreeTransfer',
+          processType: 'TRANSFER',
+          minInputSum: 0.00165,
+          minOutputSum: 0.00165,
+          minTransferSum: 0.00165,
+          inputCommission: 0,
+          outputCommission: 0,
+          transferCommission: 0.002,
+          minFixedCommission: 0,
+          listMerchantImage: [
             {
-              "id": 127,
-              "imagePath": "/client/img/merchants/voucher_free.png"
-            }
+              id: 127,
+              imagePath: '/client/img/merchants/voucher_free.png',
+            },
           ],
-          "withdrawBlocked": true,
-          "refillBlocked": true,
-          "transferBlocked": false
-        }
+          withdrawBlocked: true,
+          refillBlocked: true,
+          transferBlocked: false,
+        },
       ],
-      "operationRestrictedToUser": false
+      operationRestrictedToUser: false,
+    };
+    const mock2 = {
+      merchantCurrencies: [
+        {
+          merchantId: 30,
+          currencyId: 4,
+          name: 'SimpleTransfer',
+          processType: 'TRANSFER',
+          minInputSum: 0.00165,
+          minOutputSum: 0.00165,
+          minTransferSum: 0.1,
+          inputCommission: 0,
+          outputCommission: 0,
+          transferCommission: 0.002,
+          minFixedCommission: 0,
+          listMerchantImage: [
+            {
+              id: 85,
+              imagePath: '/client/img/merchants/transfer.png',
+            },
+          ],
+          withdrawBlocked: true,
+          refillBlocked: true,
+          transferBlocked: false,
+        },
+        {
+          merchantId: 31,
+          currencyId: 4,
+          name: 'VoucherTransfer',
+          processType: 'TRANSFER',
+          minInputSum: 0.00165,
+          minOutputSum: 0.00165,
+          minTransferSum: 0.1,
+          inputCommission: 0,
+          outputCommission: 0,
+          transferCommission: 0.002,
+          minFixedCommission: 0,
+          listMerchantImage: [
+            {
+              id: 106,
+              imagePath: '/client/img/merchants/voucher.png',
+            },
+          ],
+          withdrawBlocked: true,
+          refillBlocked: true,
+          transferBlocked: false,
+        },
+        {
+          merchantId: 32,
+          currencyId: 4,
+          name: 'VoucherFreeTransfer',
+          processType: 'TRANSFER',
+          minInputSum: 0.00165,
+          minOutputSum: 0.00165,
+          minTransferSum: 0.1,
+          inputCommission: 0,
+          outputCommission: 0,
+          transferCommission: 0.002,
+          minFixedCommission: 0,
+          listMerchantImage: [
+            {
+              id: 127,
+              imagePath: '/client/img/merchants/voucher_free.png',
+            },
+          ],
+          withdrawBlocked: true,
+          refillBlocked: true,
+          transferBlocked: false,
+        },
+      ],
+      operationRestrictedToUser: false,
     };
     // return this.http
     //   .get<TransferMerchantResponse>(`${this.apiUrl}/api/private/v2/balances/transfer/merchants`, { params });
-    return of(mock);
+
+    if (currencyName === 'BTC') {
+      return of(mock);
+    }
+    return of(mock2);
   }
 }

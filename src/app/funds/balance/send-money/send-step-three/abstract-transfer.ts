@@ -62,7 +62,7 @@ export abstract class AbstractTransfer implements OnDestroy {
   }
 
   getMinSum(currency) {
-    if (currency) {
+    if (currency && this.model) {
       this.balanceService
         .getMinSumInnerTranfer(currency.id.toString(), this.model.type)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -89,7 +89,7 @@ export abstract class AbstractTransfer implements OnDestroy {
   }
 
   getCommissionInfo(amount) {
-    if (this.activeCrypto) {
+    if (this.activeCrypto && this.model) {
       this.loadingBalance = true;
       this.balanceService
         .getCommisionInfo(this.activeCrypto.id, amount, this.model.type)

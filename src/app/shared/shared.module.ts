@@ -68,6 +68,7 @@ import { CurrencySelectCryptoComponent } from './components/currency-select-cryp
 import { TimeLeftFreeCoinsPipe } from './pipes/time-left.pipe';
 import { DisableGetFreeCoinsPipe } from './pipes/disable-get-coins.pipe';
 import { UnsubscribeGuard } from './guards/unsubscribe.guard';
+import { DisableControlDirective } from './directives/disable-control.directive';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { UnsubscribeGuard } from './guards/unsubscribe.guard';
     GroupCoinPipe,
     CurrencyPipe,
     DropdownDirective,
+    DisableControlDirective,
     DateMaskDirective,
     AddClassDirective,
     OnlyNumbersDirective,
@@ -142,6 +144,7 @@ import { UnsubscribeGuard } from './guards/unsubscribe.guard';
     RecaptchaModule,
     SafePipe,
     ExcludeSpacesDirective,
+    DisableControlDirective,
     TooltipDirective,
     GetObjectKeysPipe,
     InfiniteScrollModule,

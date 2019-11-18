@@ -2,7 +2,7 @@
   <div
     class="select__value"
     (click)="onToggleDropdown()"
-    [ngClass]="{'select__value--active' : activeMerchant}"
+    [ngClass]="{'select__value--active' : activeMerchant, 'select__value--disabled' : disabled}"
   >
     <!-- [ngClass]="{'select__value--error': fiatDataByName && !selectedMerchant}" -->
     <ng-container *ngIf="activeMerchant">
@@ -10,7 +10,7 @@
     </ng-container>
 
   </div>
-  <div class="select__label">{{'Currency' | translate}}</div>
+  <div class="select__label">{{'Merchant' | translate}}</div>
   <div class="select__line"></div>
   <div class="select__triangle"></div>
   <ul
