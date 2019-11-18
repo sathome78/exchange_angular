@@ -1,6 +1,7 @@
 import {
   Component,
   OnDestroy,
+  OnChanges,
   OnInit,
   HostListener,
   ChangeDetectionStrategy,
@@ -49,7 +50,7 @@ import { Animations } from 'app/shared/animations';
   animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TradingComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+export class TradingComponent extends AbstractDashboardItems implements OnInit, OnChanges, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   public isAuthenticated = false;
   /** dashboard item name (field for base class)*/
@@ -95,7 +96,8 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   private failTimeout;
   public showContent5 = false;
   public timeOffset = 5900;
-  @Input() public tradingOffset : number;
+  @Input() public tradingOffset: number;
+  @Input() public clearPreload: boolean;
   @ViewChild('quantitySell') public quantitySell: PriceInputComponent;
   @ViewChild('quantityBuy') public quantityBuy: PriceInputComponent;
 
@@ -154,22 +156,6 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
     this.initForms();
     this.resetSellModel();
     this.resetBuyModel();
-
-    if (document.documentElement.clientWidth > 1199) {
-      setTimeout(() => {
-        this.showContent5 = true;
-        if (!this.cdr['destroyed']) {
-          this.cdr.detectChanges();
-        }
-        console.log(this.tradingOffset)
-      }, this.tradingOffset);
-    }
-    if (document.documentElement.clientWidth < 1199) {
-      this.showContent5 = true;
-      if (!this.cdr['destroyed']) {
-        this.cdr.detectChanges();
-      }
-    }
 
     this.store
       .pipe(select(getIsAuthenticated))
@@ -255,6 +241,23 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
       });
   }
 
+  ngOnChanges(data) {
+    if (data.clearPreload && data.clearPreload.currentValue === false) {
+      if (!this.isMobile) {
+        setTimeout(() => {
+          this.showContent5 = true;
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
+        }, this.tradingOffset);
+      } else {
+        this.showContent5 = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }
+    }
+  }
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -1015,5 +1018,9 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   redirectToVerification() {
     this.router.navigate(['settings/verification']);
+  }
+
+  get isMobile(): boolean {
+    return window.innerWidth <= 1200;
   }
 }

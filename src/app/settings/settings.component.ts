@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,12 +13,13 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
-  // host: {'class': 'app-settings'}
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   lang$: Observable<string>;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-
+  public startAnimation = false;
+  public startAnimationTab = true;
+  public activeLink = '';
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -34,6 +35,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     // this.lang$
     //   .pipe(takeUntil(this.ngUnsubscribe))
     //   .subscribe(lang => this.translate.use(lang));
+
+    setTimeout(() => {
+      this.startAnimation = true;
+    }, 300);
     this.store
       .pipe(select(fromCore.getUserInfo))
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -49,4 +54,24 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
+  activeLnk(url) {
+    this.startAnimationTab = false;
+    setTimeout(() => {
+      this.navTo(url);
+      setTimeout(() => {
+        this.startAnimationTab = true;
+      }, 500);
+    }, 300);
+    
+  }
+
+  navTo(target) {
+    this.router.navigate([target]);
+  }
+
+  isUrl(url) {
+    return this.router.url === url;
+  }
+
 }

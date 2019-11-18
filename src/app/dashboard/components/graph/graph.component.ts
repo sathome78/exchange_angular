@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnChanges,
   AfterContentInit,
   OnDestroy,
   Input,
@@ -50,10 +51,11 @@ import * as Stomp from 'stompjs';
   animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GraphComponent extends AbstractDashboardItems implements OnInit, AfterContentInit, OnDestroy {
+export class GraphComponent extends AbstractDashboardItems implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   /** dashboard item name (field for base class)*/
 
   @Input() public graphOffset: number;
+  @Input() public clearPreload: boolean;
   public itemName = 'graph';
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -113,21 +115,6 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
   ngOnInit() {
     this.connectChartServer();
-
-    if (document.documentElement.clientWidth > 1199) {
-      setTimeout(() => {
-        this.showContent3 = true;
-        if (!this.cdr['destroyed']) {
-          this.cdr.detectChanges();
-        }
-      }, this.graphOffset);
-    }
-    if (document.documentElement.clientWidth < 1199) {
-      this.showContent3 = true;
-      if (!this.cdr['destroyed']) {
-        this.cdr.detectChanges();
-      }
-    }
 
     this.store
       .pipe(select(getActiveCurrencyPair))
@@ -287,7 +274,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
 
               const pairName = symbolInfo.name.toLowerCase().replace(/\//i, '_');
 
-              this.lastCandleSub$ = this.stompClient.subscribe(`/app/chart/${pairName}/${resolution}`, function (data: any) {
+              this.lastCandleSub$ = this.stompClient.subscribe(`/app/chart/${pairName}/${resolution}`, (data: any) => {
                 const el = JSON.parse(data.body);
                 if (el) {
                   onTick({
@@ -393,6 +380,23 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
         }
       });
   }
+  ngOnChanges(data) {
+    if (data.clearPreload && data.clearPreload.currentValue === false) {
+      if (!this.isMobile) {
+        setTimeout(() => {
+          this.showContent3 = true;
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
+        }, this.graphOffset);
+      } else {
+        this.showContent3 = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }
+    }
+  }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -463,7 +467,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.currencies = [];
     for (let i = 0; i < temp.length; i += 1) {
       const name = temp[i].currencyPairName.split('/')[0];
-      this.currencies.push({name});
+      this.currencies.push({ name });
     }
     this.marketDropdown = false;
     this.showCurrencySearch = !this.showCurrencySearch;
@@ -551,5 +555,9 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, Af
     this.stompClient = Stomp.over(socket);
     this.stompClient.debug = () => {};
     this.stompClient.connect();
+  }
+
+  get isMobile(): boolean {
+    return window.innerWidth <= 1200;
   }
 }

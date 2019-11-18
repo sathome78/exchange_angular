@@ -1,9 +1,17 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { BalanceItem } from '../../models/balance-item.model';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { UtilsService } from 'app/shared/services/utils.service';
-import * as fundsAction from '../../store/actions/funds.actions';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as fromCore from '../../../core/reducers';
 import { IEOItem } from 'app/model/ieo.model';
 import { environment } from 'environments/environment';
@@ -18,12 +26,12 @@ import * as moment from 'moment';
 export class IEOTableMobComponent implements OnInit {
   @ViewChild('dropdown') dropdownElement: ElementRef;
   @ViewChild('scrollContainer') public scrollContainer: ElementRef;
-
+  @Input() public leaveAnimationFn: boolean;
   public currencies = {
     BTC: 'BTC',
     USD: 'USD',
   };
-
+  public startAnimation = false;
   public tableScrollStyles: any = {};
   public get currenciesArr() {
     return Object.keys(this.currencies);
@@ -50,23 +58,28 @@ export class IEOTableMobComponent implements OnInit {
         const diff = aT - bT;
         if (diff < 0) {
           return 1;
-        } else if (diff > 0) {
-          return -1;
-        } else {
-          return 0;
         }
+        if (diff > 0) {
+          return -1;
+        }
+        return 0;
       }),
     ];
   }
   @Input() public countOfPendingRequests = 0;
   @Input() public Tab;
   @Input() public currTab;
-  @Output() public onSelectTab: EventEmitter<any> = new EventEmitter();
+  @Output() public selectTab: EventEmitter<any> = new EventEmitter();
   @Output() public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
   @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output() public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
+  @Output() public goToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router, public utils: UtilsService, private store: Store<fromCore.State>) {
+  constructor(
+    private router: Router,
+    public utils: UtilsService,
+    private store: Store<fromCore.State>,
+    private cdr: ChangeDetectorRef
+  ) {
     this.setScrollStyles();
   }
 
@@ -79,7 +92,7 @@ export class IEOTableMobComponent implements OnInit {
   }
 
   public onShowIEOMobDetails(item: IEOItem): void {
-    this.onGoToBalanceDetails.emit({
+    this.goToBalanceDetails.emit({
       currencyId: item.id,
       priceIn: this.priceIn,
     });
@@ -131,7 +144,13 @@ export class IEOTableMobComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.startAnimation = true;
+      console.log('afasdfs');
+      this.cdr.detectChanges();
+    }, 1000);
+  }
 
   trackByFn(index, item) {
     return item.id;

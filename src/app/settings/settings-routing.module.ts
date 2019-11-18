@@ -33,4 +33,6 @@ const settingsRoutes: Routes = [
   imports: [RouterModule.forChild(settingsRoutes)],
   exports: [RouterModule],
 })
-export class SettingsRoutingModule {}
+export class SettingsRoutingModule {
+  
+}

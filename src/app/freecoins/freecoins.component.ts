@@ -14,6 +14,9 @@ import { PopupService } from 'app/shared/services/popup.service';
   styleUrls: ['./freecoins.component.scss'],
 })
 export class FreecoinsComponent implements OnInit, OnDestroy {
+
+public startAnimation = false;
+
   public showFreeCoinsPopup = false;
   public showFreeCoinsCaptcha = false;
 
@@ -33,6 +36,11 @@ export class FreecoinsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+
+    setTimeout(()=>{
+      this.startAnimation = true;
+    },600)
+
     this.store
       .pipe(select(fromCore.getIsAuthenticated))
       .pipe(withLatestFrom(this.store.pipe(select(fromCore.getUserInfo))))

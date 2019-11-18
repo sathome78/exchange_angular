@@ -29,16 +29,22 @@ import { BALANCE_TABS, EUR } from './balance-constants';
 import { DetailedCurrencyPair } from '../../model/detailed-currency-pair';
 import { UserService } from 'app/shared/services/user.service';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { Animations } from 'app/shared/animations';
 
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
   styleUrls: ['./balance.component.scss'],
+  animations: [Animations.componentTriggerBallanceAnimation],
 })
 export class BalanceComponent implements OnInit, OnDestroy {
   /** */
+
+  public startAnimation = false;
+
   public Tab = BALANCE_TABS;
 
+  public leaveAnimation = false;
   public balanceItems: BalanceItem[] = [];
   public currTab: string = this.Tab.CRYPTO;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -131,6 +137,11 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    setTimeout(() => {
+      this.startAnimation = true;
+    }, 1000);
+
     this.store.dispatch(new fundsAction.SetIEOBalancesAction([]));
     this.store.dispatch(new fundsAction.LoadQuberaKycStatusAction());
     if (this.isMobile) {
@@ -208,12 +219,19 @@ export class BalanceComponent implements OnInit, OnDestroy {
   }
 
   public onSelectTab(tab: string): void {
-    this.currTab = tab;
-    this.changingQueryParams('tab', tab);
-    this.currentPage = 1;
-    this.currValue = '';
-    this.currencyForChoose = null;
-    this.loadBalances(this.currTab);
+    this.leaveAnimation = true;
+    setTimeout(() => {
+      this.currTab = tab;
+      this.changingQueryParams('tab', tab);
+      this.currentPage = 1;
+      this.currValue = '';
+      this.currencyForChoose = null;
+      this.loadBalances(this.currTab);
+      setTimeout(() => {
+        this.leaveAnimation = false;
+      }, 800);
+    }, 500);
+
   }
 
   public changingQueryParams(key: 'tab' | 'hz', value: string) {
@@ -508,5 +526,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     // .pipe(first())
     // .subscribe(data => {
     // });
+  }
+  get leaveAnimationFn(): boolean {
+    return this.leaveAnimation;
   }
 }

@@ -1,8 +1,9 @@
 <div
   class="balance__content-mob"
   (window:resize)="setScrollStyles()"
+  [ngClass]="{'active' : startAnimation}"
 >
-  <div class="balance__header-mob">
+  <div class="balance__header-mob fade-anim del2">
     <div class="top-balance-wr">
       <div class="page-title">
         <h1 class="page-title__text">
@@ -76,74 +77,378 @@
     </div>
   </form> -->
   <!--filters end-->
-  <div *ngIf="!loading">
-    <!--table-mob start-->
-    <table
-      class="table table--mob"
-      [ngClass]="{'balance-qubera': currTab === Tab.QUBERA}"
-      *ngIf="balances && (kycStatus === KYC_STATUS.OK)"
-    >
-      <thead class="table__head">
-        <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
-          <th class="table__cell-head table__cell-head--tal">{{'Available balance' | translate}}</th>
-          <th class="table__cell-head table__cell-head--tar">{{'Total balance' | translate}}</th>
-        </tr>
-      </thead>
-      <tbody class="table__body table__body--none-shadow">
-        <ng-container *ngFor="let balance of [balances]; trackBy: trackByFn">
-          <tr
-            class="table__row--mob"
-            (click)="onShowMobDetails(EUR)"
-          >
-            <td class="table__cell table__cell--tal">
-              <div class="balance__currency">
-                <div class="balance__currency-icon">
-                  <img src="assets/img/currency-icons/eur-white.svg">
+  <div [ngClass]="{'balance-fiat': currTab === Tab.FIAT,'hide-bal-block' : leaveAnimationFn, 'show-bal-block' : !leaveAnimationFn}">
+
+
+    <div *ngIf="!loading">
+      <!--table-mob start-->
+      <table
+        class="table table--mob fade-move-anim del2"
+        [ngClass]="{'balance-qubera': currTab === Tab.QUBERA}"
+        *ngIf="balances && (kycStatus === KYC_STATUS.OK)"
+      >
+        <thead class="table__head">
+          <tr class="table__head-row">
+            <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
+            <th class="table__cell-head table__cell-head--tal">{{'Available balance' | translate}}</th>
+            <th class="table__cell-head table__cell-head--tar">{{'Total balance' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody class="table__body table__body--none-shadow">
+          <ng-container *ngFor="let balance of [balances]; trackBy: trackByFn">
+            <tr
+              class="table__row--mob"
+              (click)="onShowMobDetails(EUR)"
+            >
+              <td class="table__cell table__cell--tal">
+                <div class="balance__currency">
+                  <div class="balance__currency-icon">
+                    <img src="assets/img/currency-icons/eur-white.svg">
+                  </div>
+                  <div>
+                    <span>{{balance.availableBalance?.currencyCode}}</span>
+                    <span class="balance__currency-name">Euro</span>
+                  </div>
                 </div>
-                <div>
-                  <span>{{balance.availableBalance?.currencyCode}}</span>
-                  <span class="balance__currency-name">Euro</span>
-                </div>
-              </div>
-            </td>
-            <td class="table__cell table__cell--tal">
-              <span>{{balance.availableBalance?.amount}}</span>
-            </td>
-            <td class="table__cell table__cell--tar">
-              <span>{{balance.currentBalance?.amount}}</span>
-              <!-- <div *ngIf="priceIn === currencies.BTC">BTC 300</div>
+              </td>
+              <td class="table__cell table__cell--tal">
+                <span>{{balance.availableBalance?.amount}}</span>
+              </td>
+              <td class="table__cell table__cell--tar">
+                <span>{{balance.currentBalance?.amount}}</span>
+                <!-- <div *ngIf="priceIn === currencies.BTC">BTC 300</div>
               <div *ngIf="priceIn === currencies.USD">$ 300</div> -->
-              <!-- <span class="txt-small txt-red">–0.24%</span> -->
-            </td>
-            <td class="table__cell table__cell--arr-mob">
-              <svg
-                width="12"
-                height="11"
-                viewBox="0 0 17 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="table__row-mob-line"></div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-    <!-- table-mob end -->
+                <!-- <span class="txt-small txt-red">–0.24%</span> -->
+              </td>
+              <td class="table__cell table__cell--arr-mob">
+                <svg
+                  width="12"
+                  height="11"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.36396 1.99932L14.7279 8.36328L8.36396 14.7272"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <div class="table__row-mob-line"></div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <!-- table-mob end -->
+    </div>
+
+
+    <div
+      class="no-veryfied-qubera fade-move-anim del2"
+      *ngIf="!balances"
+    >
+      <div
+        class="qubera-head"
+        *ngIf="kycStatus === KYC_STATUS.NULL"
+      >
+        <h3>
+          {{'Open account for $20 and get 0% commission' | translate}} <br>
+          <span>{{'on outgoing payments in the Singapore Bank' | translate}}</span>
+        </h3>
+      </div>
+
+      <div [ngSwitch]="kycStatus">
+        <div
+          class="qubera-btn-wr"
+          *ngSwitchCase="KYC_STATUS.OK"
+        >
+          <button
+            class="btn btn--active balance__title-btn"
+            (click)="createQuberaAccount.emit(true)"
+            *ngIf="!(balances && balances.accountState === 'ACTIVE')"
+          >{{'Create Account' | translate}}</button>
+        </div>
+
+        <div
+          class="qubera-btn-wr"
+          *ngSwitchCase="KYC_STATUS.ERROR"
+        >
+          <h4 class="warning">{{'Verification rejected. Try again and make sure your documents are in valid period and clearly visible.' | translate}}</h4>
+
+          <button
+            class="btn btn--active balance__title-btn"
+            (click)="quberaKycVerification.emit(true)"
+          >
+            {{'Start again' | translate}}
+          </button>
+        </div>
+
+        <div
+          class="qubera-btn-wr"
+          *ngSwitchCase="KYC_STATUS.WARN"
+        >
+          <h4 class="warning">{{'Something went wrong. Try again and please make sure, that your documents are in high quality.' | translate}}</h4>
+
+          <button
+            class="btn btn--active balance__title-btn"
+            (click)="quberaKycVerification.emit(true)"
+          >
+            {{'Start again' | translate}}
+          </button>
+        </div>
+
+        <div
+          class="qubera-btn-wr"
+          *ngSwitchCase="KYC_STATUS.NONE"
+        >
+          <h4 class="warning">
+            {{'KYC system sent you an email with verification link. Please check your email. Did Not receive it? Click here to start the KYC process again.' | translate}}
+          </h4>
+
+          <button
+            class="btn btn--active balance__title-btn"
+            (click)="quberaKycVerification.emit(true)"
+          >
+            {{'Start again' | translate}}
+          </button>
+        </div>
+
+        <div
+          class="qubera-btn-wr"
+          *ngSwitchCase="KYC_STATUS.NULL"
+        >
+          <button
+            class="btn btn--active balance__title-btn"
+            (click)="quberaKycVerification.emit(true)"
+          >
+            {{'Proceed Verification' | translate}}
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="qubera-benefits"
+        *ngIf="kycStatus === KYC_STATUS.NULL"
+      >
+        <div class="ben-head">
+          <h6>{{'Benefits' | translate}}</h6>
+        </div>
+        <ul class="benefits-list">
+          <li>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="11"
+              viewBox="0 0 15 11"
+              fill="none"
+            >
+              <rect
+                y="5.53174"
+                width="2.57013"
+                height="7.7104"
+                rx="1"
+                transform="rotate(-45 0 5.53174)"
+                fill="#2560F2"
+              />
+              <rect
+                x="12.8013"
+                width="2.57013"
+                height="12.9632"
+                rx="1"
+                transform="rotate(45 12.8013 0)"
+                fill="#2560F2"
+              />
+            </svg>
+            <span><b>{{'Deposits and withdrawals via SWIFT / SEPA for 24 fiat currencies' | translate}}</b></span>
+          </li>
+          <li>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="11"
+              viewBox="0 0 15 11"
+              fill="none"
+            >
+              <rect
+                y="5.53174"
+                width="2.57013"
+                height="7.7104"
+                rx="1"
+                transform="rotate(-45 0 5.53174)"
+                fill="#2560F2"
+              />
+              <rect
+                x="12.8013"
+                width="2.57013"
+                height="12.9632"
+                rx="1"
+                transform="rotate(45 12.8013 0)"
+                fill="#2560F2"
+              />
+            </svg>
+            <span><b>$50,000</b> {{'deposit limit for a day' | translate}}</span>
+          </li>
+          <li>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="11"
+              viewBox="0 0 15 11"
+              fill="none"
+            >
+              <rect
+                y="5.53174"
+                width="2.57013"
+                height="7.7104"
+                rx="1"
+                transform="rotate(-45 0 5.53174)"
+                fill="#2560F2"
+              />
+              <rect
+                x="12.8013"
+                width="2.57013"
+                height="12.9632"
+                rx="1"
+                transform="rotate(45 12.8013 0)"
+                fill="#2560F2"
+              />
+            </svg>
+            <span><b>$50,000</b> {{'withdrawal limit for a day' | translate}}</span>
+          </li>
+          <li>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="11"
+              viewBox="0 0 15 11"
+              fill="none"
+            >
+              <rect
+                y="5.53174"
+                width="2.57013"
+                height="7.7104"
+                rx="1"
+                transform="rotate(-45 0 5.53174)"
+                fill="#2560F2"
+              />
+              <rect
+                x="12.8013"
+                width="2.57013"
+                height="12.9632"
+                rx="1"
+                transform="rotate(45 12.8013 0)"
+                fill="#2560F2"
+              />
+            </svg>
+            <span>{{'We work with' | translate}} <b>231</b> {{'countries' | translate}}</span>
+          </li>
+          <li>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="11"
+              viewBox="0 0 15 11"
+              fill="none"
+            >
+              <rect
+                y="5.53174"
+                width="2.57013"
+                height="7.7104"
+                rx="1"
+                transform="rotate(-45 0 5.53174)"
+                fill="#2560F2"
+              />
+              <rect
+                x="12.8013"
+                width="2.57013"
+                height="12.9632"
+                rx="1"
+                transform="rotate(45 12.8013 0)"
+                fill="#2560F2"
+              />
+            </svg>
+            <span><b>{{'1% commission' | translate}}</b> {{'on account deposits' | translate}}</span>
+          </li>
+          <li>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="11"
+              viewBox="0 0 15 11"
+              fill="none"
+            >
+              <rect
+                y="5.53174"
+                width="2.57013"
+                height="7.7104"
+                rx="1"
+                transform="rotate(-45 0 5.53174)"
+                fill="#2560F2"
+              />
+              <rect
+                x="12.8013"
+                width="2.57013"
+                height="12.9632"
+                rx="1"
+                transform="rotate(45 12.8013 0)"
+                fill="#2560F2"
+              />
+            </svg>
+            <span><b>{{'0% transfer fee' | translate}}</b> {{'between personal and trading account at Exrates' | translate}}</span>
+          </li>
+        </ul>
+      </div>
+      <!-- <div class="for-vip">
+      <h6>For VIP clients</h6>
+      <p>Up to $ 150,000 limit for deposits and withdrawals.</p>
+    </div> -->
+      <div class="how-work">
+        <h6>{{'How does it work?' | translate}}</h6>
+        <p>
+          {{'Using your Exrates account you are able to open a Bank account. This is your personal account which you can use for instant fiat transfers directly to your Exrates trading account.' | translate}}
+        </p>
+      </div>
+      <div class="detail-inf">
+        <p>
+          {{'Detailed description of the conditions is available on the page of our financial partner' | translate}}
+          <a
+            href="http://fug.sg"
+            target="_blank"
+            title="FUG"
+            rel="nofollow noopener noreferrer"
+          >
+            FUG
+          </a>.
+        </p>
+      </div>
+    </div>
+    <div
+      class="no-veryfied-qubera fade-move-anim del2"
+      *ngIf="balances"
+    >
+      <div class="detail-inf">
+        <p>
+          {{'Detailed description of the conditions is available on the page of our financial partner' | translate}}
+          <a
+            href="http://fug.sg"
+            target="_blank"
+            title="FUG"
+            rel="nofollow noopener noreferrer"
+          >
+            FUG
+          </a>.
+        </p>
+      </div>
+    </div>
+
   </div>
-  <div class="pending-wr">
+  <div class="pending-wr fade-move-anim del2">
     <div class="bg-btn"></div>
     <button
       class="tabs__item"
@@ -170,304 +475,4 @@
       </span>
     </button>
   </div>
-
-
-  <div
-    class="no-veryfied-qubera"
-    *ngIf="!balances"
-  >
-    <div
-      class="qubera-head"
-      *ngIf="kycStatus === KYC_STATUS.NULL"
-    >
-      <h3>
-        {{'Open account for $20 and get 0% commission' | translate}} <br>
-        <span>{{'on outgoing payments in the Singapore Bank' | translate}}</span>
-      </h3>
-    </div>
-
-    <div [ngSwitch]="kycStatus">
-      <div
-        class="qubera-btn-wr"
-        *ngSwitchCase="KYC_STATUS.OK"
-      >
-        <button
-          class="btn btn--active balance__title-btn"
-          (click)="createQuberaAccount.emit(true)"
-          *ngIf="!(balances && balances.accountState === 'ACTIVE')"
-        >{{'Create Account' | translate}}</button>
-      </div>
-
-      <div
-        class="qubera-btn-wr"
-        *ngSwitchCase="KYC_STATUS.ERROR"
-      >
-        <h4 class="warning">{{'Verification rejected. Try again and make sure your documents are in valid period and clearly visible.' | translate}}</h4>
-
-        <button
-          class="btn btn--active balance__title-btn"
-          (click)="quberaKycVerification.emit(true)"
-        >
-          {{'Start again' | translate}}
-        </button>
-      </div>
-
-      <div
-        class="qubera-btn-wr"
-        *ngSwitchCase="KYC_STATUS.WARN"
-      >
-        <h4 class="warning">{{'Something went wrong. Try again and please make sure, that your documents are in high quality.' | translate}}</h4>
-
-        <button
-          class="btn btn--active balance__title-btn"
-          (click)="quberaKycVerification.emit(true)"
-        >
-          {{'Start again' | translate}}
-        </button>
-      </div>
-
-      <div
-        class="qubera-btn-wr"
-        *ngSwitchCase="KYC_STATUS.NONE"
-      >
-        <h4 class="warning">
-          {{'KYC system sent you an email with verification link. Please check your email. Did Not receive it? Click here to start the KYC process again.' | translate}}
-        </h4>
-
-        <button
-          class="btn btn--active balance__title-btn"
-          (click)="quberaKycVerification.emit(true)"
-        >
-          {{'Start again' | translate}}
-        </button>
-      </div>
-
-      <div
-        class="qubera-btn-wr"
-        *ngSwitchCase="KYC_STATUS.NULL"
-      >
-        <button
-          class="btn btn--active balance__title-btn"
-          (click)="quberaKycVerification.emit(true)"
-        >
-          {{'Proceed Verification' | translate}}
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="qubera-benefits"
-      *ngIf="kycStatus === KYC_STATUS.NULL"
-    >
-      <div class="ben-head">
-        <h6>{{'Benefits' | translate}}</h6>
-      </div>
-      <ul class="benefits-list">
-        <li>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="11"
-            viewBox="0 0 15 11"
-            fill="none"
-          >
-            <rect
-              y="5.53174"
-              width="2.57013"
-              height="7.7104"
-              rx="1"
-              transform="rotate(-45 0 5.53174)"
-              fill="#2560F2"
-            />
-            <rect
-              x="12.8013"
-              width="2.57013"
-              height="12.9632"
-              rx="1"
-              transform="rotate(45 12.8013 0)"
-              fill="#2560F2"
-            />
-          </svg>
-          <span><b>{{'Deposits and withdrawals via SWIFT / SEPA for 24 fiat currencies' | translate}}</b></span>
-        </li>
-        <li>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="11"
-            viewBox="0 0 15 11"
-            fill="none"
-          >
-            <rect
-              y="5.53174"
-              width="2.57013"
-              height="7.7104"
-              rx="1"
-              transform="rotate(-45 0 5.53174)"
-              fill="#2560F2"
-            />
-            <rect
-              x="12.8013"
-              width="2.57013"
-              height="12.9632"
-              rx="1"
-              transform="rotate(45 12.8013 0)"
-              fill="#2560F2"
-            />
-          </svg>
-          <span><b>$50,000</b> {{'deposit limit for a day' | translate}}</span>
-        </li>
-        <li>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="11"
-            viewBox="0 0 15 11"
-            fill="none"
-          >
-            <rect
-              y="5.53174"
-              width="2.57013"
-              height="7.7104"
-              rx="1"
-              transform="rotate(-45 0 5.53174)"
-              fill="#2560F2"
-            />
-            <rect
-              x="12.8013"
-              width="2.57013"
-              height="12.9632"
-              rx="1"
-              transform="rotate(45 12.8013 0)"
-              fill="#2560F2"
-            />
-          </svg>
-          <span><b>$50,000</b> {{'withdrawal limit for a day' | translate}}</span>
-        </li>
-        <li>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="11"
-            viewBox="0 0 15 11"
-            fill="none"
-          >
-            <rect
-              y="5.53174"
-              width="2.57013"
-              height="7.7104"
-              rx="1"
-              transform="rotate(-45 0 5.53174)"
-              fill="#2560F2"
-            />
-            <rect
-              x="12.8013"
-              width="2.57013"
-              height="12.9632"
-              rx="1"
-              transform="rotate(45 12.8013 0)"
-              fill="#2560F2"
-            />
-          </svg>
-          <span>{{'We work with' | translate}} <b>231</b> {{'countries' | translate}}</span>
-        </li>
-        <li>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="11"
-            viewBox="0 0 15 11"
-            fill="none"
-          >
-            <rect
-              y="5.53174"
-              width="2.57013"
-              height="7.7104"
-              rx="1"
-              transform="rotate(-45 0 5.53174)"
-              fill="#2560F2"
-            />
-            <rect
-              x="12.8013"
-              width="2.57013"
-              height="12.9632"
-              rx="1"
-              transform="rotate(45 12.8013 0)"
-              fill="#2560F2"
-            />
-          </svg>
-          <span><b>{{'1% commission' | translate}}</b> {{'on account deposits' | translate}}</span>
-        </li>
-        <li>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="11"
-            viewBox="0 0 15 11"
-            fill="none"
-          >
-            <rect
-              y="5.53174"
-              width="2.57013"
-              height="7.7104"
-              rx="1"
-              transform="rotate(-45 0 5.53174)"
-              fill="#2560F2"
-            />
-            <rect
-              x="12.8013"
-              width="2.57013"
-              height="12.9632"
-              rx="1"
-              transform="rotate(45 12.8013 0)"
-              fill="#2560F2"
-            />
-          </svg>
-          <span><b>{{'0% transfer fee' | translate}}</b> {{'between personal and trading account at Exrates' | translate}}</span>
-        </li>
-      </ul>
-    </div>
-    <!-- <div class="for-vip">
-      <h6>For VIP clients</h6>
-      <p>Up to $ 150,000 limit for deposits and withdrawals.</p>
-    </div> -->
-    <div class="how-work">
-      <h6>{{'How does it work?' | translate}}</h6>
-      <p>
-        {{'Using your Exrates account you are able to open a Bank account. This is your personal account which you can use for instant fiat transfers directly to your Exrates trading account.' | translate}}
-      </p>
-    </div>
-    <div class="detail-inf">
-      <p>
-        {{'Detailed description of the conditions is available on the page of our financial partner' | translate}}
-        <a
-          href="http://fug.sg"
-          target="_blank"
-          title="FUG"
-          rel="nofollow noopener noreferrer"
-        >
-          FUG
-        </a>.
-      </p>
-    </div>
-  </div>
-  <div
-    class="no-veryfied-qubera"
-    *ngIf="balances"
-  >
-    <div class="detail-inf">
-      <p>
-        {{'Detailed description of the conditions is available on the page of our financial partner' | translate}}
-        <a
-          href="http://fug.sg"
-          target="_blank"
-          title="FUG"
-          rel="nofollow noopener noreferrer"
-        >
-          FUG
-        </a>.
-      </p>
-    </div>
-  </div>
-
 </div>
