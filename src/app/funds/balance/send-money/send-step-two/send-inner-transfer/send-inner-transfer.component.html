@@ -192,6 +192,28 @@
       <div class="note modal__note">
         <div class="note__title">{{'Please note:' | translate}}</div>
         <ul class="note__list">
+          <ng-container [ngSwitch]="activeMerchName">
+            <ng-container *ngSwitchCase="merchNames.VOUCHER">
+              <li
+                class="note__list-item"
+                [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email</b>' | translate"
+              ></li>
+            </ng-container>
+            <ng-container *ngSwitchCase="merchNames.VOUCHERFREE">
+              <li
+                class="note__list-item"
+                [innerHTML]="'Make <b>password-protected</b> transfer' | translate"
+              ></li>
+            </ng-container>
+            <ng-container *ngSwitchCase="merchNames.SIMPLE">
+              <li
+                class="note__list-item"
+                [innerHTML]="'Make <b>password-protected</b> transfer' | translate"
+              >
+                {{'Protected by code & mail' | translate}}
+              </li>
+            </ng-container>
+          </ng-container>
           <li class="note__list-item">
             {{'Once you have submitted your transfer request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
           </li>

@@ -28,10 +28,7 @@ import { SendStepTwoComponent } from './balance/send-money/send-step-two/send-st
 import { SendStepThreeComponent } from './balance/send-money/send-step-three/send-step-three.component';
 import { SendCryptoComponent } from './balance/send-money/send-step-two/send-crypto/send-crypto.component';
 import { SendFiatComponent } from './balance/send-money/send-step-two/send-fiat/send-fiat.component';
-import { TransferInstantComponent } from './balance/send-money/send-step-three/transfer-instant/transfer-instant.component';
 import { SendInnerTransferComponent } from './balance/send-money/send-step-two/send-inner-transfer/send-inner-transfer.component';
-import { TransferProtectedCodeComponent } from './balance/send-money/send-step-three/transfer-protected-code/transfer-protected-code.component';
-import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-step-three/transfer-protected-email-code/transfer-protected-email-code.component';
 import { SendTfaComponent } from './balance/send-money/send-step-three/send-tfa/send-tfa.component';
 import { SendSuccessfulComponent } from './balance/send-money/send-successful/send-successful.component';
 
@@ -132,9 +129,6 @@ export function createTranslateLoader(http: HttpClient) {
     SendCryptoComponent,
     SendFiatComponent,
     SendInnerTransferComponent,
-    TransferInstantComponent,
-    TransferProtectedCodeComponent,
-    TransferProtectedEmailCodeComponent,
     SendTfaComponent,
     SendSuccessfulComponent,
     BalanceTableComponent,
