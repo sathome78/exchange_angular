@@ -292,7 +292,7 @@ export class BalanceService {
           minTransferSum: 0.00165,
           inputCommission: 0,
           outputCommission: 0,
-          transferCommission: 0.002,
+          transferCommission: 0.2,
           minFixedCommission: 0,
           listMerchantImage: [
             {
@@ -314,7 +314,7 @@ export class BalanceService {
           minTransferSum: 0.00165,
           inputCommission: 0,
           outputCommission: 0,
-          transferCommission: 0.002,
+          transferCommission: 0.2,
           minFixedCommission: 0,
           listMerchantImage: [
             {
@@ -336,7 +336,7 @@ export class BalanceService {
           minTransferSum: 0.00165,
           inputCommission: 0,
           outputCommission: 0,
-          transferCommission: 0.002,
+          transferCommission: 0.2,
           minFixedCommission: 0,
           listMerchantImage: [
             {
@@ -363,7 +363,7 @@ export class BalanceService {
           minTransferSum: 0.1,
           inputCommission: 0,
           outputCommission: 0,
-          transferCommission: 0.002,
+          transferCommission: 0.2,
           minFixedCommission: 0,
           listMerchantImage: [
             {
@@ -385,7 +385,7 @@ export class BalanceService {
           minTransferSum: 0.1,
           inputCommission: 0,
           outputCommission: 0,
-          transferCommission: 0.002,
+          transferCommission: 0.2,
           minFixedCommission: 0,
           listMerchantImage: [
             {
@@ -407,7 +407,7 @@ export class BalanceService {
           minTransferSum: 0.1,
           inputCommission: 0,
           outputCommission: 0,
-          transferCommission: 0.002,
+          transferCommission: 0.2,
           minFixedCommission: 0,
           listMerchantImage: [
             {

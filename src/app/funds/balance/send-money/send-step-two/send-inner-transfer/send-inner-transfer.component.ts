@@ -214,7 +214,9 @@ export class SendInnerTransferComponent implements OnInit {
   }
   private removeEmailFromForm() {
     this.form.removeControl('email');
-    this.formEmailSub$.unsubscribe();
+    if (this.formEmailSub$) {
+      this.formEmailSub$.unsubscribe();
+    }
   }
 
   checkEmailOfServer() {
@@ -254,7 +256,6 @@ export class SendInnerTransferComponent implements OnInit {
     if (this.activeBalance > this.minSumForTransfer) {
       this.formAmount.setValue(this.utilsService.currencyFormat(this.activeBalance));
       this.formAmount.setErrors(null);
-      // this.getCommissionInfo(this.activeBalance);
     }
   }
   isMaxThenActiveBalance(control = { value: 0 }): { [key: string]: any } | null {
@@ -288,7 +289,7 @@ export class SendInnerTransferComponent implements OnInit {
     return this.activeMerchant ? this.activeMerchant.transferCommission : 0;
   }
   get merchantCommisionValue() {
-    return this.amount * this.merchantCommisionPercent;
+    return this.amount * this.merchantCommisionPercent / 100;
   }
   get totalValue() {
     return this.amount - this.merchantCommisionValue;
