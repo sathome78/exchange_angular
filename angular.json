@@ -114,6 +114,23 @@
               "vendorChunk": true,
               "buildOptimizer": true
             },
+            "itest": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.itest.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true
+            },
             "integration": {
               "fileReplacements": [
                 {
@@ -166,6 +183,9 @@
             },
             "qa1": {
               "browserTarget": "exrates-front-new:build:qa1"
+            },
+            "itest": {
+              "browserTarget": "exrates-front-new:build:itest"
             },
             "integration": {
               "browserTarget": "exrates-front-new:build:integration"
