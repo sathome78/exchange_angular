@@ -16,9 +16,3 @@ export class TransferMerchant {
   public transferBlocked: boolean;
 
 }
-
-export class TransferMerchantResponse {
-  public merchantCurrencies: TransferMerchant[];
-  public operationRestrictedToUser: boolean;
-
-}

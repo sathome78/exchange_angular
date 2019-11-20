@@ -3,7 +3,7 @@ import { BalanceService } from '../../../../services/balance.service';
 import { takeUntil, tap, debounceTime } from 'rxjs/operators';
 import { BalanceItem } from 'app/funds/models/balance-item.model';
 import { Subject, Subscription } from 'rxjs';
-import { TransferMerchantResponse, TransferMerchant } from 'app/funds/models/transfer-models.model';
+import { TransferMerchant } from 'app/funds/models/transfer-models.model';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { Store, select } from '@ngrx/store';
 import { State, getUserInfo, getAllCurrenciesForChoose } from 'app/core/reducers';
@@ -107,16 +107,16 @@ export class SendInnerTransferComponent implements OnInit {
       .getTransferMerchants(currName)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
-        (res: TransferMerchantResponse) => {
-          this.merchantData = res.merchantCurrencies;
-          if (this.merchantData && this.merchantData.length && res.operationRestrictedToUser) {
-            this.setView(this.viewsList.DENIED);
-          } else {
-            this.setView(this.viewsList.MAIN);
-          }
+        (res: TransferMerchant[]) => {
+          this.merchantData = res;
+          this.setView(this.viewsList.MAIN);
         },
         err => {
-          this.setView(this.viewsList.ERROR);
+          if (err.error && err.error.title === 'USER_OPERATION_DENIED') {
+            this.setView(this.viewsList.DENIED);
+          } else {
+            this.setView(this.viewsList.ERROR);
+          }
           console.error(err);
         }
       );
