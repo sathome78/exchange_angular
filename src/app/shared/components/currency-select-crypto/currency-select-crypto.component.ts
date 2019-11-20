@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { CurrencyBalanceModel } from 'app/model';
 import * as _uniq from 'lodash/uniq';
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
 import { CurrencyChoose } from 'app/model/currency-choose.model';
 
 @Component({
