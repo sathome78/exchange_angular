@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { LoginPopupMobileComponent } from './login-popup-mobile/login-popup-mobile.component';
 import { PopupsComponent } from './popups.component';
 import { CommonModule } from '@angular/common';
-// import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 // import { createTranslateLoader } from '../app.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -97,14 +97,7 @@ import { QuberaPopupsComponent } from './qubera-popups/qubera-popups.component';
     SharedModule,
     WebcamModule,
     RouterModule,
-    // TranslateModule.forRoot({
-    //   loader: {
-    //     provide: TranslateLoader,
-    //     useFactory: createTranslateLoader,
-    //     deps: [HttpClient],
-    //   },
-    //   isolate: true,
-    // }),
+    TranslateModule,
   ],
   providers: [],
   exports: [PopupsComponent],
