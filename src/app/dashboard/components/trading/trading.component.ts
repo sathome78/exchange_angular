@@ -611,12 +611,11 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
   rateInput(e, type: string): void {
     this.isPossibleSetPrice = false;
     this.isTotalWithCommission = false;
+    const value = e.target.value === '' ? 0 : e.target.value;
     if (type === this.BUY) {
-      this.buyOrder.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
-      this.setPriceInValue(e.target.value, type);
+      this.buyOrder.rate = parseFloat(this.deleteSpace(value.toString()));
     } else {
-      this.sellOrder.rate = parseFloat(this.deleteSpace(e.target.value.toString()));
-      this.setPriceInValue(e.target.value, type);
+      this.sellOrder.rate = parseFloat(this.deleteSpace(value.toString()));
     }
     this.getCommission(type);
   }
@@ -625,14 +624,13 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
    * On input in field stop
    * @param event
    */
-  stopInput(event, type: string): void {
+  stopInput(e, type: string): void {
     this.isPossibleSetPrice = false;
+    const value = e.target.value === '' ? 0 : e.target.value;
     if (type === this.BUY) {
-      this.buyStopValue = parseFloat(this.deleteSpace(event.target.value.toString()));
-      this.setStopValue(event.target.value, type);
+      this.buyStopValue = parseFloat(this.deleteSpace(value.toString()));
     } else {
-      this.sellStopValue = parseFloat(this.deleteSpace(event.target.value.toString()));
-      this.setStopValue(event.target.value, type);
+      this.sellStopValue = parseFloat(this.deleteSpace(value.toString()));
     }
   }
 
@@ -1022,5 +1020,20 @@ export class TradingComponent extends AbstractDashboardItems implements OnInit, 
 
   get isMobile(): boolean {
     return window.innerWidth <= 1200;
+  }
+
+  inputBlur(feald, form) {
+    let value;
+    if (form === this.BUY) {
+      value = this.buyForm.controls[feald] && this.buyForm.controls[feald].value;
+    } else {
+      value = this.sellForm.controls[feald] && this.buyForm.controls[feald].value;
+    }
+
+    value = parseFloat(this.deleteSpace(value.toString()));
+    const newValue = typeof value === 'string' ? value : !value ? '0' : this.utilsService.currencyFormat(value);
+    form === this.BUY
+      ? this.buyForm.controls[feald].setValue(newValue)
+      : this.sellForm.controls[feald].setValue(newValue);
   }
 }
