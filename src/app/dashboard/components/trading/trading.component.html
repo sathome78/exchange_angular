@@ -84,6 +84,7 @@
               [currencyLabel]="arrPairName[0]"
               [forTrading]="true"
               (customInput)="quantityInput($event, BUY)"
+              (customBlur)="inputBlur('quantity', BUY)"
               name="quantity"
               formControlName="quantity"
             ></app-price-input>
@@ -122,6 +123,7 @@
               [currencyLabel]="arrPairName[1]"
               [forTrading]="true"
               (customInput)="rateInput($event, BUY)"
+              (customBlur)="inputBlur('price', BUY)"
               name="price"
               formControlName="price"
             ></app-price-input>
@@ -136,6 +138,7 @@
               [placeholder]="translateService.instant('Stop limit')"
               [forTrading]="true"
               (customInput)="stopInput($event, BUY)"
+              (customBlur)="inputBlur('stop', BUY)"
               name="stop"
               formControlName="stop"
             ></app-price-input>
@@ -151,6 +154,7 @@
               [currencyLabel]="arrPairName[1]"
               [forTrading]="true"
               (customInput)="totalInput($event, BUY)"
+              (customBlur)="inputBlur('total', BUY)"
               name="total"
               formControlName="total"
             ></app-price-input>
