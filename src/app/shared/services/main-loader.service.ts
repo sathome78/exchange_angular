@@ -27,7 +27,6 @@ export class MainLoaderService {
   constructor() {}
 
   provideLoader(type: string) {
-    console.log(type);
     if (this.const[type]) {
       this[type].next();
     }
