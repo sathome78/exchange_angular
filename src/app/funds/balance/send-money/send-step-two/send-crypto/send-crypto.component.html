@@ -206,6 +206,21 @@
       <div class="note modal__note">
         <div class="note__title">{{'Please note:' | translate}}</div>
         <ul class="note__list">
+          <li
+            class="note__list-item"
+            *ngIf="currName === 'LHT'"
+          >
+            {{" Don't transfer USDX or LHT directly to another exchange account! Instead, transfer them first to your USDX Wallet account and then to the desired exchange" | translate}}
+            .
+            <a
+              class="standart-link"
+              href="https://support.exrates.me/article/lht-withdrawal"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+            >
+              https://support.exrates.me/article/lht-withdrawal
+            </a>.
+          </li>
           <li class="note__list-item">{{'Once you have submitted your withdrawal request, we will send a confirmation email' | translate}}
             .
             {{'Please then click on the confirmation link in your email' | translate}}.
