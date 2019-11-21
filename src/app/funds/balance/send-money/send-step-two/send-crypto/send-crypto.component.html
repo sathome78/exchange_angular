@@ -210,7 +210,9 @@
             class="note__list-item"
             *ngIf="currName === 'LHT'"
           >
-            {{" Don't transfer USDX or LHT directly to another exchange account! Instead, transfer them first to your USDX Wallet account and then to the desired exchange" | translate}}
+            {{"Don't transfer" | translate}}
+            <b>USDX</b> {{'or' | translate}} <b>LHT</b> 
+            {{"directly to another exchange account! Instead, transfer them first to your USDX Wallet account and then to the desired exchange" | translate}}
             .
             <a
               class="standart-link"
