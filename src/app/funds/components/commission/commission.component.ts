@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { ENFINS } from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-commission',
@@ -40,7 +41,12 @@ export class CommissionComponent implements OnInit {
     if (!this.isAmountValid) {
       return 0;
     }
-    const countedCommision = this.baseAmount / 100 * this.merchantCommission;
+    let countedCommision = this.baseAmount / 100 * this.merchantCommission;
+
+    // Special requirement for Enfins merchant DEVEX-4587
+    if (this.isEnfins && this.isRUB && this.isWithdraw) {
+      countedCommision += 50;
+    }
     return countedCommision > this.fixedMerchantCommission ? countedCommision : this.fixedMerchantCommission;
   }
 
@@ -60,6 +66,15 @@ export class CommissionComponent implements OnInit {
       return 0;
     }
     return this.baseAmount;
+  }
+  get isEnfins(): boolean {
+    return this.merchant && this.merchant.name === ENFINS;
+  }
+  get isRUB(): boolean {
+    return this.currencyName === 'RUB';
+  }
+  get isWithdraw(): boolean {
+    return this.type === 'withdraw';
   }
 
 }

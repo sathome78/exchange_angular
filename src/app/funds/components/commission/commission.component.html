@@ -31,9 +31,16 @@
       *ngIf="+merchantCommission > 0 && +fixedMerchantCommission === 0"
     >
       <ng-container *ngIf="isAmountValid; else invalidPercent">
-        ({{merchantCommission}}%) = {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
+        ({{merchantCommission}}%)
+        <!-- Special requirement for Enfins merchant DEVEX-4587 -->
+        <ng-container *ngIf="isEnfins && isRUB && isWithdraw">+ 50 RUB</ng-container>
+        = {{merchantCommissionValue | currencyFormat: currencyName}} {{currencyName}}
       </ng-container>
-      <ng-template #invalidPercent>{{merchantCommission}}%</ng-template>
+      <ng-template #invalidPercent>
+        {{merchantCommission}}%
+        <!-- Special requirement for Enfins merchant DEVEX-4587 -->
+        <ng-container *ngIf="isEnfins && isRUB && isWithdraw">+ 50 RUB</ng-container>
+      </ng-template>
     </div>
     <div
       class="send__info-value"

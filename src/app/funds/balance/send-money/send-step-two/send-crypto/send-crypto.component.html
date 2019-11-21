@@ -179,7 +179,7 @@
             >{{'Withdraw' | translate}}
               <ng-container *ngIf="isAmountValid">
                 <span class="value">
-                  {{utilsService.calcValueWithoutCommision(cryptoInfoByName.merchantCurrencyData[0], formAmount.value, 'withdraw') | currencyFormat}}
+                  {{utilsService.calcValueWithoutCommision(cryptoInfoByName.merchantCurrencyData[0], formAmount.value, 'withdraw', currName) | currencyFormat}}
                 </span>
                 <span> {{currName}}</span>
               </ng-container>

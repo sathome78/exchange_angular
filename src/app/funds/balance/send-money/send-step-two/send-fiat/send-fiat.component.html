@@ -285,7 +285,9 @@
             >
               {{'Withdraw' | translate}}
               <ng-container *ngIf="isAmountValid">
-                <span class="value">{{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw') | currencyFormat: currName}}</span>
+                <span class="value">
+                  {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmount.value, 'withdraw', currName) | currencyFormat: currName}}
+                </span>
                 <span> {{currName}}</span>
               </ng-container>
             </button>
