@@ -9,6 +9,7 @@ import { getQuberaBalancesSelector, getQuberaKycStatusSelector } from 'app/funds
 import { withLatestFrom } from 'rxjs/operators';
 import { QuberaBalanceModel } from 'app/model/qubera-balance.model';
 import { Location } from '@angular/common';
+import { ENFINS } from 'app/funds/balance/balance-constants';
 
 const FUG = 'FUG';
 
@@ -256,7 +257,7 @@ export class UtilsService {
     return this.location.isCurrentPathEqualTo('/');
   }
 
-  calcValueWithoutCommision(merchant, baseValue , type) {
+  calcValueWithoutCommision(merchant, baseValue, type, currencyName) {
     let val = 0;
     if (!isNaN(+baseValue)) {
       val = +baseValue;
@@ -268,7 +269,12 @@ export class UtilsService {
     }
     const merchantCommission = type === 'refill' ? merchant.inputCommission : merchant.outputCommission;
     const fixedMerchantCommission = merchant.fixedMinCommission;
-    const countedCommision = val / 100 * merchantCommission;
+    let countedCommision = val / 100 * merchantCommission;
+
+    // Special requirement for Enfins merchant DEVEX-4587
+    if (type === 'withdraw' && merchant.name === ENFINS && currencyName === 'RUB') {
+      countedCommision += 50;
+    }
     const commission = countedCommision > fixedMerchantCommission ? countedCommision : fixedMerchantCommission;
     return val - commission;
   }

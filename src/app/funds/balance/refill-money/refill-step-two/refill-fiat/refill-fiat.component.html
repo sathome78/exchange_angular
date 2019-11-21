@@ -154,7 +154,7 @@
           >
             {{'Refill' | translate}}
             <ng-container *ngIf="isAmountValid">
-              {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat: 'USD'}}
+              {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill', currName) | currencyFormat: 'USD'}}
               {{currName}}
             </ng-container>
           </button>
