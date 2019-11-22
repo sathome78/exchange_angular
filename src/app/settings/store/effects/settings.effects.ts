@@ -42,6 +42,20 @@ export class SettingsEffects {
         );
       })
     );
+  /**
+   * Load session history
+   */
+  @Effect()
+  loadSessionHistory$: Observable<Action> = this.actions$
+    .pipe(ofType<settingsActions.LoadSessionHistoryAction>(settingsActions.LOAD_SESSION_HISTORY))
+    .pipe(
+      switchMap(action => {
+        return this.settingsService.getSessionHistory().pipe(
+          map(data => new settingsActions.SetSessionHistoryAction(data)),
+          catchError(error => of(new settingsActions.FailLoadSessionHistoryAction(error)))
+        );
+      })
+    );
 
   /**
    * Load api keys

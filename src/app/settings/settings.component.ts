@@ -48,6 +48,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         }
       });
     this.store.dispatch(new settingsActions.LoadSessionTimeAction());
+    this.store.dispatch(new settingsActions.LoadSessionHistoryAction());
   }
 
   ngOnDestroy() {
@@ -63,7 +64,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.startAnimationTab = true;
       }, 500);
     }, 300);
-    
+
   }
 
   navTo(target) {

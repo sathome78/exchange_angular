@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import * as fromCore from '../../core/reducers';
 import * as settingsActions from '../store/actions/settings.actions';
+import { SessionHistoryItem } from 'app/model/session-history.model';
 
 @Component({
   selector: 'app-session',
@@ -33,6 +34,10 @@ export class SessionComponent implements OnInit, OnDestroy {
   hoursInput: FormControl;
   minutesInput: FormControl;
   sessionTime$: Observable<number>;
+  sessionsHistory$: Observable<ResponseModel<SessionHistoryItem[]>>;
+  sessionsHistoryLoading$: Observable<boolean>;
+  showAdditional = false;
+  additionalIndex = null;
 
   loading = false;
 
@@ -54,6 +59,9 @@ export class SessionComponent implements OnInit, OnDestroy {
       this.oldValue = interval;
       this.formatInputs();
     });
+
+    this.sessionsHistory$ = this.store.pipe(select(fromCore.getSessionHistory));
+    this.sessionsHistoryLoading$ = this.store.pipe(select(fromCore.getSessionHistoryLoading));
   }
 
   onSubmit() {
@@ -206,22 +214,14 @@ export class SessionComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  openAdditionalHistory(e) {
-    let clickTarget = e.target;
-    
-    if(!(e.target.classList.contains("table__cell"))){
-      clickTarget = e.target.closest(".table__cell");
+  openAdditionalHistory(i) {
+    if (i === this.additionalIndex || !this.additionalIndex) {
+      this.showAdditional = !this.showAdditional;
+      this.additionalIndex = i;
+    } else {
+      this.additionalIndex = i;
+      this.showAdditional = true;
     }
 
-    if(clickTarget.querySelector('.additional-mobile').classList.contains('active')){
-      clickTarget.querySelector('.additional-mobile').classList.remove('active')
-      
-    }
-    else{
-      document.querySelectorAll('.additional-mobile').forEach(function(item){
-        item.classList.remove('active')
-      })
-      clickTarget.querySelector('.additional-mobile').classList.add('active')
-    }
   }
 }

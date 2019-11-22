@@ -179,6 +179,14 @@ export const getSessionTime = createSelector(
   getSettingsState,
   fromSettings.getSessionTimeSelector
 );
+export const getSessionHistory = createSelector(
+  getSettingsState,
+  fromSettings.getSessionHistorySelector
+);
+export const getSessionHistoryLoading = createSelector(
+  getSettingsState,
+  fromSettings.getSessionHistoryLoadingSelector
+);
 export const getApiKeys = createSelector(
   getSettingsState,
   fromSettings.getApiKeysSelector
