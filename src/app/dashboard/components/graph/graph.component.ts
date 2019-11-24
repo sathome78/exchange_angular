@@ -170,7 +170,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, On
         }
       });
 
-    const supportedResolutions = ['5', '15', '30', '60', '360', 'D'];
+    const supportedResolutions = ['1', '5', '15', '30', '60', '360', 'D'];
 
     const config = {
       supported_resolutions: supportedResolutions,
@@ -300,6 +300,7 @@ export class GraphComponent extends AbstractDashboardItems implements OnInit, On
           container_id: this._containerId,
           timezone: this.setTimeZoneToWidget(),
           time_frames: [
+            { text: '1m', resolution: '1' },
             { text: '5m', resolution: '5' },
             { text: '15m', resolution: '15' },
             { text: '30m', resolution: '30' },
