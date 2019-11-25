@@ -10,6 +10,7 @@ import { select, Store } from '@ngrx/store';
 import * as fromCore from './core/reducers';
 import * as coreAction from './core/actions/core.actions';
 import * as dashboardAction from './dashboard/actions/dashboard.actions';
+import * as settingsActions from './settings/store/actions/settings.actions';
 import { SimpleCurrencyPair } from './model/simple-currency-pair';
 import { SEOService } from './shared/services/seo.service';
 import { UtilsService } from './shared/services/utils.service';
@@ -30,8 +31,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public shouldSetDefaultCurrPair = true;
   public technicalWorks = false;
   public preload = true;
-
-
 
   constructor(
     public popupService: PopupService,
@@ -88,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    
+
     this.authService.isSessionValid().subscribe(res => {
       if (res) {
         const parsedToken = this.authService.parseToken();

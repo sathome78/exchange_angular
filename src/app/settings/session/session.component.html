@@ -80,10 +80,7 @@
     >{{'Save' | translate}}</button>
   </form>
 
-  <table
-    class="table ballance-table session-history-table"
-    *ngIf="false"
-  >
+  <table class="table ballance-table session-history-table">
     <thead>
       <tr>
         <th class="table__cell-head table__cell-head--tal destop-content">{{'Device' | translate}}</th>
@@ -92,133 +89,44 @@
       </tr>
     </thead>
     <tbody class="table__body">
-      <tr class="table__row balance__table-row">
+      <tr
+        class="table__row balance__table-row"
+        *ngFor="let item of (sessionsHistory$ | async).items; let i = index"
+      >
         <td
           class="table__cell table__cell--tal"
-          (click)="openAdditionalHistory($event)"
+          (click)="openAdditionalHistory(i)"
         >
           <span class="row-type mobile-content">Device</span>
-          <span>Opera(Mac)</span>
-          <div class="additional-mobile">
+          <span>{{item.device}}</span>
+          <div
+            class="additional-mobile"
+            [ngClass]="{'active': showAdditional && i === additionalIndex}"
+          >
             <div class="ip-wr">
               <span class="row-type mobile-content">Location</span>
-              <span>196.192.10.10 / Ukraine</span>
+              <span>{{item.location}}</span>
             </div>
             <div class="date-wr">
               <span class="row-type mobile-content">Recent Activity</span>
-              <span>9.12am 13-10-2018</span>
-            </div>
-          </div>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>196.192.10.10 / Ukraine</span>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>Active</span>
-        </td>
-      </tr>
-      <tr class="table__row balance__table-row">
-        <td
-          class="table__cell table__cell--tal"
-          (click)="openAdditionalHistory($event)"
-        >
-          <span class="row-type mobile-content">Device</span>
-          <span>Safari(Windows 10)</span>
-          <div class="additional-mobile">
-            <div class="ip-wr">
-              <span class="row-type mobile-content">Location</span>
-              <span>196.192.10.10 / Ukraine</span>
-            </div>
-            <div class="date-wr">
-              <span class="row-type mobile-content">Recent Activity</span>
-              <span>9.12am 13-10-2018</span>
-            </div>
-          </div>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>196.192.10.10 / Ukraine</span>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>11.44am 14-10-2018</span>
-        </td>
-      </tr>
-      <tr class="table__row balance__table-row">
-        <td
-          class="table__cell table__cell--tal"
-          (click)="openAdditionalHistory($event)"
-        >
-          <span class="row-type mobile-content">Device</span>
-          <span>Google Chrome(Android 8.0)</span>
-          <div class="additional-mobile">
-            <div class="ip-wr">
-              <span class="row-type mobile-content">Location</span>
-              <span>196.192.10.10 / Ukraine</span>
-            </div>
-            <div class="date-wr">
-              <span class="row-type mobile-content">Recent Activity</span>
-              <span>9.12am 13-10-2018</span>
-            </div>
-          </div>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>196.192.10.10 / Ukraine</span>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>9.12am 13-10-2018</span>
-        </td>
-      </tr>
-      <tr class="table__row balance__table-row">
-        <td
-          class="table__cell table__cell--tal"
-          (click)="openAdditionalHistory($event)"
-        >
-          <span class="row-type mobile-content">Device</span>
-          <span>Google Chrome(iOS)</span>
-          <div class="additional-mobile">
-            <div class="ip-wr">
-              <span class="row-type mobile-content">Location</span>
-              <span>196.192.10.10 / Ukraine</span>
-            </div>
-            <div class="date-wr">
-              <span class="row-type mobile-content">Recent Activity</span>
-              <span>9.12am 13-10-2018</span>
-            </div>
-          </div>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>196.192.10.10 / Ukraine</span>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>1.35pm 12-10-2018</span>
-        </td>
-      </tr>
-      <tr class="table__row balance__table-row">
-        <td
-          class="table__cell table__cell--tal"
-          (click)="openAdditionalHistory($event)"
-        >
-          <span class="row-type mobile-content">Device</span>
-          <span>Exrates App(iOS)</span>
-          <div class="additional-mobile">
-            <div class="ip-wr">
-              <span class="row-type mobile-content">Location</span>
-              <span>196.192.10.10 / Ukraine</span>
-            </div>
-            <div class="date-wr">
-              <span class="row-type mobile-content">Recent Activity</span>
-              <span>9.12am 13-10-2018</span>
-            </div>
-          </div>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>196.192.10.10 / Ukraine</span>
-        </td>
-        <td class="table__cell table__cell--tal destop-content">
-          <span>8.23am 12-10-2018</span>
-        </td>
-      </tr>
+              <span *ngIf="item.modified === 'Active'; else momentDate">{{item.modified}}</span>
 
-      <tr class="table__row balance__table-row">
+            </div>
+          </div>
+        </td>
+        <td class="table__cell table__cell--tal destop-content">
+          <span>{{item.location}}</span>
+        </td>
+        <td class="table__cell table__cell--tal destop-content">
+          <span *ngIf="item.modified === 'Active'; else momentDate">{{item.modified}}</span>
+        </td>
+        <ng-template #momentDate><span>{{item.modified + 'Z'  | amParse:'hh.mmA DD-MM-YYYYZ' | amLocal | amDateFormat:'HH:mm DD.MM.YYYY' }}</span>
+        </ng-template>
+      </tr>
+      <tr
+        class="table__row balance__table-row"
+        *ngIf="(sessionsHistory$ | async).items && (sessionsHistory$ | async).items.length === 0 && !(sessionsHistoryLoading$ | async)"
+      >
         <td
           class="table__cell table__cell--tac"
           colspan="10"

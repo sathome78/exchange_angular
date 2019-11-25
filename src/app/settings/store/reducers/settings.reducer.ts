@@ -1,5 +1,6 @@
 import * as settingsActions from '../actions/settings.actions';
 import { ApiKeyItem } from '../../../model/api-key.model';
+import { SessionHistoryItem } from 'app/model/session-history.model';
 
 export interface State {
   loading: boolean;
@@ -8,6 +9,9 @@ export interface State {
   apiKeyLoading: boolean;
   sessionTime: number;
   apiKeys: ApiKeyItem[];
+  sessionHistoryItems: SessionHistoryItem[];
+  sessionHistoryCount: number;
+  sessionHistoryLoading: boolean;
 }
 
 export const INIT_STATE: State = {
@@ -16,6 +20,9 @@ export const INIT_STATE: State = {
   GALoading: false,
   apiKeyLoading: false,
   sessionTime: 20,
+  sessionHistoryItems: [],
+  sessionHistoryCount: 0,
+  sessionHistoryLoading: false,
   apiKeys: [],
 };
 
@@ -40,6 +47,21 @@ export function reducer(state: State = INIT_STATE, action: settingsActions.Actio
         loading: false,
       };
 
+    case settingsActions.LOAD_SESSION_HISTORY:
+      return { ...state, sessionHistoryLoading: true };
+    case settingsActions.SET_SESSION_HISTORY:
+      return {
+        ...state,
+        sessionHistoryLoading: false,
+        sessionHistoryItems: action.payload.items,
+        sessionHistoryCount: action.payload.count,
+      };
+    case settingsActions.FAIL_LOAD_SESSION_HISTORY:
+      return {
+        ...state,
+        sessionHistoryLoading: false,
+      };
+
     case settingsActions.LOAD_API_KEYS:
       return { ...state, apiKeyLoading: true };
     case settingsActions.SET_API_KEYS:
@@ -57,5 +79,8 @@ export function reducer(state: State = INIT_STATE, action: settingsActions.Actio
 }
 
 export const getSessionTimeSelector = (state: State): number => state.sessionTime;
+export const getSessionHistorySelector = (state: State): ResponseModel<SessionHistoryItem[]> =>
+  ({ count: state.sessionHistoryCount, items: state.sessionHistoryItems });
+export const getSessionHistoryLoadingSelector = (state: State): boolean => state.sessionHistoryLoading;
 export const getApiKeysSelector = (state: State): ApiKeyItem[] => state.apiKeys;
 export const getApiKeyLoadingSelector = (state: State): boolean => state.apiKeyLoading;

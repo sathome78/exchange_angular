@@ -1,50 +1,67 @@
 <div class="container">
-  <div class="settings">
-    <div class="settings__sidebar">
+  <div
+    class="settings"
+    [ngClass]="{'active':startAnimation}"
+  >
+    <div class="settings__sidebar fade-anim del2">
       <div class="ppage-title settings__sidebar-title">
         <h1 class="page-title__text">{{'Settings' | translate}} </h1>
       </div>
       <ul class="sidebar-menu">
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/two-factor-auth']">
+          <a
+            class="sidebar-menu__link"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/two-factor-auth')}"
+            (click)="activeLnk('/settings/two-factor-auth')"
+          >
             {{'Two-Factor Authentication' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/password']">
+          <a
+            class="sidebar-menu__link"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/password')}"
+            (click)="activeLnk('/settings/password')"
+          >
             {{'Password' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/session']">
+          <a
+            class="sidebar-menu__link"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/session')}"
+            (click)="activeLnk('/settings/session')"
+          >
             {{'Session Time' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-            [routerLinkActive]="['sidebar-menu__link--active']"
-            [routerLink]="['/settings/verification']">
+          <a
+            class="sidebar-menu__link"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/verification')}"
+            (click)="activeLnk('/settings/verification')"
+          >
             {{'Identity Verification' | translate}}
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a class="sidebar-menu__link"
-             [routerLinkActive]="['sidebar-menu__link--active']"
-             [routerLink]="['/settings/api-keys']">
+          <a
+            class="sidebar-menu__link"
+            [ngClass]="{'sidebar-menu__link--active': isUrl('/settings/api-keys')}"
+            (click)="activeLnk('/settings/api-keys')"
+          >
             {{'Api keys' | translate}}
           </a>
         </li>
       </ul>
     </div>
-    <div class="settings-content-wr">
-      <router-outlet></router-outlet>
+    <div class="settings-content-wr fade-move-anim del4">
+      <div
+        class="animate-item"
+        [ngClass]="{'active':startAnimationTab}"
+      >
+        <router-outlet #routerOutlet="outlet"></router-outlet>
+      </div>
     </div>
   </div>
 </div>
-

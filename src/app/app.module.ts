@@ -68,6 +68,7 @@ import { RefHowWorkComponent } from './referal/ref-how-work/ref-how-work.compone
 import { RefHowMuchComponent } from './referal/ref-how-much/ref-how-much.component';
 import { StructureTableMobileComponent } from './referal/structure-table-mobile/structure-table-mobile.component';
 import { IncomeTableMobileComponent } from './referal/income-table-mobile/income-table-mobile.component';
+import { MainLoaderService } from './shared/services/main-loader.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -173,6 +174,7 @@ const stompConfig: InjectableRxStompConfig = {
     EmbeddedOrdersService,
     CoreService,
     RxStompService,
+    MainLoaderService,
     ChartService,
 
     {

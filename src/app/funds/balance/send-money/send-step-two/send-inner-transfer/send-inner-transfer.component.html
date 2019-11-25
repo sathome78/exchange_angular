@@ -1,31 +1,276 @@
-<div class="side-popups inner-s2">
-  <h2 class="title send__title">
-    {{'Make Inner transfer' | translate}}
-  </h2>
-  <div class="send__row">
-    <button class="btn btn--empty-blue"
-    (click)="chooseTransfer('By email')"
-    >{{'Instant transfer' | translate}}</button>
-    <div class="send__transfer-description">
-      {{'Send instant internal transfer to another account using their email' | translate}}.
-    </div>
-  </div>
-  <div class="send__row">
-    <button class="btn btn--empty-blue"
-    (click)="chooseTransfer('By code')">
-    {{'Protected by code & mail' | translate}}
-  </button>
-  <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email</b>' | translate">
-    <div class="small">({{'user can get the money if he knows the transfer code' | translate}})</div>
-  </div>
-</div>
-<div class="send__row">
-  <button class="btn btn--empty-blue"
-  (click)="chooseTransfer('By private code')"
-  >{{'Protected by code only' | translate}}</button>
-  <div class="send__transfer-description" [innerHTML]="'Make <b>password-protected</b> transfer' | translate">
-    <div class="small">{{'Anyone who knows the code may recive the transfer' | translate}}</div>
-  </div>
-</div>
-</div>
+<div class="side-popups send-instant-s3">
+  <ng-container [ngSwitch]="activeMerchName">
+    <h2
+      class="title send__title"
+      *ngSwitchCase="merchNames.SIMPLE"
+    >
+      {{'Make Inner transfer by email' | translate}}
+    </h2>
+    <ng-container *ngSwitchCase="merchNames.VOUCHER">
+      <h2 class="title send__title">
+        {{'Make Inner transfer protected by code' | translate}}
+      </h2>
+      <h3
+        class="subtitle send__subtitle"
+        *ngIf="VIEW !== viewsList.CAPTCHA"
+      >
+        {{'the code will be sent to you after transaction verification' | translate}}
+      </h3>
+    </ng-container>
+    <ng-container *ngSwitchCase="merchNames.VOUCHERFREE">
+      <h2 class="title send__title">
+        {{'Make Inner transfer by email protected by code' | translate}}
+      </h2>
+      <h3
+        class="subtitle send__subtitle"
+        *ngIf="VIEW !== viewsList.CAPTCHA"
+      >
+        {{'the code will be sent to you after transaction verification' | translate}}
+      </h3>
+    </ng-container>
+    <h2
+      class="title send__title"
+      *ngSwitchDefault
+    >
+      {{'Make Inner transfer' | translate}}
+    </h2>
+  </ng-container>
 
+
+  <ng-container *ngIf="VIEW === viewsList.MAIN">
+    <div class="formWraper">
+      <form [formGroup]="form">
+        <div class="send__inputs-wrap">
+
+          <div class="currency-select-wrapper">
+            <app-currency-select-crypto
+              [activeCurrency]="activeCurr"
+              [currencies]="currencies"
+              (selectCurrency)="selectCurrency($event)"
+            ></app-currency-select-crypto>
+          </div>
+
+          <div class="currency-select-wrapper">
+            <app-merchant-select-transfer
+              [activeMerchant]="activeMerchant"
+              [merchants]="merchantData || []"
+              (selectMerchant)="selectMerchant($event)"
+              [disabled]="!activeCurr"
+            ></app-merchant-select-transfer>
+          </div>
+
+
+          <ng-container *ngIf="form && activeCurr">
+            <div
+              class="wrap-input send__wrap-input"
+              [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
+            >
+              <div class="avaliable">
+                {{'Available:' | translate}}
+                <a
+                  (click)="balanceClick()"
+                  class="link"
+                  [ngStyle]="{'pointer-events': loadingBalance ? 'none' : 'auto'}"
+                >
+                  {{activeBalance | currencyFormat: activeCurrName}} {{activeCurrName}}
+                </a>
+              </div>
+              <!-- (customBlur)="amountBlur($event)" -->
+              <app-price-input
+                [placeholder]="activeCurrName + ' Amount'"
+                [currencyName]="activeCurrName"
+                name="amount"
+                formControlName="amount"
+                autocomplete="off"
+              >
+                <div *ngIf="formAmount.errors">
+                  <div class="input-hint-wrapper">
+                    <span
+                      class="wrap-input__message wrap-input__message--show"
+                      *ngIf="formAmount.errors['isMinThenMinWithdraw'] && (formAmount.touched || isSubmited)"
+                    >
+                      {{'Minimum sum for transfer' | translate}} {{minSumForTransfer}} {{activeCurrName}}
+                    </span>
+                    <span
+                      class="wrap-input__message wrap-input__message--show"
+                      *ngIf="formAmount.errors['isMaxThenActiveBalance'] && (formAmount.touched || isSubmited)"
+                    >
+                      {{'Max sum for transfer' | translate}} {{activeBalance}} {{activeCurrName}}
+                    </span>
+                  </div>
+                </div>
+              </app-price-input>
+              <span
+                class="bottom-tooltip wrap-input__message--show"
+                *ngIf="activeMerchant"
+              >
+                {{'Minimum sum for transfer' | translate}} {{minSumForTransfer}} {{activeCurrName}}
+              </span>
+
+              <!--Input error section starts-->
+
+            </div>
+
+            <div
+              *ngIf="formEmail"
+              class="wrap-input  send__wrap-input"
+              [ngClass]="{'wrap-input--error': formEmail.invalid && (formEmail.touched || isSubmited)}"
+            >
+              <input
+                class="wrap-input__input"
+                name="email"
+                formControlName="email"
+                autocomplete="off"
+                required
+              >
+              <label class="wrap-input__label">{{'Email' | translate}}</label>
+              <div class="wrap-input__line"></div>
+              <!--Input error section starts-->
+              <div *ngIf="formEmail.invalid && formEmail.errors && !pendingCheckEmail">
+                <div class="input-hint-wrapper">
+                  <span
+                    class="wrap-input__message"
+                    *ngIf="formEmail.errors['emailInvalid'] || formEmail.errors['required'] && (formEmail.touched || isSubmited)"
+                  >
+                    {{'Enter valid email to transfer' | translate}}
+                  </span>
+
+                  <span
+                    class="wrap-input__message"
+                    *ngIf="formEmail.errors['checkEmailCrash'] && (formEmail.touched  || isSubmited)"
+                  >
+                    {{'Service is temporary unavailable, please try again later' | translate}}
+                  </span>
+                  <span
+                    class="wrap-input__message"
+                    *ngIf="formEmail.errors['USER_EMAIL_NOT_FOUND']"
+                  >
+                    {{'User email not found.' | translate}}
+                  </span>
+                  <span
+                    class="wrap-input__message"
+                    *ngIf="formEmail.errors['ownEmail']"
+                  >
+                    {{'You can not send the transfer to your current user.' | translate}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+      </form>
+      <ng-container *ngIf="form && activeCurr">
+        <div class="send__line"></div>
+        <div class="send__info">
+          <div class="send__info-row">
+            <div class="send__info-title">{{'You want to transfer:' | translate}}</div>
+            <div class="send__info-value">{{amount | currencyFormat: activeCurrName}} {{activeCurrName}}</div>
+          </div>
+          <div class="send__info-row">
+            <div class="send__info-title">{{'Exchange comission:' | translate}}</div>
+            <div class="send__info-value">{{merchantCommisionPercent | currencyFormat}}%
+              <ng-container *ngIf="amount"> = {{merchantCommisionValue | currencyFormat}} {{activeCurrName}}</ng-container>
+            </div>
+          </div>
+          <div class="send__info-row">
+            <div class="send__info-title">{{'Total with comission:' | translate}}</div>
+            <div class="send__info-value">{{totalValue | currencyFormat}} {{activeCurrName}}</div>
+          </div>
+        </div>
+        <button
+          *ngIf="form && activeCurr"
+          class="btn btn--center"
+          [disabled]="form.invalid || pendingCheckEmail || !activeCurr || !activeMerchant"
+          (click)="submitTransfer()"
+        >
+          {{'Transfer' | translate}}
+        </button>
+        <div class="send__line"></div>
+      </ng-container>
+
+      <div class="note modal__note">
+        <div class="note__title">{{'Please note:' | translate}}</div>
+        <ul class="note__list">
+          <ng-container [ngSwitch]="activeMerchName">
+            <ng-container *ngSwitchCase="merchNames.VOUCHER">
+              <li
+                class="note__list-item"
+                [innerHTML]="'Make <b>password-protected</b> personal transfer to another user by his <b>email</b>' | translate"
+              ></li>
+            </ng-container>
+            <ng-container *ngSwitchCase="merchNames.VOUCHERFREE">
+              <li
+                class="note__list-item"
+                [innerHTML]="'Make <b>password-protected</b> transfer' | translate"
+              ></li>
+            </ng-container>
+            <ng-container *ngSwitchCase="merchNames.SIMPLE">
+              <li
+                class="note__list-item"
+                [innerHTML]="'Make <b>password-protected</b> transfer' | translate"
+              >
+                {{'Protected by code & mail' | translate}}
+              </li>
+            </ng-container>
+          </ng-container>
+          <li class="note__list-item">
+            {{'Once you have submitted your transfer request, we will send a confirmation email. Please then click on the confirmation link in your email' | translate}}.
+          </li>
+          <li class="note__list-item">{{'After making a transfer, you can track its progress in history on funds page' | translate}}.</li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="VIEW === viewsList.CAPTCHA">
+    <ng-container>
+      <div
+        *ngIf="!utilsService.isDevCaptcha(userEmail); else devCaptchaTemplate"
+        class="captcha-wrapper side-popups send-instant-s3"
+      >
+        <h6 class="popup__title">{{'Enter the captcha' | translate}}</h6>
+        <re-captcha
+          (resolved)="afterResolvedCaptcha($event)"
+          [siteKey]="recaptchaKey"
+        ></re-captcha>
+        <div class="popup__links-wrap  popup__links-wrap--center">
+          <a
+            class="popup__link"
+            (click)="setView(viewsList.MAIN)"
+          >{{'Back to transfer form' | translate}}</a>
+        </div>
+      </div>
+    </ng-container>
+
+
+    <ng-template #devCaptchaTemplate>
+      <div class="captcha-wrapper side-popups send-instant-s3">
+        <h6 class="popup__title popup_title--dm">{{'Enter the captcha' | translate}}</h6>
+        <h4 class="popup__subtitle popup_title--dm">Captcha emulation for developers and QA</h4>
+        <button
+          class="btn btn--center"
+          (click)="afterResolvedCaptcha($event)"
+        >Resolve</button>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="VIEW === viewsList.LOADING">
+    <div class="loading-container">
+      <app-loader></app-loader>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="VIEW === viewsList.DENIED">
+    <div class="side-popups send-cripto-s2">
+      <div class="closed-opation">{{'Unfortunately, the operation is not available for you at the moment' | translate}}.</div>
+      <div class="closed-opation">{{'Please contact with ' | translate}}<a href="https://about.exrates.me/ru/support-center">{{'support' | translate}}</a></div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="VIEW === viewsList.ERROR">
+    <div class="side-popups send-cripto-s2">
+      <div class="closed-opation">{{'Something went wrong!' | translate}}</div>
+      <div class="closed-opation">{{'Please try again later.' | translate}}</div>
+    </div>
+  </ng-container>
+</div>
