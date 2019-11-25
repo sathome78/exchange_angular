@@ -426,9 +426,9 @@ export class BalanceComponent implements OnInit, OnDestroy {
     // this.popupService.showDemoTradingPopup(true);
     this.showSendMoneyPopup = true;
     this.sendMoneyData = {
+      balance,
       step: 2,
       stepName: INNER_TRANSFER,
-      stepThreeData: balance,
     };
   }
 
