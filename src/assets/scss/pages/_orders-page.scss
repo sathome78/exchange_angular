@@ -64,8 +64,23 @@
     right: 0;
     bottom: 125%;
     padding: 8px 28px;
+    background: #fff;
+    .revoke-request__triangle{
+      border-top: 5px solid #fff;
+    }
+    .btn--small{
+      background-color: transparent;
+      border: 1px solid #237BEF;
+      color: #237BEF;
+      width: 53px;
+      &:hover{
+        color: #fff;
+        background: #237BEF;
+      }
+    }
     .revoke-request__title{
       line-height: 1.35;
+      color: #000000;
     }
   }
 }
