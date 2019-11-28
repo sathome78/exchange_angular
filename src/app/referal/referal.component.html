@@ -92,7 +92,14 @@
       <app-income-table *ngIf="tab === Tabs.income"></app-income-table>
     </ng-container>
     <ng-container *ngIf="isMobile">
-      <app-structure-table-mobile *ngIf="tab === Tabs.structure"></app-structure-table-mobile>
+      <app-structure-table-mobile
+        *ngIf="tab === Tabs.structure"
+        [links]="myReferralLinks"
+        (changeName)="changeStructureName($event)"
+        (clickMainLink)="openFirstChilds($event)"
+        (clickChild1Link)="openSecondChilds($event)"
+        (clickChild2Link)="openThirdChilds($event)"
+      ></app-structure-table-mobile>
       <app-income-table-mobile *ngIf="tab === Tabs.income"></app-income-table-mobile>
     </ng-container>
   </div>

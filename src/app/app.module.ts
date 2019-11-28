@@ -7,8 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
-import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { reducers } from './core/reducers';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -71,6 +69,7 @@ import { IncomeTableMobileComponent } from './referal/income-table-mobile/income
 import { MainLoaderService } from './shared/services/main-loader.service';
 import { ReferralService } from './referal/referal.service';
 import { StructureTableItemComponent } from './referal/structure-table-item/structure-table-item.component';
+import { StructureTableMobileItemComponent } from './referal/structure-table-mobile-item/structure-table-mobile-item.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -102,8 +101,6 @@ const stompConfig: InjectableRxStompConfig = {
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ReferralStructureComponent,
-    ReferralChargesComponent,
     FinalRegistrationComponent,
     FinalStepRecoveryPasswordComponent,
     NewsComponent,
@@ -127,6 +124,7 @@ const stompConfig: InjectableRxStompConfig = {
     StructureTableMobileComponent,
     IncomeTableMobileComponent,
     StructureTableItemComponent,
+    StructureTableMobileItemComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(options),

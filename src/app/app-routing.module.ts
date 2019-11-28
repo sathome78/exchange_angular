@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './shared/guards/auth.guard';
-import { ReferralStructureComponent } from './referral/referral-structure/referral-structure.component';
-import { ReferralChargesComponent } from './referral/referral-charges/referral-charges.component';
 import { RegistrationGuard } from './shared/guards/registaration.guard';
 import { RestorePasswordGuard } from './shared/guards/restore-password.guard';
 import { FinalRegistrationComponent } from './popups/final-registration/final-registration.component';
@@ -34,13 +32,6 @@ const routes: Routes = [
     component: FinalRegistrationComponent,
     canActivate: [RegistrationGuard],
   },
-  // { path: 'referral', component: ReferralStructureComponent },
-  // {
-  //   path: 'referral-charges',
-  //   component: ReferralChargesComponent,
-  //   canActivate: [AuthGuard],
-  //   canActivateChild: [AuthGuard],
-  // },
   {
     path: 'settings',
     loadChildren: './settings/settings.module#SettingsModule',
