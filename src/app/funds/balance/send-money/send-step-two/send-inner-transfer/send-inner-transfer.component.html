@@ -63,7 +63,7 @@
           <ng-container *ngIf="form && activeCurr">
             <div
               class="wrap-input send__wrap-input"
-              [ngClass]="{'wrap-input--error': formAmount.invalid && (formAmount.touched || isSubmited)}"
+              [ngClass]="{'wrap-input--error': formAmount.invalid && ((formAmount.touched && activeMerchant) || isSubmited)}"
             >
               <div class="avaliable">
                 {{'Available:' | translate}}
@@ -83,7 +83,7 @@
                 formControlName="amount"
                 autocomplete="off"
               >
-                <div *ngIf="formAmount.errors">
+                <div *ngIf="formAmount.errors && activeMerchant">
                   <div class="input-hint-wrapper">
                     <span
                       class="wrap-input__message wrap-input__message--show"
