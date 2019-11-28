@@ -164,8 +164,8 @@ export class UserService {
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));
   }
 
-  sendToEmailConfirmation(email: string, isUsa: boolean) {
-    const data = { email, isUsa };
+  sendToEmailConfirmation(email: string, isUsa: boolean, inviteCode: string) {
+    const data = { email, isUsa, inviteCode };
     return this.http
       .post<TokenHolder>(this.getUrl('users/register'), data, { observe: 'response' })
       .pipe(this.apiErrorsService.catchAPIErrorWithNotification(true));

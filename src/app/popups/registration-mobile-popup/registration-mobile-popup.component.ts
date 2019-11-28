@@ -8,7 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/user.service';
 import { keys, AUTH_MESSAGES } from '../../shared/constants';
 import { UtilsService } from 'app/shared/services/utils.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { GtagService } from '../../shared/services/gtag.service';
 
@@ -39,6 +39,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
   public pendingCheckEmail = false;
   public loading = false;
   public previousEmail = '';
+  public inviteCode = '';
 
   public firstName;
   public afterCaptchaMessage;
@@ -49,11 +50,13 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private utilsService: UtilsService,
     private location: Location,
+    private route: ActivatedRoute,
     private gtagService: GtagService
   ) {}
 
   ngOnInit() {
     this.setTemplate('emailInputTemplate');
+    this.getInviteCode();
     this.initForm();
   }
 
@@ -97,7 +100,7 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     const isUsa = this.formIsUsaGetter.value;
     this.loading = true;
     this.userService
-      .sendToEmailConfirmation(email, isUsa)
+      .sendToEmailConfirmation(email, isUsa, this.inviteCode)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
@@ -198,6 +201,10 @@ export class RegistrationMobilePopupComponent implements OnInit, OnDestroy {
     if (this.emailForm.valid && !this.pendingCheckEmail) {
       this.setTemplate('captchaTemplate');
     }
+  }
+
+  getInviteCode() {
+    this.inviteCode = this.route.snapshot.queryParamMap.get('ref');
   }
 
   get formDisabled(): boolean {
