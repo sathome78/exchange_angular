@@ -1,0 +1,303 @@
+<div
+  class="table__row no-hover"
+  (click)="onClickMainItem()"
+>
+  <div class="row-wr">
+    <div class="table__cell people referals">
+      <div class="people-wr">
+        <img
+          src="/assets/img/people.svg"
+          alt="people icon"
+        >
+        <span>{{link.numberChild}}</span>
+      </div>
+
+    </div>
+    <div class="table__cell name">
+      <div
+        class="ref-name-wr"
+        *ngIf="!isEdit"
+      >
+        <span class="ref-name">{{link.name}}</span>
+        <div
+          class="edit-icon"
+          (click)="onEdit($event)"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M11.75 1.25023C11.947 1.05324 12.1808 0.896988 12.4382 0.790382C12.6956 0.683776 12.9714 0.628906 13.25 0.628906C13.5286 0.628906 13.8044 0.683776 14.0618 0.790382C14.3192 0.896988 14.553 1.05324 14.75 1.25023C14.947 1.44721 15.1032 1.68106 15.2098 1.93843C15.3165 2.1958 15.3713 2.47165 15.3713 2.75023C15.3713 3.0288 15.3165 3.30465 15.2098 3.56202C15.1032 3.81939 14.947 4.05324 14.75 4.25023L4.625 14.3752L0.5 15.5002L1.625 11.3752L11.75 1.25023Z"
+              stroke="#94C2FF"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M1.5 11.5L4.5 14"
+              stroke="#94C2FF"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        class="edit-block"
+        *ngIf="isEdit"
+      >
+        <div class="input-wr">
+          <input
+            type="text"
+            name="edit"
+            [(ngModel)]="newName"
+          >
+        </div>
+        <div class="edit-btn-block">
+          <div
+            class="edit-btn done"
+            (click)="onApply($event)"
+          >
+            <svg
+              width="15"
+              height="12"
+              viewBox="0 0 15 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14 1L4.9 11L1 7"
+                stroke="#94C2FF"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div
+            class="edit-btn cancel"
+            (click)="onCancel($event)"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1 1L11 11M11 1L1.00002 11"
+                stroke="#94C2FF"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="table__cell link-cell">
+      <div class="ref-lnk-wr">
+        <span class="ref-lnk">{{link.link}}</span>
+        <div
+          class="ref-lnk-icon"
+          [ngClass]="{'active': isCopied}"
+          (click)="copyLink($event, link.link)"
+        >
+          <!-- onclick="this.classList.add('active')" -->
+          <svg
+            width="19"
+            height="19"
+            viewBox="0 0 19 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.57143 12.5714H1V1H12.5714V3.57143"
+              stroke="#94C2FF"
+            />
+            <g filter="url(#filter0_d)">
+              <rect
+                x="5.35715"
+                y="5.35547"
+                width="13.1429"
+                height="13.1429"
+                stroke="#94C2FF"
+              />
+            </g>
+            <defs>
+              <filter
+                id="filter0_d"
+                x="4.85715"
+                y="4.85547"
+                width="14.1429"
+                height="14.1429"
+                filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB"
+              >
+                <feFlood
+                  flood-opacity="0"
+                  result="BackgroundImageFix"
+                />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                />
+                <feOffset />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"
+                />
+                <feBlend
+                  mode="normal"
+                  in2="BackgroundImageFix"
+                  result="effect1_dropShadow"
+                />
+                <feBlend
+                  mode="normal"
+                  in="SourceGraphic"
+                  in2="effect1_dropShadow"
+                  result="shape"
+                />
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="table__cell btc">
+      <span>{{link.earnedBTC}} BTC</span>
+    </div>
+    <div class="table__cell usd">
+      <span>{{link.earnedUSD}} USD</span>
+    </div>
+    <div class="table__cell usdt">
+      <span>{{link.earnedUSDT}} USDT</span>
+    </div>
+  </div>
+  <!-- line 1 -->
+  <ng-container *ngIf="link.childs && link.childs.length">
+    <div
+      class="table__row no-hover"
+      *ngFor="let child1 of link.childs"
+    >
+      <div
+        class="row-wr"
+        (click)="onClickChild1Item($event, child1)"
+      >
+
+        <div class="table__cell people referals">
+          <div class="people-wr">
+            <img
+              src="/assets/img/people.svg"
+              alt="people icon"
+            >
+            <span>{{child1.numberChild}}</span>
+          </div>
+
+        </div>
+        <div class="table__cell name">
+          <div class="ref-name-wr">
+            <span class="ref-name">{{child1.userEmail}}</span>
+          </div>
+
+        </div>
+        <div class="table__cell link-cell">
+          <div class="ref-lnk-wr">
+            <span class="ref-lnk">{{child1.level}}</span>
+          </div>
+        </div>
+        <div class="table__cell btc">
+          <span>{{child1.earnedBTC}} BTC</span>
+        </div>
+        <div class="table__cell usd">
+          <span>{{child1.earnedUSD}} USD</span>
+        </div>
+        <div class="table__cell usdt">
+          <span>{{child1.earnedUSDT}} USDT</span>
+        </div>
+      </div>
+
+      <!-- line 2-->
+      <ng-container *ngIf="child1.childs && child1.childs.length">
+        <div
+          class="table__row no-hover"
+          *ngFor="let child2 of child1.childs"
+        >
+          <div
+            class="row-wr"
+            (click)="onClickChild2Item($event, child1, child2)"
+          >
+
+            <div class="table__cell people referals">
+              <div class="people-wr">
+                <img
+                  src="/assets/img/people.svg"
+                  alt="people icon"
+                >
+                <span>{{child2.numberChild}}</span>
+              </div>
+
+            </div>
+            <div class="table__cell name">
+              <div class="ref-name-wr">
+                <span class="ref-name">{{child2.userEmail}}</span>
+              </div>
+
+            </div>
+            <div class="table__cell link-cell">
+              <div class="ref-lnk-wr">
+                <span class="ref-lnk">{{child2.level}}</span>
+              </div>
+            </div>
+            <div class="table__cell btc">
+              <span>{{child2.earnedBTC}} BTC</span>
+            </div>
+            <div class="table__cell usd">
+              <span>{{child2.earnedUSD}} USD</span>
+            </div>
+            <div class="table__cell usdt">
+              <span>{{child2.earnedUSDT}} USDT</span>
+            </div>
+          </div>
+
+          <!-- line 3 -->
+          <ng-container *ngIf="child2.childs && child2.childs.length">
+            <div
+              class="table__row no-hover"
+              *ngFor="let child3 of child2.childs"
+            >
+              <div class="row-wr">
+
+                <div class="table__cell people referals">
+
+                </div>
+                <div class="table__cell name">
+                  <div class="ref-name-wr">
+                    <span class="ref-name">{{child3.userEmail}}</span>
+                  </div>
+                </div>
+                <div class="table__cell link-cell">
+                  <div class="ref-lnk-wr">
+                    <span class="ref-lnk">{{child3.level}}</span>
+                  </div>
+                </div>
+                <div class="table__cell btc">
+                  <span>{{child3.earnedBTC}} BTC</span>
+                </div>
+                <div class="table__cell usd">
+                  <span>{{child3.earnedUSD}} USD</span>
+                </div>
+                <div class="table__cell usdt">
+                  <span>{{child3.earnedUSDT}} USDT</span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

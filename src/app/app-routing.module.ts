@@ -28,24 +28,19 @@ const routes: Routes = [
   { path: 'fiat', component: FiatComponent },
   { path: 'unsubscribe', component: UnsubscribeComponent, canActivate: [UnsubscribeGuard] },
   { path: 'free-coins', loadChildren: './freecoins/freecoins.module#FreecoinsModule' },
-  { path: 'referal', component: ReferalComponent },
+  { path: 'referral', component: ReferalComponent },
   {
     path: 'final-registration/token',
     component: FinalRegistrationComponent,
     canActivate: [RegistrationGuard],
   },
-  {
-    path: 'referral-structure',
-    component: ReferralStructureComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
-  },
-  {
-    path: 'referral-charges',
-    component: ReferralChargesComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
-  },
+  // { path: 'referral', component: ReferralStructureComponent },
+  // {
+  //   path: 'referral-charges',
+  //   component: ReferralChargesComponent,
+  //   canActivate: [AuthGuard],
+  //   canActivateChild: [AuthGuard],
+  // },
   {
     path: 'settings',
     loadChildren: './settings/settings.module#SettingsModule',

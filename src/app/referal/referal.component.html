@@ -1,10 +1,13 @@
 <div
   class="referal-fs"
-  *ngIf="user === 'no-auth'"
+  *ngIf="!isAuthenticated"
 >
   <div class="content-wr">
     <h2>Register and create referral structure</h2>
-    <button class="btn transaction__title-btn">
+    <button
+      class="btn transaction__title-btn"
+      (click)="openRegistration()"
+    >
       Start Registration
     </button>
   </div>
@@ -14,7 +17,7 @@
 
   <div
     class="referal"
-    *ngIf="user === 'auth'"
+    *ngIf="isAuthenticated"
   >
     <div class="page-title">
       <h1 class="page-title__text">
@@ -44,8 +47,16 @@
       <div class="row referal__tab">
         <div class="left-part">
           <div class="tab-wr">
-            <button class="tab-referal active"><span>Referral structure</span></button>
-            <button class="tab-referal"><span>Referral income</span></button>
+            <button
+              class="tab-referal"
+              [ngClass]="{'active': tab === Tabs.structure}"
+              (click)="selectTab(Tabs.structure)"
+            ><span>Referral structure</span></button>
+            <button
+              class="tab-referal"
+              [ngClass]="{'active': tab === Tabs.income}"
+              (click)="selectTab(Tabs.income)"
+            ><span>Referral income</span></button>
           </div>
         </div>
         <div class="right-part">
@@ -53,20 +64,37 @@
             <input
               type="text"
               class="wrap-input__input dynamic-input ng-untouched ng-pristine ng-invalid"
+              name="name"
+              [(ngModel)]="newStructureName"
               required
             >
             <label class="wrap-input__label">Structure name</label>
           </div>
-          <button class="btn btn--auto transaction__search-btn">
+          <button
+            class="btn btn--auto transaction__search-btn"
+            (click)="createNewStructure()"
+          >
             <span>Create structure</span>
           </button>
         </div>
       </div>
     </form>
-    <!-- <app-structure-table *ngIf="tab === 'referal-structure'"></app-structure-table> -->
-    <app-structure-table-mobile *ngIf="tab === 'referal-structure'"></app-structure-table-mobile>
-    <!-- <app-income-table *ngIf="tab === 'referal-income'"></app-income-table> -->
-    <app-income-table-mobile *ngIf="tab === 'referal-income'"></app-income-table-mobile>
+
+    <ng-container *ngIf="!isMobile">
+      <app-structure-table
+        *ngIf="tab === Tabs.structure"
+        [links]="myReferralLinks"
+        (changeName)="changeStructureName($event)"
+        (clickMainLink)="openFirstChilds($event)"
+        (clickChild1Link)="openSecondChilds($event)"
+        (clickChild2Link)="openThirdChilds($event)"
+      ></app-structure-table>
+      <app-income-table *ngIf="tab === Tabs.income"></app-income-table>
+    </ng-container>
+    <ng-container *ngIf="isMobile">
+      <app-structure-table-mobile *ngIf="tab === Tabs.structure"></app-structure-table-mobile>
+      <app-income-table-mobile *ngIf="tab === Tabs.income"></app-income-table-mobile>
+    </ng-container>
   </div>
 
   <app-ref-how-work></app-ref-how-work>

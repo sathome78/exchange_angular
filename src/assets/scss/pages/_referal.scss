@@ -202,9 +202,12 @@
       .ref-lnk-wr {
         display: flex;
         align-items: center;
+        overflow: hidden;
 
         .ref-lnk {
           margin-right: 8px;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         .ref-lnk-icon {
@@ -456,7 +459,7 @@
       }
     }
     .table--mob {
-      
+
 
       .table__body {
         .table__row--mob {

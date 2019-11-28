@@ -69,6 +69,8 @@ import { RefHowMuchComponent } from './referal/ref-how-much/ref-how-much.compone
 import { StructureTableMobileComponent } from './referal/structure-table-mobile/structure-table-mobile.component';
 import { IncomeTableMobileComponent } from './referal/income-table-mobile/income-table-mobile.component';
 import { MainLoaderService } from './shared/services/main-loader.service';
+import { ReferralService } from './referal/referal.service';
+import { StructureTableItemComponent } from './referal/structure-table-item/structure-table-item.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.main, translateInfo.suffix);
@@ -124,6 +126,7 @@ const stompConfig: InjectableRxStompConfig = {
     RefHowMuchComponent,
     StructureTableMobileComponent,
     IncomeTableMobileComponent,
+    StructureTableItemComponent,
   ],
   imports: [
     NgxMaskModule.forRoot(options),
@@ -176,6 +179,7 @@ const stompConfig: InjectableRxStompConfig = {
     RxStompService,
     MainLoaderService,
     ChartService,
+    ReferralService,
 
     {
       provide: InjectableRxStompConfig,

@@ -354,12 +354,20 @@
           <div class="login-menu__submenu-item">
             <div class="item-title">{{'Account' | translate}}</div>
             <span>{{ (userInfo$ | async).username }}</span>
-          </div>
-          <div class="login-menu__submenu-item">
             <div class="item-title">{{'Estimated Holdings' | translate}}</div>
             <span>
               ${{(myBalance | async)?.data.USD || 0 | roundCurrency: 'USD' | formatCurrency}}
             </span>
+          </div>
+          <div class="login-menu__submenu-item">
+            <a
+              class="menu__link login-menu__link"
+              routerLink="/referral"
+              *ngIf="isAuthenticated"
+              style="padding-top: 16px;"
+            >
+              <span class="menu__link-text">{{'Refeffal program' | translate}}</span>
+            </a>
           </div>
           <a
             class="menu__link login-menu__link"
