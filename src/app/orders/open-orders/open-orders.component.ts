@@ -18,10 +18,13 @@ import { UserService } from 'app/shared/services/user.service';
   selector: 'app-open-orders',
   templateUrl: './open-orders.component.html',
   styleUrls: ['./open-orders.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenOrdersComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+
+  public startAnimation = false;
+
   public orderItems$: Observable<OrderItem[]>;
   public orderItems: OrderItem[] = [];
   public countOfEntries$: Observable<number>;
@@ -71,6 +74,10 @@ export class OpenOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.startAnimation = true;
+    }, 600);
+
     this.isMobile = window.innerWidth < 1200;
     if (this.isMobile) {
       this.countPerPage = 10;

@@ -2,9 +2,10 @@
   <!--orders-mob start-->
   <div
     class="orders orders--mob"
+    [ngClass]="{'active' : startAnimation}"
     *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
   >
-    <div class="orders__header-mob">
+    <div class="orders__header-mob fade-anim del2">
       <div class=" orders__page-title">
         {{'Open orders' | translate}}
       </div>
@@ -38,7 +39,7 @@
       (scrolled)="loadMoreOrders()"
     >
       <table class="table table--mob">
-        <thead class="table__head">
+        <thead class="table__head  fade-anim del1">
           <tr class="table__head-row">
             <th class="table__cell-head table__cell-head--tal">{{'Market/Date' | translate}}
               <svg
@@ -59,7 +60,7 @@
             <th class="table__cell-head table__cell-head--tar">{{'Limit Price' | translate}}</th>
           </tr>
         </thead>
-        <tbody class="table__body table__body--none-shadow">
+        <tbody class="table__body table__body--none-shadow fade-move-anim del9">
           <!-- t-row start-->
           <ng-container *ngFor="let item of orderItems$ | async; trackBy: trackByOrders">
             <tr
@@ -235,9 +236,10 @@
   <!--orders-desktop start-->
   <div
     class="orders"
+    [ngClass]="{'active' : startAnimation}"
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
   >
-    <div class="page-title">
+    <div class="page-title fade-anim del3">
       <h1 class="page-title__text">
         {{'Open orders'| translate}}
       </h1>
@@ -248,18 +250,19 @@
     <form action="">
       <div class="row orders__filters">
         <div class="orders__filters--wr">
-
-          <app-dynamic-input
-            [value]="currencyPairValue"
-            [options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"
-            [setNullValue]="true"
-            (onChange)="onChangeCurrPair($event)"
-            (onSelect)="onSelectPair($event.id)"
-            [showNotFoundTip]="true"
-          >
-          </app-dynamic-input>
-          <div class="wrap-input__line"></div>
-          <div class="cancel-btn-wr">
+          <div class="fade-move-anim del8">
+            <app-dynamic-input
+              [value]="currencyPairValue"
+              [options]="(currencyPairs$ | async) | dynamicIData: 'name': 'id'"
+              [setNullValue]="true"
+              (onChange)="onChangeCurrPair($event)"
+              (onSelect)="onSelectPair($event.id)"
+              [showNotFoundTip]="true"
+            >
+            </app-dynamic-input>
+          </div>
+          <div class="wrap-input__line fade-anim del2"></div>
+          <div class="cancel-btn-wr fade-move-anim del9">
             <button
               class="btn btn--auto"
               (click)="toggleShowCancelAllOrdersConfirm()"
@@ -303,7 +306,7 @@
     </form>
     <!--table start-->
     <table class="table">
-      <thead>
+      <thead class="fade-anim del10">
         <tr>
           <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Order id'| translate}}</th>
           <th class="table__cell-head table__cell-head--sort table__cell-head--tal">{{'Created'| translate}}</th>
@@ -324,7 +327,7 @@
           ></th>
         </tr>
       </thead>
-      <tbody class="table__body">
+      <tbody class="table__body fade-move-anim del11">
         <tr
           class="table__row"
           *ngFor="let item of orderItems$ | async | paginate: {
@@ -424,7 +427,7 @@
     <!--table end-->
     <!--paginator start-->
     <div
-      class="row row--aic orders__paginator"
+      class="row row--aic orders__paginator fade-anim del2"
       *ngIf="(countOfEntries$ | async) > countPerPage"
     >
       <app-page-items-dropdown

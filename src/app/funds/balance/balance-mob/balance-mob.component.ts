@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { BalanceItem } from '../../models/balance-item.model';
 import { Router } from '@angular/router';
 import { UtilsService } from 'app/shared/services/utils.service';
@@ -26,36 +36,41 @@ export class BalanceMobComponent implements OnInit {
   public get currenciesArr() {
     return Object.keys(this.currencies);
   }
-
-  public loadModeDisabled: boolean = false;
+  public startAnimation = false;
+  public loadModeDisabled = false;
   public priceIn: string = this.currencies.USD;
-  public hideAllZero: boolean = false;
-  public currencyForChoose: string = '';
-  public currValue: string = '';
+  public hideAllZero = false;
+  public currencyForChoose = '';
+  public currValue = '';
   public isShowSearchPopup = false;
+  @Input() public leaveAnimationFn: boolean;
+  @Input() public loading: boolean;
+  @Input() public balances: BalanceItem[] = [];
+  @Input() public countEntries = 0;
+  @Input() public Tab;
+  @Input() public currTab;
+  @Input() public countOfPendingRequests = 0;
+  @Input() public cryptoCurrenciesForChoose;
+  @Input() public fiatCurrenciesForChoose;
+  @Input() public countPerPage: number;
+  @Input() public currentPage: number;
+  @Input() public countOfEntries: number;
 
-  @Input('loading') public loading: boolean;
-  @Input('balances') public balances: BalanceItem[] = [];
-  @Input('countEntries') public countEntries: number = 0;
-  @Input('Tab') public Tab;
-  @Input('currTab') public currTab;
-  @Input('countOfPendingRequests') public countOfPendingRequests: number = 0;
-  @Input('cryptoCurrenciesForChoose') public cryptoCurrenciesForChoose;
-  @Input('fiatCurrenciesForChoose') public fiatCurrenciesForChoose;
-  @Input('countPerPage') public countPerPage: number;
-  @Input('currentPage') public currentPage: number;
-  @Input('countOfEntries') public countOfEntries: number;
-
-  @Output('openRefillBalancePopup') public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
-  @Output('openSendMoneyPopup') public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
-  @Output('filterByCurrencyForMobile')
+  @Output() public openRefillBalancePopup: EventEmitter<any> = new EventEmitter();
+  @Output() public openSendMoneyPopup: EventEmitter<any> = new EventEmitter();
+  @Output()
   public filterByCurrencyForMobile: EventEmitter<any> = new EventEmitter();
-  @Output('onToggleAllZero') public onToggleAllZero: EventEmitter<any> = new EventEmitter();
-  @Output('onLoadMore') public onLoadMore: EventEmitter<any> = new EventEmitter();
-  @Output('onSelectTab') public onSelectTab: EventEmitter<any> = new EventEmitter();
-  @Output('onGoToBalanceDetails') public onGoToBalanceDetails: EventEmitter<any> = new EventEmitter();
+  @Output() public toggleAllZero: EventEmitter<any> = new EventEmitter();
+  @Output() public loadMore: EventEmitter<any> = new EventEmitter();
+  @Output() public selectTab: EventEmitter<any> = new EventEmitter();
+  @Output() public goToBalanceDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router, public utils: UtilsService, private store: Store<fromCore.State>) {
+  constructor(
+    private router: Router,
+    public utils: UtilsService,
+    private cdr: ChangeDetectorRef,
+    private store: Store<fromCore.State>
+  ) {
     this.setScrollStyles();
   }
 
@@ -69,7 +84,7 @@ export class BalanceMobComponent implements OnInit {
 
   public onLoadMoreTrigger(): void {
     if (this.balances.length !== this.countOfEntries) {
-      this.onLoadMore.emit({
+      this.loadMore.emit({
         currentPage: +this.currentPage + 1,
         countPerPage: this.countPerPage,
         concat: true,
@@ -78,10 +93,10 @@ export class BalanceMobComponent implements OnInit {
   }
   public onToggleAllZeroTrigger(): void {
     this.scrollContainer.nativeElement.scrollTop = 0;
-    this.onToggleAllZero.emit(this.hideAllZero);
+    this.toggleAllZero.emit(this.hideAllZero);
   }
   public onShowMobDetails(item: BalanceItem): void {
-    this.onGoToBalanceDetails.emit({
+    this.goToBalanceDetails.emit({
       currencyId: item.currencyId,
       priceIn: this.priceIn,
     });
@@ -149,7 +164,14 @@ export class BalanceMobComponent implements OnInit {
     return environment.showContent;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.startAnimation = true;
+      if (!this.cdr['destroyed']) {
+        this.cdr.detectChanges();
+      }
+    }, 1000);
+  }
 
   trackByFn(index, item) {
     return item.currencyId;

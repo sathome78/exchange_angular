@@ -74,9 +74,10 @@ export class SendMoneyComponent implements OnInit, OnDestroy {
     this.stepThreeData = this.optionData.stepThreeData ? this.optionData.stepThreeData : null;
   }
 
-  activeStepThreeInnerTransfer(name: string) {
+  activeStepThreeInnerTransfer(res: any) {
     this.step = 3;
-    this.stepThreeName = name;
+    this.stepThreeName = res.name;
+    this.stepThreeData = res.merchant;
   }
 
   activeStepThree(name, data = {}) {

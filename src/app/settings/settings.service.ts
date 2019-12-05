@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { NotificationOption } from './email-notification/email-notification.component';
 import { NotificationUserSetting } from './two-factor-authenticaton/notification-user-setting.model';
 import { BankVerification } from 'app/model/bank-veryfication.model';
+import { SessionHistoryItem } from 'app/model/session-history.model';
 
 @Injectable()
 export class SettingsService {
@@ -97,6 +98,10 @@ export class SettingsService {
     console.log(options);
 
     return this.http.post(`${this.apiUrl}/api/private/v2/merchants/qubera/account/create`, verify, options);
+  }
+
+  public getSessionHistory(): Observable<ResponseModel<SessionHistoryItem[]>> {
+    return this.http.get<ResponseModel<SessionHistoryItem[]>>(`${this.apiUrl}/api/private/v2/settings/sessions`);
   }
 }
 

@@ -12,7 +12,7 @@
   /*--- modificators start ---*/
   /*--- modificators end ---*/
   /*--- elements start ---*/
-  
+
   &__controls {
     display: none;
     position: absolute;
@@ -395,7 +395,7 @@
         &--valid {
           color: $darker-blue;
           border-color: $darker-blue;
-          
+
           &:after {
             background-image: url("assets/img/step-valid.svg");
           }
@@ -685,6 +685,22 @@
             border-top-color: $darker-blue;
           }
         }
+        &--disabled {
+          border-color: gray;
+          ~ .select__label {
+            color: gray;
+            background-color: #fff;
+            @media(max-width: 1200px){
+              background-color: #191A39;
+            }
+          }
+          ~ .select__line {
+            background-color: gray;
+          }
+          ~ .select__triangle {
+            border-top-color: gray;
+          }
+        }
         &--error{
           border-color: $red;
           ~.select__label{
@@ -812,7 +828,7 @@
       }
       .steps__counter{
         color: #DEDEFB;
-      } 
+      }
       div.select__value--active{
         border-color: #94C2FF;
         color:#DEDEFB;
@@ -826,6 +842,10 @@
           color: #DEDEFB!important;
           background: #191A39!important;
         }
+      }
+      div.select__value--disabled{
+        border-color: gray!important;
+        color:gray!important;
       }
       .request-errors{
         text-align: center;
@@ -923,7 +943,6 @@
   @media (min-width: 1201px){
     color: #000;
   }
-    
 }
 
 
@@ -938,7 +957,6 @@
   @media(min-width: 1200px){
     background-color: #fff;
   }
-  
 }
 
 

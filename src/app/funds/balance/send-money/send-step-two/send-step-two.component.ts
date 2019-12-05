@@ -13,7 +13,6 @@ export class SendStepTwoComponent implements OnInit {
 
   public CRYPTO_WITHDRAWAL = CRYPTO_WITHDRAWAL;
   public FIAT_WITHDRAWAL = FIAT_WITHDRAWAL;
-  public FIAT_WITHDRAWAL_QUBERA = FIAT_WITHDRAWAL_QUBERA;
   public INNER_TRANSFER = INNER_TRANSFER;
 
   constructor() {}
