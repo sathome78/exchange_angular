@@ -108,7 +108,7 @@ export class SendInnerTransferComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (res: TransferMerchant[]) => {
-          this.merchantData = res;
+          this.merchantData = res.filter(m => !m.transferBlocked);
           this.setView(this.viewsList.MAIN);
         },
         err => {
