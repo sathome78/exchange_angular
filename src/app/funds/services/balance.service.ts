@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { BalanceItem } from '../models/balance-item.model';
 import { MyBalanceItem } from '../../model/my-balance-item.model';
 import { PendingRequestsItem } from '../models/pending-requests-item.model';
 import { APIErrorsService } from 'app/shared/services/apiErrors.service';
 import { map } from 'rxjs/operators';
+import { TransferMerchant } from '../models/transfer-models.model';
 
 @Injectable()
 export class BalanceService {
@@ -273,5 +274,18 @@ export class BalanceService {
 
   downloadQuberaInvoice(url) {
     return this.http.get(`${url}`, { responseType: 'blob' });
+  }
+
+  getTransferMerchants(currencyName: string): Observable<TransferMerchant[]> {
+    if (currencyName) {
+      const params = {
+        currency: currencyName,
+      };
+      return this.http
+        .get<TransferMerchant[]>(`${this.apiUrl}/api/private/v2/balances/transfer/merchants`, { params });
+
+    }
+    return this.http
+      .get<TransferMerchant[]>(`${this.apiUrl}/api/private/v2/balances/transfer/merchants`);
   }
 }

@@ -28,10 +28,7 @@ import { SendStepTwoComponent } from './balance/send-money/send-step-two/send-st
 import { SendStepThreeComponent } from './balance/send-money/send-step-three/send-step-three.component';
 import { SendCryptoComponent } from './balance/send-money/send-step-two/send-crypto/send-crypto.component';
 import { SendFiatComponent } from './balance/send-money/send-step-two/send-fiat/send-fiat.component';
-import { TransferInstantComponent } from './balance/send-money/send-step-three/transfer-instant/transfer-instant.component';
 import { SendInnerTransferComponent } from './balance/send-money/send-step-two/send-inner-transfer/send-inner-transfer.component';
-import { TransferProtectedCodeComponent } from './balance/send-money/send-step-three/transfer-protected-code/transfer-protected-code.component';
-import { TransferProtectedEmailCodeComponent } from './balance/send-money/send-step-three/transfer-protected-email-code/transfer-protected-email-code.component';
 import { SendTfaComponent } from './balance/send-money/send-step-three/send-tfa/send-tfa.component';
 import { SendSuccessfulComponent } from './balance/send-money/send-successful/send-successful.component';
 
@@ -54,8 +51,6 @@ import { ShowPendingSystemPipe } from './pending-system.pipe';
 import { ShowTransactionsStatusPipe } from './transactions-history-status.pipe';
 import { ShowTransactionsTypePipe } from './transactions-history-type.pipe';
 import { QuberaTableComponent } from './balance/qubera-table/qubera-table.component';
-import { SendFiatQuberaComponent } from './balance/send-money/send-step-two/send-fiat-qubera/send-fiat-qubera.component';
-import { TransferQuberaComponent } from './balance/send-money/send-step-three/transfer-qubera/transfer-qubera.component';
 import { IEOTableComponent } from './balance/ieotable/ieotable.component';
 import { BalanceSearchMobComponent } from './balance/balance-search-mob/balance-search-mob.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -85,6 +80,8 @@ import { NeedKycMsgComponent } from './components/need-kyc-msg/need-kyc-msg.comp
 import { CommissionComponent } from './components/commission/commission.component';
 import { SendLinesComponent } from './components/send-lines/send-lines.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { MerchantSelectTransferComponent } from './components/merchant-select-transfer/merchant-select-transfer.component';
+import { TransferNamePipe } from './transfer-name.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, translateInfo.path.funds, translateInfo.suffix);
@@ -132,9 +129,6 @@ export function createTranslateLoader(http: HttpClient) {
     SendCryptoComponent,
     SendFiatComponent,
     SendInnerTransferComponent,
-    TransferInstantComponent,
-    TransferProtectedCodeComponent,
-    TransferProtectedEmailCodeComponent,
     SendTfaComponent,
     SendSuccessfulComponent,
     BalanceTableComponent,
@@ -151,8 +145,6 @@ export function createTranslateLoader(http: HttpClient) {
     ShowTransactionsTypePipe,
     HashToUrlPipe,
     QuberaTableComponent,
-    SendFiatQuberaComponent,
-    TransferQuberaComponent,
     IEOTableComponent,
     BalanceSearchMobComponent,
     IEOTableMobComponent,
@@ -179,6 +171,8 @@ export function createTranslateLoader(http: HttpClient) {
     NeedKycMsgComponent,
     CommissionComponent,
     SendLinesComponent,
+    MerchantSelectTransferComponent,
+    TransferNamePipe,
   ],
   providers: [
     BalanceService,

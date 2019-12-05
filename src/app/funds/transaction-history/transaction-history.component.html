@@ -1,10 +1,13 @@
-<div class="container transaction-page">
+<div
+  class="container transaction-page"
+  [ngClass]="{'active' : startAnimation}"
+>
   <!--transaction-history-mob start-->
   <div
     class="transaction transaction--mob"
     *ngIf="(breakpointService.breakpoint$ | async) === 'mobile'"
   >
-    <div class="transaction__header-mob">
+    <div class="transaction__header-mob fade-anim del7">
       <div class=" orders__page-title">
         {{'Transaction history' | translate}}
       </div>
@@ -40,14 +43,14 @@
       (scrolled)="loadMoreTransactions()"
     >
       <table class="table table--mob">
-        <thead class="table__head">
+        <thead class="table__head fade-move-anim del7">
           <tr class="table__head-row">
             <th class="table__cell-head table__cell-head--tal">{{'Date / Type' | translate}}</th>
             <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
             <th class="table__cell-head table__cell-head--tar">{{'Amount' | translate}}</th>
           </tr>
         </thead>
-        <tbody class="table__body table__body--none-shadow">
+        <tbody class="table__body table__body--none-shadow fade-move-anim del7">
           <!-- t-row start-->
           <ng-container *ngFor="let item of transactionsItems$ | async; trackBy: trackByFn; let index = index;">
             <tr
@@ -286,11 +289,11 @@
     *ngIf="(breakpointService.breakpoint$ | async) === 'desktop'"
   >
     <div class="page-title">
-      <h1 class="page-title__text">
+      <h1 class="page-title__text fade-anim del">
         {{'Transaction History' | translate}}
       </h1>
       <button
-        class="btn transaction__title-btn"
+        class="btn transaction__title-btn fade-anim del"
         (click)="downloadExcel()"
         [disabled]="loadingExcel || !(transactionsItems$ | async).length"
       >
@@ -313,13 +316,13 @@
         {{'Download in excell' | translate}}
       </button>
 
-      <div *ngIf="loading$ | async">
+      <!-- <div *ngIf="loading$ | async">
         <app-loader size="small"></app-loader>
-      </div>
+      </div> -->
     </div>
     <form action="">
       <div class="row transaction__filters">
-        <div>
+        <div class="fade-move-anim del8">
           <app-dynamic-input
             [value]="currValue"
             [options]="(currencyForChoose$ | async) | dynamicIData: 'name': 'id'"
@@ -327,7 +330,7 @@
             (onSelect)="onSelectPair($event.id)"
           ></app-dynamic-input>
         </div>
-        <div class="wrap-input transaction__datepicker">
+        <div class="wrap-input transaction__datepicker fade-move-anim del9">
           <label
             class="wrap-input__label"
             [ngClass]="{'select-input_label': !!modelDateFrom?.date || isDateInputFromFocus}"
@@ -352,7 +355,7 @@
             style="position: absolute; bottom: 1px; width: 100%;"
           ></div>
         </div>
-        <div class="wrap-input transaction__datepicker">
+        <div class="wrap-input transaction__datepicker fade-move-anim del10">
           <label
             class="wrap-input__label"
             [ngClass]="{'select-input_label': !!modelDateTo?.date || isDateInputToFocus}"
@@ -377,7 +380,7 @@
           ></div>
         </div>
         <button
-          class="btn btn--auto transaction__search-btn"
+          class="btn btn--auto transaction__search-btn fade-move-anim del11"
           (click)="onFilter()"
           [disabled]="loading$ | async"
         >
@@ -387,7 +390,7 @@
 
     </form>
     <!--table start-->
-    <table class="table">
+    <table class="table fade-anim del6">
       <thead>
         <tr>
           <th class="table__cell-head table__cell-head--tal">{{'Status' | translate}}</th>
@@ -399,7 +402,7 @@
           <th class="table__cell-head table__cell-head--tal">{{'Address' | translate}}</th>
         </tr>
       </thead>
-      <tbody class="table__body">
+      <tbody class="table__body fade-move-anim del7">
         <tr
           class="table__row no-hover"
           *ngFor="let item of transactionsItems$ | async | paginate: { itemsPerPage: countPerPage, currentPage: currentPage, totalItems: countOfEntries$ | async }"
@@ -488,26 +491,29 @@
     </table>
     <!--table end-->
     <!--paginator start-->
-    <div
-      class="row row--aic orders__paginator"
-      *ngIf="(countOfEntries$ | async) > countPerPage"
-    >
-      <app-page-items-dropdown
-        [countPerPage]="countPerPage"
-        [countOfEntries]="countOfEntries$ | async"
-        (onChange)="changeItemsPerPage($event)"
-      ></app-page-items-dropdown>
-      <ul
-        class="paginator"
-        style="margin-left: auto;"
+
+    <div class="fade-anim del7">
+      <div
+        class="row row--aic orders__paginator"
+        *ngIf="(countOfEntries$ | async) > countPerPage"
       >
-        <pagination-controls
-          maxSize="7"
-          [previousLabel]="''"
-          [nextLabel]="''"
-          (pageChange)="changePage($event)"
-        ></pagination-controls>
-      </ul>
+        <app-page-items-dropdown
+          [countPerPage]="countPerPage"
+          [countOfEntries]="countOfEntries$ | async"
+          (onChange)="changeItemsPerPage($event)"
+        ></app-page-items-dropdown>
+        <ul
+          class="paginator"
+          style="margin-left: auto;"
+        >
+          <pagination-controls
+            maxSize="7"
+            [previousLabel]="''"
+            [nextLabel]="''"
+            (pageChange)="changePage($event)"
+          ></pagination-controls>
+        </ul>
+      </div>
     </div>
     <!--paginator end-->
   </div>

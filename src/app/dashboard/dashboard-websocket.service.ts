@@ -11,6 +11,7 @@ import { UserService } from '../shared/services/user.service';
 import { SimpleCurrencyPair } from 'app/model/simple-currency-pair';
 import { UtilsService } from 'app/shared/services/utils.service';
 import { TOKEN, EXRATES_REST_TOKEN } from 'app/shared/services/http.utils';
+import { MainLoaderService } from 'app/shared/services/main-loader.service';
 
 @Injectable()
 export class DashboardWebSocketService implements OnDestroy {
@@ -22,31 +23,48 @@ export class DashboardWebSocketService implements OnDestroy {
     private stompService: RxStompService,
     private userService: UserService,
     private utilsService: UtilsService,
+    private mainLoaderService: MainLoaderService,
     private store: Store<fromCore.State>
   ) { }
 
   marketsSubscription(): any {
     return this.stompService
       .watch(`/app/statisticsNew`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+      .pipe(map((message: Message) => JSON.parse(message.body)))
+      .pipe(map(message => {
+        this.mainLoaderService.provideLoader(this.mainLoaderService.const.marketsDB);
+        return message;
+      }));
   }
 
   pairInfoSubscription(pairName: string): any {
     return this.stompService
       .watch(`/app/statistics/pairInfo/${pairName}`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+      .pipe(map((message: Message) => JSON.parse(message.body)))
+      .pipe(map(message => {
+        this.mainLoaderService.provideLoader(this.mainLoaderService.const.pairInfoDB);
+        return message;
+      }));
   }
 
   allTradesSubscription(pairName: string): any {
     return this.stompService
       .watch(`/app/all_trades/${pairName}`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+      .pipe(map((message: Message) => JSON.parse(message.body)))
+      .pipe(map(message => {
+        this.mainLoaderService.provideLoader(this.mainLoaderService.const.tradesHistoryDB);
+        return message;
+      }));
   }
 
   orderBookSubscription(pairName: string, precision: number): any {
     return this.stompService
       .watch(`/app/order_book/${pairName}/${precision}`)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+      .pipe(map((message: Message) => JSON.parse(message.body)))
+      .pipe(map(message => {
+        this.mainLoaderService.provideLoader(this.mainLoaderService.const.ordersBookDB);
+        return message;
+      }));
   }
 
   openOrdersSubscription(pairName: string, publicId: string): any {
@@ -56,7 +74,11 @@ export class DashboardWebSocketService implements OnDestroy {
     };
     return this.stompService
       .watch(`/app/orders/open/${pn}/${publicId}`, headers)
-      .pipe(map((message: Message) => JSON.parse(message.body)));
+      .pipe(map((message: Message) => JSON.parse(message.body)))
+      .pipe(map(message => {
+        this.mainLoaderService.provideLoader(this.mainLoaderService.const.openOrdersDB);
+        return message;
+      }));
   }
 
   ngOnDestroy(): void {

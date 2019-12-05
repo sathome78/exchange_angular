@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy,Input } from '@angular/core';
+import { Component, OnInit, OnChanges, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy, Input } from '@angular/core';
 import { takeUntil } from 'rxjs/internal/operators';
 import { Subject } from 'rxjs/Subject';
 
@@ -20,11 +20,12 @@ import { Animations } from 'app/shared/animations';
   animations: [Animations.componentTriggerShowOrderBook],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TradeHistoryComponent extends AbstractDashboardItems implements OnInit, OnDestroy {
+export class TradeHistoryComponent extends AbstractDashboardItems implements OnInit, OnChanges, OnDestroy {
   /** dashboard item name (field for base class)*/
   public itemName: string;
   private tradesSub$: Subscription;
   @Input() public tHistoryOffset;
+  @Input() public clearPreload: boolean;
   allTrades: TradeItem[] = [];
   personalTrades: TradeItem[] = [];
 
@@ -52,20 +53,6 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   }
 
   ngOnInit() {
-    if (document.documentElement.clientWidth > 1199) {
-      setTimeout(() => {
-        this.showContent1 = true;
-        if (!this.cdr['destroyed']) {
-          this.cdr.detectChanges();
-        }
-      }, this.tHistoryOffset);
-    }
-    if (document.documentElement.clientWidth < 1199) {
-      this.showContent1 = true;
-      if (!this.cdr['destroyed']) {
-        this.cdr.detectChanges();
-      }
-    }
     this.itemName = 'trade-history';
 
     this.store
@@ -96,6 +83,23 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
       });
   }
 
+  ngOnChanges(data) {
+    if (data.clearPreload && data.clearPreload.currentValue === false) {
+      if (!this.isMobile) {
+        setTimeout(() => {
+          this.showContent1 = true;
+          if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+          }
+        }, this.tHistoryOffset);
+      } else {
+        this.showContent1 = true;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+      }
+    }
+  }
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -176,5 +180,8 @@ export class TradeHistoryComponent extends AbstractDashboardItems implements OnI
   }
   private loadingStarted(): void {
     this.loading = true;
+  }
+  get isMobile(): boolean {
+    return window.innerWidth <= 1200;
   }
 }

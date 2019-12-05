@@ -30,7 +30,15 @@ export class IEOInfoComponent implements OnInit, OnDestroy, OnChanges {
   @Output() public buy: EventEmitter<any> = new EventEmitter();
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() =>{
+      document.querySelectorAll(".animate-item").forEach(function(item){
+      if(item.getBoundingClientRect().top + pageYOffset + 100 < pageYOffset + document.documentElement.clientHeight){
+          item.classList.add('active')
+      }
+  })
+    },1000)
+  }
 
   ngOnChanges(c) {
     if (c.IEOData && c.IEOData.currentValue) {

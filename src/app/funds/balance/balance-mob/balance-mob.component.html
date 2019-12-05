@@ -1,12 +1,13 @@
 <div
   class="balance__content-mob"
+  [ngClass]="{ active: startAnimation }"
   (window:resize)="setScrollStyles()"
 >
-  <div class="balance__header-mob">
+  <div class="balance__header-mob fade-anim del2">
     <div class="top-balance-wr">
       <div class="page-title">
         <h1 class="page-title__text">
-          {{'Balances' | translate}}
+          {{ "Balances" | translate }}
         </h1>
       </div>
       <div
@@ -27,60 +28,59 @@
             stroke-width="0.4"
           ></path>
         </svg>
-        {{'Search' | translate}}
+        {{ "Search" | translate }}
       </div>
     </div>
     <div class="tabs balance__tabs-mob">
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.CRYPTO}"
-        (click)="onSelectTab.emit(Tab.CRYPTO)"
+        [ngClass]="{ 'tabs__item--active': currTab === Tab.CRYPTO }"
+        (click)="selectTab.emit(Tab.CRYPTO)"
         [disabled]="loading"
       >
-        {{'Crypto' | translate}}
+        {{ "Crypto" | translate }}
       </button>
 
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.FIAT}"
-        (click)="onSelectTab.emit(Tab.FIAT)"
+        [ngClass]="{ 'tabs__item--active': currTab === Tab.FIAT }"
+        (click)="selectTab.emit(Tab.FIAT)"
         [disabled]="loading"
       >
-        {{'Exchange Wallet' | translate}}
+        {{ "Exchange Wallet" | translate }}
       </button>
       <!-- FUG BLOCK -->
       <button
         *ngIf="utils.isDeveloper"
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.QUBERA}"
-        (click)="onSelectTab.emit(Tab.QUBERA)"
+        [ngClass]="{ 'tabs__item--active': currTab === Tab.QUBERA }"
+        (click)="selectTab.emit(Tab.QUBERA)"
         [disabled]="loading"
       >
-        {{'Funding Wallet' | translate}}
+        {{ "Funding Wallet" | translate }}
       </button>
 
       <button
         class="tabs__item"
-        [ngClass]="{'tabs__item--active': currTab === Tab.IEO}"
-        (click)="onSelectTab.emit(Tab.IEO)"
+        [ngClass]="{ 'tabs__item--active': currTab === Tab.IEO }"
+        (click)="selectTab.emit(Tab.IEO)"
         [disabled]="loading"
       >
-        {{'IEO' | translate}}
+        {{ "IEO" | translate }}
       </button>
-
     </div>
     <div class="balance__header-btn-wrap">
       <button
         class="btn btn--active balance__title-btn"
         (click)="openRefillBalancePopup.emit(true)"
       >
-        {{'Refill balance' | translate}}
+        {{ "Refill balance" | translate }}
       </button>
       <button
         class="btn balance__title-btn"
         (click)="openSendMoneyPopup.emit(true)"
       >
-        {{'Send money' | translate}}
+        {{ "Send money" | translate }}
       </button>
 
       <!-- <div *ngIf="loading">
@@ -89,8 +89,17 @@
     </div>
   </div>
   <!--filters start-->
-  <form action="">
-    <div class="balance__filters">
+  <form
+    action=""
+    class="fade-anim del2"
+  >
+    <div
+      class="balance__filters"
+      [ngClass]="{
+        'hide-bal-block': leaveAnimationFn,
+        'show-bal-block': !leaveAnimationFn
+      }"
+    >
       <ng-container [ngSwitch]="currTab">
         <!-- <app-dynamic-input
           *ngSwitchCase="Tab.CRYPTO"
@@ -108,13 +117,13 @@
           ></app-dynamic-input> -->
       </ng-container>
 
-      <span>{{'Price in' | translate}}</span>
+      <span>{{ "Price in" | translate }}</span>
       <div
         class="dropdown"
         #dropdown
         (click)="onToggleDropdown()"
       >
-        <div class="dropdown__btn">{{priceIn}}</div>
+        <div class="dropdown__btn">{{ priceIn }}</div>
         <ul
           class="dropdown__list"
           (click)="onSelectCurrency($event)"
@@ -122,7 +131,9 @@
           <li
             class="dropdown__item"
             *ngFor="let item of currenciesArr"
-          >{{item}}</li>
+          >
+            {{ item }}
+          </li>
         </ul>
       </div>
       <label class="toggler">
@@ -131,10 +142,10 @@
           name="togglerZero"
           [(ngModel)]="hideAllZero"
           (change)="onToggleAllZeroTrigger()"
-        >
+        />
         <span class="toggler__indicate"></span>
       </label>
-      <span>{{'Hide zero' | translate}}</span>
+      <span>{{ "Hide zero" | translate }}</span>
     </div>
   </form>
   <!--filters end-->
@@ -153,16 +164,26 @@
     <!--table-mob start-->
     <table
       class="table table--mob"
-      [ngClass]="{'balance-fiat': currTab === Tab.FIAT}"
+      [ngClass]="{
+        'balance-fiat': currTab === Tab.FIAT,
+        'hide-bal-block': leaveAnimationFn,
+        'show-bal-block': !leaveAnimationFn
+      }"
     >
-      <thead class="table__head">
+      <thead class="table__head fade-move-anim del2">
         <tr class="table__head-row">
-          <th class="table__cell-head table__cell-head--tal">{{'Currency' | translate}}</th>
-          <th class="table__cell-head table__cell-head--tal">{{'Available balance' | translate}}</th>
-          <th class="table__cell-head table__cell-head--tar">{{'Price' | translate}}</th>
+          <th class="table__cell-head table__cell-head--tal">
+            {{ "Currency" | translate }}
+          </th>
+          <th class="table__cell-head table__cell-head--tal">
+            {{ "Available balance" | translate }}
+          </th>
+          <th class="table__cell-head table__cell-head--tar">
+            {{ "Price" | translate }}
+          </th>
         </tr>
       </thead>
-      <tbody class="table__body table__body--none-shadow">
+      <tbody class="table__body table__body--none-shadow fade-move-anim del2">
         <ng-container *ngFor="let item of balances">
           <tr
             class="table__row--mob"
@@ -172,22 +193,30 @@
               <div class="balance__currency">
                 <div class="balance__currency-icon">
                   <img
-                    [src]="item.currencyName | getIconUrl:true"
+                    [src]="item.currencyName | getIconUrl: true"
                     onerror="this.src = 'assets/img/currency-icons/no_icon.svg'"
-                  >
+                  />
                 </div>
                 <div>
-                  <span>{{item.currencyName}}</span>
-                  <span class="balance__currency-name">{{item.currencyDescription}}</span>
+                  <span>{{ item.currencyName }}</span>
+                  <span class="balance__currency-name">{{
+                    item.currencyDescription
+                  }}</span>
                 </div>
               </div>
             </td>
             <td class="table__cell table__cell--tal">
-              <span>{{item.activeBalance | currencyFormat:item.currencyName}}</span>
+              <span>{{
+                item.activeBalance | currencyFormat: item.currencyName
+              }}</span>
             </td>
             <td class="table__cell table__cell--tar">
-              <div *ngIf="priceIn === currencies.BTC">BTC {{item.btcAmount | currencyFormat}}</div>
-              <div *ngIf="priceIn === currencies.USD">$ {{item.usdAmount | currencyFormat:'USD'}}</div>
+              <div *ngIf="priceIn === currencies.BTC">
+                BTC {{ item.btcAmount | currencyFormat }}
+              </div>
+              <div *ngIf="priceIn === currencies.USD">
+                $ {{ item.usdAmount | currencyFormat: "USD" }}
+              </div>
               <!-- <span class="txt-small txt-red">–0.24%</span> -->
             </td>
             <td class="table__cell table__cell--arr-mob">
@@ -221,22 +250,22 @@
             class="table__cell table__cell--tac"
             colspan="4"
           >
-            {{'No matching records found' | translate}}
+            {{ "No matching records found" | translate }}
           </td>
         </tr>
       </tbody>
     </table>
     <!-- table-mob end -->
   </div>
-  <div class="pending-wr">
+  <div class="pending-wr fade-anim del2">
     <div class="bg-btn"></div>
     <button
       class="tabs__item"
-      [ngClass]="{'tabs__item--active': currTab === Tab.PR}"
+      [ngClass]="{ 'tabs__item--active': currTab === Tab.PR }"
       (click)="onGoToPendingReq()"
     >
-      <span class="indicate">{{countOfPendingRequests}}</span>
-      {{'Pending requests' | translate}}
+      <span class="indicate">{{ countOfPendingRequests }}</span>
+      {{ "Pending requests" | translate }}
       <span class="arrow">
         <svg
           width="11"

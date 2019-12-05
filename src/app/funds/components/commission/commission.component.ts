@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UtilsService } from 'app/shared/services/utils.service';
+import { ENFINS } from 'app/funds/balance/balance-constants';
 
 @Component({
   selector: 'app-commission',
@@ -10,6 +11,7 @@ export class CommissionComponent implements OnInit {
   private _baseAmount = 0;
   @Input() public type: 'refill' | 'withdraw';
   @Input() public merchant;
+  @Input() public minSum = 0;
   @Input() public currencyName: string;
   @Input() set baseAmount(val) {
     if (!isNaN(+val)) {
@@ -36,15 +38,43 @@ export class CommissionComponent implements OnInit {
   }
 
   get merchantCommissionValue() {
-    if (+this.baseAmount === 0) {
+    if (!this.isAmountValid) {
       return 0;
     }
-    const countedCommision = this.baseAmount / 100 * this.merchantCommission;
+    let countedCommision = this.baseAmount / 100 * this.merchantCommission;
+
+    // Special requirement for Enfins merchant DEVEX-4587
+    if (this.isEnfins && this.isRUB && this.isWithdraw) {
+      countedCommision += 50;
+    }
     return countedCommision > this.fixedMerchantCommission ? countedCommision : this.fixedMerchantCommission;
   }
 
   get totalValue() {
+    if (!this.isAmountValid) {
+      return 0;
+    }
     return this.baseAmount - this.merchantCommissionValue;
+  }
+
+  get isAmountValid() {
+    return +this.baseAmount >= +this.minSum;
+  }
+
+  get amount() {
+    if (!this.isAmountValid) {
+      return 0;
+    }
+    return this.baseAmount;
+  }
+  get isEnfins(): boolean {
+    return this.merchant && this.merchant.name === ENFINS;
+  }
+  get isRUB(): boolean {
+    return this.currencyName === 'RUB';
+  }
+  get isWithdraw(): boolean {
+    return this.type === 'withdraw';
   }
 
 }

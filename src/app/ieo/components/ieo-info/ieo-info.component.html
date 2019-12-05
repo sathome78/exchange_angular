@@ -1,16 +1,19 @@
 <!-- start component -->
-<div class="first-screen">
+<div class="first-screen ">
   <div class="fs-wr">
     <div class="fs-wr-inner">
-      <div class="fs-image-container">
-        <img src="assets/img/ieo/bg.jpg" alt="">
+      <div class="fs-image-container animate-item">
+        <img
+          src="assets/img/ieo/bg.jpg"
+          alt=""
+        >
       </div>
       <div
         class="fs-content"
         *ngIf="IEOData"
       >
         <div
-          class="bittorrent"
+          class="bittorrent animate-item"
           [ngSwitch]="IEOData.currencyName"
         >
           <img
@@ -20,12 +23,12 @@
           >
         </div>
         <div class="btc-session">
-          <div class="b-s-title">
+          <div class="b-s-title animate-item">
             <h3>
               {{IEOData.currencyDescription}} - BTC {{'Session' | translate}}
               <span class="upcoming {{IEOData.status | lowercase}}">{{IEOData.status | showStageStatus}}</span></h3>
           </div>
-          <table class="b-s-table">
+          <table class="b-s-table animate-item">
             <tr>
               <td><span>{{'Price' | translate}}：</span></td>
               <td class="right-text">
@@ -49,8 +52,11 @@
           </table>
           <div class="buy-block">
 
-            <div class="progress-block" *ngIf="stage.RUNNING === currentStage">
-              <div class="currency-info">
+            <div
+              class="progress-block animate-item"
+              *ngIf="stage.RUNNING === currentStage"
+            >
+              <div class="currency-info animate-item">
                 <div class="currency-buyed">
                   <span class="buyed-value">{{boughtAmount | currencyFormat}}</span>
                   <span class="currency-name">{{IEOData.currencyName}}</span>
@@ -59,23 +65,32 @@
                   <span>{{boughtAmountPer}}%</span>
                 </div>
               </div>
-              <div class="currency-bar">
-                <div class="currency-bar-progress" [style.width.%]="boughtAmountPer"></div>
+              <div class="currency-bar animate-item">
+                <div
+                  class="currency-bar-progress"
+                  [style.width.%]="boughtAmountPer"
+                ></div>
               </div>
             </div>
 
-            <div class="amount">
+            <div class="amount animate-item">
               <p>{{'Amount' | translate}}:
                 <span>{{IEOData.amount | currencyFormat}} {{IEOData.currencyName}}</span>
               </p>
             </div>
 
-            <div class="starts" *ngIf="stage.PENDING === currentStage">
+            <div
+              class="starts animate-item"
+              *ngIf="stage.PENDING === currentStage"
+            >
               <p>{{'Starts In' | translate}}:</p>
-              <div class="timer" [innerHTML]="timer"></div>
+              <div
+                class="timer"
+                [innerHTML]="timer"
+              ></div>
             </div>
 
-            <div class="button-part">
+            <div class="button-part animate-item">
               <div>
                 <button
                   class="standart-btn"
@@ -86,13 +101,20 @@
                 >
                   <span>{{'Buy Now' | translate}}</span>
                 </button>
-                <div class="input-hint-wrapper" *ngIf="isAuthenticated">
+                <div
+                  class="input-hint-wrapper"
+                  *ngIf="isAuthenticated"
+                >
                   <span class="wrap-input__message">
                     {{'Sorry, your country not allowed' | translate}}
                   </span>
                 </div>
               </div>
-              <button class="standart-btn" *ngIf="!isAuthenticated" (click)="onLogin()">
+              <button
+                class="standart-btn"
+                *ngIf="!isAuthenticated"
+                (click)="onLogin()"
+              >
                 <span>{{'Log In' | translate}}</span>
               </button>
 

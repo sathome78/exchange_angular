@@ -4,8 +4,8 @@ import { gridsterItemOptions, gridsterOptions } from '../shared/configs/gridster
 import { DashboardService } from './dashboard.service';
 import { DashboardItemChangeSize } from '../shared/models/dashboard-item-change-size-model';
 import { BreakpointService } from '../shared/services/breakpoint.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators';
+import { Subject, race, timer } from 'rxjs';
+import { takeUntil, take, delay, map } from 'rxjs/internal/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardWebSocketService } from './dashboard-websocket.service';
 import { Store, select } from '@ngrx/store';
@@ -18,6 +18,7 @@ import { UtilsService } from 'app/shared/services/utils.service';
 import { Location } from '@angular/common';
 import { UserService } from 'app/shared/services/user.service';
 import { Animations } from 'app/shared/animations';
+import { MainLoaderService } from 'app/shared/services/main-loader.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,25 +30,25 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private waitPairsSub: Subject<void> = new Subject<void>();
 
-
   public showContent = false;
-  public tradeTime = 5900;
-  public oBookTime = 5700;
-public graphTime = 5800;
-public marketsTime = 6000
-public tHistoryTime = 6100
+
+  public oBookTime = 1100;
+  public graphTime = 1350;
+  public tradeTime = 1600;
+  public marketsTime = 1850;
+  public tHistoryTime = 2000;
 
   /** retrieve gridster container*/
   @ViewChild('gridsterContainer') private gridsterContainer;
 
   /** retrieve templates for loadWidgetTemplate method*/
-  @ViewChild('graph') graphTemplate: TemplateRef<any>;
-  @ViewChild('markets') marketsTemplate: TemplateRef<any>;
-  @ViewChild('trading') tradingTemplate: TemplateRef<any>;
-  @ViewChild('orderBook') orderBookTemplate: TemplateRef<any>;
-  @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef<any>;
-  @ViewChild('prediction') predictionTemplate: TemplateRef<any>;
-  @ViewChild('orders') ordersTemplate: TemplateRef<any>;
+  @ViewChild('graph') graphTemplate: TemplateRef<any> ;
+  @ViewChild('markets') marketsTemplate: TemplateRef<any> ;
+  @ViewChild('trading') tradingTemplate: TemplateRef<any> ;
+  @ViewChild('orderBook') orderBookTemplate: TemplateRef<any> ;
+  @ViewChild('tradeHistory') tradeHistoryTemplate: TemplateRef<any> ;
+  @ViewChild('prediction') predictionTemplate: TemplateRef<any> ;
+  @ViewChild('orders') ordersTemplate: TemplateRef<any> ;
 
   /** variables for resize method */
   public minWidth = 1200;
@@ -75,6 +76,7 @@ public tHistoryTime = 6100
   constructor(
     public breakPointService: BreakpointService,
     public dashboardWebsocketService: DashboardWebSocketService,
+    private mainLoaderService: MainLoaderService,
     private dataService: DashboardService,
     private route: ActivatedRoute,
     private router: Router,
@@ -86,14 +88,23 @@ public tHistoryTime = 6100
   ) {}
 
   ngOnInit() {
-
-    setTimeout(() => {
+    race(
+      this.mainLoaderService.dashboardLoader.pipe(take(1)),
+      timer(10000)
+    ).subscribe(() => {
       this.preload = false;
-    }, 5500);
+      setTimeout(() => {
+        this.setAnimationTimeout();
+        this.showContent = true;
+      }, 700);
 
-    setTimeout(() => {
-      this.showContent = true;
-    }, 5700);
+    }, err => {
+      this.preload = false;
+      setTimeout(() => {
+        this.showContent = true;
+        this.setAnimationTimeout();
+      }, 700);
+    });
 
     setTimeout(() => {
       this.tradeTime = 30;
@@ -158,6 +169,7 @@ public tHistoryTime = 6100
         if (this.gridsterContainer) {
           this.gridsterContainer.reload();
         }
+        this.mainLoaderService.dashboardLoaderFn(isAuthenticated);
       });
 
     this.widgetTemplate = {
@@ -244,21 +256,21 @@ public tHistoryTime = 6100
   changeItemSize(event: DashboardItemChangeSize): void {
     const widget = this.widgets.filter(item => item.type === event.itemName);
     if (event.widthOrHeight === 'height') {
-      event.isIncrement
-        ? widget[0].hLg === this.gridsterItemOptions.maxHeight
-          ? (widget[0].hLg = this.gridsterItemOptions.maxHeight)
-          : (widget[0].hLg += 1)
-        : widget[0].hLg === this.gridsterItemOptions.minHeight
-        ? (widget[0].hLg = this.gridsterItemOptions.minHeight)
-        : (widget[0].hLg -= 1);
+      event.isIncrement ?
+        widget[0].hLg === this.gridsterItemOptions.maxHeight ?
+        (widget[0].hLg = this.gridsterItemOptions.maxHeight) :
+        (widget[0].hLg += 1) :
+        widget[0].hLg === this.gridsterItemOptions.minHeight ?
+        (widget[0].hLg = this.gridsterItemOptions.minHeight) :
+        (widget[0].hLg -= 1);
     } else {
-      event.isIncrement
-        ? widget[0].wLg === this.gridsterItemOptions.maxWidth
-          ? (widget[0].wLg = this.gridsterItemOptions.maxWidth)
-          : (widget[0].wLg += 1)
-        : widget[0].wLg === 2
-        ? (widget[0].wLg = 2)
-        : (widget[0].wLg -= 1);
+      event.isIncrement ?
+        widget[0].wLg === this.gridsterItemOptions.maxWidth ?
+        (widget[0].wLg = this.gridsterItemOptions.maxWidth) :
+        (widget[0].wLg += 1) :
+        widget[0].wLg === 2 ?
+        (widget[0].wLg = 2) :
+        (widget[0].wLg -= 1);
     }
     if (this.gridsterContainer) {
       this.gridsterContainer.reload();
@@ -274,6 +286,30 @@ public tHistoryTime = 6100
     this.dataService.dashboardToTools$.next(this.widgets);
   }
 
+  setAnimationTimeout(): void {
+    // console.log("srgsrg")
+    if (!this.preload) {
+      setTimeout(() => {
+        this.tradeTime = 30;
+      }, this.tradeTime + 300);
+
+      setTimeout(() => {
+        this.oBookTime = 500;
+      }, this.oBookTime + 300);
+
+      setTimeout(() => {
+        this.graphTime = 500;
+      }, this.graphTime + 300);
+
+      setTimeout(() => {
+        this.marketsTime = 800;
+      }, this.marketsTime + 300);
+
+      setTimeout(() => {
+        this.tHistoryTime = 500;
+      }, this.tHistoryTime + 300);
+    }
+  }
   /**
    * add item to dashboard
    * @param itemType
@@ -332,7 +368,6 @@ public tHistoryTime = 6100
     this.isDrag = false;
   }
 
-
   get tradingOffset(): number {
     return this.tradeTime;
   }
@@ -350,5 +385,7 @@ public tHistoryTime = 6100
   get tHistoryOffset(): number {
     return this.tHistoryTime;
   }
-  
+  get clearPreload(): boolean {
+    return this.preload;
+  }
 }

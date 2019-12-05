@@ -128,3 +128,18 @@
     max-width: 25px;
   }
 }
+
+.balance{
+  .hide-bal-block{
+    opacity: 0;
+    transform: translateY(45px);
+    transition: .5s;
+  
+}
+
+.show-bal-block{
+    opacity: 1;
+    transform: translateY(0);
+    transition: .5s .1s;
+}
+}

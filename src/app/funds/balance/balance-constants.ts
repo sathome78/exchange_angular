@@ -8,4 +8,5 @@ export const BALANCE_TABS = {
 
 export const FUG = 'FUG';
 export const COINPAY = 'CoinPay';
+export const ENFINS = 'Enfins';
 export const EUR = 'EUR';

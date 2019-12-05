@@ -73,6 +73,7 @@
     (changeItemSize)="changeItemSize($event)"
     (removeItem)="removeItem(index)"
     [graphOffset]="graphOffset"
+    [clearPreload]="clearPreload"
   >
   </app-graph>
   <div
@@ -90,6 +91,7 @@
     (changeItemSize)="changeItemSize($event)"
     (removeItem)="removeItem(index)"
     [marketsOffset]="marketsOffset"
+    [clearPreload]="clearPreload"
   >
   </app-markets>
 </ng-template>
@@ -102,6 +104,7 @@
     (changeItemSize)="changeItemSize($event)"
     (removeItem)="removeItem(index)"
     [tradingOffset]="tradingOffset"
+    [clearPreload]="clearPreload"
   >
   </app-trading>
 </ng-template>
@@ -115,6 +118,7 @@
     (removeItem)="removeItem(index)"
     class="dashboard-item"
     [oBookOffset]="oBookOffset"
+    [clearPreload]="clearPreload"
   >
   </app-order-book>
 </ng-template>
@@ -127,6 +131,7 @@
     (changeItemSize)="changeItemSize($event)"
     (removeItem)="removeItem(index)"
     [tHistoryOffset]="tHistoryOffset"
+    [clearPreload]="clearPreload"
   >
   </app-trade-history>
 </ng-template>

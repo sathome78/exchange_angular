@@ -142,6 +142,7 @@
             type="refill"
             [merchant]="selectedMerchant"
             [currencyName]="currName || ''"
+            [minSum]="minRefillSum"
             [baseAmount]="formAmout.value"
           ></app-commission>
           <button
@@ -152,8 +153,10 @@
             [disabled]="!form.valid || !selectedMerchant.name || loading"
           >
             {{'Refill' | translate}}
-            {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill') | currencyFormat: 'USD'}}
-            {{currName}}
+            <ng-container *ngIf="isAmountValid">
+              {{utilsService.calcValueWithoutCommision(selectedMerchant, formAmout.value, 'refill', currName) | currencyFormat: 'USD'}}
+              {{currName}}
+            </ng-container>
           </button>
         </ng-container>
       </app-send-lines>

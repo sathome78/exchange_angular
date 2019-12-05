@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef } from '@angular/core';
 import { IEOItem } from '../../../model/ieo.model';
 import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -57,7 +57,6 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
     private popupService: PopupService,
     private utilsService: UtilsService,
     private ieoService: IEOServiceService,
-    private authService: AuthService,
     private router: Router
   ) {
     this.store
@@ -85,6 +84,17 @@ export class CommonIEOComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      document.querySelectorAll('.animate-item').forEach(item => {
+        if (
+          (item.getBoundingClientRect().top + pageYOffset + 100) <
+          (pageYOffset + document.documentElement.clientHeight)
+        ) {
+          item.classList.add('active');
+        }
+      });
+    }, 1000);
+
     this.subscribeToIEOList();
     this.getIEOList();
     this.initEmailForm();

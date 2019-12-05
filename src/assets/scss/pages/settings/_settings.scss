@@ -370,7 +370,7 @@
   .table__row:nth-of-type(odd) .additional-mobile{
     background-color: #191f42;
   }
-  
+
   .table__row:nth-of-type(even) .additional-mobile{
     background-color: #191A39;
 
@@ -402,9 +402,9 @@
   .table__cell {
     padding: 14px 10px;
     position: relative;
-    @media(max-width: 992px){
+    @media(max-width: 1199px){
       display: flex;
-    justify-content: space-between;
+      justify-content: space-between;
     }
   }
 .additional-mobile{
@@ -423,7 +423,7 @@
     opacity: 1;
     pointer-events: auto;
   }
-  @media(max-width: 640px){
+  @media(max-width: 1199px){
     display: block;
   }
   .ip-wr{
@@ -436,12 +436,24 @@
     display: flex;
     justify-content: space-between;
   }
-  
+
 }
 .destop-content{
-  @media(max-width: 640px){
+  @media(max-width: 1199px){
     display: none;
   }
 }
+
+.mobile-content{
+	display: none;
+	@media(max-width: 1199px){
+		display: block;
+	}
 }
 
+}
+.settings {
+.animate-item{
+  transition: .4s ease-out;
+}
+}
