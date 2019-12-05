@@ -16,7 +16,7 @@
   <ul
     class="select__list"
     [ngClass]="{'select__list--open': openDropdown}"
-    *ngIf="openDropdown"
+    *ngIf="openDropdown && merchants.length"
   >
     <li
       class="select__list-item"
