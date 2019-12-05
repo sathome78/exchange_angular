@@ -24,9 +24,9 @@ export class TransferFormModel {
       case 'SimpleTransfer':
         return 'TRANSFER';
       case 'VoucherTransfer':
-        return 'VOUCHER';
-      case 'VoucherFreeTransfer':
         return 'INNER_VOUCHER';
+      case 'VoucherFreeTransfer':
+        return 'VOUCHER';
       default:
         return inType;
     }
