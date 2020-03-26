@@ -21,7 +21,7 @@ export const ITEST_HOST = 'http://itest.exrates.tech';
 
 export const CHART_PROD_HOST = 'https://chart.exrates.me';
 export const CHART_PRE_PROD_HOST = 'http://chart-service-preprod.service:4102';
-export const CHART_INTEGRATION_HOST = 'http://chart-service-stage.service:4103';
+export const CHART_INTEGRATION_HOST = 'https://chart.knubisoft.com';
 export const CHART_DEV_HOST = 'http://chart-service-dev.service:4104';
 export const CHART_DEDIK_HOST = 'http://chart-service-preprod.service:4102';
 export const CHART_LOCAL_HOST = 'http://localhost:8060';
